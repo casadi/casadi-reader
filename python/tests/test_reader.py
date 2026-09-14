@@ -123,8 +123,12 @@ class ReaderTests(unittest.TestCase):
 
     def test_vendored_scheme(self):
         from casadi_reader import reader
-        self.assertEqual(Path(reader.__file__).with_name('serialization_scheme.json').read_bytes(),
-                         (ROOT/'schemes/serialization_scheme.json').read_bytes())
+        scheme = json.loads((ROOT/'schemes/serialization_scheme.json').read_text())
+        self.assertEqual(reader.SCHEME, {
+            'wire': {k: scheme['wire'][k] for k in ('magic', 'protocol')},
+            'operations': scheme['operations'],
+            'class_versions': scheme['class_versions'],
+        })
 
 
 if __name__ == '__main__':

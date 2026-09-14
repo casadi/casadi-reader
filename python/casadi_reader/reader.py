@@ -5,7 +5,7 @@ import mmap
 from pathlib import Path
 import struct
 
-SCHEME = json.loads(Path(__file__).with_name('serialization_scheme.json').read_text())
+from ._scheme import SCHEME
 OP = {name[3:].lower(): value for name, value in SCHEME['operations'].items()}
 NAMES = {value: name for name, value in OP.items()}
 UNARY = {OP[n] for n in ('neg exp log sqrt sq twice sin cos tan asin acos atan not floor ceil '

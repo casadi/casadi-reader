@@ -18,6 +18,3 @@ casadi-reader = "casadi_reader.__main__:main"
 [tool.setuptools.packages.find]
 where = ["python"]
 include = ["casadi_reader*"]
-
-[tool.setuptools.package-data]
-casadi_reader = ["serialization_scheme.json"]

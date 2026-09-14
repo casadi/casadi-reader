@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import {readFile,writeFile} from 'node:fs/promises';
-import {decodeCasadi,decodeResource} from '../src/index.js';
+import {decodeCasadi,decodeResource} from '../dist/index.js';
 try {
   const args=process.argv.slice(2),options={lazy:args.includes('--lazy')},resource=args.includes('--resource');
   const [input,output,...extra]=args.filter(a=>a!=='--lazy'&&a!=='--resource');

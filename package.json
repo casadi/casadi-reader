@@ -5,21 +5,26 @@
   "type": "module",
   "license": "LGPL-3.0-or-later",
   "exports": {
-    ".": "./src/index.js",
-    "./operations": "./src/casadi-ops.js"
+    ".": "./dist/index.js",
+    "./operations": "./dist/operations.js"
   },
   "bin": {
     "casadi-reader": "bin/casadi-reader.js"
   },
   "files": [
-    "src",
+    "dist/index.js",
+    "dist/operations.js",
     "bin",
     "README.md",
-    "LICENSE",
-    "schemes"
+    "LICENSE"
   ],
   "scripts": {
-    "test": "node --test test/*.test.mjs"
+    "generate": "python3 scripts/generate-reader-assets.py",
+    "check:generated": "python3 scripts/generate-reader-assets.py --check",
+    "build": "npm run generate && node scripts/build.mjs",
+    "test": "npm run build && node --test test/*.test.mjs",
+    "test:browser": "node test/package-browser.mjs",
+    "prepack": "npm run build"
   },
   "engines": {
     "node": ">=22"
@@ -27,5 +32,10 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/casadi/casadi-reader.git"
+  },
+  "unpkg": "./dist/index.js",
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "playwright": "1.63.0"
   }
 }

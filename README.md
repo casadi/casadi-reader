@@ -7,7 +7,7 @@ Files are inspected, never evaluated; no archives are extracted.
 
 | Interface | Implementation | Runtime dependencies |
 | --- | --- | --- |
-| `@casadi/casadi-reader` (npm) | Standalone JavaScript | None; Node 22+ or a browser bundler |
+| `@casadi/casadi-reader` (npm) | Standalone JavaScript | None; Node 22+ or browser ESM |
 | `casadi-reader` (PyPI) | Standalone Python | None; Python 3.9+ |
 | C++ | Native reader, RAII `Document` | C++ standard library |
 | C | C ABI over the native reader | Same native library |
@@ -15,7 +15,7 @@ Files are inspected, never evaluated; no archives are extracted.
 | Julia `CasadiReader` | Julia package calling the C ABI | Standalone native library, JSON.jl |
 
 All interfaces use the same object-table JSON contract and fixtures. The three
-reader implementations share vendored protocol constants and operation IDs.
+reader implementations use source assets generated from the vendored scheme.
 MATLAB and Julia do not launch Python, Node or a subprocess to decode files.
 
 ## Python
@@ -57,6 +57,13 @@ const firstBytes = resource.blob.read(0, 64); // Uint8Array
 const opened = await openResource(resourceFile, {lazy: true});
 const bytes = await opened.resource.blob.read(0, 64);
 ```
+
+The npm tarball contains bundled ESM in `dist/`, with serialization metadata
+compiled into the JavaScript. It does not fetch or import the scheme JSON.
+After publication, a browser can import the versioned
+`https://unpkg.com/@casadi/casadi-reader@VERSION/dist/index.js` directly from a
+`<script type="module">`; no import map or bundler is required. `VERSION` is a
+placeholder: this prototype has not been published.
 
 The Node CLI is `node bin/casadi-reader.js [--resource] [--lazy] input.casadi`.
 Text mode retains the encoded string. File/Blob mode reads a bounded metadata
@@ -196,13 +203,30 @@ an entire saved FmuFunction**. No FMU is loaded or executed.
 `schemes/serialization_scheme.json` vendors CasADi's checked-in
 `misc/serialization_scheme.json`. It is a source-derived serializer index and
 named-field contract, **not a complete executable deserialization grammar**.
-Protocol constants, operation IDs and class-version checks use it; supported
-positional layouts are still implemented explicitly in the readers.
+`scripts/generate-reader-assets.py` consumes this JSON and emits three checked-in
+source assets: `src/scheme.js`, `python/casadi_reader/_scheme.py`, and
+`native/src/scheme.hpp`. These contain runtime protocol constants, operation IDs
+and class versions, omitting the C++ source index. Supported positional layouts
+are still implemented explicitly in the readers.
+
+`npm run build` regenerates the assets and bundles the JavaScript. `npm pack`
+runs that build automatically. Python packages contain the generated Python
+module, so neither Python nor JavaScript parses the scheme JSON at runtime.
+Build tools are development dependencies only.
+
+CI checks `npm run check:generated` **before** rebuilding, rejecting stale
+committed assets. It builds and tests the native/Python readers, then produces
+wheel/sdist and npm artifacts. A browser test serves the extracted npm tarball
+over HTTP and checks that decoding needs one JavaScript request and no scheme
+JSON request. CI uploads build artifacts; it does not publish packages.
 
 ```sh
 node scripts/vendor-scheme.mjs ../serialization-scheme/misc/serialization_scheme.json
-python scripts/generate-native-scheme.py
+python scripts/generate-reader-assets.py
+npm ci
+npm run check:generated
 npm test
+npm run test:browser
 PYTHONPATH=python python -m unittest discover -s python/tests -v
 CASADI_READER_LIBRARY="$PWD/build/libcasadi_reader.so" julia --project=julia julia/test/runtests.jl
 ```

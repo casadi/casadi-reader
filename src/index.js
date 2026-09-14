@@ -1,5 +1,5 @@
 import {OP} from './casadi-ops.js';
-import scheme from '../schemes/serialization_scheme.json' with {type:'json'};
+import scheme from './scheme.js';
 import {EncodedSource, LazyBlob, LazyFileBlob} from './source.js';
 
 // Experimental positional reader for protocol 3 / FunctionInternal 8 / MXFunction 3.
