@@ -1,273 +1,160 @@
-# casadi-reader
+# @casadi/casadi-reader
 
-Inspect `.casadi` files without installing or loading CasADi. One repository
-provides JavaScript/npm, Python/PyPI, C++, C, MATLAB and Julia interfaces.
-The current development focus is the **npm package**. The other language
-interfaces are experimental and deferred. This is not yet a published npm release.
-Files are inspected, never evaluated; no archives are extracted.
+Read CasADi serialization into typed fields, values, containers and shared
+references, without installing CasADi or loading its plugins.
 
-| Interface | Implementation | Runtime dependencies |
-| --- | --- | --- |
-| `@casadi/casadi-reader` (npm) | Standalone JavaScript | None; Node 22+ or browser ESM |
-| `casadi-reader` (PyPI) | Standalone Python | None; Python 3.9+ |
-| C++ | Native reader, RAII `Document` | C++ standard library |
-| C | C ABI over the native reader | Same native library |
-| MATLAB | MATLAB package and MEX | Native reader compiled into the MEX |
-| Julia `CasadiReader` | Julia package calling the C ABI | Standalone native library, JSON.jl |
+The reader does not interpret SX/MX instructions, name mathematical operations,
+reconstruct entry mappings, or build visualization graphs. Those tasks belong
+in [casadi-viz](https://github.com/casadi/casadi-viz). An ONNX-backed function is
+read as serialized configuration and model bytes; the reader never runs ONNX.
 
-All interfaces use the same object-table JSON contract and fixtures. The three
-reader implementations use source assets generated from the vendored scheme.
-MATLAB and Julia do not launch Python, Node or a subprocess to decode files.
+The current development and release focus is npm. Other language prototypes in
+this repository are deferred and still use the earlier MX-specific API.
 
-## Python
-
-Install locally with `pip install .` (the distribution declares no runtime
-requirements):
-
-```python
-from casadi_reader import read_casadi, read_resource, to_json
-
-graph = read_casadi('model.casadi')
-print(to_json(graph, indent=2))
-
-resource = read_resource('resource.casadi', lazy=True)
-blob = resource['resource']['blob']
-try:
-    first_bytes = blob.read(0, 64)
-finally:
-    blob.close()
-```
-
-File input uses a read-only memory map. Lazy payloads keep that mapping alive;
-metadata and requested slices are decoded, without allocating the whole archive.
-`loads(text)` and `loads_resource(text, lazy=True)` also accept encoded strings.
-The CLI is `casadi-reader [--resource] [--lazy] input.casadi [output.json]`, or
-`python -m casadi_reader ...`.
-
-## JavaScript
-
-Install locally with `npm install /path/to/casadi-reader`:
+## API
 
 ```js
-import {readCasadi, decodeResource, openResource} from '@casadi/casadi-reader';
-const graph = readCasadi(await file.text());
-const {resource} = decodeResource(resourceStreamText, {lazy: true});
-const firstBytes = resource.blob.read(0, 64); // Uint8Array
+import {decode, open} from '@casadi/casadi-reader';
 
-// File/Blob input also defers reading the encoded payload:
-const opened = await openResource(resourceFile, {lazy: true});
-const bytes = await opened.resource.blob.read(0, 64);
+const document = decode(serializedText);
+const fromFile = await open(file, {lazy: true}); // browser File/Blob
+const root = document.objects[document.root];
+console.log(root.type, root.fields);
 ```
 
-The npm tarball contains bundled ESM in `dist/`, with serialization metadata
-compiled into the JavaScript. It does not fetch or import the scheme JSON.
-After publication, a browser can import the versioned
-`https://unpkg.com/@casadi/casadi-reader@VERSION/dist/index.js` directly from a
-`<script type="module">`; no import map or bundler is required. `VERSION` is a
-placeholder: this prototype has not been published.
+`decode()` accepts encoded `.casadi` text. `open()` accepts a File/Blob.
+`decodeCasadi` remains an alias for `decode`; both return structural documents.
 
-The Node CLI is `node bin/casadi-reader.js [--resource] [--lazy] input.casadi`.
-Text mode retains the encoded string. File/Blob mode reads a bounded metadata
-prefix, then requested slices. File/Blob Resource input must have no surrounding
-whitespace. An application installing both CLIs should use the explicit module
-or Node entry point to avoid the common `casadi-reader` executable name.
+The output is ordinary JavaScript data:
 
-## C++ and C
-
-Build with CMake and a C++11 compiler; no third-party library is needed:
-
-```sh
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
-cmake --build build
-ctest --test-dir build --output-on-failure
-cmake --install build --prefix /your/prefix
-```
-
-Installed CMake consumers can use `find_package(casadi_reader CONFIG REQUIRED)`
-and link `casadi_reader::casadi_reader`. Headers are
-`<casadi_reader/reader.hpp>` and `<casadi_reader/reader.h>`.
-
-```cpp
-casadi_reader::Document graph("model.casadi");
-std::string json = graph.json();
-casadi_reader::Document resource("resource.casadi", true, true);
-auto bytes = resource.read_blob(0, 0, 64);
-```
-
-```c
-char error[1024];
-cr_document *doc = cr_open("model.casadi", 0, 0, error, sizeof(error));
-if (doc) {
-  puts(cr_json(doc)); /* pointer valid until cr_close */
-  cr_close(doc);
-} else {
-  fprintf(stderr, "%s\n", error);
+```js
+{
+  format: 'casadi_serialization',
+  version: 1,
+  serializationProtocol: 3,
+  root: 8,
+  roots: [{$ref: 8}],
+  objects: [
+    // ... shared objects ...
+    {
+      type: 'Function',
+      fields: [
+        {name: 'Function::null', type: 'bool', value: false, offset: 19, byteLength: 1},
+        // Serialized field order and duplicate field names are preserved.
+      ],
+      layouts: ['MXFunction::serialize_body', /* base layouts ... */],
+      offset: 18,
+      byteLength: 1234
+    }
+  ]
 }
 ```
 
-The C ABI catches exceptions and reports errors through caller-owned buffers.
-Handles own their source streams; lazy blob slices seek directly to encoded
-file ranges. C/C++ blob indices and byte offsets are zero-based. Do not share
-one handle between concurrent operations. Native eager archive-to-JSON expansion
-is limited to 1,000,000 bytes; use lazy mode for larger archives.
+The example's indices and byte counts are illustrative. `$ref` values are
+zero-based indices into `objects`. Shared definitions appear once, even when
+referenced by several functions. Inline structures have their own `type` and
+`fields`. Vectors are arrays, pairs are two-element arrays, and maps are
+`{$map: [[key, value], ...]}` so arbitrary key types and field order survive.
+Repeated serializer fields remain repeated entries, not overwritten properties.
+64-bit integers outside JavaScript's exact range use `{$integer: "..."}`;
+nonfinite floating-point values use `{$float: "..."}`. Byte offsets count decoded
+wire bytes from the stream start, not characters in its a–p encoding.
 
-## MATLAB
+A file can contain several roots; `roots` retains them in order. `root` is a
+convenience index for a single shared-object root, otherwise null.
+
+## Lazy bytes
+
+```js
+const document = await open(resourceFile, {type: 'Resource', lazy: true});
+const root = document.objects[document.root];
+const blob = root.fields.find(f => f.name === 'ZipMemResource::blob').value;
+const firstBytes = await blob.read(0, 64);
+```
+
+`type` selects a raw `SerializingStream` root instead of FileSerializer framing.
+Resource streams use the same archive representation embedded inside FMUs;
+complete saved FMU functions are not yet a validated layout family.
+
+Lazy byte handles expose `offset`, `byteLength` and `read(offset, length)`.
+Text-input reads are synchronous; File/Blob reads are asynchronous. JSON output
+contains a small descriptor and requires the original source to retrieve bytes.
+
+Opaque streams are deferred in lazy mode. Large serialized strings are also
+deferred (default `lazyThreshold: 65536` bytes). Smaller strings are decoded as
+UTF-8 where possible; other strings retain their bytes as `{$bytes: [...]}` in
+eager mode or a lazy byte handle in lazy mode. No archive extraction occurs.
+
+Lazy File/Blob opening loads metadata pages and skips payload pages by their
+declared lengths. It requires unpadded encoded files, as emitted by CasADi.
+Text input accepts surrounding whitespace but necessarily retains the supplied
+encoded string. Graph fields and containers are currently eager; lazy mode
+specifically concerns opaque byte payloads.
+
+## Browser and CLI
+
+Published packages contain bundled browser ESM with the layout data embedded.
+They do not fetch or parse the source scheme JSON at runtime. A browser can
+import a pinned `https://unpkg.com/@casadi/casadi-reader@VERSION/dist/index.js`
+from a module script without a bundler or an import map.
 
 ```sh
-cmake -S . -B build -DCASADI_READER_MATLAB=ON
-cmake --build build
+npx @casadi/casadi-reader model.casadi model.json
+# Or, for a raw Resource stream:
+npx @casadi/casadi-reader --type Resource --lazy resource.casadi
 ```
 
-```matlab
-addpath('matlab');
-addpath('build/matlab');
-graph = casadi_reader.read('model.casadi');
-document = casadi_reader.Document('resource.casadi', true, true);
-cleanup = onCleanup(@() delete(document));
-metadata = document.data();
-bytes = document.readBlob(1, 0, 64);
-```
+There are no runtime dependencies. Building the npm package needs Node 22+,
+Python 3.9+ and the development dependencies in package-lock.json.
 
-`Document.json()` returns JSON text; `data()` uses MATLAB's `jsondecode`.
-The package ZIP can include the built MEX. MEX binaries are platform-specific;
-this prototype has been tested with MATLAB R2024b on Linux.
+## Scheme and coverage
 
-## Julia
+CasADi's `misc/generate_serialization_scheme.py` produces the vendored
+`schemes/serialization_scheme.json`, including lowered reader layouts.
+`npm run generate` compiles that data into reader assets. The JavaScript engine
+executes field, base-layout, repetition, condition and discriminator instructions;
+it contains no SX/MX-specific decoding methods.
 
-From this checkout, build the library and instantiate the Julia environment:
+The extractor includes inline serializers, inheritance and tensor metadata
+helpers. It derives operation dispatch families from CasADi's native dispatcher
+and plugin registrations from the source. No mathematical evaluation occurs.
+
+Coverage is still experimental. Native plain/debug fixture pairs validate MX,
+SX, nested calls, mappings, constants, ONNX-backed functions and Resource streams.
+The debug files independently check serialized field names and primitive tags;
+ordinary undecorated files use the same layouts. Tests also exercise a new
+function discriminator supplied entirely as layout data.
+
+This is **not yet a guarantee that every CasADi class/version can be read**.
+Unsupported lowering, missing field types, absent layouts and unknown
+discriminators fail explicitly. Current fixtures target the CasADi 3.8.1 source
+snapshot, little-endian protocol 3. Expanding coverage belongs in the scheme
+extractor and fixtures, not mathematical interpretation in the reader. Advanced
+consumers can supply a compiled schema through `decode(text, {scheme})`.
 
 ```sh
-julia --project=julia -e 'using Pkg; Pkg.instantiate(); include("julia/deps/build.jl")'
-```
-
-```julia
-using CasadiReader
-graph = read_casadi("model.casadi")
-document = read_resource("resource.casadi"; lazy=true)
-try
-    metadata = data(document)
-    bytes = read_blob(document, 1, 0, 64)
-finally
-    close(document)
-end
-```
-
-The source archive is a self-contained Julia project, including the native
-sources in `deps/reader`. `Pkg.build("CasadiReader")` needs CMake and a C++
-compiler. Alternatively set `CASADI_READER_LIBRARY` to an existing standalone
-reader library before starting Julia. Tested with Julia 1.6.2 on Linux.
-
-MATLAB and Julia blob indices are one-based; byte offsets remain zero-based.
-**Object references inside the JSON contract remain zero-based in every language.**
-For example, a Julia consumer accesses the root as `graph["objects"][graph["root"]+1]`.
-
-## JSON contract
-
-Graph documents have `format: "casadi_json"`, `version: 1`,
-`serializationProtocol: 3`, a `root` object index, and an `objects` array.
-References are indices; shared nodes are stored once; null references stay null.
-
-- `kind: "function"`: name, type, input/output sparsities and names, input nodes,
-  and instructions containing node references and argument/result work slots.
-- `kind: "mx"`: operation ID/name, dependency and sparsity references, constants
-  and node-specific `info`. Indexing nodes also have a normalized `mapping`.
-  Constants are numeric strings, including nonfinite values; decimal spelling
-  may differ between implementations.
-- `kind: "sparsity"`: shape and compressed-column `colind` / `row` arrays.
-
-`info` is reconstructed from serialized members and tested against native
-`MX.info()`. It does not prescribe viewer layout or styling. The representation
-is not lossless and cannot be written back to `.casadi` by this prototype.
-
-Lazy Resource payloads serialize as small descriptors with `offset`, `byteLength`
-and `encoding`. Retrieving bytes requires the live document/blob and its original
-source; descriptors alone are not portable archive copies. Lazy mode defers
-opaque payloads, not all numerical arrays or graph nodes. Eager mode is default.
-Payload encoding is checked on access; declared extents are checked on opening.
-
-## Supported subset
-
-The fixtures come from CasADi 3.8.1 default `Function.save()` files: MX arithmetic,
-sparse matrices, gathers, slices and entry assignments. Supported layouts are
-ProtoFunction 2, FunctionInternal 8, XFunction 1, MXFunction 3, little-endian
-protocol 3. Unsupported operations/layouts fail explicitly. SX functions, nested
-function calls, plugins, JIT, nonempty option/cache dictionaries and debug
-serialization are outside this prototype. It is not a general reader for every
-CasADi file or version, nor a hardened untrusted-file service.
-
-Resource entry points accept a **raw SerializingStream containing one Resource**.
-This tests the embedded ZIP representation used by FMUs, but **does not yet read
-an entire saved FmuFunction**. No FMU is loaded or executed.
-
-## Scheme, tests and packaging
-
-`schemes/serialization_scheme.json` vendors CasADi's checked-in
-`misc/serialization_scheme.json`. It is a source-derived serializer index and
-named-field contract, **not a complete executable deserialization grammar**.
-`scripts/generate-reader-assets.py` consumes this JSON and emits three checked-in
-source assets: `src/scheme.js`, `python/casadi_reader/_scheme.py`, and
-`native/src/scheme.hpp`. These contain runtime protocol constants, operation IDs
-and class versions, omitting the C++ source index. Supported positional layouts
-are still implemented explicitly in the readers.
-
-`npm run build` regenerates the assets and bundles the JavaScript. `npm pack`
-runs that build automatically. Python packages contain the generated Python
-module, so neither Python nor JavaScript parses the scheme JSON at runtime.
-Build tools are development dependencies only.
-
-CI checks `npm run check:generated` **before** rebuilding, rejecting stale
-committed assets. The initial CI builds and tests the npm package and produces its tarball. A browser test serves the extracted npm tarball
-over HTTP and checks that decoding needs one JavaScript request and no scheme
-JSON request. CI uploads build artifacts; it does not publish packages.
-
-```sh
-node scripts/vendor-scheme.mjs ../serialization-scheme/misc/serialization_scheme.json
-python scripts/generate-reader-assets.py
 npm ci
 npm run check:generated
 npm test
 npm run test:browser
-PYTHONPATH=python python -m unittest discover -s python/tests -v
-CASADI_READER_LIBRARY="$PWD/build/libcasadi_reader.so" julia --project=julia julia/test/runtests.jl
-```
-
-Set `CASADI_READER_NATIVE` to the native CLI to enable Python/native agreement
-tests. Python tests also compare JavaScript when Node is available. Native CasADi
-is used only to regenerate fixtures (`scripts/generate-fixtures.py` and
-`scripts/generate-resource-fixture.cpp`), never to run the readers. Tests check
-native graph/metadata oracles and deferred 16 MiB payload access.
-
-Create unpublished artifacts with:
-
-```sh
-python -m build
 npm pack
-python scripts/package-bindings.py --output dist --mex build/matlab/casadi_reader_mex.mexa64
 ```
 
-This produces Python wheel/sdist, npm tarball, native and Julia source archives,
-and a MATLAB ZIP. It does not register packages or upload releases. The adjacent
-`casadi-viz` proof of concept consumes the npm package through a local dependency.
+CI rejects stale generated assets before rebuilding. Browser tests serve the
+extracted npm tarball over HTTP and verify one JavaScript request with no scheme
+JSON or CasADi runtime request. Native CasADi is used only when regenerating the
+fixtures, via `scripts/generate-fixtures.py` and the Resource fixture generator.
 
-The reader implementation is MIT licensed. The vendored scheme includes
-upstream CasADi source excerpts that retain their original license; see NOTICE.
+## Publishing
 
-## npm publishing
+`publish.yml` publishes on a published GitHub release, after tests. The release
+tag must equal `v` plus the package version. Prereleases use npm's `next` tag;
+stable versions use `latest`.
 
-`.github/workflows/publish.yml` publishes on a published GitHub release, using
-OIDC Trusted Publishing and provenance. Its release tag must equal `v` plus the
-version in `package.json`. Prerelease versions use npm's `next` tag; stable
-versions use `latest`. It runs the tests and packed-browser check before publishing.
+The npm Trusted Publisher configuration is GitHub organization `casadi`,
+repository `casadi-reader`, workflow `publish.yml`, with no environment name and
+with direct `npm publish` allowed. Publishing uses OIDC and provenance, with no
+npm token secret. See [npm's documentation](https://docs.npmjs.com/trusted-publishers/).
 
-Once the package exists on npm, open its Settings → Trusted publishing and add:
-
-- Provider: GitHub Actions
-- Organization: `casadi`
-- Repository: `casadi-reader`
-- Workflow filename: `publish.yml`
-- Environment: leave blank (the workflow does not use a GitHub environment)
-- Allowed actions: enable direct `npm publish`
-
-No npm token secret is needed. See the current
-[npm Trusted Publishing documentation](https://docs.npmjs.com/trusted-publishers/).
-The workflow is prepared; the package has not yet been published to npm.
+The reader implementation is MIT licensed. Source excerpts in the vendored
+scheme retain CasADi's original license; see NOTICE.

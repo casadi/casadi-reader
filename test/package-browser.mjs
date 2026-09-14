@@ -38,7 +38,7 @@ try {
   const errors=[];page.on('pageerror',error=>errors.push(error.message));
   await page.goto(`http://127.0.0.1:${server.address().port}/`);
   const entry=metadata.exports['.'].slice(1);
-  for(const name of ['arithmetic','mapping','slice','assignment','sparse']){
+  for(const name of ['arithmetic','mapping','slice','assignment','sparse','sx','sx_nested','mx_sx_call','onnx']){
     const text=await readFile(join(root,`test/fixtures/${name}.casadi`),'utf8');
     const result=await page.evaluate(async({entry,text})=>(await import(entry)).decodeCasadi(text),{entry,text});
     assert.deepEqual(result,decodeCasadi(text));
@@ -46,8 +46,9 @@ try {
   const resource=await readFile(join(root,'test/fixtures/resource.casadi'),'utf8');
   const bytes=await page.evaluate(async({entry,resource})=>{
     const reader=await import(entry);
-    const doc=await reader.openResource(new Blob([resource]),{lazy:true});
-    return Array.from(await doc.resource.blob.read(0,4));
+    const doc=await reader.open(new Blob([resource]),{type:'Resource',lazy:true});
+    const blob=doc.objects[doc.root].fields.find(f=>f.name==='ZipMemResource::blob').value;
+    return Array.from(await blob.read(0,4));
   },{entry,resource});
   assert.deepEqual(bytes,[80,75,3,4]);
   assert.deepEqual(errors,[]);

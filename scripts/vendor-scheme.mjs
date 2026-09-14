@@ -4,4 +4,4 @@ if(!source)throw Error('Usage: node scripts/vendor-scheme.mjs PATH/TO/misc/seria
 const text=await readFile(source,'utf8'),scheme=JSON.parse(text);
 if(scheme.format!=='casadi_serialization_scheme'||scheme.version!==1)throw Error('Unsupported scheme');
 await writeFile(new URL('../schemes/serialization_scheme.json',import.meta.url),text);
-console.log('Vendored scheme for CasADi '+scheme.casadi_version+'; regenerate native constants with python scripts/generate-reader-assets.py.');
+console.log('Vendored scheme for CasADi '+scheme.casadi_version+'; regenerate reader assets with python scripts/generate-reader-assets.py.');

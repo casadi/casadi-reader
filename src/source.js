@@ -41,3 +41,23 @@ export class LazyFileBlob {
   }
   toJSON(){return {kind:'deferred_file_bytes',offset:this.offset,byteLength:this.byteLength,encoding:'casadi-nibbles'};}
 }
+
+// Synchronous decoder suspends on a missing page; open() loads it and retries.
+// Opaque ranges are skipped by length, so their pages are never requested.
+export class MissingPage extends Error {
+  constructor(index){super('Encoded page not loaded');this.index=index;}
+}
+export class PagedSource {
+  constructor(size,{maxBytes=1024*1024*1024}={}){
+    if(!Number.isSafeInteger(size)||size%2||size/2>maxBytes)throw Error('Invalid encoded file size');
+    this.byteLength=size/2;this.pageBytes=16384;this.pages=new Map();
+  }
+  byte(offset){
+    if(!Number.isSafeInteger(offset)||offset<0||offset>=this.byteLength)throw Error('Source offset out of bounds');
+    const index=Math.floor(offset/this.pageBytes),page=this.pages.get(index);
+    if(!page)throw new MissingPage(index);
+    return page.byte(offset-index*this.pageBytes);
+  }
+  read(offset,length){return Uint8Array.from({length},(_,i)=>this.byte(offset+i));}
+  view(offset,length){return new DataView(this.read(offset,length).buffer);}
+}
