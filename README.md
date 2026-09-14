@@ -249,5 +249,5 @@ This produces Python wheel/sdist, npm tarball, native and Julia source archives,
 and a MATLAB ZIP. It does not register packages or upload releases. The adjacent
 `casadi-viz` proof of concept consumes the npm package through a local dependency.
 
-Licensed LGPL-3.0-or-later, consistent with the serialization definitions and
-operation IDs used here.
+The reader implementation is MIT licensed. The vendored scheme includes
+upstream CasADi source excerpts that retain their original license; see NOTICE.

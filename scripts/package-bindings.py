@@ -15,9 +15,10 @@ args.output.mkdir(parents=True, exist_ok=True)
 
 def native(target):
     shutil.copytree(root/'native', target/'native')
+    shutil.copytree(root/'LICENSES', target/'LICENSES')
     shutil.copytree(root/'matlab', target/'matlab')
     shutil.copytree(root/'test/fixtures', target/'test/fixtures')
-    for name in ('CMakeLists.txt', 'LICENSE', 'README.md'):
+    for name in ('CMakeLists.txt', 'LICENSE', 'NOTICE', 'README.md'):
         shutil.copy2(root/name, target/name)
 
 
@@ -27,7 +28,8 @@ with tempfile.TemporaryDirectory() as temporary:
     shutil.copytree(root/'julia', julia,
                     ignore=shutil.ignore_patterns('Manifest.toml', 'usr', 'build'))
     native(julia/'deps/reader')
-    for name in ('LICENSE', 'README.md'):
+    shutil.copytree(root/'LICENSES', julia/'LICENSES')
+    for name in ('LICENSE', 'NOTICE', 'README.md'):
         shutil.copy2(root/name, julia/name)
     shutil.make_archive(str(args.output/'CasadiReader-0.0.0'), 'gztar', stage, 'CasadiReader')
     cpp = stage/'casadi-reader-native'
@@ -36,7 +38,8 @@ with tempfile.TemporaryDirectory() as temporary:
     shutil.make_archive(str(args.output/'casadi-reader-native-0.0.0'), 'gztar', stage, cpp.name)
     matlab = stage/'casadi-reader-matlab'
     shutil.copytree(root/'matlab', matlab)
-    for name in ('LICENSE', 'README.md'):
+    shutil.copytree(root/'LICENSES', matlab/'LICENSES')
+    for name in ('LICENSE', 'NOTICE', 'README.md'):
         shutil.copy2(root/name, matlab/name)
     if args.mex:
         shutil.copy2(args.mex, matlab/args.mex.name)
