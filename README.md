@@ -251,3 +251,23 @@ and a MATLAB ZIP. It does not register packages or upload releases. The adjacent
 
 The reader implementation is MIT licensed. The vendored scheme includes
 upstream CasADi source excerpts that retain their original license; see NOTICE.
+
+## npm publishing
+
+`.github/workflows/publish.yml` publishes on a published GitHub release, using
+OIDC Trusted Publishing and provenance. Its release tag must equal `v` plus the
+version in `package.json`. Prerelease versions use npm's `next` tag; stable
+versions use `latest`. It runs the tests and packed-browser check before publishing.
+
+Once the package exists on npm, open its Settings → Trusted publishing and add:
+
+- Provider: GitHub Actions
+- Organization: `casadi`
+- Repository: `casadi-reader`
+- Workflow filename: `publish.yml`
+- Environment: leave blank (the workflow does not use a GitHub environment)
+- Allowed actions: enable direct `npm publish`
+
+No npm token secret is needed. See the current
+[npm Trusted Publishing documentation](https://docs.npmjs.com/trusted-publishers/).
+The workflow is prepared; the package has not yet been published to npm.

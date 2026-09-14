@@ -1,0 +1,36 @@
+name: Publish npm package
+on:
+  release:
+    types: [published]
+permissions:
+  contents: read
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+      - run: npm install --global npm@11
+      - name: Check release version
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          node --input-type=commonjs -e 'if (process.env.RELEASE_TAG !== "v" + require("./package.json").version) throw Error("Release tag must match package.json version")'
+      - run: npm ci
+      - run: npm run check:generated
+      - run: npm test
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:browser
+      - name: Publish with OIDC and provenance
+        run: |
+          reader_dist_tag=$(node --input-type=commonjs -p 'require("./package.json").version.includes("-") ? "next" : "latest"')
+          npm publish --access public --provenance --tag "$reader_dist_tag"
