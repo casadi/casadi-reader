@@ -1,4 +1,4 @@
-name: Reader assets and packages
+name: npm package
 on: [push, pull_request]
 permissions:
   contents: read
@@ -20,18 +20,8 @@ jobs:
       - run: npm test
       - run: npx playwright install --with-deps chromium
       - run: npm run test:browser
-      - run: cmake -S . -B build/native -DCMAKE_BUILD_TYPE=Release
-      - run: cmake --build build/native --parallel 2
-      - run: ctest --test-dir build/native --output-on-failure
-      - run: python -m unittest discover -s python/tests -v
-        env:
-          PYTHONPATH: python
-          CASADI_READER_NATIVE: ${{ github.workspace }}/build/native/casadi-reader-native
-      - run: python -m pip install build twine
-      - run: python -m build --outdir artifacts
-      - run: python -m twine check artifacts/*
-      - run: npm pack --pack-destination artifacts
+      - run: mkdir -p artifacts && npm pack --pack-destination artifacts
       - uses: actions/upload-artifact@v4
         with:
-          name: reader-packages
+          name: npm-package
           path: artifacts/

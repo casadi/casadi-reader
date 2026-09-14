@@ -2,7 +2,8 @@
 
 Inspect `.casadi` files without installing or loading CasADi. One repository
 provides JavaScript/npm, Python/PyPI, C++, C, MATLAB and Julia interfaces.
-This is a **local proof of concept**, not yet a published release.
+The current development focus is the **npm package**. The other language
+interfaces are experimental and deferred. This is not yet a published npm release.
 Files are inspected, never evaluated; no archives are extracted.
 
 | Interface | Implementation | Runtime dependencies |
@@ -215,8 +216,7 @@ module, so neither Python nor JavaScript parses the scheme JSON at runtime.
 Build tools are development dependencies only.
 
 CI checks `npm run check:generated` **before** rebuilding, rejecting stale
-committed assets. It builds and tests the native/Python readers, then produces
-wheel/sdist and npm artifacts. A browser test serves the extracted npm tarball
+committed assets. The initial CI builds and tests the npm package and produces its tarball. A browser test serves the extracted npm tarball
 over HTTP and checks that decoding needs one JavaScript request and no scheme
 JSON request. CI uploads build artifacts; it does not publish packages.
 
