@@ -18,5 +18,3 @@ for name, f in cases.items():
     f.save(str(root/'test/fixtures'/f'{name}.casadi'))
     (root/'test/fixtures'/f'{name}.json').write_text(f.export_graph())
     (root/'test/fixtures'/f'{name}.info.json').write_text(json.dumps([f.instruction_MX(i).info() for i in range(f.n_instructions())]))
-ops = {key[3:].lower(): getattr(ca, key) for key in dir(ca) if key.startswith('OP_')}
-(root/'src/casadi-ops.js').write_text('// Operation IDs from CasADi 3.8.1 calculus.hpp.\nexport const OP = '+json.dumps(ops, indent=2)+';\n')

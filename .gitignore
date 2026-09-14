@@ -1,2 +1,9 @@
 node_modules/
 *.tgz
+__pycache__/
+*.egg-info/
+build/
+dist/
+julia/Manifest.toml
+julia/deps/usr/
+julia/deps/build/

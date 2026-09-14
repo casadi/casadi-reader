@@ -1,0 +1,32 @@
+classdef Document < handle
+    % Inspect a CasADi file using the standalone native reader.
+    properties (Access = private)
+        Handle = []
+    end
+    methods
+        function self = Document(path, resource, lazy)
+            if nargin < 2, resource = false; end
+            if nargin < 3, lazy = false; end
+            self.Handle = casadi_reader_mex('open', char(path), double(resource), double(lazy));
+        end
+        function delete(self)
+            if ~isempty(self.Handle)
+                casadi_reader_mex('close', self.Handle);
+                self.Handle = [];
+            end
+        end
+        function value = json(self)
+            value = casadi_reader_mex('json', self.Handle);
+        end
+        function value = data(self)
+            value = jsondecode(self.json());
+        end
+        function value = blobSize(self, index)
+            % Blob indices are one-based; byte offsets in readBlob are zero-based.
+            value = casadi_reader_mex('size', self.Handle, index - 1);
+        end
+        function value = readBlob(self, index, offset, count)
+            value = casadi_reader_mex('read', self.Handle, index - 1, offset, count);
+        end
+    end
+end

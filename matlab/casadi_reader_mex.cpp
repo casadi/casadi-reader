@@ -1,0 +1,49 @@
+#include "mex.h"
+#include <casadi_reader/reader.hpp>
+#include <cmath>
+#include <map>
+#include <memory>
+#include <limits>
+static std::map<uint64_t,std::unique_ptr<casadi_reader::Document>> handles;
+static uint64_t next_id=1;
+static void cleanup(){handles.clear();}
+static std::string text(const mxArray* a) {
+  if(!mxIsChar(a))throw std::runtime_error("Expected a character vector");
+  char* p=mxArrayToUTF8String(a);if(!p)throw std::runtime_error("Cannot read text");
+  std::string s(p);mxFree(p);return s;
+}
+static uint64_t integer(const mxArray* a) {
+  if(!mxIsNumeric(a)||mxIsComplex(a)||mxGetNumberOfElements(a)!=1)throw std::runtime_error("Expected integer scalar");
+  double x=mxGetScalar(a);
+  if(!std::isfinite(x)||x<0||x>9007199254740991.0||x!=std::floor(x))throw std::runtime_error("Invalid integer");
+  return uint64_t(x);
+}
+void mexFunction(int nlhs,mxArray* plhs[],int nrhs,const mxArray* prhs[]) {
+  try {
+    if(nrhs<1)throw std::runtime_error("Expected command");
+    auto command=text(prhs[0]);
+    if(command=="open") {
+      if(nrhs!=4||nlhs!=1)throw std::runtime_error("open(path, resource, lazy) needs one output");
+      auto path=text(prhs[1]);bool resource=integer(prhs[2])!=0,lazy=integer(prhs[3])!=0;
+      auto doc=std::unique_ptr<casadi_reader::Document>(new casadi_reader::Document(path,resource,lazy));
+      if(next_id>9007199254740991ULL)throw std::runtime_error("Handle limit");
+      if(handles.empty())mexAtExit(cleanup);
+      uint64_t id=next_id++;handles.emplace(id,std::move(doc));mexLock();
+      plhs[0]=mxCreateNumericMatrix(1,1,mxUINT64_CLASS,mxREAL);*static_cast<uint64_t*>(mxGetData(plhs[0]))=id;return;
+    }
+    if(nrhs<2)throw std::runtime_error("Expected document handle");
+    uint64_t id=integer(prhs[1]);auto it=handles.find(id);
+    if(it==handles.end())throw std::runtime_error("Closed or invalid document");
+    auto& doc=*it->second;
+    if(command=="close"&&nrhs==2&&nlhs==0){handles.erase(it);mexUnlock();return;}
+    if(command=="json"&&nrhs==2&&nlhs==1){plhs[0]=mxCreateString(doc.json().c_str());return;}
+    if(command=="size"&&nrhs==3&&nlhs==1){plhs[0]=mxCreateDoubleScalar(double(doc.blob_size(size_t(integer(prhs[2])))));return;}
+    if(command=="read"&&nrhs==5&&nlhs==1) {
+      auto bytes=doc.read_blob(size_t(integer(prhs[2])),integer(prhs[3]),size_t(integer(prhs[4])));
+      plhs[0]=mxCreateNumericMatrix(1,bytes.size(),mxUINT8_CLASS,mxREAL);
+      std::copy(bytes.begin(),bytes.end(),static_cast<unsigned char*>(mxGetData(plhs[0])));return;
+    }
+    throw std::runtime_error("Invalid command or argument/output count");
+  }catch(const std::exception& e){mexErrMsgIdAndTxt("casadi_reader:Error","%s",e.what());}
+  catch(...){mexErrMsgIdAndTxt("casadi_reader:Error","Unknown native error");}
+}

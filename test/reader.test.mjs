@@ -28,6 +28,6 @@ test('malformed encodings, truncation, protocol and debug mode fail',()=>{
  assert.throws(()=>decodeCasadi(text.slice(0,32)+'ba'+text.slice(34)),/Debug serialization/);
 });
 test('CLI produces ordinary JSON without native dependencies',()=>{
- const run=spawnSync(process.execPath,['bin/casadi2json.js','test/fixtures/mapping.casadi'],{encoding:'utf8',cwd:new URL('..',import.meta.url)});
+ const run=spawnSync(process.execPath,['bin/casadi-reader.js','test/fixtures/mapping.casadi'],{encoding:'utf8',cwd:new URL('..',import.meta.url)});
  assert.equal(run.status,0,run.stderr);assert.equal(JSON.parse(run.stdout).format,'casadi_json');
 });

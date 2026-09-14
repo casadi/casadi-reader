@@ -1,0 +1,4 @@
+include README.md LICENSE
+recursive-include python *.py *.json
+recursive-include test/fixtures *.casadi *.json *.zip
+recursive-include schemes *.json

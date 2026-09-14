@@ -1,4 +1,6 @@
 import {OP} from './casadi-ops.js';
+import scheme from '../schemes/serialization_scheme.json' with {type:'json'};
+import {EncodedSource, LazyBlob, LazyFileBlob} from './source.js';
 
 // Experimental positional reader for protocol 3 / FunctionInternal 8 / MXFunction 3.
 // No CasADi runtime, evaluation, dynamic loading or native graph export is used.
@@ -11,26 +13,24 @@ const mappingOps=new Set([OP.getnonzeros,OP.setnonzeros,OP.addnonzeros]);
 const maxItems=1000000;
 
 class Reader {
-  constructor(text) {
-    if(typeof text!=='string')throw Error('Expected .casadi file text');
-    text=text.trim();
-    if(text.length>64*1024*1024 || text.length%2 || /[^a-p]/.test(text))throw Error('Invalid .casadi encoding or file too large');
-    this.bytes=new Uint8Array(text.length/2);
-    for(let i=0;i<this.bytes.length;i++)this.bytes[i]=(text.charCodeAt(2*i)-97)|((text.charCodeAt(2*i+1)-97)<<4);
-    this.data=new DataView(this.bytes.buffer);this.pos=0;this.shared=[];this.depth=0;
+  constructor(text, options={}) {
+    this.source=new EncodedSource(text,options);
+    this.lazy=!!options.lazy;this.pos=0;this.shared=[];this.depth=0;
+    this.length=this.source.byteLength;
   }
   fail(message){throw Error(`.casadi byte ${this.pos}: ${message}`);}
-  take(n){if(n<0 || this.pos+n>this.bytes.length)this.fail('Truncated file');const p=this.pos;this.pos+=n;return p;}
-  byte(){return this.data.getUint8(this.take(1));}
+  take(n){if(n<0 || this.pos+n>this.length)this.fail('Truncated file');const p=this.pos;this.pos+=n;return p;}
+  byte(){return this.source.byte(this.take(1));}
   bool(){const b=this.byte();if(b>1)this.fail('Invalid boolean');return !!b;}
-  int(){return this.data.getInt32(this.take(4),true);}
-  long(){const n=this.data.getBigInt64(this.take(8),true);if(n>BigInt(Number.MAX_SAFE_INTEGER)||n<BigInt(Number.MIN_SAFE_INTEGER))this.fail('Integer outside JavaScript safe range');return Number(n);}
-  double(){return this.data.getFloat64(this.take(8),true);}
+  int(){return this.source.view(this.take(4),4).getInt32(0,true);}
+  long(){const n=this.source.view(this.take(8),8).getBigInt64(0,true);if(n>BigInt(Number.MAX_SAFE_INTEGER)||n<BigInt(Number.MIN_SAFE_INTEGER))this.fail('Integer outside JavaScript safe range');return Number(n);}
+  double(){return this.source.view(this.take(8),8).getFloat64(0,true);}
   count(n){if(!Number.isSafeInteger(n)||n<0||n>maxItems)this.fail('Invalid or excessive collection size');return n;}
-  string(){const n=this.count(this.int()),start=this.take(n);return new TextDecoder('utf-8',{fatal:true}).decode(this.bytes.subarray(start,start+n));}
+  string(){const n=this.count(this.int()),start=this.take(n);return new TextDecoder('utf-8',{fatal:true}).decode(this.source.read(start,n));}
   vector(read){const n=this.count(this.long());return Array.from({length:n},()=>read.call(this));}
+  blob(){const length=this.long(),offset=this.take(length);return this.lazy?new LazyBlob(this.source,offset,length):this.source.read(offset,length);}
   emptyMap(){if(this.long()!==0)this.fail('Nonempty option/cache dictionaries are outside this proof of concept');return {};}
-  version(name,expected){const v=this.int();if(v!==expected)this.fail(`Unsupported ${name} serialization version ${v}; expected ${expected}`);}
+  version(name,expected){if(!scheme.class_versions[name]?.includes(expected))this.fail(`Vendored scheme does not describe ${name} version ${expected}`);const v=this.int();if(v!==expected)this.fail(`Unsupported ${name} serialization version ${v}; expected ${expected}`);}
   object(kind,read){
     const flag=this.byte();
     if(flag===114){const id=this.long(),entry=this.shared[id];if(!entry||(entry.kind!==kind&&entry.value!==null))this.fail(`Invalid shared-object reference ${id}: expected ${kind}, got ${entry?.kind}; objects=${this.shared.map(e=>e.kind)}`);return entry.value;}
@@ -110,14 +110,14 @@ class Reader {
 }
 
 /** Parse a default Function.save() file; unsupported serialization layouts fail explicitly. */
-export function decodeCasadi(text){
-  const r=new Reader(text);
-  if(r.long()!==123456789012345)r.fail('Invalid serialization magic');
-  if(r.long()!==3)r.fail('Unsupported serialization protocol');
+export function decodeCasadi(text,options={}){
+  const r=new Reader(text,options);
+  if(r.long()!==scheme.wire.magic)r.fail('Invalid serialization magic');
+  if(r.long()!==scheme.wire.protocol)r.fail('Unsupported serialization protocol');
   if(r.bool())r.fail('Debug serialization is outside this proof of concept');
   if(r.byte()!==5)r.fail('Expected a serialized Function');
   const f=r.function();if(!f)r.fail('Null Function');
-  if(r.pos!==r.bytes.length)r.fail('Trailing data or unsupported serialization layout');
+  if(r.pos!==r.length)r.fail('Trailing data or unsupported serialization layout');
   const ids=new Map(r.shared.filter(e=>e.value!==null).map((e,i)=>[e.value,i]));
   const ref=value=>value===null?null:ids.get(value);
   const objects=r.shared.filter(e=>e.value!==null).map(({kind,value})=>{
@@ -128,4 +128,43 @@ export function decodeCasadi(text){
     throw Error('Unsupported object kind');
   });
   return {format:'casadi_json',version:1,serializationProtocol:3,root:ref(f),objects};
+}
+
+/** Inspect a raw SerializingStream Resource, including embedded FMU archives. */
+export function decodeResource(text,options={}) {
+  return resourceDocument(new Reader(text,options));
+}
+function resourceDocument(r) {
+  if(r.long()!==scheme.wire.magic||r.long()!==scheme.wire.protocol)r.fail('Unsupported serialization header');
+  if(r.bool())r.fail('Debug Resource streams are not supported by this entry point');
+  const resource=r.object('R',function(){
+    this.version('ResourceInternal',1);
+    const type=this.string(),serializeMode=this.string();
+    this.version(type,1);
+    if(type==='ZipMemResource')return {type,serializeMode,blob:this.blob()};
+    if(type==='ZipResource'||type==='DirResource')return {type,serializeMode,path:this.string()};
+    this.fail('Unsupported resource type '+type);
+  });
+  if(r.pos!==r.length)r.fail('Trailing Resource data');
+  return {format:'casadi_resource',version:1,resource};
+}
+export const readCasadi=decodeCasadi;
+export {LazyBlob};
+
+/** Open an unpadded raw Resource stream from a browser File/Blob. */
+export async function openResource(file,{lazy=false,maxBytes=1024*1024*1024}={}) {
+  if(!Number.isSafeInteger(file.size)||file.size%2||file.size/2>maxBytes)throw Error('Invalid encoded file size');
+  if(!lazy)return decodeResource(await file.text(),{maxBytes});
+  for(let prefix=256;;prefix*=2){
+    const text=await file.slice(0,Math.min(file.size,prefix)).text();
+    const reader=new Reader(text,{lazy:true,maxBytes});
+    reader.length=file.size/2;
+    try {
+      const document=resourceDocument(reader),blob=document.resource.blob;
+      if(blob instanceof LazyBlob)document.resource.blob=new LazyFileBlob(file,blob.offset,blob.byteLength);
+      return document;
+    }catch(error){
+      if(!/offset out of bounds|range out of bounds/.test(error.message)||prefix>=file.size||prefix>=1024*1024)throw error;
+    }
+  }
 }

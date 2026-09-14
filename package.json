@@ -1,7 +1,7 @@
 {
-  "name": "@casadi/casadi2json",
+  "name": "@casadi/casadi-reader",
   "version": "0.0.0-poc",
-  "description": "Experimental JavaScript decoder for CasADi serialized MX functions",
+  "description": "Experimental standalone reader for CasADi serialized MX functions and resources",
   "type": "module",
   "license": "LGPL-3.0-or-later",
   "exports": {
@@ -9,22 +9,23 @@
     "./operations": "./src/casadi-ops.js"
   },
   "bin": {
-    "casadi2json": "bin/casadi2json.js"
+    "casadi-reader": "bin/casadi-reader.js"
   },
   "files": [
     "src",
     "bin",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "schemes"
   ],
   "scripts": {
     "test": "node --test test/*.test.mjs"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/casadi/casadi2json.git"
+    "url": "https://github.com/casadi/casadi-reader.git"
   }
 }

@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "casadi-reader"
+version = "0.0.0a0"
+description = "Experimental standalone reader for CasADi serialized MX functions and resources"
+readme = "README.md"
+requires-python = ">=3.9"
+license = "LGPL-3.0-or-later"
+license-files = ["LICENSE"]
+dependencies = []
+
+[project.scripts]
+casadi-reader = "casadi_reader.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["python"]
+include = ["casadi_reader*"]
+
+[tool.setuptools.package-data]
+casadi_reader = ["serialization_scheme.json"]
