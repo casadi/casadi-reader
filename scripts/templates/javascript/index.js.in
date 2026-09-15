@@ -86,7 +86,7 @@ class Reader {
         Object.assign(scope,step.params);
         this.program(this.layout(step.layout),record,scope);
       }else if(step.op==='if') {
-        if(this.expression(step.condition,scope))this.program(step.body,record,scope);
+        this.program(this.expression(step.condition,scope)?step.body:(step.else??[]),record,scope);
       }else if(step.op==='repeat') {
         const n=this.count(this.expression(step.count,scope));
         for(let i=0;i<n;i++)this.program(step.body,record,scope);

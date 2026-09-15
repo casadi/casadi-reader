@@ -218,6 +218,7 @@ struct Reader {
         auto n=step.at("layout").scalar;record["layouts"].a.push_back(J(n));for(const auto& p:optional(step,"params").o)scope[p.first]=p.second;program(layout(n),record,scope);
       }else if(op=="if"){
         if(truth(expression(step.at("condition").scalar,scope)))program(step.at("body"),record,scope);
+        else if(optional(step,"else").kind==J::Array)program(step.at("else"),record,scope);
       }else if(op=="repeat"){
         auto n=count(expression(step.at("count").scalar,scope));for(uint64_t i=0;i<n;++i)program(step.at("body"),record,scope);
       }else if(op=="select"){

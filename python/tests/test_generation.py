@@ -19,7 +19,9 @@ class GenerationTests(unittest.TestCase):
             out = Path(directory)
             scheme = json.loads((ROOT/'schemes/serialization_scheme.json').read_text())
             cases = scheme['reader']['types']['Function']['body'][1]['body'][1]['cases']
-            cases['QXFunction'] = cases['MXFunction']
+            cases['QXFunction'] = [{'op':'if', 'condition':'false',
+                'body':[{'op':'unsupported', 'reason':'wrong branch'}],
+                'else':cases['MXFunction']}]
             (out/'scheme.json').write_text(json.dumps(scheme))
             subprocess.check_call(['python3', str(ROOT/'scripts/generate-reader-assets.py'),
                                    '--scheme', str(out/'scheme.json'), '--output-root', str(out)])

@@ -44,6 +44,12 @@ export default {
           "type": "Dict"
         }
       ],
+      "AmplInterface::serialize_body": [
+        {
+          "layout": "Nlpsol::serialize_body",
+          "op": "call"
+        }
+      ],
       "Assertion::serialize_body": [
         {
           "layout": "MXNode::serialize_body",
@@ -143,6 +149,12 @@ export default {
           "name": "BSplineInterpolant::s",
           "op": "field",
           "type": "Function"
+        }
+      ],
+      "BSplineParametric::serialize_body": [
+        {
+          "layout": "BSplineCommon::serialize_body",
+          "op": "call"
         }
       ],
       "BSplineParametric::serialize_type": [
@@ -273,7 +285,7 @@ export default {
         {
           "name": "BlazingSplineFunction::knots",
           "op": "field",
-          "type": "std::vector<type-dependent>"
+          "type": "std::vector< std::vector<double> >"
         },
         {
           "name": "BlazingSplineFunction::lookup_modes",
@@ -284,7 +296,7 @@ export default {
           "bind": "has_parametric_knots()",
           "name": "BlazingSplineFunction::parametric_knots",
           "op": "field",
-          "type": null
+          "type": "bool"
         },
         {
           "body": [
@@ -755,6 +767,12 @@ export default {
           "type": "Dict"
         }
       ],
+      "CSparseCholeskyInterface::serialize_body": [
+        {
+          "layout": "LinsolInternal::serialize_body",
+          "op": "call"
+        }
+      ],
       "Call::serialize_body": [
         {
           "layout": "MultipleOutput::serialize_body",
@@ -928,7 +946,7 @@ export default {
         {
           "name": "Conic::nx",
           "op": "field",
-          "type": null
+          "type": "casadi_int"
         },
         {
           "name": "Conic::na",
@@ -1031,7 +1049,7 @@ export default {
         {
           "name": "ConstantMX::nonzeros",
           "op": "field",
-          "type": null
+          "type": "std::vector<double>"
         }
       ],
       "ConstantDM::serialize_type": [
@@ -1189,6 +1207,12 @@ export default {
           "reason": "unlowered serialization call"
         }
       ],
+      "CsparseInterface::serialize_body": [
+        {
+          "layout": "LinsolInternal::serialize_body",
+          "op": "call"
+        }
+      ],
       "CvodesInterface::serialize_body": [
         {
           "layout": "SundialsInterface::serialize_body",
@@ -1236,6 +1260,12 @@ export default {
           "type": "Dict"
         }
       ],
+      "DenseKron::serialize_body": [
+        {
+          "layout": "Kron::serialize_body",
+          "op": "call"
+        }
+      ],
       "DenseKron::serialize_type": [
         {
           "layout": "MXNode::serialize_type",
@@ -1245,6 +1275,12 @@ export default {
           "name": "Kron::kind",
           "op": "field",
           "type": "std::string"
+        }
+      ],
+      "DenseKronContract::serialize_body": [
+        {
+          "layout": "KronContract::serialize_body",
+          "op": "call"
         }
       ],
       "DenseKronContract::serialize_type": [
@@ -1258,6 +1294,12 @@ export default {
           "type": "std::string"
         }
       ],
+      "DenseMultiplication::serialize_body": [
+        {
+          "layout": "Multiplication::serialize_body",
+          "op": "call"
+        }
+      ],
       "DenseMultiplication::serialize_type": [
         {
           "layout": "MXNode::serialize_type",
@@ -1267,6 +1309,12 @@ export default {
           "name": "Multiplication::kind",
           "op": "field",
           "type": "std::string"
+        }
+      ],
+      "DenseSparseKron::serialize_body": [
+        {
+          "layout": "Kron::serialize_body",
+          "op": "call"
         }
       ],
       "DenseSparseKron::serialize_type": [
@@ -1280,6 +1328,12 @@ export default {
           "type": "std::string"
         }
       ],
+      "DenseSparseKronContract::serialize_body": [
+        {
+          "layout": "KronContract::serialize_body",
+          "op": "call"
+        }
+      ],
       "DenseSparseKronContract::serialize_type": [
         {
           "layout": "MXNode::serialize_type",
@@ -1289,6 +1343,12 @@ export default {
           "name": "KronContract::kind",
           "op": "field",
           "type": "std::string"
+        }
+      ],
+      "DenseSparseMultiplication::serialize_body": [
+        {
+          "layout": "Multiplication::serialize_body",
+          "op": "call"
         }
       ],
       "DenseSparseMultiplication::serialize_type": [
@@ -1302,6 +1362,12 @@ export default {
           "type": "std::string"
         }
       ],
+      "DenseTranspose::serialize_body": [
+        {
+          "layout": "Transpose::serialize_body",
+          "op": "call"
+        }
+      ],
       "DenseTranspose::serialize_type": [
         {
           "layout": "MXNode::serialize_type",
@@ -1311,6 +1377,12 @@ export default {
           "name": "Transpose::dense",
           "op": "field",
           "type": "bool"
+        }
+      ],
+      "Densify::serialize_body": [
+        {
+          "layout": "Project::serialize_body",
+          "op": "call"
         }
       ],
       "Densify::serialize_type": [
@@ -1349,8 +1421,32 @@ export default {
       ],
       "DirResource::serialize_body": [
         {
-          "op": "unsupported",
-          "reason": "unlowered else branch"
+          "layout": "ResourceInternal::serialize_body",
+          "op": "call"
+        },
+        {
+          "name": "DirResource",
+          "op": "version",
+          "value": 1
+        },
+        {
+          "body": [
+            {
+              "bind": "ss",
+              "name": "ZipMemResource::blob",
+              "op": "field",
+              "type": "std::stringstream"
+            }
+          ],
+          "condition": "serialize_mode_==\"embed\"",
+          "else": [
+            {
+              "name": "DirResource::path",
+              "op": "field",
+              "type": "std::string"
+            }
+          ],
+          "op": "if"
         }
       ],
       "DirResource::serialize_type": [
@@ -1614,22 +1710,22 @@ export default {
         {
           "name": "FatropInterface::AB_blocks",
           "op": "field",
-          "type": null
+          "type": "std::vector<casadi_int>"
         },
         {
           "name": "FatropInterface::CD_blocks",
           "op": "field",
-          "type": null
+          "type": "std::vector<casadi_int>"
         },
         {
           "name": "FatropInterface::RSQ_blocks",
           "op": "field",
-          "type": null
+          "type": "std::vector<casadi_int>"
         },
         {
           "name": "FatropInterface::I_blocks",
           "op": "field",
-          "type": null
+          "type": "std::vector<casadi_int>"
         },
         {
           "name": "FatropInterface::nxs",
@@ -2350,7 +2446,7 @@ export default {
         {
           "name": "FmuInternal::oind",
           "op": "field",
-          "type": null
+          "type": "std::vector<size_t>"
         },
         {
           "name": "FmuInternal::oind_map",
@@ -2491,7 +2587,7 @@ export default {
         {
           "name": "FmuInternal::nx",
           "op": "field",
-          "type": null
+          "type": "size_t"
         },
         {
           "name": "FmuInternal::do_evaluation_dance",
@@ -2509,8 +2605,26 @@ export default {
       ],
       "Function::serialize": [
         {
-          "op": "unsupported",
-          "reason": "unlowered else branch"
+          "body": [
+            {
+              "name": "Function::null",
+              "op": "field",
+              "type": "bool"
+            }
+          ],
+          "condition": "is_null()",
+          "else": [
+            {
+              "name": "Function::null",
+              "op": "field",
+              "type": "bool"
+            },
+            {
+              "op": "unsupported",
+              "reason": "unlowered serialization call"
+            }
+          ],
+          "op": "if"
         }
       ],
       "FunctionInternal::serialize_body": [
@@ -2575,14 +2689,14 @@ export default {
             {
               "name": "FunctionInternal::jit_library",
               "op": "field",
-              "type": null
+              "type": "std::string"
             },
             {
               "body": [
                 {
                   "name": "FunctionInternal::jit_binary",
                   "op": "field",
-                  "type": null
+                  "type": "std::stringstream"
                 }
               ],
               "condition": "jit_serialize_==\"embed\"",
@@ -2889,6 +3003,12 @@ export default {
           "op": "call"
         }
       ],
+      "GetNonzerosParamParam::serialize_body": [
+        {
+          "layout": "GetNonzerosParam::serialize_body",
+          "op": "call"
+        }
+      ],
       "GetNonzerosParamParam::serialize_type": [
         {
           "layout": "GetNonzerosParam::serialize_type",
@@ -3146,6 +3266,12 @@ export default {
           "value": 1
         }
       ],
+      "HpmpcInterface::serialize_body": [
+        {
+          "layout": "Conic::serialize_body",
+          "op": "call"
+        }
+      ],
       "IOInstruction::serialize_body": [
         {
           "layout": "MXNode::serialize_body",
@@ -3232,6 +3358,12 @@ export default {
           "name": "ImplicitFixedStepIntegrator",
           "op": "version",
           "value": 2
+        }
+      ],
+      "ImplicitToNlp::serialize_body": [
+        {
+          "layout": "Rootfinder::serialize_body",
+          "op": "call"
         }
       ],
       "Importer::serialize": [
@@ -3357,12 +3489,12 @@ export default {
         {
           "name": "Integrator::nx",
           "op": "field",
-          "type": null
+          "type": "casadi_int"
         },
         {
           "name": "Integrator::nz",
           "op": "field",
-          "type": null
+          "type": "casadi_int"
         },
         {
           "name": "Integrator::nq",
@@ -3544,7 +3676,7 @@ export default {
           "bind": "m_",
           "name": "Interpolant::m",
           "op": "field",
-          "type": null
+          "type": "casadi_int"
         },
         {
           "name": "Interpolant::grid",
@@ -3554,7 +3686,7 @@ export default {
         {
           "name": "Interpolant::offset",
           "op": "field",
-          "type": null
+          "type": "std::vector<casadi_int>"
         },
         {
           "name": "Interpolant::values",
@@ -3745,6 +3877,12 @@ export default {
           "type": "double"
         }
       ],
+      "KinsolInterface::serialize_body": [
+        {
+          "layout": "Rootfinder::serialize_body",
+          "op": "call"
+        }
+      ],
       "KnitroInterface::serialize_body": [
         {
           "layout": "Nlpsol::serialize_body",
@@ -3894,6 +4032,12 @@ export default {
           "type": "char"
         }
       ],
+      "LinearInterpolantJac::serialize_body": [
+        {
+          "layout": "FunctionInternal::serialize_body",
+          "op": "call"
+        }
+      ],
       "LinearInterpolantJac::serialize_type": [
         {
           "layout": "FunctionInternal::serialize_type",
@@ -3934,12 +4078,6 @@ export default {
       "LinsolCall<Tr>::serialize_type": [
         {
           "layout": "Solve<Tr>::serialize_type",
-          "op": "call"
-        }
-      ],
-      "LinsolCall<false>::serialize_body": [
-        {
-          "layout": "LinsolCall<Tr>::serialize_body",
           "op": "call"
         }
       ],
@@ -4026,6 +4164,12 @@ export default {
           "type": "casadi_int"
         }
       ],
+      "LinsolTridiag::serialize_body": [
+        {
+          "layout": "LinsolInternal::serialize_body",
+          "op": "call"
+        }
+      ],
       "LogSumExp::serialize_body": [
         {
           "layout": "MXNode::serialize_body",
@@ -4041,6 +4185,12 @@ export default {
           "name": "Low::lookup_mode",
           "op": "field",
           "type": "casadi_int"
+        }
+      ],
+      "Lsqr::serialize_body": [
+        {
+          "layout": "LinsolInternal::serialize_body",
+          "op": "call"
         }
       ],
       "MMax::serialize_body": [
@@ -4160,6 +4310,12 @@ export default {
           "name": "MXNode::op",
           "op": "field",
           "type": "int"
+        }
+      ],
+      "Ma27Interface::serialize_body": [
+        {
+          "layout": "LinsolInternal::serialize_body",
+          "op": "call"
         }
       ],
       "MadmpecInterface::serialize_body": [
@@ -4478,7 +4634,7 @@ export default {
         {
           "name": "Nlpsol::nx",
           "op": "field",
-          "type": null
+          "type": "casadi_int"
         },
         {
           "name": "Nlpsol::ng",
@@ -4821,8 +4977,122 @@ export default {
       ],
       "OracleFunction::serialize_body": [
         {
-          "op": "unsupported",
-          "reason": "unlowered else branch"
+          "layout": "FunctionInternal::serialize_body",
+          "op": "call"
+        },
+        {
+          "name": "OracleFunction",
+          "op": "version",
+          "value": 3
+        },
+        {
+          "name": "OracleFunction::oracle",
+          "op": "field",
+          "type": "Function"
+        },
+        {
+          "name": "OracleFunction::common_options",
+          "op": "field",
+          "type": "Dict"
+        },
+        {
+          "name": "OracleFunction::specific_options",
+          "op": "field",
+          "type": "Dict"
+        },
+        {
+          "name": "OracleFunction::show_eval_warnings",
+          "op": "field",
+          "type": "bool"
+        },
+        {
+          "name": "OracleFunction::max_num_threads",
+          "op": "field",
+          "type": "int"
+        },
+        {
+          "bind": "all_functions_.size()",
+          "name": "OracleFunction::all_functions::size",
+          "op": "field",
+          "type": "size_t"
+        },
+        {
+          "body": [
+            {
+              "name": "OracleFunction::all_functions::key",
+              "op": "field",
+              "type": "std::string"
+            },
+            {
+              "bind": "e.second.jit",
+              "name": "OracleFunction::all_functions::value::jit",
+              "op": "field",
+              "type": "bool"
+            },
+            {
+              "body": [
+                {
+                  "body": [
+                    {
+                      "name": "OracleFunction::all_functions::value::f",
+                      "op": "field",
+                      "type": "Function"
+                    }
+                  ],
+                  "condition": "jit_serialize_==\"source\"",
+                  "else": [
+                    {
+                      "name": "OracleFunction::all_functions::value::f_name",
+                      "op": "field",
+                      "type": "std::string"
+                    }
+                  ],
+                  "op": "if"
+                }
+              ],
+              "condition": "jit_ && e.second.jit",
+              "else": [
+                {
+                  "name": "OracleFunction::all_functions::value::f",
+                  "op": "field",
+                  "type": "Function"
+                }
+              ],
+              "op": "if"
+            },
+            {
+              "name": "OracleFunction::all_functions::value::monitored",
+              "op": "field",
+              "type": "bool"
+            }
+          ],
+          "count": "all_functions_.size()",
+          "op": "repeat"
+        },
+        {
+          "name": "OracleFunction::monitor",
+          "op": "field",
+          "type": "std::vector<std::string>"
+        },
+        {
+          "name": "OracleFunction::stride_arg",
+          "op": "field",
+          "type": "size_t"
+        },
+        {
+          "name": "OracleFunction::stride_res",
+          "op": "field",
+          "type": "size_t"
+        },
+        {
+          "name": "OracleFunction::stride_iw",
+          "op": "field",
+          "type": "size_t"
+        },
+        {
+          "name": "OracleFunction::stride_w",
+          "op": "field",
+          "type": "size_t"
         }
       ],
       "OracleFunction::serialize_type": [
@@ -5255,32 +5525,32 @@ export default {
         {
           "name": "QpoasesInterface::ops::enableRamping",
           "op": "field",
-          "type": null
+          "type": "bool"
         },
         {
           "name": "QpoasesInterface::ops::enableFarBounds",
           "op": "field",
-          "type": null
+          "type": "bool"
         },
         {
           "name": "QpoasesInterface::ops::enableFlippingBounds",
           "op": "field",
-          "type": null
+          "type": "bool"
         },
         {
           "name": "QpoasesInterface::ops::enableRegularisation",
           "op": "field",
-          "type": null
+          "type": "bool"
         },
         {
           "name": "QpoasesInterface::ops::enableFullLITests",
           "op": "field",
-          "type": null
+          "type": "bool"
         },
         {
           "name": "QpoasesInterface::ops::enableNZCTests",
           "op": "field",
-          "type": null
+          "type": "bool"
         },
         {
           "name": "QpoasesInterface::ops::enableDriftCorrection",
@@ -5295,7 +5565,7 @@ export default {
         {
           "name": "QpoasesInterface::ops::enableEqualities",
           "op": "field",
-          "type": null
+          "type": "bool"
         },
         {
           "name": "QpoasesInterface::ops::terminationTolerance",
@@ -5355,7 +5625,7 @@ export default {
         {
           "name": "QpoasesInterface::ops::initialStatusBounds",
           "op": "field",
-          "type": null
+          "type": "std::string"
         },
         {
           "name": "QpoasesInterface::ops::epsFlipping",
@@ -5395,7 +5665,7 @@ export default {
         {
           "name": "QpoasesInterface::ops::enableInertiaCorrection",
           "op": "field",
-          "type": null
+          "type": "bool"
         }
       ],
       "Qrqp::serialize_body": [
@@ -5479,6 +5749,12 @@ export default {
           "type": "double"
         }
       ],
+      "Qrsqp::serialize_body": [
+        {
+          "layout": "Nlpsol::serialize_body",
+          "op": "call"
+        }
+      ],
       "Rank1::serialize_body": [
         {
           "layout": "MXNode::serialize_body",
@@ -5529,6 +5805,7 @@ export default {
       ],
       "ResourceInternal::serialize_body": [
         {
+          "bind": "serialize_mode_",
           "name": "ResourceInternal::serialize_mode",
           "op": "field",
           "type": "std::string"
@@ -5556,7 +5833,7 @@ export default {
           "bind": "n_",
           "name": "Rootfinder::n",
           "op": "field",
-          "type": null
+          "type": "casadi_int"
         },
         {
           "name": "Rootfinder::linsol",
@@ -5815,6 +6092,12 @@ export default {
         {
           "op": "unsupported",
           "reason": "unlowered serialization call"
+        }
+      ],
+      "Scpgen::serialize_body": [
+        {
+          "layout": "Nlpsol::serialize_body",
+          "op": "call"
         }
       ],
       "SetNonzerosParam<false>::serialize_body": [
@@ -6081,7 +6364,13 @@ export default {
         {
           "name": "Solve::Tr",
           "op": "field",
-          "type": null
+          "type": "bool"
+        }
+      ],
+      "SparseDenseKron::serialize_body": [
+        {
+          "layout": "Kron::serialize_body",
+          "op": "call"
         }
       ],
       "SparseDenseKron::serialize_type": [
@@ -6095,6 +6384,12 @@ export default {
           "type": "std::string"
         }
       ],
+      "SparseDenseKronContract::serialize_body": [
+        {
+          "layout": "KronContract::serialize_body",
+          "op": "call"
+        }
+      ],
       "SparseDenseKronContract::serialize_type": [
         {
           "layout": "MXNode::serialize_type",
@@ -6104,6 +6399,12 @@ export default {
           "name": "KronContract::kind",
           "op": "field",
           "type": "std::string"
+        }
+      ],
+      "Sparsify::serialize_body": [
+        {
+          "layout": "Project::serialize_body",
+          "op": "call"
         }
       ],
       "Sparsify::serialize_type": [
@@ -6119,8 +6420,22 @@ export default {
       ],
       "Sparsity::serialize": [
         {
-          "op": "unsupported",
-          "reason": "unlowered else branch"
+          "body": [
+            {
+              "name": "SparsityInternal::compressed",
+              "op": "field",
+              "type": "std::vector<casadi_int>"
+            }
+          ],
+          "condition": "is_null()",
+          "else": [
+            {
+              "name": "SparsityInternal::compressed",
+              "op": "field",
+              "type": "std::vector<casadi_int>"
+            }
+          ],
+          "op": "if"
         }
       ],
       "SparsityCast::serialize_body": [
@@ -6143,6 +6458,12 @@ export default {
           "name": "Split::output_sparsity",
           "op": "field",
           "type": "std::vector<Sparsity>"
+        }
+      ],
+      "SqicInterface::serialize_body": [
+        {
+          "layout": "Conic::serialize_body",
+          "op": "call"
         }
       ],
       "Sqpmethod::serialize_body": [
@@ -6932,8 +7253,31 @@ export default {
       ],
       "ZipResource::serialize_body": [
         {
-          "op": "unsupported",
-          "reason": "unlowered else branch"
+          "layout": "ResourceInternal::serialize_body",
+          "op": "call"
+        },
+        {
+          "name": "ZipResource",
+          "op": "version",
+          "value": 1
+        },
+        {
+          "body": [
+            {
+              "name": "ZipMemResource::blob",
+              "op": "field",
+              "type": "std::stringstream"
+            }
+          ],
+          "condition": "serialize_mode_==\"embed\"",
+          "else": [
+            {
+              "name": "ZipResource::path",
+              "op": "field",
+              "type": "std::string"
+            }
+          ],
+          "op": "if"
         }
       ],
       "ZipResource::serialize_type": [
@@ -7015,8 +7359,148 @@ export default {
                   ],
                   "Conic": [
                     {
-                      "layout": "Conic::serialize_body",
-                      "op": "call"
+                      "bind": "plugin",
+                      "name": "PluginInterface::plugin_name",
+                      "op": "field",
+                      "type": "std::string"
+                    },
+                    {
+                      "bind": "plugin",
+                      "cases": {
+                        "cbc": [
+                          {
+                            "layout": "CbcInterface::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "clarabel": [
+                          {
+                            "layout": "ClarabelInterface::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "clp": [
+                          {
+                            "layout": "ClpInterface::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "cplex": [
+                          {
+                            "layout": "CplexInterface::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "daqp": [
+                          {
+                            "layout": "DaqpInterface::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "fatrop": [
+                          {
+                            "layout": "FatropConicInterface::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "gurobi": [
+                          {
+                            "layout": "GurobiInterface::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "highs": [
+                          {
+                            "layout": "HighsInterface::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "hpipm": [
+                          {
+                            "layout": "HpipmInterface::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "hpmpc": [
+                          {
+                            "layout": "HpmpcInterface::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "ipqp": [
+                          {
+                            "layout": "Ipqp::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "mosek": [
+                          {
+                            "layout": "MosekInterface::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "nlpsol": [
+                          {
+                            "layout": "QpToNlp::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "ooqp": [
+                          {
+                            "layout": "OoqpInterface::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "osqp": [
+                          {
+                            "layout": "OsqpInterface::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "piqp": [
+                          {
+                            "layout": "PiqpInterface::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "proxqp": [
+                          {
+                            "layout": "ProxqpInterface::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "qpoases": [
+                          {
+                            "layout": "QpoasesInterface::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "qrqp": [
+                          {
+                            "layout": "Qrqp::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "sqic": [
+                          {
+                            "layout": "SqicInterface::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "superscs": [
+                          {
+                            "layout": "SuperscsInterface::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "xpress": [
+                          {
+                            "layout": "XpressInterface::serialize_body",
+                            "op": "call"
+                          }
+                        ]
+                      },
+                      "op": "select"
                     }
                   ],
                   "External": [
@@ -7033,14 +7517,91 @@ export default {
                   ],
                   "Integrator": [
                     {
-                      "layout": "Integrator::serialize_body",
-                      "op": "call"
+                      "bind": "plugin",
+                      "name": "PluginInterface::plugin_name",
+                      "op": "field",
+                      "type": "std::string"
+                    },
+                    {
+                      "bind": "plugin",
+                      "cases": {
+                        "collocation": [
+                          {
+                            "layout": "Collocation::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "cvodes": [
+                          {
+                            "layout": "CvodesInterface::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "idas": [
+                          {
+                            "layout": "IdasInterface::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "rk": [
+                          {
+                            "layout": "RungeKutta::serialize_body",
+                            "op": "call"
+                          }
+                        ]
+                      },
+                      "op": "select"
                     }
                   ],
                   "Interpolant": [
                     {
-                      "layout": "Interpolant::serialize_body",
-                      "op": "call"
+                      "bind": "plugin",
+                      "name": "PluginInterface::plugin_name",
+                      "op": "field",
+                      "type": "std::string"
+                    },
+                    {
+                      "bind": "plugin",
+                      "cases": {
+                        "bspline": [
+                          {
+                            "layout": "BSplineInterpolant::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "linear": [
+                          {
+                            "name": "LinearInterpolant",
+                            "op": "version",
+                            "value": 1
+                          },
+                          {
+                            "bind": "linear_type",
+                            "name": "LinearInterpolant::type",
+                            "op": "field",
+                            "type": "char"
+                          },
+                          {
+                            "bind": "linear_type",
+                            "cases": {
+                              "102": [
+                                {
+                                  "layout": "LinearInterpolant::serialize_body",
+                                  "op": "call"
+                                }
+                              ],
+                              "106": [
+                                {
+                                  "layout": "LinearInterpolantJac::serialize_body",
+                                  "op": "call"
+                                }
+                              ]
+                            },
+                            "op": "select"
+                          }
+                        ]
+                      },
+                      "op": "select"
                     }
                   ],
                   "MXFunction": [
@@ -7106,8 +7667,124 @@ export default {
                   ],
                   "Nlpsol": [
                     {
-                      "layout": "Nlpsol::serialize_body",
-                      "op": "call"
+                      "bind": "plugin",
+                      "name": "PluginInterface::plugin_name",
+                      "op": "field",
+                      "type": "std::string"
+                    },
+                    {
+                      "bind": "plugin",
+                      "cases": {
+                        "alpaqa": [
+                          {
+                            "layout": "AlpaqaInterface::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "ampl": [
+                          {
+                            "layout": "AmplInterface::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "blocksqp": [
+                          {
+                            "layout": "Blocksqp::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "bonmin": [
+                          {
+                            "layout": "BonminInterface::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "ccopt": [
+                          {
+                            "layout": "MadmpecInterface::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "conopt": [
+                          {
+                            "layout": "ConoptInterface::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "fatrop": [
+                          {
+                            "layout": "FatropInterface::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "feasiblesqpmethod": [
+                          {
+                            "layout": "Feasiblesqpmethod::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "ipopt": [
+                          {
+                            "layout": "IpoptInterface::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "knitro": [
+                          {
+                            "layout": "KnitroInterface::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "madnlp": [
+                          {
+                            "layout": "MadnlpInterface::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "qrsqp": [
+                          {
+                            "layout": "Qrsqp::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "scpgen": [
+                          {
+                            "layout": "Scpgen::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "sleqp": [
+                          {
+                            "layout": "SLEQPInterface::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "snopt": [
+                          {
+                            "layout": "SnoptInterface::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "sqpmethod": [
+                          {
+                            "layout": "Sqpmethod::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "uno": [
+                          {
+                            "layout": "UnoInterface::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "worhp": [
+                          {
+                            "layout": "WorhpInterface::serialize_body",
+                            "op": "call"
+                          }
+                        ]
+                      },
+                      "op": "select"
                     }
                   ],
                   "Onnx": [
@@ -7132,8 +7809,46 @@ export default {
                   ],
                   "Rootfinder": [
                     {
-                      "layout": "Rootfinder::serialize_body",
-                      "op": "call"
+                      "bind": "plugin",
+                      "name": "PluginInterface::plugin_name",
+                      "op": "field",
+                      "type": "std::string"
+                    },
+                    {
+                      "bind": "plugin",
+                      "cases": {
+                        "bisection": [
+                          {
+                            "layout": "Bisection::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "fast_newton": [
+                          {
+                            "layout": "FastNewton::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "kinsol": [
+                          {
+                            "layout": "KinsolInterface::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "newton": [
+                          {
+                            "layout": "Newton::serialize_body",
+                            "op": "call"
+                          }
+                        ],
+                        "nlpsol": [
+                          {
+                            "layout": "ImplicitToNlp::serialize_body",
+                            "op": "call"
+                          }
+                        ]
+                      },
+                      "op": "select"
                     }
                   ],
                   "SXFunction": [
@@ -7324,6 +8039,90 @@ export default {
         "decoration": "G",
         "shared": true
       },
+      "Linsol": {
+        "body": [
+          {
+            "bind": "plugin",
+            "name": "PluginInterface::plugin_name",
+            "op": "field",
+            "type": "std::string"
+          },
+          {
+            "bind": "plugin",
+            "cases": {
+              "csparse": [
+                {
+                  "layout": "CsparseInterface::serialize_body",
+                  "op": "call"
+                }
+              ],
+              "csparsecholesky": [
+                {
+                  "layout": "CSparseCholeskyInterface::serialize_body",
+                  "op": "call"
+                }
+              ],
+              "lapacklu": [
+                {
+                  "layout": "LapackLu::serialize_body",
+                  "op": "call"
+                }
+              ],
+              "lapackqr": [
+                {
+                  "layout": "LapackQr::serialize_body",
+                  "op": "call"
+                }
+              ],
+              "ldl": [
+                {
+                  "layout": "LinsolLdl::serialize_body",
+                  "op": "call"
+                }
+              ],
+              "lsqr": [
+                {
+                  "layout": "Lsqr::serialize_body",
+                  "op": "call"
+                }
+              ],
+              "ma27": [
+                {
+                  "layout": "Ma27Interface::serialize_body",
+                  "op": "call"
+                }
+              ],
+              "mumps": [
+                {
+                  "layout": "MumpsInterface::serialize_body",
+                  "op": "call"
+                }
+              ],
+              "qr": [
+                {
+                  "layout": "LinsolQr::serialize_body",
+                  "op": "call"
+                }
+              ],
+              "symbolicqr": [
+                {
+                  "layout": "SymbolicQr::serialize_body",
+                  "op": "call"
+                }
+              ],
+              "tridiag": [
+                {
+                  "layout": "LinsolTridiag::serialize_body",
+                  "op": "call"
+                }
+              ]
+            },
+            "op": "select"
+          }
+        ],
+        "decoration": "L",
+        "shared": true
+      },
       "MX": {
         "body": [
           {
@@ -7366,8 +8165,40 @@ export default {
               ],
               "100": [
                 {
-                  "layout": "KronContract::serialize_body",
-                  "op": "call"
+                  "bind": "subtype",
+                  "name": "KronContract::kind",
+                  "op": "field",
+                  "type": "std::string"
+                },
+                {
+                  "bind": "subtype",
+                  "cases": {
+                    "base": [
+                      {
+                        "layout": "KronContract::serialize_body",
+                        "op": "call"
+                      }
+                    ],
+                    "dense": [
+                      {
+                        "layout": "DenseKronContract::serialize_body",
+                        "op": "call"
+                      }
+                    ],
+                    "dense_sparse": [
+                      {
+                        "layout": "DenseSparseKronContract::serialize_body",
+                        "op": "call"
+                      }
+                    ],
+                    "sparse_dense": [
+                      {
+                        "layout": "SparseDenseKronContract::serialize_body",
+                        "op": "call"
+                      }
+                    ]
+                  },
+                  "op": "select"
                 }
               ],
               "11": [
@@ -7683,6 +8514,7 @@ export default {
                         "op": "call"
                       }
                     ],
+                    "122": [],
                     "45": [
                       {
                         "layout": "MXNode::serialize_body",
@@ -7777,20 +8609,77 @@ export default {
               ],
               "52": [
                 {
-                  "layout": "Multiplication::serialize_body",
-                  "op": "call"
+                  "bind": "subtype",
+                  "name": "Multiplication::kind",
+                  "op": "field",
+                  "type": "std::string"
+                },
+                {
+                  "bind": "subtype",
+                  "cases": {
+                    "base": [
+                      {
+                        "layout": "Multiplication::serialize_body",
+                        "op": "call"
+                      }
+                    ],
+                    "dense": [
+                      {
+                        "layout": "DenseMultiplication::serialize_body",
+                        "op": "call"
+                      }
+                    ],
+                    "dense_sparse": [
+                      {
+                        "layout": "DenseSparseMultiplication::serialize_body",
+                        "op": "call"
+                      }
+                    ],
+                    "pseudo_dense": [
+                      {
+                        "layout": "PseudoDenseMultiplication::serialize_body",
+                        "op": "call"
+                      }
+                    ]
+                  },
+                  "op": "select"
                 }
               ],
               "53": [
                 {
-                  "layout": "LinsolCall<false>::serialize_body",
+                  "name": "Solve::Tr",
+                  "op": "field",
+                  "type": "bool"
+                },
+                {
+                  "layout": "LinsolCall<Tr>::serialize_body",
                   "op": "call"
                 }
               ],
               "54": [
                 {
-                  "layout": "Transpose::serialize_body",
-                  "op": "call"
+                  "bind": "subtype",
+                  "name": "Transpose::dense",
+                  "op": "field",
+                  "type": "bool"
+                },
+                {
+                  "bind": "subtype",
+                  "cases": {
+                    "false": [
+                      {
+                        "layout": "Transpose::serialize_body",
+                        "op": "call"
+                      }
+                    ],
+                    "true": [
+                      {
+                        "layout": "DenseTranspose::serialize_body",
+                        "op": "call"
+                      }
+                    ]
+                  },
+                  "op": "select"
                 }
               ],
               "55": [
@@ -7911,8 +8800,40 @@ export default {
               ],
               "70": [
                 {
-                  "layout": "GetNonzerosParam::serialize_body",
-                  "op": "call"
+                  "bind": "subtype",
+                  "name": "GetNonzerosParam::type",
+                  "op": "field",
+                  "type": "char"
+                },
+                {
+                  "bind": "subtype",
+                  "cases": {
+                    "100": [
+                      {
+                        "layout": "GetNonzerosParamParam::serialize_body",
+                        "op": "call"
+                      }
+                    ],
+                    "97": [
+                      {
+                        "layout": "GetNonzerosParamVector::serialize_body",
+                        "op": "call"
+                      }
+                    ],
+                    "98": [
+                      {
+                        "layout": "GetNonzerosParamSlice::serialize_body",
+                        "op": "call"
+                      }
+                    ],
+                    "99": [
+                      {
+                        "layout": "GetNonzerosSliceParam::serialize_body",
+                        "op": "call"
+                      }
+                    ]
+                  },
+                  "op": "select"
                 }
               ],
               "71": [
@@ -7993,8 +8914,34 @@ export default {
               ],
               "75": [
                 {
-                  "layout": "Project::serialize_body",
-                  "op": "call"
+                  "bind": "subtype",
+                  "name": "Project::type",
+                  "op": "field",
+                  "type": "char"
+                },
+                {
+                  "bind": "subtype",
+                  "cases": {
+                    "100": [
+                      {
+                        "layout": "Densify::serialize_body",
+                        "op": "call"
+                      }
+                    ],
+                    "110": [
+                      {
+                        "layout": "Project::serialize_body",
+                        "op": "call"
+                      }
+                    ],
+                    "115": [
+                      {
+                        "layout": "Sparsify::serialize_body",
+                        "op": "call"
+                      }
+                    ]
+                  },
+                  "op": "select"
                 }
               ],
               "76": [
@@ -8115,8 +9062,28 @@ export default {
               ],
               "90": [
                 {
-                  "layout": "BSplineCommon::serialize_body",
-                  "op": "call"
+                  "bind": "subtype",
+                  "name": "BSpline::type",
+                  "op": "field",
+                  "type": "char"
+                },
+                {
+                  "bind": "subtype",
+                  "cases": {
+                    "110": [
+                      {
+                        "layout": "BSpline::serialize_body",
+                        "op": "call"
+                      }
+                    ],
+                    "112": [
+                      {
+                        "layout": "BSplineParametric::serialize_body",
+                        "op": "call"
+                      }
+                    ]
+                  },
+                  "op": "select"
                 }
               ],
               "91": [
@@ -8179,8 +9146,40 @@ export default {
               ],
               "99": [
                 {
-                  "layout": "Kron::serialize_body",
-                  "op": "call"
+                  "bind": "subtype",
+                  "name": "Kron::kind",
+                  "op": "field",
+                  "type": "std::string"
+                },
+                {
+                  "bind": "subtype",
+                  "cases": {
+                    "base": [
+                      {
+                        "layout": "Kron::serialize_body",
+                        "op": "call"
+                      }
+                    ],
+                    "dense": [
+                      {
+                        "layout": "DenseKron::serialize_body",
+                        "op": "call"
+                      }
+                    ],
+                    "dense_sparse": [
+                      {
+                        "layout": "DenseSparseKron::serialize_body",
+                        "op": "call"
+                      }
+                    ],
+                    "sparse_dense": [
+                      {
+                        "layout": "SparseDenseKron::serialize_body",
+                        "op": "call"
+                      }
+                    ]
+                  },
+                  "op": "select"
                 }
               ]
             },

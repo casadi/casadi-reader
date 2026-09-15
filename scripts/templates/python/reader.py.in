@@ -190,7 +190,8 @@ class Reader:
                 record['layouts'].append(step['layout']); scope.update(step.get('params', {}))
                 self.program(self.layout(step['layout']), record, scope)
             elif op == 'if':
-                if self.expression(step['condition'], scope): self.program(step['body'], record, scope)
+                self.program(step['body'] if self.expression(step['condition'], scope)
+                             else step.get('else', []), record, scope)
             elif op == 'repeat':
                 for _ in range(self.count(self.expression(step['count'], scope))):
                     self.program(step['body'], record, scope)
