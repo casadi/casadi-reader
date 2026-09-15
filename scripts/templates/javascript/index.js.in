@@ -58,15 +58,10 @@ class Reader {
     if(plus)return this.expression(plus[1],scope)+JSON.parse(plus[2]);
     this.fail('Scheme expression is unavailable: '+e);
   }
-  layout(name,seen=new Set()) {
-    if(seen.has(name))this.fail('Cyclic layout inheritance: '+name);seen.add(name);
-    if(this.scheme.reader.layouts[name])return this.scheme.reader.layouts[name];
-    const p=name.lastIndexOf('::'),cls=name.slice(0,p),method=name.slice(p+2),base=cls.replace(/<.*>/,'');
-    const candidates=Object.keys(this.scheme.reader.layouts).filter(k=>k.startsWith(base+'<')&&k.endsWith('::'+method));
-    if(candidates.length===1)return this.scheme.reader.layouts[candidates[0]];
-    const parent=this.scheme.reader.parents[base];
-    if(parent)return this.layout(parent+'::'+method,seen);
-    this.fail('Serialization layout absent from scheme: '+name);
+  layout(name) {
+    const layout=this.scheme.reader.layouts[name];
+    if(!layout)this.fail('Serialization layout absent from scheme: '+name);
+    return layout;
   }
   program(steps,record,scope) {
     if(++this.depth>256)this.fail('Layout nesting limit exceeded');

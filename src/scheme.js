@@ -156,6 +156,12 @@ export default {
           "type": "char"
         }
       ],
+      "Bilin::serialize_body": [
+        {
+          "layout": "MXNode::serialize_body",
+          "op": "call"
+        }
+      ],
       "BinaryMX<ScX,ScY>::serialize_body": [
         {
           "layout": "MXNode::serialize_body",
@@ -863,6 +869,12 @@ export default {
           "type": "std::string"
         }
       ],
+      "Concat::serialize_body": [
+        {
+          "layout": "MXNode::serialize_body",
+          "op": "call"
+        }
+      ],
       "Conic::serialize_body": [
         {
           "layout": "FunctionInternal::serialize_body",
@@ -1323,6 +1335,18 @@ export default {
           "type": "Linsol"
         }
       ],
+      "Diagcat::serialize_body": [
+        {
+          "layout": "Concat::serialize_body",
+          "op": "call"
+        }
+      ],
+      "Diagsplit::serialize_body": [
+        {
+          "layout": "Split::serialize_body",
+          "op": "call"
+        }
+      ],
       "DirResource::serialize_body": [
         {
           "op": "unsupported",
@@ -1333,6 +1357,12 @@ export default {
         {
           "op": "unsupported",
           "reason": "unlowered else branch"
+        }
+      ],
+      "Dot::serialize_body": [
+        {
+          "layout": "MXNode::serialize_body",
+          "op": "call"
         }
       ],
       "Dump::serialize_body": [
@@ -1731,6 +1761,12 @@ export default {
           "name": "Feasiblesqpmethod::convexify",
           "op": "field",
           "type": "bool"
+        }
+      ],
+      "Find::serialize_body": [
+        {
+          "layout": "MXNode::serialize_body",
+          "op": "call"
         }
       ],
       "FixedStepIntegrator::serialize_body": [
@@ -2829,6 +2865,30 @@ export default {
           "type": "T"
         }
       ],
+      "GetNonzeros::serialize_body": [
+        {
+          "layout": "MXNode::serialize_body",
+          "op": "call"
+        }
+      ],
+      "GetNonzeros::serialize_type": [
+        {
+          "layout": "MXNode::serialize_type",
+          "op": "call"
+        }
+      ],
+      "GetNonzerosParam::serialize_body": [
+        {
+          "layout": "MXNode::serialize_body",
+          "op": "call"
+        }
+      ],
+      "GetNonzerosParam::serialize_type": [
+        {
+          "layout": "MXNode::serialize_type",
+          "op": "call"
+        }
+      ],
       "GetNonzerosParamParam::serialize_type": [
         {
           "layout": "GetNonzerosParam::serialize_type",
@@ -3063,6 +3123,18 @@ export default {
           "type": "casadi_int"
         }
       ],
+      "Horzcat::serialize_body": [
+        {
+          "layout": "Concat::serialize_body",
+          "op": "call"
+        }
+      ],
+      "Horzsplit::serialize_body": [
+        {
+          "layout": "Split::serialize_body",
+          "op": "call"
+        }
+      ],
       "HpipmInterface::serialize_body": [
         {
           "layout": "Conic::serialize_body",
@@ -3214,6 +3286,12 @@ export default {
           "name_expression": "\"ConstantSX::type\"",
           "op": "field",
           "type": "char"
+        }
+      ],
+      "Input::serialize_body": [
+        {
+          "layout": "IOInstruction::serialize_body",
+          "op": "call"
         }
       ],
       "IntegerSX::serialize_node": [
@@ -3504,6 +3582,12 @@ export default {
           "op": "call"
         }
       ],
+      "Inverse::serialize_body": [
+        {
+          "layout": "MXNode::serialize_body",
+          "op": "call"
+        }
+      ],
       "IpoptInterface::serialize_body": [
         {
           "layout": "Nlpsol::serialize_body",
@@ -3712,6 +3796,12 @@ export default {
           "type": "std::string"
         }
       ],
+      "Kron::serialize_body": [
+        {
+          "layout": "MXNode::serialize_body",
+          "op": "call"
+        }
+      ],
       "Kron::serialize_type": [
         {
           "layout": "MXNode::serialize_type",
@@ -3847,6 +3937,12 @@ export default {
           "op": "call"
         }
       ],
+      "LinsolCall<false>::serialize_body": [
+        {
+          "layout": "LinsolCall<Tr>::serialize_body",
+          "op": "call"
+        }
+      ],
       "LinsolInternal::serialize_body": [
         {
           "layout": "ProtoFunction::serialize_body",
@@ -3930,6 +4026,12 @@ export default {
           "type": "casadi_int"
         }
       ],
+      "LogSumExp::serialize_body": [
+        {
+          "layout": "MXNode::serialize_body",
+          "op": "call"
+        }
+      ],
       "Low::serialize_body": [
         {
           "layout": "MXNode::serialize_body",
@@ -3939,6 +4041,18 @@ export default {
           "name": "Low::lookup_mode",
           "op": "field",
           "type": "casadi_int"
+        }
+      ],
+      "MMax::serialize_body": [
+        {
+          "layout": "MXNode::serialize_body",
+          "op": "call"
+        }
+      ],
+      "MMin::serialize_body": [
+        {
+          "layout": "MXNode::serialize_body",
+          "op": "call"
         }
       ],
       "MX::serialize": [
@@ -4258,6 +4372,12 @@ export default {
           "type": "Dict"
         }
       ],
+      "MultipleOutput::serialize_body": [
+        {
+          "layout": "MXNode::serialize_body",
+          "op": "call"
+        }
+      ],
       "Multiplication::serialize_body": [
         {
           "layout": "MXNode::serialize_body",
@@ -4486,6 +4606,42 @@ export default {
           "op": "call"
         }
       ],
+      "Norm1::serialize_body": [
+        {
+          "layout": "Norm::serialize_body",
+          "op": "call"
+        }
+      ],
+      "Norm2::serialize_body": [
+        {
+          "layout": "Norm::serialize_body",
+          "op": "call"
+        }
+      ],
+      "Norm::serialize_body": [
+        {
+          "layout": "MXNode::serialize_body",
+          "op": "call"
+        }
+      ],
+      "NormF::serialize_body": [
+        {
+          "layout": "Norm::serialize_body",
+          "op": "call"
+        }
+      ],
+      "NormInf::serialize_body": [
+        {
+          "layout": "Norm::serialize_body",
+          "op": "call"
+        }
+      ],
+      "OmpMap::serialize_body": [
+        {
+          "layout": "Map::serialize_body",
+          "op": "call"
+        }
+      ],
       "OneSX::serialize_node": [
         {
           "name": "ConstantSX::type",
@@ -4669,10 +4825,22 @@ export default {
           "reason": "unlowered else branch"
         }
       ],
+      "OracleFunction::serialize_type": [
+        {
+          "layout": "FunctionInternal::serialize_type",
+          "op": "call"
+        }
+      ],
       "OsqpInterface::serialize_body": [
         {
           "op": "unsupported",
           "reason": "unlowered else branch"
+        }
+      ],
+      "Output::serialize_body": [
+        {
+          "layout": "IOInstruction::serialize_body",
+          "op": "call"
         }
       ],
       "OutputNode::serialize_body": [
@@ -4857,6 +5025,12 @@ export default {
           "name_expression": "\"PluginInterface::plugin_name\"",
           "op": "field",
           "type": "std::string"
+        }
+      ],
+      "Project::serialize_body": [
+        {
+          "layout": "MXNode::serialize_body",
+          "op": "call"
         }
       ],
       "Project::serialize_type": [
@@ -5305,6 +5479,12 @@ export default {
           "type": "double"
         }
       ],
+      "Rank1::serialize_body": [
+        {
+          "layout": "MXNode::serialize_body",
+          "op": "call"
+        }
+      ],
       "RealtypeSX::serialize_node": [
         {
           "name": "ConstantSX::type",
@@ -5318,6 +5498,12 @@ export default {
           "name_expression": "\"ConstantSX::value\"",
           "op": "field",
           "type": "double"
+        }
+      ],
+      "Reshape::serialize_body": [
+        {
+          "layout": "MXNode::serialize_body",
+          "op": "call"
         }
       ],
       "Resource::serialize": [
@@ -5631,6 +5817,18 @@ export default {
           "reason": "unlowered serialization call"
         }
       ],
+      "SetNonzerosParam<false>::serialize_body": [
+        {
+          "layout": "MXNode::serialize_body",
+          "op": "call"
+        }
+      ],
+      "SetNonzerosParam<true>::serialize_body": [
+        {
+          "layout": "MXNode::serialize_body",
+          "op": "call"
+        }
+      ],
       "SetNonzerosParamParam<Add>::serialize_type": [
         {
           "layout": "MXNode::serialize_type",
@@ -5923,6 +6121,12 @@ export default {
         {
           "op": "unsupported",
           "reason": "unlowered else branch"
+        }
+      ],
+      "SparsityCast::serialize_body": [
+        {
+          "layout": "MXNode::serialize_body",
+          "op": "call"
         }
       ],
       "Split::serialize_body": [
@@ -6469,6 +6673,18 @@ export default {
           "type": "std::string"
         }
       ],
+      "ThreadMap::serialize_body": [
+        {
+          "layout": "Map::serialize_body",
+          "op": "call"
+        }
+      ],
+      "Transpose::serialize_body": [
+        {
+          "layout": "MXNode::serialize_body",
+          "op": "call"
+        }
+      ],
       "Transpose::serialize_type": [
         {
           "layout": "MXNode::serialize_type",
@@ -6523,6 +6739,18 @@ export default {
           "name": "UnoInterface::opts",
           "op": "field",
           "type": "Dict"
+        }
+      ],
+      "Vertcat::serialize_body": [
+        {
+          "layout": "Concat::serialize_body",
+          "op": "call"
+        }
+      ],
+      "Vertsplit::serialize_body": [
+        {
+          "layout": "Split::serialize_body",
+          "op": "call"
         }
       ],
       "WorhpInterface::serialize_body": [
@@ -6589,6 +6817,30 @@ export default {
           "name": "XFunction::in",
           "op": "field",
           "type": "std::vector<MatType>"
+        }
+      ],
+      "XFunction<MXFunction,MX,MXNode>::delayed_serialize_members": [
+        {
+          "layout": "XFunction<DerivedType,MatType,NodeType>::delayed_serialize_members",
+          "op": "call"
+        }
+      ],
+      "XFunction<MXFunction,MX,MXNode>::serialize_body": [
+        {
+          "layout": "XFunction<DerivedType,MatType,NodeType>::serialize_body",
+          "op": "call"
+        }
+      ],
+      "XFunction<SXFunction,SX,SXNode>::delayed_serialize_members": [
+        {
+          "layout": "XFunction<DerivedType,MatType,NodeType>::delayed_serialize_members",
+          "op": "call"
+        }
+      ],
+      "XFunction<SXFunction,SX,SXNode>::serialize_body": [
+        {
+          "layout": "XFunction<DerivedType,MatType,NodeType>::serialize_body",
+          "op": "call"
         }
       ],
       "XpressInterface::serialize_body": [
@@ -6720,228 +6972,6 @@ export default {
           "type": "std::vector<casadi_int>"
         }
       ]
-    },
-    "parents": {
-      "AlpaqaProblem": "alpaqa::BoxConstrProblem<alpaqa::DefaultConfig>",
-      "Archiver": "PluginInterface<Archiver>",
-      "Assertion": "MXNode",
-      "BSpline": "BSplineCommon",
-      "BSplineCommon": "MXNode",
-      "BSplineParametric": "BSplineCommon",
-      "BackwardDiff": "ForwardDiff",
-      "Bilin": "MXNode",
-      "BinaryMX": "MXNode",
-      "BinarySX": "SXNode",
-      "Blas": "PluginInterface<Blas>",
-      "BlazingSplineFunction": "FunctionInternal",
-      "BonMinMessageHandler": "CoinMessageHandler",
-      "Call": "MultipleOutput",
-      "CallSX": "SXNode",
-      "Callback": "Function",
-      "CallbackInternal": "FunctionInternal",
-      "CasadiException": "std::exception",
-      "CasadiHandler": "CoinMessageHandler",
-      "CasadiStructuredQP": "fatrop::OCPAbstract",
-      "CentralDiff": "FiniteDiff",
-      "Concat": "MXNode",
-      "Conic": "FunctionInternal,publicPluginInterface<Conic>",
-      "Constant": "ConstantMX",
-      "ConstantDM": "ConstantMX",
-      "ConstantFile": "ConstantMX",
-      "ConstantMX": "MXNode",
-      "ConstantPool": "ConstantMX",
-      "ConstantSX": "SXNode",
-      "Convexify": "MXNode",
-      "DaeBuilder": "SharedObject,",
-      "DaeBuilderInternal": "SharedObjectInternal",
-      "DenseKron": "Kron",
-      "DenseKronContract": "KronContract",
-      "DenseMultiplication": "Multiplication",
-      "DenseSparseKron": "Kron",
-      "DenseSparseKronContract": "KronContract",
-      "DenseSparseMultiplication": "Multiplication",
-      "DenseTranspose": "Transpose",
-      "Densify": "Project",
-      "Determinant": "MXNode",
-      "Diagcat": "Concat",
-      "Diagsplit": "Split",
-      "DirResource": "ResourceInternal",
-      "DllLibrary": "ImporterInternal",
-      "Dot": "MXNode",
-      "Dple": "FunctionInternal,publicPluginInterface<Dple>",
-      "Dump": "MXNode",
-      "Einstein": "MXNode",
-      "EmptySparsity": "Sparsity",
-      "Expm": "FunctionInternal,publicPluginInterface<Expm>",
-      "External": "FunctionInternal",
-      "FdOStreamBuf": "std::streambuf",
-      "FdStreamBuf": "std::streambuf",
-      "FileDeserializer": "DeserializerBase",
-      "FileSerializer": "SerializerBase",
-      "Filesystem": "PluginInterface<Filesystem>",
-      "Find": "MXNode",
-      "FiniteDiff": "FunctionInternal",
-      "FixedStepIntegrator": "Integrator",
-      "Fmu": "SharedObject,",
-      "Fmu2": "FmuInternal",
-      "Fmu3": "FmuInternal",
-      "FmuFunction": "FunctionInternal",
-      "FmuInternal": "SharedObjectInternal",
-      "ForwardDiff": "FiniteDiff",
-      "Function": "SharedObject,",
-      "FunctionInternal": "ProtoFunction",
-      "GenericExpression": "GenericExpressionCommon",
-      "GenericExternal": "External",
-      "GenericMatrix": "GenericMatrixCommon,",
-      "GenericType": "SWIG_IF_ELSE",
-      "GenericTypeBase": "SharedObjectInternal",
-      "GenericTypeInternal": "GenericTypeBase",
-      "GenericWeakRef": "GenericShared<Shared,Internal>",
-      "GenericWeakRefInternal": "Internal",
-      "GetNonzeros": "MXNode",
-      "GetNonzerosParam": "MXNode",
-      "GetNonzerosParamParam": "GetNonzerosParam",
-      "GetNonzerosParamSlice": "GetNonzerosParam",
-      "GetNonzerosParamVector": "GetNonzerosParam",
-      "GetNonzerosSlice": "GetNonzeros",
-      "GetNonzerosSlice2": "GetNonzeros",
-      "GetNonzerosSliceParam": "GetNonzerosParam",
-      "GetNonzerosVector": "GetNonzeros",
-      "GraphBuilder": "SharedObject,",
-      "GraphBuilderInternal": "SharedObjectInternal",
-      "GraphModel": "SharedObject",
-      "GraphModelInternal": "SharedObjectInternal,",
-      "HorzRepmat": "MXNode",
-      "HorzRepsum": "MXNode",
-      "Horzcat": "Concat",
-      "Horzsplit": "Split",
-      "IOInstruction": "MXNode",
-      "ImplicitFixedStepIntegrator": "FixedStepIntegrator",
-      "Importer": "SharedObject,",
-      "ImporterInternal": "SharedObjectInternal,",
-      "InfSX": "ConstantSX",
-      "Input": "IOInstruction",
-      "IntegerSX": "ConstantSX",
-      "Integrator": "OracleFunction,publicPluginInterface<Integrator>",
-      "InternalOptiCallback": "FunctionInternal",
-      "Interpolant": "FunctionInternal,publicPluginInterface<Interpolant>",
-      "Inverse": "MXNode",
-      "JitFunction": "FunctionInternal",
-      "KeyboardInterruptException": "CasadiException",
-      "Kron": "MXNode",
-      "KronContract": "MXNode",
-      "Linsol": "SharedObject,",
-      "LinsolCall": "Solve<Tr>",
-      "LinsolInternal": "ProtoFunction,publicPluginInterface<LinsolInternal>",
-      "LogSumExp": "MXNode",
-      "Low": "MXNode",
-      "MMax": "MXNode",
-      "MMin": "MXNode",
-      "MX": "SWIG_IF_ELSE",
-      "MXFunction": "XFunction<MXFunction,MX,MXNode>",
-      "MXNode": "SharedObjectInternal",
-      "Map": "FunctionInternal",
-      "MapSum": "FunctionInternal",
-      "Matrix": "MatrixCommon,",
-      "MinusInfSX": "ConstantSX",
-      "MinusOneSX": "ConstantSX",
-      "ModelicaParser": "SharedObject,",
-      "ModelicaParserInternal": "SharedObjectInternal,",
-      "Monitor": "MXNode",
-      "MultipleOutput": "MXNode",
-      "Multiplication": "MXNode",
-      "NanSX": "ConstantSX",
-      "NlpBuilder": "SWIG_IF_ELSE",
-      "Nlpsol": "OracleFunction,publicPluginInterface<Nlpsol>",
-      "NonZeros": "M",
-      "Norm": "MXNode",
-      "Norm1": "Norm",
-      "Norm2": "Norm",
-      "NormF": "Norm",
-      "NormInf": "Norm",
-      "OmpMap": "Map",
-      "OneSX": "ConstantSX",
-      "OnnxFunction": "FunctionInternal,publicPluginInterface<OnnxFunction>",
-      "OnnxRuntimeInterface": "OnnxFunction",
-      "Opti": "SWIG_IF_ELSE",
-      "OptiAdvanced": "Opti",
-      "OptiNode": "SharedObjectInternal",
-      "OptiSol": "SWIG_IF_ELSE",
-      "OracleFunction": "FunctionInternal",
-      "Output": "IOInstruction",
-      "OutputNode": "MXNode",
-      "OutputSX": "SXNode,",
-      "Polynomial": "Printable<Polynomial>",
-      "Printable": "PrintableCommon",
-      "Project": "MXNode",
-      "ProtoFunction": "SharedObjectInternal",
-      "PseudoDenseMultiplication": "Multiplication",
-      "Rank1": "MXNode",
-      "RealtypeSX": "ConstantSX",
-      "Reshape": "MXNode",
-      "Resource": "SharedObject,",
-      "ResourceInternal": "SharedObjectInternal",
-      "Rootfinder": "OracleFunction,publicPluginInterface<Rootfinder>",
-      "SXElem": "GenericExpression<SXElem>,",
-      "SXFunction": "XFunction<SXFunction,Matrix<SXElem>,SXNode>",
-      "ScalarSparseSparsity": "Sparsity",
-      "ScalarSparsity": "Sparsity",
-      "SetNonzeros": "MXNode",
-      "SetNonzerosParam": "MXNode",
-      "SetNonzerosParamParam": "SetNonzerosParam<Add>",
-      "SetNonzerosParamSlice": "SetNonzerosParam<Add>",
-      "SetNonzerosParamVector": "SetNonzerosParam<Add>",
-      "SetNonzerosSlice": "SetNonzeros<Add>",
-      "SetNonzerosSlice2": "SetNonzeros<Add>",
-      "SetNonzerosSliceParam": "SetNonzerosParam<Add>",
-      "SetNonzerosVector": "SetNonzeros<Add>",
-      "SharedObject": "GenericShared<SharedObject,SharedObjectInternal>",
-      "SharedObjectInternal": "GenericSharedInternal<SharedObject,SharedObjectInternal>",
-      "SharedSXElem": "GenericShared<SharedSXElem,OutputSX>",
-      "Slice": "SWIG_IF_ELSE",
-      "Smoothing": "FiniteDiff",
-      "Solve": "MXNode",
-      "SolveUnity": "Solve<Tr>",
-      "SparseDenseKron": "Kron",
-      "SparseDenseKronContract": "KronContract",
-      "Sparsify": "Project",
-      "Sparsity": "SharedObject,",
-      "SparsityCast": "MXNode",
-      "SparsityInterface": "SparsityInterfaceCommon",
-      "SparsityInternal": "SharedObjectInternal",
-      "Split": "MultipleOutput",
-      "Stream": "std::ostream",
-      "Streambuf": "std::streambuf",
-      "StringDeserializer": "DeserializerBase",
-      "StringSerializer": "SerializerBase",
-      "SubAssign": "MXNode",
-      "SubIndex": "M",
-      "SubMatrix": "M",
-      "SubRef": "MXNode",
-      "Switch": "FunctionInternal",
-      "SymbolicMX": "MXNode",
-      "SymbolicSX": "SXNode",
-      "TemporaryDirResource": "ResourceInternal",
-      "ThreadMap": "Map",
-      "Transpose": "MXNode",
-      "TrilSolve": "Solve<Tr>",
-      "TrilSolveUnity": "SolveUnity<Tr>",
-      "TriuSolve": "Solve<Tr>",
-      "TriuSolveUnity": "SolveUnity<Tr>",
-      "UnaryMX": "MXNode",
-      "UnarySX": "SXNode",
-      "Vertcat": "Concat",
-      "Vertsplit": "Split",
-      "WeakRef": "GenericWeakRef<SharedObject,SharedObjectInternal>",
-      "WeakRefInternal": "GenericWeakRefInternal<SharedObject,SharedObjectInternal>",
-      "WeakRefSXElem": "GenericWeakRef<SharedSXElem,OutputSX>",
-      "XFunction": "FunctionInternal",
-      "XmlFile": "SharedObject,",
-      "XmlFileInternal": "SharedObjectInternal,",
-      "ZeroByZero": "ConstantMX",
-      "ZeroSX": "ConstantSX",
-      "ZipMemResource": "TemporaryDirResource",
-      "ZipResource": "TemporaryDirResource"
     },
     "types": {
       "DM": {

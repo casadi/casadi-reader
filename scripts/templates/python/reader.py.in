@@ -159,18 +159,10 @@ class Reader:
         if match: return str(self.expression(match[1], scope))+json.loads(match[2])
         self.fail('Scheme expression is unavailable: '+e)
 
-    def layout(self, name, seen=None):
-        seen = set() if seen is None else seen
-        if name in seen: self.fail('Cyclic layout inheritance: '+name)
-        seen.add(name)
+    def layout(self, name):
         layouts = self.scheme['reader']['layouts']
-        if name in layouts: return layouts[name]
-        cls, method = name.rsplit('::', 1); base = re.sub(r'<.*>', '', cls)
-        candidates = [k for k in layouts if k.startswith(base+'<') and k.endswith('::'+method)]
-        if len(candidates) == 1: return layouts[candidates[0]]
-        parent = self.scheme['reader']['parents'].get(base)
-        if parent: return self.layout(parent+'::'+method, seen)
-        self.fail('Serialization layout absent from scheme: '+name)
+        if name not in layouts: self.fail('Serialization layout absent from scheme: '+name)
+        return layouts[name]
 
     def program(self, steps, record, scope):
         self.depth += 1

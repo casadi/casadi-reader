@@ -2,7 +2,6 @@
 #include <casadi_reader/reader.h>
 #include "scheme.hpp"
 #include <regex>
-#include <set>
 #include <locale>
 #include <algorithm>
 #include <cmath>
@@ -194,14 +193,9 @@ struct Reader {
     std::smatch m;if(std::regex_match(e,m,std::regex("(\\w+)\\s*\\+\\s*(\".*\")")))return J(expression(m[1],scope).scalar+SchemeParser(m[2].str().c_str()).value().scalar);
     fail("Scheme expression is unavailable: "+e);
   }
-  const J& layout(const std::string& n,std::set<std::string> seen={}){
-    if(!seen.insert(n).second)fail("Cyclic layout inheritance: "+n);
-    const auto& layouts=scheme().at("reader").at("layouts");auto it=layouts.o.find(n);if(it!=layouts.o.end())return it->second;
-    auto p=n.rfind("::");std::string cls=n.substr(0,p),method=n.substr(p+2),base=cls.substr(0,cls.find('<'));
-    const J* candidate=nullptr;int candidates=0;
-    for(const auto& entry:layouts.o)if(entry.first.find(base+"<")==0&&entry.first.size()>=method.size()+2&&entry.first.compare(entry.first.size()-method.size()-2,method.size()+2,"::"+method)==0){candidate=&entry.second;++candidates;}
-    if(candidates==1)return *candidate;
-    const auto& parent=optional(scheme().at("reader").at("parents"),base);if(parent.kind==J::String)return layout(parent.scalar+"::"+method,seen);
+  const J& layout(const std::string& n){
+    const auto& layouts=scheme().at("reader").at("layouts");
+    auto it=layouts.o.find(n);if(it!=layouts.o.end())return it->second;
     fail("Serialization layout absent from scheme: "+n);
   }
   std::string specialize(const std::string& type,const std::map<std::string,J>& scope){

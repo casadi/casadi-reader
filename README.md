@@ -123,7 +123,8 @@ Use `--scheme PATH --output-root DIR` with `scripts/generate-reader-assets.py`
 to generate readers for another extracted scheme without changing this checkout.
 
 The extractor includes inline serializers, inheritance and tensor metadata
-helpers. It derives operation dispatch families from CasADi's native dispatcher
+helpers. Inherited serializers and template aliases are explicit layouts with
+call instructions; readers perform no C++ inheritance lookup. It derives operation dispatch families from CasADi's native dispatcher
 and plugin registrations from the source. No mathematical evaluation occurs.
 
 Coverage is still experimental. Native plain/debug fixture pairs validate MX,
