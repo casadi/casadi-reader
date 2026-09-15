@@ -8,8 +8,9 @@ reconstruct entry mappings, or build visualization graphs. Those tasks belong
 in [casadi-viz](https://github.com/casadi/casadi-viz). An ONNX-backed function is
 read as serialized configuration and model bytes; the reader never runs ONNX.
 
-The current development and release focus is npm. Other language prototypes in
-this repository are deferred and still use the earlier MX-specific API.
+JavaScript, Python, C, C++, MATLAB and Julia expose the same structural document
+contract. C and C++ share a native engine; MATLAB and Julia bind that engine.
+Only JavaScript packaging and publishing are currently enabled in CI.
 
 ## API
 
@@ -111,9 +112,13 @@ Python 3.9+ and the development dependencies in package-lock.json.
 
 CasADi's `misc/generate_serialization_scheme.py` produces the vendored
 `schemes/serialization_scheme.json`, including lowered reader layouts.
-`npm run generate` compiles that data into reader assets. The JavaScript engine
-executes field, base-layout, repetition, condition and discriminator instructions;
-it contains no SX/MX-specific decoding methods.
+`npm run generate` generates all six readers. The generic engines
+execute field, base-layout, repetition, condition and discriminator instructions;
+they contain no SX/MX-specific decoding methods. A small `Generator` base class
+and language subclasses in `scripts/reader_generators.py` emit scheme data and
+copy runtime templates from `scripts/templates`. Edit templates, then regenerate.
+Use `--scheme PATH --output-root DIR` with `scripts/generate-reader-assets.py`
+to generate readers for another extracted scheme without changing this checkout.
 
 The extractor includes inline serializers, inheritance and tensor metadata
 helpers. It derives operation dispatch families from CasADi's native dispatcher
@@ -144,6 +149,34 @@ CI rejects stale generated assets before rebuilding. Browser tests serve the
 extracted npm tarball over HTTP and verify one JavaScript request with no scheme
 JSON or CasADi runtime request. Native CasADi is used only when regenerating the
 fixtures, via `scripts/generate-fixtures.py` and the Resource fixture generator.
+
+## Other languages
+
+Python is dependency-free: `PYTHONPATH=python python3 -m casadi_reader model.casadi`.
+`casadi_reader.read_casadi(path)` returns the same typed records as JavaScript;
+`to_json(document)` makes them portable to the viewer. Use `lazy=True` for byte
+handles and keep their source open while reading them.
+
+Build the standalone native library and CLI using the root `CMakeLists.txt`.
+C uses `cr_open_type` for files or `cr_decode` for copied encoded input;
+`cr_json` exposes the structural JSON, valid until `cr_close`.
+C++ wraps this lifetime in `casadi_reader::Document`. Both accept an optional
+raw root type, such as `Resource`. Lazy byte access checks ranges and requires
+an open document. The native engine limits collection/eager byte counts to one
+million, nesting to 256, and input size to 1 GiB; larger opaque payloads can use
+lazy mode within the file limit.
+
+MATLAB uses `casadi_reader.read(path)` or a `casadi_reader.Document` for lazy
+bytes; compile `matlab/casadi_reader_mex.cpp` with the native engine.
+Julia uses `CasadiReader.read_casadi(path)` or `Document(path; lazy=true)` and
+loads the native library through `CASADI_READER_LIBRARY`.
+
+`python/tests/test_reader.py` compares every field and offset against JavaScript
+on all plain/debug fixtures, and also checks the native CLI when
+`CASADI_READER_NATIVE` points to it. `scripts/test-bindings.py` runs the same
+fixture comparisons in MATLAB/Julia; see its `--help` for local paths. Native
+`native/tests/api.c` exercises the C ABI, copied input and lazy payload bounds.
+These local language tests do not add language packaging to CI.
 
 ## Publishing
 

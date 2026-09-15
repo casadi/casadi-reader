@@ -253,7 +253,7 @@
       "sources": [
         {
           "expression": "elem_types",
-          "line": 161,
+          "line": 167,
           "path": "casadi/core/onnx_function.cpp"
         }
       ]
@@ -265,7 +265,7 @@
       "sources": [
         {
           "expression": "names",
-          "line": 159,
+          "line": 165,
           "path": "casadi/core/onnx_function.cpp"
         }
       ]
@@ -277,7 +277,7 @@
       "sources": [
         {
           "expression": "numels",
-          "line": 162,
+          "line": 168,
           "path": "casadi/core/onnx_function.cpp"
         }
       ]
@@ -301,7 +301,7 @@
       "sources": [
         {
           "expression": "shapes",
-          "line": 160,
+          "line": 166,
           "path": "casadi/core/onnx_function.cpp"
         }
       ]
@@ -8286,7 +8286,7 @@
       "sources": [
         {
           "expression": "adj_dim_",
-          "line": 197,
+          "line": 203,
           "path": "casadi/core/onnx_function.cpp"
         }
       ]
@@ -8298,7 +8298,7 @@
       "sources": [
         {
           "expression": "builder_opts_",
-          "line": 203,
+          "line": 209,
           "path": "casadi/core/onnx_function.cpp"
         }
       ]
@@ -8310,7 +8310,7 @@
       "sources": [
         {
           "expression": "derivative_opts_",
-          "line": 202,
+          "line": 208,
           "path": "casadi/core/onnx_function.cpp"
         }
       ]
@@ -8322,7 +8322,7 @@
       "sources": [
         {
           "expression": "dim_bindings_",
-          "line": 200,
+          "line": 206,
           "path": "casadi/core/onnx_function.cpp"
         }
       ]
@@ -8334,7 +8334,7 @@
       "sources": [
         {
           "expression": "fwd_dim_",
-          "line": 196,
+          "line": 202,
           "path": "casadi/core/onnx_function.cpp"
         }
       ]
@@ -8346,7 +8346,7 @@
       "sources": [
         {
           "expression": "in_src_",
-          "line": 190,
+          "line": 196,
           "path": "casadi/core/onnx_function.cpp"
         }
       ]
@@ -8358,7 +8358,7 @@
       "sources": [
         {
           "expression": "in_val_",
-          "line": 191,
+          "line": 197,
           "path": "casadi/core/onnx_function.cpp"
         }
       ]
@@ -8370,7 +8370,7 @@
       "sources": [
         {
           "expression": "input_shapes_",
-          "line": 201,
+          "line": 207,
           "path": "casadi/core/onnx_function.cpp"
         }
       ]
@@ -8382,7 +8382,7 @@
       "sources": [
         {
           "expression": "input_values_",
-          "line": 198,
+          "line": 204,
           "path": "casadi/core/onnx_function.cpp"
         }
       ]
@@ -8394,7 +8394,7 @@
       "sources": [
         {
           "expression": "std::string(model_data_.begin(), model_data_.end())",
-          "line": 186,
+          "line": 192,
           "path": "casadi/core/onnx_function.cpp"
         }
       ]
@@ -8406,7 +8406,7 @@
       "sources": [
         {
           "expression": "std::vector<std::string>(model_inputs_.begin(), model_inputs_.end())",
-          "line": 192,
+          "line": 198,
           "path": "casadi/core/onnx_function.cpp"
         }
       ]
@@ -8418,7 +8418,7 @@
       "sources": [
         {
           "expression": "std::vector<std::string>(model_outputs_.begin(), model_outputs_.end())",
-          "line": 194,
+          "line": 200,
           "path": "casadi/core/onnx_function.cpp"
         }
       ]
@@ -8430,7 +8430,7 @@
       "sources": [
         {
           "expression": "model_path_",
-          "line": 199,
+          "line": 205,
           "path": "casadi/core/onnx_function.cpp"
         }
       ]
@@ -29599,7 +29599,7 @@
           "operation": "pack"
         }
       ],
-      "line": 183,
+      "line": 189,
       "sha256": "4738455f8a7fe92fcd8bfc1d470c95120e02f149f6b5555ff45f7b87118b02f4",
       "source": "casadi/core/onnx_function.cpp"
     },
@@ -29619,7 +29619,7 @@
       "control_flow": [],
       "cpp_body": "FunctionInternal::serialize_type(s);\n    PluginInterface<OnnxFunction>::serialize_type(s);",
       "fields": [],
-      "line": 178,
+      "line": 184,
       "sha256": "073af3c14f534014cce1ac702c9de29ce0e1855057a2b864ca011738026935e1",
       "source": "casadi/core/onnx_function.cpp"
     },

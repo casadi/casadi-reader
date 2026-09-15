@@ -1,4 +1,4 @@
-"""Compare every graph field in the native bindings with the Python reader."""
+"""Compare every structural field in the native bindings with the Python reader."""
 import argparse
 import json
 import os
@@ -21,8 +21,9 @@ if not args.matlab_mex_dir and not args.julia_project:
 with tempfile.TemporaryDirectory(prefix='casadi-reader-bindings-') as temporary:
     fixtures = Path(temporary)/'fixtures'
     shutil.copytree(root/'test/fixtures', fixtures)
-    for name in ('arithmetic', 'mapping', 'slice', 'assignment', 'sparse'):
-        (fixtures/(name+'.reader.json')).write_text(json.dumps(read_casadi(fixtures/(name+'.casadi'))))
+    for path in fixtures.glob('*.casadi'):
+        options = {'type': 'Resource'} if path.stem == 'resource' else {}
+        path.with_suffix('.reader.json').write_text(json.dumps(read_casadi(path, **options)))
     if args.matlab_mex_dir:
         quote = lambda path: "'"+str(path).replace("'", "''")+"'"
         command = ('addpath('+quote(root/'matlab')+'); addpath('+quote(args.matlab_mex_dir.resolve())+
