@@ -1,0 +1,36 @@
+name: Generate and validate readers
+on:
+  push:
+    branches: [generate]
+  pull_request:
+    branches: [generate]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: generate-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  npm:
+    uses: ./.github/workflows/reader.yml
+  bindings:
+    uses: ./.github/workflows/bindings.yml
+  update-main:
+    needs: [npm, bindings]
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/generate'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci
+      - run: npm run build
+      - run: python scripts/update-generated-branch.py --push

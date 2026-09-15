@@ -1,4 +1,0 @@
-% Generated wire metadata.
-function value = metadata()
-value = containers.Map({'wire', 'reader'}, {containers.Map({'magic', 'protocol'}, {123456789012345, 3}), containers.Map({'file_types', 'file_prefixes'}, {containers.Map({'0', '1', '10', '11', '12', '13', '15', '16', '17', '18', '19', '2', '20', '21', '22', '23', '3', '4', '5', '6', '7', '8', '9'}, {'Sparsity', 'MX', 'std::vector<Sparsity>', 'std::vector<MX>', 'std::vector<DM>', 'std::vector<SX>', 'std::vector<Function>', 'std::vector<GenericType>', 'std::vector<casadi_int>', 'std::vector<double>', 'std::vector<std::string>', 'DM', 'MX', 'SX', 'std::vector<MX>', 'std::vector<SX>', 'SX', 'Linsol', 'Function', 'GenericType', 'casadi_int', 'double', 'std::string'}), containers.Map({'1', '11', '13', '20', '21', '22', '23', '3'}, {'Function', 'Function', 'Function', 'std::vector<MX>', 'std::vector<SX>', 'std::vector<MX>', 'std::vector<SX>', 'Function'})})});
-end

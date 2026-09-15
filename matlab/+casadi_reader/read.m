@@ -1,7 +1,0 @@
-function value = read(path, type)
-%READ Decode a Function.save() file to MATLAB data without loading CasADi.
-    if nargin < 2, type = ''; end
-    document = casadi_reader.Document(path, type);
-    cleanup = onCleanup(@() delete(document));
-    value = document.data();
-end

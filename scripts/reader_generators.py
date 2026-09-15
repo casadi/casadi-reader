@@ -122,7 +122,12 @@ class JuliaGenerator(Generator):
     def generate(self):
         from codegen.julia import Julia
 
-        return {**super().generate(), "julia/src/generated.jl": Julia(self.data).generate()}
+        outputs = {**super().generate(), "julia/src/generated.jl": Julia(self.data).generate()}
+        for name in ("LICENSE", "NOTICE"):
+            outputs["julia/" + name] = (self.root / name).read_text()
+        for path in (self.root / "LICENSES").glob("*.txt"):
+            outputs["julia/LICENSES/" + path.name] = path.read_text()
+        return outputs
 
 
 GENERATORS = (

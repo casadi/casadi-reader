@@ -103,8 +103,8 @@ class GenerationTests(unittest.TestCase):
                                 "julia",
                                 "--project=" + str(ROOT / "julia"),
                                 "-e",
-                                'include("julia/src/CasadiReader.jl"); import JSON; '
-                                'println(JSON.json(CasadiReader.read_casadi("input.casadi")))',
+                                'include("julia/src/CasadiReader.jl"); '
+                                'println(CasadiReader.encode_json(CasadiReader.read_casadi("input.casadi")))',
                             ]
                         elif language == "matlab":
                             subprocess.check_call(

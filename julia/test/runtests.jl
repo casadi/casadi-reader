@@ -25,3 +25,11 @@ end
     @test_throws ArgumentError json(document)
     close(document)
 end
+@testset "Native JSON output" begin
+    value = Dict("quoted\"\\\n\t\0" => Any[true, false, nothing, "τ", 1.25, -3])
+    @test JSON.parse(CasadiReader.encode_json(value)) == value
+    for name in filter(n -> endswith(n, ".casadi"), readdir(fixtures))
+        value = read_casadi(joinpath(fixtures, name); type=name=="resource.casadi" ? "Resource" : "")
+        @test JSON.parse(CasadiReader.encode_json(value)) == value
+    end
+end

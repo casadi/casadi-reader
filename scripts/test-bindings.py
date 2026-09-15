@@ -32,4 +32,4 @@ with tempfile.TemporaryDirectory(prefix='casadi-reader-bindings-') as temporary:
     if args.julia_project:
         env = dict(os.environ, CASADI_READER_FIXTURES=str(fixtures))
         subprocess.run(['julia', '--project='+str(args.julia_project.resolve()),
-                        str(root/'julia/test/runtests.jl')], env=env, check=True)
+                        '-e', 'using Pkg; Pkg.test()'], env=env, check=True)
