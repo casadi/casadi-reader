@@ -44,3 +44,4 @@ julia/deps/build/
 /src/generated.js
 /src/index.js
 /src/source.js
+/julia/test/fixtures/

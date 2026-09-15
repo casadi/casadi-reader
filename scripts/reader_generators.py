@@ -127,6 +127,8 @@ class JuliaGenerator(Generator):
             outputs["julia/" + name] = (self.root / name).read_text()
         for path in (self.root / "LICENSES").glob("*.txt"):
             outputs["julia/LICENSES/" + path.name] = path.read_text()
+        for name in ("arithmetic.casadi", "arithmetic.debug.casadi", "resource.casadi"):
+            outputs["julia/test/fixtures/" + name] = (self.root / "test/fixtures" / name).read_text()
         return outputs
 
 

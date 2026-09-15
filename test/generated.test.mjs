@@ -10,7 +10,7 @@ test('CI freshness check rejects a stale generated source asset',async()=>{
   const temporary=await mkdtemp(join(tmpdir(),'casadi-reader-generation-'));
   try {
     const script='scripts/generate-reader-assets.py';
-    for(const relative of ['scripts','schemes','src','python','c','cpp','matlab','julia','LICENSE','NOTICE','LICENSES']) {
+    for(const relative of ['scripts','schemes','src','python','c','cpp','matlab','julia','LICENSE','NOTICE','LICENSES','test/fixtures']) {
       await cp(join(root,relative),join(temporary,relative),{recursive:true,
         filter:source=>!source.includes('__pycache__')&&!source.includes('/deps/usr')&&!source.includes('/deps/build')});
     }

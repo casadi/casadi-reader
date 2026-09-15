@@ -118,7 +118,7 @@ jobs:
           CASADI_READER_TEST_LANGUAGES: julia
       - run: julia --project=unpacked/casadi-reader-julia -e 'using Pkg; Pkg.test()'
         env:
-          CASADI_READER_FIXTURES: fixtures
+          CASADI_READER_FIXTURES: ${{ github.workspace }}/fixtures
   matlab:
     runs-on: ubuntu-latest
     steps:
@@ -134,9 +134,20 @@ jobs:
       - run: python -m unittest discover -s python/tests -p test_generation.py
         env:
           CASADI_READER_TEST_LANGUAGES: matlab
+          CASADI_READER_PREPARE_MATLAB: matlab-codegen
       - uses: matlab-actions/run-command@v3
         with:
-          command: unzip('artifacts/casadi-reader-matlab.zip','unpacked'); addpath('unpacked/casadi-reader-matlab'); test_reader('fixtures')
+          command: |
+            unzip('artifacts/casadi-reader-matlab.zip','unpacked');
+            addpath('unpacked/casadi-reader-matlab'); test_reader('fixtures');
+            rmpath('unpacked/casadi-reader-matlab'); clear classes;
+            addpath('matlab-codegen/matlab');
+            for name = {'arithmetic','arithmetic.debug'}
+              d = casadi_reader.Document(fullfile('matlab-codegen',[name{1} '.casadi']));
+              expected = jsondecode(fileread(fullfile('matlab-codegen',[name{1} '.json'])));
+              assert(isequal(jsondecode(d.json()), expected)); delete(d);
+            end
+            disp('MATLAB scheme-only extension: ordinary and debug readers passed');
   source-packages:
     needs: [python, native, julia, matlab]
     runs-on: ubuntu-latest

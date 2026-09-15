@@ -1,6 +1,8 @@
 """Regenerate native code from a changed scheme, then execute that code."""
 
 import json
+import contextlib
+import shutil
 import os
 from pathlib import Path
 import subprocess
@@ -18,7 +20,11 @@ def encode(value):
 
 class GenerationTests(unittest.TestCase):
     def test_scheme_extension(self):
-        with tempfile.TemporaryDirectory() as directory:
+        prepared = os.environ.get("CASADI_READER_PREPARE_MATLAB")
+        if prepared:
+            Path(prepared).mkdir(parents=True, exist_ok=True)
+        context = contextlib.nullcontext(prepared) if prepared else tempfile.TemporaryDirectory()
+        with context as directory:
             out = Path(directory)
             scheme = json.loads((ROOT / "schemes/serialization_scheme.json").read_text())
             cases = scheme["reader"]["types"]["Function"]["body"][1]["body"][1]["cases"]
@@ -107,6 +113,10 @@ class GenerationTests(unittest.TestCase):
                                 'println(CasadiReader.encode_json(CasadiReader.read_casadi("input.casadi")))',
                             ]
                         elif language == "matlab":
+                            if prepared:
+                                shutil.copy2(out / "input.casadi", out / (fixture + ".casadi"))
+                                (out / (fixture + ".json")).write_text(json.dumps(expected))
+                                continue
                             subprocess.check_call(
                                 [
                                     "matlab",
