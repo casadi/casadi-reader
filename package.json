@@ -1,6 +1,6 @@
 {
   "name": "@casadi/casadi-reader",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Read CasADi serialization as typed fields and shared references, without CasADi",
   "type": "module",
   "license": "MIT",

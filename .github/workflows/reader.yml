@@ -18,6 +18,7 @@ jobs:
       # Check before build regenerates assets, so stale committed output fails CI.
       - run: npm run check:generated
       - run: npm test
+      - run: PYTHONPATH=python python -m unittest discover -s python/tests -p test_generation.py
       - run: npx playwright install --with-deps chromium
       - run: npm run test:browser
       - run: mkdir -p artifacts && npm pack --pack-destination artifacts

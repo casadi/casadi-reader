@@ -1,4 +1,4 @@
-import copy
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -9,7 +9,7 @@ import tempfile
 import unittest
 from casadi_reader import loads, loads_resource, read_casadi, read_resource, to_json
 from casadi_reader.reader import Source, Reader
-from casadi_reader._scheme import SCHEME
+from casadi_reader._generated import METADATA
 
 ROOT = Path(__file__).resolve().parents[2]
 FIXTURES = ROOT/'test/fixtures'
@@ -43,15 +43,22 @@ class ReaderTests(unittest.TestCase):
                         args = [NATIVE]+(['--resource'] if options else [])+(['--lazy'] if lazy else [])
                         self.assertEqual(json.loads(subprocess.check_output(args+[str(path)])), expected)
 
-    def test_scheme_drives_dispatch(self):
+    def test_matches_precompiler_structural_documents(self):
+        # Digests of the interpreter's complete documents, recorded before direct code generation.
+        digests = json.loads((FIXTURES/'structural-digests.json').read_text())
+        self.assertEqual(set(digests), {path.name for path in PATHS})
+        for path in PATHS:
+            with self.subTest(fixture=path.name):
+                options = {'type': 'Resource'} if path.stem == 'resource' else {}
+                data = read_casadi(path, **options)
+                canonical = json.dumps(data, sort_keys=True, separators=(',', ':')).encode()
+                self.assertEqual(hashlib.sha256(canonical).hexdigest(), digests[path.name])
+
+    def test_unknown_discriminator(self):
         text = (FIXTURES/'arithmetic.casadi').read_text()
         text = text.replace(encode(b'MXFunction'), encode(b'QXFunction'))
-        with self.assertRaisesRegex(ValueError, 'discriminator'): loads(text)
-        changed = copy.deepcopy(SCHEME)
-        cases = changed['reader']['types']['Function']['body'][1]['body'][1]['cases']
-        cases['QXFunction'] = cases['MXFunction']
-        result = loads(text, scheme=changed)
-        self.assertTrue(any(f['value']=='QXFunction' for f in result['objects'][result['root']]['fields']))
+        with self.assertRaisesRegex(ValueError, 'discriminator'):
+            loads(text)
 
     def test_lazy_resource_lifetime_and_bounds(self):
         expected = (FIXTURES/'payload.zip').read_bytes()
@@ -74,7 +81,7 @@ class ReaderTests(unittest.TestCase):
         self.assertEqual(blob(document).read(size-3, 3), bytes([16]*3))
 
     def test_typed_primitives_and_multiple_roots(self):
-        header = struct.pack('<qqB', SCHEME['wire']['magic'], SCHEME['wire']['protocol'], 0)
+        header = struct.pack('<qqB', METADATA['wire']['magic'], METADATA['wire']['protocol'], 0)
         cases = [('casadi_int', struct.pack('<q', -(2**63)), {'$integer': str(-(2**63))}),
                  ('size_t', struct.pack('<Q', 2**64-1), {'$integer': str(2**64-1)}),
                  ('double', struct.pack('<d', float('inf')), {'$float': 'Infinity'}),
@@ -88,7 +95,7 @@ class ReaderTests(unittest.TestCase):
                     result = json.loads(subprocess.check_output([NATIVE, '--type', kind, str(path)]))
                     self.assertEqual(result, loads(text, type=kind))
         # FileSerializer doubles have no shared references and can be concatenated.
-        tag = next(int(k) for k,v in SCHEME['reader']['file_types'].items() if v=='double')
+        tag = next(int(k) for k,v in METADATA['reader']['file_types'].items() if v=='double')
         text = encode(header+bytes([tag])+struct.pack('<d', 2.5)+bytes([tag])+struct.pack('<d', -4))
         self.assertEqual(loads(text)['roots'], [2.5, -4])
         self.assertIsNone(loads(text)['root'])

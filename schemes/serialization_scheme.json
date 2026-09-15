@@ -629,29 +629,74 @@
       "1": "Function",
       "11": "Function",
       "13": "Function",
-      "20": "std::vector<MX>",
-      "21": "std::vector<SX>",
-      "22": "std::vector<MX>",
-      "23": "std::vector<SX>",
+      "20": {
+        "element": "MX",
+        "name": "std::vector"
+      },
+      "21": {
+        "element": "SX",
+        "name": "std::vector"
+      },
+      "22": {
+        "element": "MX",
+        "name": "std::vector"
+      },
+      "23": {
+        "element": "SX",
+        "name": "std::vector"
+      },
       "3": "Function"
     },
     "file_types": {
       "0": "Sparsity",
       "1": "MX",
-      "10": "std::vector<Sparsity>",
-      "11": "std::vector<MX>",
-      "12": "std::vector<DM>",
-      "13": "std::vector<SX>",
-      "15": "std::vector<Function>",
-      "16": "std::vector<GenericType>",
-      "17": "std::vector<casadi_int>",
-      "18": "std::vector<double>",
-      "19": "std::vector<std::string>",
+      "10": {
+        "element": "Sparsity",
+        "name": "std::vector"
+      },
+      "11": {
+        "element": "MX",
+        "name": "std::vector"
+      },
+      "12": {
+        "element": "DM",
+        "name": "std::vector"
+      },
+      "13": {
+        "element": "SX",
+        "name": "std::vector"
+      },
+      "15": {
+        "element": "Function",
+        "name": "std::vector"
+      },
+      "16": {
+        "element": "GenericType",
+        "name": "std::vector"
+      },
+      "17": {
+        "element": "casadi_int",
+        "name": "std::vector"
+      },
+      "18": {
+        "element": "double",
+        "name": "std::vector"
+      },
+      "19": {
+        "element": "std::string",
+        "name": "std::vector"
+      },
       "2": "DM",
       "20": "MX",
       "21": "SX",
-      "22": "std::vector<MX>",
-      "23": "std::vector<SX>",
+      "22": {
+        "element": "MX",
+        "name": "std::vector"
+      },
+      "23": {
+        "element": "SX",
+        "name": "std::vector"
+      },
       "3": "SX",
       "4": "Linsol",
       "5": "Function",
@@ -707,7 +752,10 @@
         {
           "name": "BSpline::coeffs",
           "op": "field",
-          "type": "std::vector<double>"
+          "type": {
+            "element": "double",
+            "name": "std::vector"
+          }
         }
       ],
       "BSpline::serialize_type": [
@@ -729,20 +777,28 @@
         {
           "name": "BSplineCommon::knots",
           "op": "field",
-          "type": "std::vector<double>"
+          "type": {
+            "element": "double",
+            "name": "std::vector"
+          }
         },
         {
           "name": "BSplineCommon::offset",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "BSplineCommon::degree",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
-          "bind": "m_",
           "name": "BSplineCommon::m",
           "op": "field",
           "type": "casadi_int"
@@ -750,17 +806,26 @@
         {
           "name": "BSplineCommon::lookup_mode",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "BSplineCommon::strides",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "BSplineCommon::coeffs_dims",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "BSplineCommon::coeffs_size",
@@ -835,7 +900,6 @@
           "op": "call"
         },
         {
-          "bind": "type",
           "name": "BinaryMX::scalar_flags",
           "op": "field",
           "type": "char"
@@ -844,13 +908,11 @@
       "BinarySX::serialize_node": [
         {
           "name": "UnarySX::dep0",
-          "name_expression": "\"UnarySX::dep0\"",
           "op": "field",
           "type": "SXElem"
         },
         {
           "name": "UnarySX::dep1",
-          "name_expression": "\"UnarySX::dep1\"",
           "op": "field",
           "type": "SXElem"
         }
@@ -929,15 +991,23 @@
         {
           "name": "BlazingSplineFunction::knots",
           "op": "field",
-          "type": "std::vector< std::vector<double> >"
+          "type": {
+            "element": {
+              "element": "double",
+              "name": "std::vector"
+            },
+            "name": "std::vector"
+          }
         },
         {
           "name": "BlazingSplineFunction::lookup_modes",
           "op": "field",
-          "type": "std::vector<std::string>"
+          "type": {
+            "element": "std::string",
+            "name": "std::vector"
+          }
         },
         {
-          "bind": "has_parametric_knots()",
           "name": "BlazingSplineFunction::parametric_knots",
           "op": "field",
           "type": "bool"
@@ -947,7 +1017,10 @@
             {
               "name": "BlazingSplineFunction::knots_offset",
               "op": "field",
-              "type": "std::vector<casadi_int>"
+              "type": {
+                "element": "casadi_int",
+                "name": "std::vector"
+              }
             },
             {
               "name": "BlazingSplineFunction::inv_input",
@@ -955,7 +1028,10 @@
               "type": "bool"
             }
           ],
-          "condition": "has_parametric_knots()",
+          "condition": [
+            "field",
+            "BlazingSplineFunction::parametric_knots"
+          ],
           "op": "if"
         },
         {
@@ -987,12 +1063,18 @@
         {
           "name": "Blocksqp::blocks",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Blocksqp::dim",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Blocksqp::nnz_H",
@@ -1323,32 +1405,50 @@
         {
           "name": "BonminInterface::sos1_weights",
           "op": "field",
-          "type": "std::vector<double>"
+          "type": {
+            "element": "double",
+            "name": "std::vector"
+          }
         },
         {
           "name": "BonminInterface::sos1_indices",
           "op": "field",
-          "type": "std::vector<int>"
+          "type": {
+            "element": "int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "BonminInterface::sos1_priorities",
           "op": "field",
-          "type": "std::vector<int>"
+          "type": {
+            "element": "int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "BonminInterface::sos1_starts",
           "op": "field",
-          "type": "std::vector<int>"
+          "type": {
+            "element": "int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "BonminInterface::sos1_types",
           "op": "field",
-          "type": "std::vector<char>"
+          "type": {
+            "element": "char",
+            "name": "std::vector"
+          }
         },
         {
           "name": "BonminInterface::sos1_types",
           "op": "field",
-          "type": "std::vector<char>"
+          "type": {
+            "element": "char",
+            "name": "std::vector"
+          }
         },
         {
           "name": "BonminInterface::sos_num",
@@ -1373,12 +1473,18 @@
         {
           "name": "BonminInterface::nl_ex",
           "op": "field",
-          "type": "std::vector<bool>"
+          "type": {
+            "element": "bool",
+            "name": "std::vector"
+          }
         },
         {
           "name": "BonminInterface::nl_g",
           "op": "field",
-          "type": "std::vector<bool>"
+          "type": {
+            "element": "bool",
+            "name": "std::vector"
+          }
         },
         {
           "name": "BonminInterface::var_string_md",
@@ -1431,15 +1537,16 @@
       "CallSX::serialize_node": [
         {
           "name": "CallSX::f",
-          "name_expression": "\"CallSX::f\"",
           "op": "field",
           "type": "Function"
         },
         {
           "name": "CallSX::dep",
-          "name_expression": "\"CallSX::dep\"",
           "op": "field",
-          "type": "std::vector<SXElem>"
+          "type": {
+            "element": "SXElem",
+            "name": "std::vector"
+          }
         }
       ],
       "CbcInterface::serialize_body": [
@@ -1460,17 +1567,32 @@
         {
           "name": "CbcInterface::sos_groups",
           "op": "field",
-          "type": "std::vector< std::vector<int> >"
+          "type": {
+            "element": {
+              "element": "int",
+              "name": "std::vector"
+            },
+            "name": "std::vector"
+          }
         },
         {
           "name": "CbcInterface::sos_weights",
           "op": "field",
-          "type": "std::vector< std::vector<double> >"
+          "type": {
+            "element": {
+              "element": "double",
+              "name": "std::vector"
+            },
+            "name": "std::vector"
+          }
         },
         {
           "name": "CbcInterface::sos_types",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "CbcInterface::hot_start",
@@ -1546,37 +1668,40 @@
       "Conic::serialize": [
         {
           "name": "Conic::SDPToSOCPMem::r",
-          "name_expression": "\"Conic::SDPToSOCPMem::r\"",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Conic::SDPToSOCPMem::AT",
-          "name_expression": "\"Conic::SDPToSOCPMem::AT\"",
           "op": "field",
           "type": "Sparsity"
         },
         {
           "name": "Conic::SDPToSOCPMem::A_mapping",
-          "name_expression": "\"Conic::SDPToSOCPMem::A_mapping\"",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Conic::SDPToSOCPMem::map_Q",
-          "name_expression": "\"Conic::SDPToSOCPMem::map_Q\"",
           "op": "field",
           "type": "IM"
         },
         {
           "name": "Conic::SDPToSOCPMem::map_P",
-          "name_expression": "\"Conic::SDPToSOCPMem::map_P\"",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Conic::SDPToSOCPMem::indval_size",
-          "name_expression": "\"Conic::SDPToSOCPMem::indval_size\"",
           "op": "field",
           "type": "casadi_int"
         }
@@ -1594,12 +1719,18 @@
         {
           "name": "Conic::discrete",
           "op": "field",
-          "type": "std::vector<bool>"
+          "type": {
+            "element": "bool",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Conic::equality",
           "op": "field",
-          "type": "std::vector<bool>"
+          "type": {
+            "element": "bool",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Conic::print_problem",
@@ -1737,7 +1868,10 @@
         {
           "name": "ConstantMX::nonzeros",
           "op": "field",
-          "type": "std::vector<double>"
+          "type": {
+            "element": "double",
+            "name": "std::vector"
+          }
         }
       ],
       "ConstantDM::serialize_type": [
@@ -1764,7 +1898,10 @@
         {
           "name": "ConstantFile::x",
           "op": "field",
-          "type": "std::vector<double>"
+          "type": {
+            "element": "double",
+            "name": "std::vector"
+          }
         }
       ],
       "ConstantFile::serialize_type": [
@@ -1791,7 +1928,10 @@
         {
           "name": "ConstantPool::x",
           "op": "field",
-          "type": "std::vector<double>"
+          "type": {
+            "element": "double",
+            "name": "std::vector"
+          }
         }
       ],
       "ConstantPool::serialize_type": [
@@ -1808,73 +1948,199 @@
       "Convexify::serialize": [
         {
           "name": null,
-          "name_expression": "prefix + \"Convexify\"",
+          "name_expression": [
+            "concat",
+            [
+              "parameter",
+              "prefix"
+            ],
+            [
+              "literal",
+              "Convexify"
+            ]
+          ],
           "op": "version",
           "value": 1
         },
         {
           "name": null,
-          "name_expression": "prefix + \"Convexify::type_in\"",
+          "name_expression": [
+            "concat",
+            [
+              "parameter",
+              "prefix"
+            ],
+            [
+              "literal",
+              "Convexify::type_in"
+            ]
+          ],
           "op": "field",
           "type": "int"
         },
         {
           "name": null,
-          "name_expression": "prefix + \"Convexify::strategy\"",
+          "name_expression": [
+            "concat",
+            [
+              "parameter",
+              "prefix"
+            ],
+            [
+              "literal",
+              "Convexify::strategy"
+            ]
+          ],
           "op": "field",
           "type": "int"
         },
         {
           "name": null,
-          "name_expression": "prefix + \"Convexify::margin\"",
+          "name_expression": [
+            "concat",
+            [
+              "parameter",
+              "prefix"
+            ],
+            [
+              "literal",
+              "Convexify::margin"
+            ]
+          ],
           "op": "field",
           "type": "double"
         },
         {
           "name": null,
-          "name_expression": "prefix + \"Convexify::max_iter_eig\"",
+          "name_expression": [
+            "concat",
+            [
+              "parameter",
+              "prefix"
+            ],
+            [
+              "literal",
+              "Convexify::max_iter_eig"
+            ]
+          ],
           "op": "field",
           "type": "casadi_int"
         },
         {
           "name": null,
-          "name_expression": "prefix + \"Convexify::scc_offset\"",
+          "name_expression": [
+            "concat",
+            [
+              "parameter",
+              "prefix"
+            ],
+            [
+              "literal",
+              "Convexify::scc_offset"
+            ]
+          ],
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": null,
-          "name_expression": "prefix + \"Convexify::scc_mapping\"",
+          "name_expression": [
+            "concat",
+            [
+              "parameter",
+              "prefix"
+            ],
+            [
+              "literal",
+              "Convexify::scc_mapping"
+            ]
+          ],
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": null,
-          "name_expression": "prefix + \"Convexify::Hsp_project\"",
+          "name_expression": [
+            "concat",
+            [
+              "parameter",
+              "prefix"
+            ],
+            [
+              "literal",
+              "Convexify::Hsp_project"
+            ]
+          ],
           "op": "field",
           "type": "int"
         },
         {
           "name": null,
-          "name_expression": "prefix + \"Convexify::scc_transform\"",
+          "name_expression": [
+            "concat",
+            [
+              "parameter",
+              "prefix"
+            ],
+            [
+              "literal",
+              "Convexify::scc_transform"
+            ]
+          ],
           "op": "field",
           "type": "int"
         },
         {
           "name": null,
-          "name_expression": "prefix + \"Convexify::verbose\"",
+          "name_expression": [
+            "concat",
+            [
+              "parameter",
+              "prefix"
+            ],
+            [
+              "literal",
+              "Convexify::verbose"
+            ]
+          ],
           "op": "field",
           "type": "int"
         },
         {
           "name": null,
-          "name_expression": "prefix + \"Convexify::Hsp\"",
+          "name_expression": [
+            "concat",
+            [
+              "parameter",
+              "prefix"
+            ],
+            [
+              "literal",
+              "Convexify::Hsp"
+            ]
+          ],
           "op": "field",
           "type": "Sparsity"
         },
         {
           "name": null,
-          "name_expression": "prefix + \"Convexify::Hrsp\"",
+          "name_expression": [
+            "concat",
+            [
+              "parameter",
+              "prefix"
+            ],
+            [
+              "literal",
+              "Convexify::Hrsp"
+            ]
+          ],
           "op": "field",
           "type": "Sparsity"
         }
@@ -1945,27 +2211,42 @@
         {
           "name": "CplexInterface::ctype",
           "op": "field",
-          "type": "std::vector<char>"
+          "type": {
+            "element": "char",
+            "name": "std::vector"
+          }
         },
         {
           "name": "CplexInterface::sos_weights",
           "op": "field",
-          "type": "std::vector< double >"
+          "type": {
+            "element": "double",
+            "name": "std::vector"
+          }
         },
         {
           "name": "CplexInterface::sos_beg",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "CplexInterface::sos_ind",
           "op": "field",
-          "type": "std::vector<int>"
+          "type": {
+            "element": "int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "CplexInterface::sos_types",
           "op": "field",
-          "type": "std::vector<char>"
+          "type": {
+            "element": "char",
+            "name": "std::vector"
+          }
         },
         {
           "layout": "Conic::serialize",
@@ -2197,13 +2478,22 @@
         {
           "body": [
             {
-              "bind": "ss",
               "name": "ZipMemResource::blob",
               "op": "field",
               "type": "std::stringstream"
             }
           ],
-          "condition": "serialize_mode_==\"embed\"",
+          "condition": [
+            "equal",
+            [
+              "field",
+              "ResourceInternal::serialize_mode"
+            ],
+            [
+              "literal",
+              "embed"
+            ]
+          ],
           "else": [
             {
               "name": "DirResource::path",
@@ -2265,53 +2555,82 @@
         {
           "name": "Einstein::dim_c",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Einstein::dim_a",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Einstein::dim_b",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
-          "bind": "c_",
           "name": "Einstein::c",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Einstein::a",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Einstein::b",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Einstein::iter_dims",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Einstein::strides_a",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Einstein::strides_b",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Einstein::strides_c",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Einstein::n_iter",
@@ -2332,12 +2651,18 @@
         {
           "name": "External::int_data",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "External::real_data",
           "op": "field",
-          "type": "std::vector<double>"
+          "type": {
+            "element": "double",
+            "name": "std::vector"
+          }
         },
         {
           "name": "External::string_data",
@@ -2352,7 +2677,10 @@
         {
           "name": "External::config_args",
           "op": "field",
-          "type": "std::vector<std::string>"
+          "type": {
+            "element": "std::string",
+            "name": "std::vector"
+          }
         }
       ],
       "FastNewton::serialize_body": [
@@ -2398,12 +2726,18 @@
         {
           "name": "Newton::prinv",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Newton::pc",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         }
       ],
       "FatropConicInterface::serialize_body": [
@@ -2448,7 +2782,6 @@
           "type": "Dict"
         },
         {
-          "bind": "convexify_",
           "name": "FatropInterface::convexify",
           "op": "field",
           "type": "bool"
@@ -2476,37 +2809,58 @@
         {
           "name": "FatropInterface::AB_blocks",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FatropInterface::CD_blocks",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FatropInterface::RSQ_blocks",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FatropInterface::I_blocks",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FatropInterface::nxs",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FatropInterface::nus",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FatropInterface::ngs",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FatropInterface::N",
@@ -2521,22 +2875,34 @@
         {
           "name": "FatropInterface::AB_offsets",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FatropInterface::CD_offsets",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FatropInterface::RSQ_offsets",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FatropInterface::I_offsets",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FatropInterface::debug",
@@ -2620,7 +2986,6 @@
           "type": "Sparsity"
         },
         {
-          "bind": "convexify_",
           "name": "Feasiblesqpmethod::convexify",
           "op": "field",
           "type": "bool"
@@ -2635,7 +3000,10 @@
               }
             }
           ],
-          "condition": "convexify_",
+          "condition": [
+            "field",
+            "Feasiblesqpmethod::convexify"
+          ],
           "op": "if"
         }
       ],
@@ -2656,7 +3024,6 @@
           "value": 1
         },
         {
-          "bind": "n_",
           "name": "FiniteDiff::n",
           "op": "field",
           "type": "casadi_int"
@@ -2730,7 +3097,10 @@
         {
           "name": "FixedStepIntegrator::disc",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FixedStepIntegrator::nv",
@@ -2766,82 +3136,130 @@
         {
           "name": "Fmu2::vr_real",
           "op": "field",
-          "type": "std::vector<fmi2ValueReference>"
+          "type": {
+            "element": "unsignedint",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Fmu2::vr_integer",
           "op": "field",
-          "type": "std::vector<fmi2ValueReference>"
+          "type": {
+            "element": "unsignedint",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Fmu2::vr_boolean",
           "op": "field",
-          "type": "std::vector<fmi2ValueReference>"
+          "type": {
+            "element": "unsignedint",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Fmu2::vr_string",
           "op": "field",
-          "type": "std::vector<fmi2ValueReference>"
+          "type": {
+            "element": "unsignedint",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Fmu2::init_real",
           "op": "field",
-          "type": "std::vector<fmi2Real>"
+          "type": {
+            "element": "double",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Fmu2::init_integer",
           "op": "field",
-          "type": "std::vector<fmi2Integer>"
+          "type": {
+            "element": "int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Fmu2::init_boolean",
           "op": "field",
-          "type": "std::vector<fmi2Boolean>"
+          "type": {
+            "element": "int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Fmu2::init_string",
           "op": "field",
-          "type": "std::vector<std::string>"
+          "type": {
+            "element": "std::string",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Fmu2::vn_aux_real",
           "op": "field",
-          "type": "std::vector<std::string>"
+          "type": {
+            "element": "std::string",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Fmu2::vn_aux_integer",
           "op": "field",
-          "type": "std::vector<std::string>"
+          "type": {
+            "element": "std::string",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Fmu2::vn_aux_boolean",
           "op": "field",
-          "type": "std::vector<std::string>"
+          "type": {
+            "element": "std::string",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Fmu2::vn_aux_string",
           "op": "field",
-          "type": "std::vector<std::string>"
+          "type": {
+            "element": "std::string",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Fmu2::vr_aux_real",
           "op": "field",
-          "type": "std::vector<fmi2ValueReference>"
+          "type": {
+            "element": "unsignedint",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Fmu2::vr_aux_integer",
           "op": "field",
-          "type": "std::vector<fmi2ValueReference>"
+          "type": {
+            "element": "unsignedint",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Fmu2::vr_aux_boolean",
           "op": "field",
-          "type": "std::vector<fmi2ValueReference>"
+          "type": {
+            "element": "unsignedint",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Fmu2::vr_aux_string",
           "op": "field",
-          "type": "std::vector<fmi2ValueReference>"
+          "type": {
+            "element": "unsignedint",
+            "name": "std::vector"
+          }
         }
       ],
       "Fmu3::serialize_body": [
@@ -2857,82 +3275,130 @@
         {
           "name": "Fmu3::vr_real",
           "op": "field",
-          "type": "std::vector<fmi3ValueReference>"
+          "type": {
+            "element": "unsignedint",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Fmu3::vr_integer",
           "op": "field",
-          "type": "std::vector<fmi3ValueReference>"
+          "type": {
+            "element": "unsignedint",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Fmu3::vr_boolean",
           "op": "field",
-          "type": "std::vector<fmi3ValueReference>"
+          "type": {
+            "element": "unsignedint",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Fmu3::vr_string",
           "op": "field",
-          "type": "std::vector<fmi3ValueReference>"
+          "type": {
+            "element": "unsignedint",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Fmu3::init_real",
           "op": "field",
-          "type": "std::vector<fmi3Float64>"
+          "type": {
+            "element": "double",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Fmu3::init_integer",
           "op": "field",
-          "type": "std::vector<fmi3Int32>"
+          "type": {
+            "element": "int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Fmu3::init_boolean",
           "op": "field",
-          "type": "std::vector<fmi3Boolean>"
+          "type": {
+            "element": "bool",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Fmu3::init_string",
           "op": "field",
-          "type": "std::vector<std::string>"
+          "type": {
+            "element": "std::string",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Fmu3::vn_aux_real",
           "op": "field",
-          "type": "std::vector<std::string>"
+          "type": {
+            "element": "std::string",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Fmu3::vn_aux_integer",
           "op": "field",
-          "type": "std::vector<std::string>"
+          "type": {
+            "element": "std::string",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Fmu3::vn_aux_boolean",
           "op": "field",
-          "type": "std::vector<std::string>"
+          "type": {
+            "element": "std::string",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Fmu3::vn_aux_string",
           "op": "field",
-          "type": "std::vector<std::string>"
+          "type": {
+            "element": "std::string",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Fmu3::vr_aux_real",
           "op": "field",
-          "type": "std::vector<fmi3ValueReference>"
+          "type": {
+            "element": "unsignedint",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Fmu3::vr_aux_integer",
           "op": "field",
-          "type": "std::vector<fmi3ValueReference>"
+          "type": {
+            "element": "unsignedint",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Fmu3::vr_aux_boolean",
           "op": "field",
-          "type": "std::vector<fmi3ValueReference>"
+          "type": {
+            "element": "unsignedint",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Fmu3::vr_aux_string",
           "op": "field",
-          "type": "std::vector<fmi3ValueReference>"
+          "type": {
+            "element": "unsignedint",
+            "name": "std::vector"
+          }
         }
       ],
       "Fmu::serialize": [
@@ -2969,7 +3435,13 @@
               "type": "size_t"
             }
           ],
-          "count": "in_.size()",
+          "count": [
+            "length",
+            [
+              "field",
+              "FunctionInternal::sp_in"
+            ]
+          ],
           "op": "repeat"
         },
         {
@@ -3010,33 +3482,54 @@
               "type": "size_t"
             }
           ],
-          "count": "out_.size()",
+          "count": [
+            "length",
+            [
+              "field",
+              "FunctionInternal::sp_out"
+            ]
+          ],
           "op": "repeat"
         },
         {
           "name": "FmuFunction::jac_in",
           "op": "field",
-          "type": "std::vector<size_t>"
+          "type": {
+            "element": "size_t",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FmuFunction::jac_out",
           "op": "field",
-          "type": "std::vector<size_t>"
+          "type": {
+            "element": "size_t",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FmuFunction::jac_nom_in",
           "op": "field",
-          "type": "std::vector<double>"
+          "type": {
+            "element": "double",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FmuFunction::sp_trans",
           "op": "field",
-          "type": "std::vector<Sparsity>"
+          "type": {
+            "element": "Sparsity",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FmuFunction::sp_trans_map",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FmuFunction::has_jac",
@@ -3216,12 +3709,18 @@
         {
           "name": "FmuFunction::which_hess_color",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FmuFunction::nonlin",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FmuFunction::max_jac_tasks",
@@ -3263,42 +3762,70 @@
         {
           "name": "FmuInternal::scheme_in",
           "op": "field",
-          "type": "std::vector<std::string>"
+          "type": {
+            "element": "std::string",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FmuInternal::scheme_out",
           "op": "field",
-          "type": "std::vector<std::string>"
+          "type": {
+            "element": "std::string",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FmuInternal::scheme",
           "op": "field",
-          "type": "std::map<std::string, std::vector<size_t>>"
+          "type": {
+            "key": "std::string",
+            "name": "std::map",
+            "value": {
+              "element": "size_t",
+              "name": "std::vector"
+            }
+          }
         },
         {
           "name": "FmuInternal::aux",
           "op": "field",
-          "type": "std::vector<std::string>"
+          "type": {
+            "element": "std::string",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FmuInternal::iind",
           "op": "field",
-          "type": "std::vector<size_t>"
+          "type": {
+            "element": "size_t",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FmuInternal::iind_map",
           "op": "field",
-          "type": "std::vector<size_t>"
+          "type": {
+            "element": "size_t",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FmuInternal::oind",
           "op": "field",
-          "type": "std::vector<size_t>"
+          "type": {
+            "element": "size_t",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FmuInternal::oind_map",
           "op": "field",
-          "type": "std::vector<size_t>"
+          "type": {
+            "element": "size_t",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FmuInternal::has_independent",
@@ -3308,67 +3835,112 @@
         {
           "name": "FmuInternal::nominal_in",
           "op": "field",
-          "type": "std::vector<double>"
+          "type": {
+            "element": "double",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FmuInternal::nominal_out",
           "op": "field",
-          "type": "std::vector<double>"
+          "type": {
+            "element": "double",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FmuInternal::min_in",
           "op": "field",
-          "type": "std::vector<double>"
+          "type": {
+            "element": "double",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FmuInternal::min_out",
           "op": "field",
-          "type": "std::vector<double>"
+          "type": {
+            "element": "double",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FmuInternal::max_in",
           "op": "field",
-          "type": "std::vector<double>"
+          "type": {
+            "element": "double",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FmuInternal::max_out",
           "op": "field",
-          "type": "std::vector<double>"
+          "type": {
+            "element": "double",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FmuInternal::vn_in",
           "op": "field",
-          "type": "std::vector<std::string>"
+          "type": {
+            "element": "std::string",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FmuInternal::vn_out",
           "op": "field",
-          "type": "std::vector<std::string>"
+          "type": {
+            "element": "std::string",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FmuInternal::vr_in",
           "op": "field",
-          "type": "std::vector<unsigned int>"
+          "type": {
+            "element": "unsignedint",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FmuInternal::vr_out",
           "op": "field",
-          "type": "std::vector<unsigned int>"
+          "type": {
+            "element": "unsignedint",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FmuInternal::value_in",
           "op": "field",
-          "type": "std::vector<double>"
+          "type": {
+            "element": "double",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FmuInternal::ired",
           "op": "field",
-          "type": "std::vector<std::vector<size_t>>"
+          "type": {
+            "element": {
+              "element": "size_t",
+              "name": "std::vector"
+            },
+            "name": "std::vector"
+          }
         },
         {
           "name": "FmuInternal::ored",
           "op": "field",
-          "type": "std::vector<std::vector<size_t>>"
+          "type": {
+            "element": {
+              "element": "size_t",
+              "name": "std::vector"
+            },
+            "name": "std::vector"
+          }
         },
         {
           "name": "FmuInternal::jac_sp",
@@ -3381,7 +3953,6 @@
           "type": "Sparsity"
         },
         {
-          "bind": "resource_",
           "name": "FmuInternal::resource",
           "op": "field",
           "type": "Resource"
@@ -3444,7 +4015,6 @@
       ],
       "FmuInternal::serialize_type": [
         {
-          "bind": "class_name()",
           "name": "FmuInternal::type",
           "op": "field",
           "type": "std::string"
@@ -3458,26 +4028,8 @@
       ],
       "Function::serialize": [
         {
-          "body": [
-            {
-              "name": "Function::null",
-              "op": "field",
-              "type": "bool"
-            }
-          ],
-          "condition": "is_null()",
-          "else": [
-            {
-              "name": "Function::null",
-              "op": "field",
-              "type": "bool"
-            },
-            {
-              "op": "unsupported",
-              "reason": "unlowered serialization call"
-            }
-          ],
-          "op": "if"
+          "op": "unsupported",
+          "reason": "Predicate has no serialized field"
         }
       ],
       "FunctionInternal::serialize_body": [
@@ -3493,35 +4045,52 @@
         {
           "name": "FunctionInternal::is_diff_in",
           "op": "field",
-          "type": "std::vector<bool>"
+          "type": {
+            "element": "bool",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FunctionInternal::is_diff_out",
           "op": "field",
-          "type": "std::vector<bool>"
+          "type": {
+            "element": "bool",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FunctionInternal::sp_in",
           "op": "field",
-          "type": "std::vector<Sparsity>"
+          "type": {
+            "element": "Sparsity",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FunctionInternal::sp_out",
           "op": "field",
-          "type": "std::vector<Sparsity>"
+          "type": {
+            "element": "Sparsity",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FunctionInternal::name_in",
           "op": "field",
-          "type": "std::vector<std::string>"
+          "type": {
+            "element": "std::string",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FunctionInternal::name_out",
           "op": "field",
-          "type": "std::vector<std::string>"
+          "type": {
+            "element": "std::string",
+            "name": "std::vector"
+          }
         },
         {
-          "bind": "jit_",
           "name": "FunctionInternal::jit",
           "op": "field",
           "type": "bool"
@@ -3532,7 +4101,6 @@
           "type": "bool"
         },
         {
-          "bind": "jit_serialize_",
           "name": "FunctionInternal::jit_serialize",
           "op": "field",
           "type": "std::string"
@@ -3552,11 +4120,45 @@
                   "type": "std::stringstream"
                 }
               ],
-              "condition": "jit_serialize_==\"embed\"",
+              "condition": [
+                "equal",
+                [
+                  "field",
+                  "FunctionInternal::jit_serialize"
+                ],
+                [
+                  "literal",
+                  "embed"
+                ]
+              ],
               "op": "if"
             }
           ],
-          "condition": "jit_serialize_==\"link\" || jit_serialize_==\"embed\"",
+          "condition": [
+            "or",
+            [
+              "equal",
+              [
+                "field",
+                "FunctionInternal::jit_serialize"
+              ],
+              [
+                "literal",
+                "link"
+              ]
+            ],
+            [
+              "equal",
+              [
+                "field",
+                "FunctionInternal::jit_serialize"
+              ],
+              [
+                "literal",
+                "embed"
+              ]
+            ]
+          ],
           "op": "if"
         },
         {
@@ -3747,7 +4349,10 @@
         {
           "name": "FunctionInternal::registered_functions",
           "op": "field",
-          "type": "std::vector<Function>"
+          "type": {
+            "element": "Function",
+            "name": "std::vector"
+          }
         },
         {
           "name": "FunctionInternal::sz_arg_per",
@@ -3822,14 +4427,6 @@
         {
           "op": "unsupported",
           "reason": "unlowered serialization call"
-        }
-      ],
-      "GenericTypeInternal::serialize": [
-        {
-          "name": "GenericType::d",
-          "name_expression": "\"GenericType::d\"",
-          "op": "field",
-          "type": "T"
         }
       ],
       "GetNonzeros::serialize_body": [
@@ -3945,7 +4542,6 @@
           "op": "call"
         },
         {
-          "bind": "s_",
           "name": "GetNonzerosSlice::slice",
           "op": "field",
           "type": "Slice"
@@ -3992,7 +4588,10 @@
         {
           "name": "GetNonzerosVector::nonzeros",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         }
       ],
       "GetNonzerosVector::serialize_type": [
@@ -4024,7 +4623,10 @@
         {
           "name": "GurobiInterface::vtype",
           "op": "field",
-          "type": "std::vector<char>"
+          "type": {
+            "element": "char",
+            "name": "std::vector"
+          }
         },
         {
           "name": "GurobiInterface::opts",
@@ -4034,22 +4636,34 @@
         {
           "name": "GurobiInterface::sos_weights",
           "op": "field",
-          "type": "std::vector<double>"
+          "type": {
+            "element": "double",
+            "name": "std::vector"
+          }
         },
         {
           "name": "GurobiInterface::sos_beg",
           "op": "field",
-          "type": "std::vector<int>"
+          "type": {
+            "element": "int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "GurobiInterface::sos_ind",
           "op": "field",
-          "type": "std::vector<int>"
+          "type": {
+            "element": "int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "GurobiInterface::sos_types",
           "op": "field",
-          "type": "std::vector<int>"
+          "type": {
+            "element": "int",
+            "name": "std::vector"
+          }
         },
         {
           "layout": "Conic::serialize",
@@ -4078,7 +4692,6 @@
           "op": "call"
         },
         {
-          "bind": "n_",
           "name": "HorzRepmat::n",
           "op": "field",
           "type": "casadi_int"
@@ -4090,7 +4703,6 @@
           "op": "call"
         },
         {
-          "bind": "n_",
           "name": "HorzRepsum::n",
           "op": "field",
           "type": "casadi_int"
@@ -4179,7 +4791,10 @@
         {
           "name": "IdasInterface::abstolv",
           "op": "field",
-          "type": "std::vector<double>"
+          "type": {
+            "element": "double",
+            "name": "std::vector"
+          }
         },
         {
           "name": "IdasInterface::first_time",
@@ -4189,7 +4804,10 @@
         {
           "name": "IdasInterface::init_xdot",
           "op": "field",
-          "type": "std::vector<double>"
+          "type": {
+            "element": "double",
+            "name": "std::vector"
+          }
         },
         {
           "name": "IdasInterface::max_step_size",
@@ -4199,7 +4817,10 @@
         {
           "name": "IdasInterface::y_c",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         }
       ],
       "ImplicitFixedStepIntegrator::serialize_body": [
@@ -4249,17 +4870,32 @@
         {
           "name": "ImporterInternal::meta",
           "op": "field",
-          "type": "std::map<std::string, std::pair<casadi_int, std::string> >"
+          "type": {
+            "key": "std::string",
+            "name": "std::map",
+            "value": {
+              "first": "casadi_int",
+              "name": "std::pair",
+              "second": "std::string"
+            }
+          }
         },
         {
           "name": "ImporterInternal::external",
           "op": "field",
-          "type": "std::map<std::string, std::pair<bool, std::string> >"
+          "type": {
+            "key": "std::string",
+            "name": "std::map",
+            "value": {
+              "first": "bool",
+              "name": "std::pair",
+              "second": "std::string"
+            }
+          }
         }
       ],
       "ImporterInternal::serialize_type": [
         {
-          "bind": "class_name()",
           "name": "ImporterInternal::type",
           "op": "field",
           "type": "std::string"
@@ -4268,7 +4904,6 @@
       "InfSX::serialize_node": [
         {
           "name": "ConstantSX::type",
-          "name_expression": "\"ConstantSX::type\"",
           "op": "field",
           "type": "char"
         }
@@ -4282,13 +4917,11 @@
       "IntegerSX::serialize_node": [
         {
           "name": "ConstantSX::type",
-          "name_expression": "\"ConstantSX::type\"",
           "op": "field",
           "type": "char"
         },
         {
           "name": "ConstantSX::value",
-          "name_expression": "\"ConstantSX::value\"",
           "op": "field",
           "type": "int"
         }
@@ -4321,7 +4954,10 @@
         {
           "name": "Integrator::tout",
           "op": "field",
-          "type": "std::vector<double>"
+          "type": {
+            "element": "double",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Integrator::nfwd",
@@ -4451,12 +5087,18 @@
         {
           "name": "Integrator::nom_x",
           "op": "field",
-          "type": "std::vector<double>"
+          "type": {
+            "element": "double",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Integrator::nom_z",
           "op": "field",
-          "type": "std::vector<double>"
+          "type": {
+            "element": "double",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Integrator::augmented_options",
@@ -4525,7 +5167,6 @@
           "type": "casadi_int"
         },
         {
-          "bind": "m_",
           "name": "Interpolant::m",
           "op": "field",
           "type": "casadi_int"
@@ -4533,22 +5174,34 @@
         {
           "name": "Interpolant::grid",
           "op": "field",
-          "type": "std::vector<double>"
+          "type": {
+            "element": "double",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Interpolant::offset",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Interpolant::values",
           "op": "field",
-          "type": "std::vector<double>"
+          "type": {
+            "element": "double",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Interpolant::lookup_modes",
           "op": "field",
-          "type": "std::vector<std::string>"
+          "type": {
+            "element": "std::string",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Interpolant::batch_x",
@@ -4610,7 +5263,10 @@
         {
           "name": "IpoptInterface::nl_ex",
           "op": "field",
-          "type": "std::vector<bool>"
+          "type": {
+            "element": "bool",
+            "name": "std::vector"
+          }
         },
         {
           "name": "IpoptInterface::var_string_md",
@@ -4643,7 +5299,6 @@
           "type": "Dict"
         },
         {
-          "bind": "convexify_",
           "name": "IpoptInterface::convexify",
           "op": "field",
           "type": "bool"
@@ -4658,7 +5313,10 @@
               }
             }
           ],
-          "condition": "convexify_",
+          "condition": [
+            "field",
+            "IpoptInterface::convexify"
+          ],
           "op": "if"
         },
         {
@@ -4762,22 +5420,34 @@
         {
           "name": "KnitroInterface::contype",
           "op": "field",
-          "type": "std::vector<int>"
+          "type": {
+            "element": "int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "KnitroInterface::comp_type",
           "op": "field",
-          "type": "std::vector<int>"
+          "type": {
+            "element": "int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "KnitroInterface::comp_i1",
           "op": "field",
-          "type": "std::vector<int>"
+          "type": {
+            "element": "int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "KnitroInterface::comp_i2",
           "op": "field",
-          "type": "std::vector<int>"
+          "type": {
+            "element": "int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "KnitroInterface::opts",
@@ -4879,7 +5549,10 @@
         {
           "name": "LinearInterpolant::lookup_mode",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         }
       ],
       "LinearInterpolant::serialize_type": [
@@ -4981,7 +5654,10 @@
         {
           "name": "LinsolLdl::p",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "LinsolLdl::sp_Lt",
@@ -5002,12 +5678,18 @@
         {
           "name": "LinsolQr::prinv",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "LinsolQr::pc",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "LinsolQr::sp_v",
@@ -5088,7 +5770,6 @@
           "value": 3
         },
         {
-          "bind": "algorithm_.size()",
           "name": "MXFunction::n_instr",
           "op": "field",
           "type": "size_t"
@@ -5103,31 +5784,49 @@
             {
               "name": "MXFunction::alg::arg",
               "op": "field",
-              "type": "std::vector<casadi_int>"
+              "type": {
+                "element": "casadi_int",
+                "name": "std::vector"
+              }
             },
             {
               "name": "MXFunction::alg::res",
               "op": "field",
-              "type": "std::vector<casadi_int>"
+              "type": {
+                "element": "casadi_int",
+                "name": "std::vector"
+              }
             }
           ],
-          "count": "algorithm_.size()",
+          "count": [
+            "field",
+            "MXFunction::n_instr"
+          ],
           "op": "repeat"
         },
         {
           "name": "MXFunction::workloc",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "MXFunction::free_vars",
           "op": "field",
-          "type": "std::vector<MX>"
+          "type": {
+            "element": "MX",
+            "name": "std::vector"
+          }
         },
         {
           "name": "MXFunction::default_in",
           "op": "field",
-          "type": "std::vector<double>"
+          "type": {
+            "element": "double",
+            "name": "std::vector"
+          }
         },
         {
           "name": "MXFunction::live_variables",
@@ -5163,7 +5862,10 @@
         {
           "name": "MXNode::deps",
           "op": "field",
-          "type": "std::vector<MX>"
+          "type": {
+            "element": "MX",
+            "name": "std::vector"
+          }
         },
         {
           "name": "MXNode::sp",
@@ -5215,7 +5917,6 @@
           "type": "Dict"
         },
         {
-          "bind": "convexify_",
           "name": "MadmpecInterface::convexify",
           "op": "field",
           "type": "bool"
@@ -5223,17 +5924,26 @@
         {
           "name": "MadmpecInterface::ind_cc1",
           "op": "field",
-          "type": "std::vector<libmad_int>"
+          "type": {
+            "element": "libmad_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "MadmpecInterface::ind_cc2",
           "op": "field",
-          "type": "std::vector<libmad_int>"
+          "type": {
+            "element": "libmad_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "MadmpecInterface::cctypes",
           "op": "field",
-          "type": "std::vector<libmad_int>"
+          "type": {
+            "element": "libmad_int",
+            "name": "std::vector"
+          }
         }
       ],
       "MadnlpInterface::serialize_body": [
@@ -5267,7 +5977,6 @@
           "type": "Dict"
         },
         {
-          "bind": "convexify_",
           "name": "MadnlpInterface::convexify",
           "op": "field",
           "type": "bool"
@@ -5284,7 +5993,6 @@
           "type": "Function"
         },
         {
-          "bind": "n_",
           "name": "Map::n",
           "op": "field",
           "type": "casadi_int"
@@ -5296,7 +6004,6 @@
           "op": "call"
         },
         {
-          "bind": "class_name()",
           "name": "Map::class_name",
           "op": "field",
           "type": "std::string"
@@ -5313,7 +6020,6 @@
           "type": "Function"
         },
         {
-          "bind": "n_",
           "name": "MapSum::n",
           "op": "field",
           "type": "casadi_int"
@@ -5321,12 +6027,18 @@
         {
           "name": "MapSum::reduce_in",
           "op": "field",
-          "type": "std::vector<bool>"
+          "type": {
+            "element": "bool",
+            "name": "std::vector"
+          }
         },
         {
           "name": "MapSum::reduce_out",
           "op": "field",
-          "type": "std::vector<bool>"
+          "type": {
+            "element": "bool",
+            "name": "std::vector"
+          }
         }
       ],
       "MapSum::serialize_type": [
@@ -5335,13 +6047,12 @@
           "op": "call"
         },
         {
-          "bind": "class_name()",
           "name": "MapSum::class_name",
           "op": "field",
           "type": "std::string"
         }
       ],
-      "Matrix<Scalar>::serialize": [
+      "Matrix<SXElem>::serialize": [
         {
           "name": "Matrix::sparsity",
           "op": "field",
@@ -5350,13 +6061,45 @@
         {
           "name": "Matrix::nonzeros",
           "op": "field",
-          "type": "std::vector<Scalar>"
+          "type": {
+            "element": "SXElem",
+            "name": "std::vector"
+          }
+        }
+      ],
+      "Matrix<casadi_int>::serialize": [
+        {
+          "name": "Matrix::sparsity",
+          "op": "field",
+          "type": "Sparsity"
+        },
+        {
+          "name": "Matrix::nonzeros",
+          "op": "field",
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
+        }
+      ],
+      "Matrix<double>::serialize": [
+        {
+          "name": "Matrix::sparsity",
+          "op": "field",
+          "type": "Sparsity"
+        },
+        {
+          "name": "Matrix::nonzeros",
+          "op": "field",
+          "type": {
+            "element": "double",
+            "name": "std::vector"
+          }
         }
       ],
       "MinusInfSX::serialize_node": [
         {
           "name": "ConstantSX::type",
-          "name_expression": "\"ConstantSX::type\"",
           "op": "field",
           "type": "char"
         }
@@ -5364,7 +6107,6 @@
       "MinusOneSX::serialize_node": [
         {
           "name": "ConstantSX::type",
-          "name_expression": "\"ConstantSX::type\"",
           "op": "field",
           "type": "char"
         }
@@ -5448,7 +6190,6 @@
       "NanSX::serialize_node": [
         {
           "name": "ConstantSX::type",
-          "name_expression": "\"ConstantSX::type\"",
           "op": "field",
           "type": "char"
         }
@@ -5582,12 +6323,18 @@
         {
           "name": "Nlpsol::discrete",
           "op": "field",
-          "type": "std::vector<bool>"
+          "type": {
+            "element": "bool",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Nlpsol::equality",
           "op": "field",
-          "type": "std::vector<bool>"
+          "type": {
+            "element": "bool",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Nlpsol::mi",
@@ -5607,7 +6354,10 @@
         {
           "name": "Nlpsol::detect_simple_bounds_is_simple",
           "op": "field",
-          "type": "std::vector<char>"
+          "type": {
+            "element": "char",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Nlpsol::detect_simple_bounds_parts",
@@ -5617,7 +6367,10 @@
         {
           "name": "Nlpsol::detect_simple_bounds_target_x",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         }
       ],
       "Nlpsol::serialize_type": [
@@ -5669,7 +6422,6 @@
       "OneSX::serialize_node": [
         {
           "name": "ConstantSX::type",
-          "name_expression": "\"ConstantSX::type\"",
           "op": "field",
           "type": "char"
         }
@@ -5713,22 +6465,34 @@
         {
           "name": "OnnxFunction::in_src",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "OnnxFunction::in_val",
           "op": "field",
-          "type": "std::vector<double>"
+          "type": {
+            "element": "double",
+            "name": "std::vector"
+          }
         },
         {
           "name": "OnnxFunction::model_inputs",
           "op": "field",
-          "type": "std::vector<std::string>"
+          "type": {
+            "element": "std::string",
+            "name": "std::vector"
+          }
         },
         {
           "name": "OnnxFunction::model_outputs",
           "op": "field",
-          "type": "std::vector<std::string>"
+          "type": {
+            "element": "std::string",
+            "name": "std::vector"
+          }
         },
         {
           "name": "OnnxFunction::fwd_dim",
@@ -5743,7 +6507,14 @@
         {
           "name": "OnnxFunction::input_values",
           "op": "field",
-          "type": "std::map<std::string, std::vector<double>>"
+          "type": {
+            "key": "std::string",
+            "name": "std::map",
+            "value": {
+              "element": "double",
+              "name": "std::vector"
+            }
+          }
         },
         {
           "name": "OnnxFunction::model_path",
@@ -5753,12 +6524,23 @@
         {
           "name": "OnnxFunction::dim_bindings",
           "op": "field",
-          "type": "std::map<std::string, casadi_int>"
+          "type": {
+            "key": "std::string",
+            "name": "std::map",
+            "value": "casadi_int"
+          }
         },
         {
           "name": "OnnxFunction::input_shapes",
           "op": "field",
-          "type": "std::map<std::string, std::vector<casadi_int>>"
+          "type": {
+            "key": "std::string",
+            "name": "std::map",
+            "value": {
+              "element": "casadi_int",
+              "name": "std::vector"
+            }
+          }
         },
         {
           "name": "OnnxFunction::derivative_opts",
@@ -5879,7 +6661,6 @@
           "type": "int"
         },
         {
-          "bind": "all_functions_.size()",
           "name": "OracleFunction::all_functions::size",
           "op": "field",
           "type": "size_t"
@@ -5892,7 +6673,6 @@
               "type": "std::string"
             },
             {
-              "bind": "e.second.jit",
               "name": "OracleFunction::all_functions::value::jit",
               "op": "field",
               "type": "bool"
@@ -5907,7 +6687,17 @@
                       "type": "Function"
                     }
                   ],
-                  "condition": "jit_serialize_==\"source\"",
+                  "condition": [
+                    "equal",
+                    [
+                      "field",
+                      "FunctionInternal::jit_serialize"
+                    ],
+                    [
+                      "literal",
+                      "source"
+                    ]
+                  ],
                   "else": [
                     {
                       "name": "OracleFunction::all_functions::value::f_name",
@@ -5918,7 +6708,17 @@
                   "op": "if"
                 }
               ],
-              "condition": "jit_ && e.second.jit",
+              "condition": [
+                "and",
+                [
+                  "field",
+                  "FunctionInternal::jit"
+                ],
+                [
+                  "field",
+                  "OracleFunction::all_functions::value::jit"
+                ]
+              ],
               "else": [
                 {
                   "name": "OracleFunction::all_functions::value::f",
@@ -5934,13 +6734,19 @@
               "type": "bool"
             }
           ],
-          "count": "all_functions_.size()",
+          "count": [
+            "field",
+            "OracleFunction::all_functions::size"
+          ],
           "op": "repeat"
         },
         {
           "name": "OracleFunction::monitor",
           "op": "field",
-          "type": "std::vector<std::string>"
+          "type": {
+            "element": "std::string",
+            "name": "std::vector"
+          }
         },
         {
           "name": "OracleFunction::stride_arg",
@@ -6120,13 +6926,11 @@
       "OutputSX::serialize_node": [
         {
           "name": "OutputSX::dep",
-          "name_expression": "\"OutputSX::dep\"",
           "op": "field",
           "type": "SXElem"
         },
         {
           "name": "OutputSX::oind",
-          "name_expression": "\"OutputSX::oind\"",
           "op": "field",
           "type": "int"
         }
@@ -6199,22 +7003,22 @@
         {
           "name": "PiqpInterface::settings::reg_finetune_primal_update_threshold",
           "op": "field",
-          "type": "std::size_t"
+          "type": "size_t"
         },
         {
           "name": "PiqpInterface::settings::reg_finetune_dual_update_threshold",
           "op": "field",
-          "type": "std::size_t"
+          "type": "size_t"
         },
         {
           "name": "PiqpInterface::settings::max_iter",
           "op": "field",
-          "type": "std::size_t"
+          "type": "size_t"
         },
         {
           "name": "PiqpInterface::settings::max_factor_retires",
           "op": "field",
-          "type": "std::size_t"
+          "type": "size_t"
         },
         {
           "name": "PiqpInterface::settings::preconditioner_scale_cost",
@@ -6224,7 +7028,7 @@
         {
           "name": "PiqpInterface::settings::preconditioner_iter",
           "op": "field",
-          "type": "std::size_t"
+          "type": "size_t"
         },
         {
           "name": "PiqpInterface::settings::tau",
@@ -6249,7 +7053,7 @@
         {
           "name": "PiqpInterface::settings::iterative_refinement_max_iter",
           "op": "field",
-          "type": "std::size_t"
+          "type": "size_t"
         },
         {
           "name": "PiqpInterface::settings::iterative_refinement_min_improvement_rate",
@@ -6285,7 +7089,6 @@
       "PluginInterface::serialize_type": [
         {
           "name": "PluginInterface::plugin_name",
-          "name_expression": "\"PluginInterface::plugin_name\"",
           "op": "field",
           "type": "std::string"
         }
@@ -6432,7 +7235,6 @@
           "type": "casadi_int"
         },
         {
-          "bind": "c_",
           "name": "PseudoDenseMultiplication::c",
           "op": "field",
           "type": "casadi_int"
@@ -6694,12 +7496,18 @@
         {
           "name": "Qrqp::prinv",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Qrqp::pc",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Qrqp::print_iter",
@@ -6757,13 +7565,11 @@
       "RealtypeSX::serialize_node": [
         {
           "name": "ConstantSX::type",
-          "name_expression": "\"ConstantSX::type\"",
           "op": "field",
           "type": "char"
         },
         {
           "name": "ConstantSX::value",
-          "name_expression": "\"ConstantSX::value\"",
           "op": "field",
           "type": "double"
         }
@@ -6797,7 +7603,6 @@
       ],
       "ResourceInternal::serialize_body": [
         {
-          "bind": "serialize_mode_",
           "name": "ResourceInternal::serialize_mode",
           "op": "field",
           "type": "std::string"
@@ -6805,7 +7610,6 @@
       ],
       "ResourceInternal::serialize_type": [
         {
-          "bind": "class_name()",
           "name": "ResourceInternal::type",
           "op": "field",
           "type": "std::string"
@@ -6822,7 +7626,6 @@
           "value": 3
         },
         {
-          "bind": "n_",
           "name": "Rootfinder::n",
           "op": "field",
           "type": "casadi_int"
@@ -6840,7 +7643,10 @@
         {
           "name": "Rootfinder::u_c",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Rootfinder::iin",
@@ -6927,7 +7733,6 @@
           "value": 4
         },
         {
-          "bind": "algorithm_.size()",
           "name": "SXFunction::n_instr",
           "op": "field",
           "type": "size_t"
@@ -6940,22 +7745,34 @@
         {
           "name": "SXFunction::free_vars",
           "op": "field",
-          "type": "std::vector<SXElem>"
+          "type": {
+            "element": "SXElem",
+            "name": "std::vector"
+          }
         },
         {
           "name": "SXFunction::operations",
           "op": "field",
-          "type": "std::vector<SXElem>"
+          "type": {
+            "element": "SXElem",
+            "name": "std::vector"
+          }
         },
         {
           "name": "SXFunction::constants",
           "op": "field",
-          "type": "std::vector<SXElem>"
+          "type": {
+            "element": "SXElem",
+            "name": "std::vector"
+          }
         },
         {
           "name": "SXFunction::default_in",
           "op": "field",
-          "type": "std::vector<double>"
+          "type": {
+            "element": "double",
+            "name": "std::vector"
+          }
         },
         {
           "name": "SXFunction::call_sz_arg",
@@ -6988,7 +7805,6 @@
           "type": "size_t"
         },
         {
-          "bind": "call_.el.size()",
           "name": "SXFunction::call_el_size",
           "op": "field",
           "type": "size_t"
@@ -7003,31 +7819,49 @@
             {
               "name": "SXFunction::call_el_dep",
               "op": "field",
-              "type": "std::vector<int>"
+              "type": {
+                "element": "int",
+                "name": "std::vector"
+              }
             },
             {
               "name": "SXFunction::call_el_res",
               "op": "field",
-              "type": "std::vector<int>"
+              "type": {
+                "element": "int",
+                "name": "std::vector"
+              }
             },
             {
               "name": "SXFunction::call_el_copy_elision_arg",
               "op": "field",
-              "type": "std::vector<int>"
+              "type": {
+                "element": "int",
+                "name": "std::vector"
+              }
             },
             {
               "name": "SXFunction::call_el_copy_elision_offset",
               "op": "field",
-              "type": "std::vector<int>"
+              "type": {
+                "element": "int",
+                "name": "std::vector"
+              }
             }
           ],
-          "count": "call_.el.size()",
+          "count": [
+            "field",
+            "SXFunction::call_el_size"
+          ],
           "op": "repeat"
         },
         {
           "name": "SXFunction::copy_elision",
           "op": "field",
-          "type": "std::vector<bool>"
+          "type": {
+            "element": "bool",
+            "name": "std::vector"
+          }
         },
         {
           "body": [
@@ -7052,7 +7886,10 @@
               "type": "int"
             }
           ],
-          "count": "algorithm_.size()",
+          "count": [
+            "field",
+            "SXFunction::n_instr"
+          ],
           "op": "repeat"
         },
         {
@@ -7187,7 +8024,6 @@
           "op": "call"
         },
         {
-          "bind": "s_",
           "name": "SetNonzerosSlice::slice",
           "op": "field",
           "type": "Slice"
@@ -7234,7 +8070,10 @@
         {
           "name": "SetNonzerosVector::nonzeros",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         }
       ],
       "SetNonzerosVector<Add>::serialize_type": [
@@ -7312,7 +8151,6 @@
           "type": "IM"
         },
         {
-          "bind": "m_",
           "name": "SnoptInterface::m",
           "op": "field",
           "type": "casadi_int"
@@ -7418,22 +8256,8 @@
       ],
       "Sparsity::serialize": [
         {
-          "body": [
-            {
-              "name": "SparsityInternal::compressed",
-              "op": "field",
-              "type": "std::vector<casadi_int>"
-            }
-          ],
-          "condition": "is_null()",
-          "else": [
-            {
-              "name": "SparsityInternal::compressed",
-              "op": "field",
-              "type": "std::vector<casadi_int>"
-            }
-          ],
-          "op": "if"
+          "op": "unsupported",
+          "reason": "Predicate has no serialized field"
         }
       ],
       "SparsityCast::serialize_body": [
@@ -7450,12 +8274,18 @@
         {
           "name": "Split::offset",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Split::output_sparsity",
           "op": "field",
-          "type": "std::vector<Sparsity>"
+          "type": {
+            "element": "Sparsity",
+            "name": "std::vector"
+          }
         }
       ],
       "SqicInterface::serialize_body": [
@@ -7600,7 +8430,6 @@
           "type": "Sparsity"
         },
         {
-          "bind": "convexify_",
           "name": "Sqpmethod::convexify",
           "op": "field",
           "type": "bool"
@@ -7615,7 +8444,10 @@
               }
             }
           ],
-          "condition": "convexify_",
+          "condition": [
+            "field",
+            "Sqpmethod::convexify"
+          ],
           "op": "if"
         }
       ],
@@ -7888,7 +8720,10 @@
         {
           "name": "SuperscsInterface::Hp",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "SuperscsInterface::HL_sp",
@@ -7908,12 +8743,18 @@
         {
           "name": "SuperscsInterface::lookup",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "SuperscsInterface::perturb",
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "SuperscsInterface::opts",
@@ -7938,7 +8779,10 @@
         {
           "name": "Switch::f",
           "op": "field",
-          "type": "std::vector<Function>"
+          "type": {
+            "element": "Function",
+            "name": "std::vector"
+          }
         },
         {
           "name": "Switch::f_def",
@@ -8001,7 +8845,6 @@
       "SymbolicSX::serialize_node": [
         {
           "name": "SymbolicSX::name",
-          "name_expression": "\"SymbolicSX::name\"",
           "op": "field",
           "type": "std::string"
         }
@@ -8043,7 +8886,6 @@
       "UnarySX::serialize_node": [
         {
           "name": "UnarySX::dep",
-          "name_expression": "\"UnarySX::dep\"",
           "op": "field",
           "type": "SXElem"
         }
@@ -8109,17 +8951,29 @@
         {
           "name": "WorhpInterface::bool_opts",
           "op": "field",
-          "type": "std::map<std::string, bool>"
+          "type": {
+            "key": "std::string",
+            "name": "std::map",
+            "value": "bool"
+          }
         },
         {
           "name": "WorhpInterface::int_opts",
           "op": "field",
-          "type": "std::map<std::string, casadi_int>"
+          "type": {
+            "key": "std::string",
+            "name": "std::map",
+            "value": "casadi_int"
+          }
         },
         {
           "name": "WorhpInterface::double_opts",
           "op": "field",
-          "type": "std::map<std::string, double>"
+          "type": {
+            "key": "std::string",
+            "name": "std::map",
+            "value": "double"
+          }
         },
         {
           "name": "WorhpInterface::qp_opts",
@@ -8127,15 +8981,17 @@
           "type": "Dict"
         }
       ],
-      "XFunction<DerivedType,MatType,NodeType>::delayed_serialize_members": [
+      "XFunction<MXFunction,MX,MXNode>::delayed_serialize_members": [
         {
-          "bind": "out_",
           "name": "XFunction::out",
           "op": "field",
-          "type": "std::vector<MatType>"
+          "type": {
+            "element": "MX",
+            "name": "std::vector"
+          }
         }
       ],
-      "XFunction<DerivedType,MatType,NodeType>::serialize_body": [
+      "XFunction<MXFunction,MX,MXNode>::serialize_body": [
         {
           "layout": "FunctionInternal::serialize_body",
           "op": "call"
@@ -8146,34 +9002,41 @@
           "value": 1
         },
         {
-          "bind": "in_",
           "name": "XFunction::in",
           "op": "field",
-          "type": "std::vector<MatType>"
-        }
-      ],
-      "XFunction<MXFunction,MX,MXNode>::delayed_serialize_members": [
-        {
-          "layout": "XFunction<DerivedType,MatType,NodeType>::delayed_serialize_members",
-          "op": "call"
-        }
-      ],
-      "XFunction<MXFunction,MX,MXNode>::serialize_body": [
-        {
-          "layout": "XFunction<DerivedType,MatType,NodeType>::serialize_body",
-          "op": "call"
+          "type": {
+            "element": "MX",
+            "name": "std::vector"
+          }
         }
       ],
       "XFunction<SXFunction,SX,SXNode>::delayed_serialize_members": [
         {
-          "layout": "XFunction<DerivedType,MatType,NodeType>::delayed_serialize_members",
-          "op": "call"
+          "name": "XFunction::out",
+          "op": "field",
+          "type": {
+            "element": "SX",
+            "name": "std::vector"
+          }
         }
       ],
       "XFunction<SXFunction,SX,SXNode>::serialize_body": [
         {
-          "layout": "XFunction<DerivedType,MatType,NodeType>::serialize_body",
+          "layout": "FunctionInternal::serialize_body",
           "op": "call"
+        },
+        {
+          "name": "XFunction",
+          "op": "version",
+          "value": 1
+        },
+        {
+          "name": "XFunction::in",
+          "op": "field",
+          "type": {
+            "element": "SX",
+            "name": "std::vector"
+          }
         }
       ],
       "XpressInterface::serialize_body": [
@@ -8209,22 +9072,34 @@
         {
           "name": "XpressInterface::sos_settype",
           "op": "field",
-          "type": "std::vector<char>"
+          "type": {
+            "element": "char",
+            "name": "std::vector"
+          }
         },
         {
           "name": "XpressInterface::sos_setstart",
           "op": "field",
-          "type": "std::vector<int>"
+          "type": {
+            "element": "int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "XpressInterface::sos_setind",
           "op": "field",
-          "type": "std::vector<int>"
+          "type": {
+            "element": "int",
+            "name": "std::vector"
+          }
         },
         {
           "name": "XpressInterface::sos_refval",
           "op": "field",
-          "type": "std::vector<double>"
+          "type": {
+            "element": "double",
+            "name": "std::vector"
+          }
         }
       ],
       "ZeroByZero::serialize_body": [],
@@ -8242,7 +9117,6 @@
       "ZeroSX::serialize_node": [
         {
           "name": "ConstantSX::type",
-          "name_expression": "\"ConstantSX::type\"",
           "op": "field",
           "type": "char"
         }
@@ -8281,7 +9155,17 @@
               "type": "std::stringstream"
             }
           ],
-          "condition": "serialize_mode_==\"embed\"",
+          "condition": [
+            "equal",
+            [
+              "field",
+              "ResourceInternal::serialize_mode"
+            ],
+            [
+              "literal",
+              "embed"
+            ]
+          ],
           "else": [
             {
               "name": "ZipResource::path",
@@ -8301,27 +9185,82 @@
       "pack_tensors": [
         {
           "name": null,
-          "name_expression": "d + \"::names\"",
+          "name_expression": [
+            "concat",
+            [
+              "parameter",
+              "d"
+            ],
+            [
+              "literal",
+              "::names"
+            ]
+          ],
           "op": "field",
-          "type": "std::vector<std::string>"
+          "type": {
+            "element": "std::string",
+            "name": "std::vector"
+          }
         },
         {
           "name": null,
-          "name_expression": "d + \"::shapes\"",
+          "name_expression": [
+            "concat",
+            [
+              "parameter",
+              "d"
+            ],
+            [
+              "literal",
+              "::shapes"
+            ]
+          ],
           "op": "field",
-          "type": "std::vector<std::vector<casadi_int>>"
+          "type": {
+            "element": {
+              "element": "casadi_int",
+              "name": "std::vector"
+            },
+            "name": "std::vector"
+          }
         },
         {
           "name": null,
-          "name_expression": "d + \"::elem_types\"",
+          "name_expression": [
+            "concat",
+            [
+              "parameter",
+              "d"
+            ],
+            [
+              "literal",
+              "::elem_types"
+            ]
+          ],
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         },
         {
           "name": null,
-          "name_expression": "d + \"::numels\"",
+          "name_expression": [
+            "concat",
+            [
+              "parameter",
+              "d"
+            ],
+            [
+              "literal",
+              "::numels"
+            ]
+          ],
           "op": "field",
-          "type": "std::vector<casadi_int>"
+          "type": {
+            "element": "casadi_int",
+            "name": "std::vector"
+          }
         }
       ]
     },
@@ -8336,14 +9275,48 @@
           {
             "name": "Matrix::nonzeros",
             "op": "field",
-            "type": "std::vector<double>"
+            "type": {
+              "element": "double",
+              "name": "std::vector"
+            }
           }
         ]
+      },
+      "Fmu": {
+        "body": [
+          {
+            "name": "FmuInternal::type",
+            "op": "field",
+            "type": "std::string"
+          },
+          {
+            "cases": {
+              "Fmu2": [
+                {
+                  "layout": "Fmu2::serialize_body",
+                  "op": "call"
+                }
+              ],
+              "Fmu3": [
+                {
+                  "layout": "Fmu3::serialize_body",
+                  "op": "call"
+                }
+              ]
+            },
+            "op": "select",
+            "value": [
+              "field",
+              "FmuInternal::type"
+            ]
+          }
+        ],
+        "decoration": "F",
+        "shared": true
       },
       "Function": {
         "body": [
           {
-            "bind": "null",
             "name": "Function::null",
             "op": "field",
             "type": "bool"
@@ -8351,13 +9324,11 @@
           {
             "body": [
               {
-                "bind": "base",
                 "name": "FunctionInternal::base_function",
                 "op": "field",
                 "type": "std::string"
               },
               {
-                "bind": "base",
                 "cases": {
                   "BackwardDiff": [
                     {
@@ -8379,13 +9350,11 @@
                   ],
                   "Conic": [
                     {
-                      "bind": "plugin",
                       "name": "PluginInterface::plugin_name",
                       "op": "field",
                       "type": "std::string"
                     },
                     {
-                      "bind": "plugin",
                       "cases": {
                         "cbc": [
                           {
@@ -8520,13 +9489,38 @@
                           }
                         ]
                       },
-                      "op": "select"
+                      "op": "select",
+                      "value": [
+                        "field",
+                        "PluginInterface::plugin_name"
+                      ]
                     }
                   ],
                   "External": [
                     {
-                      "layout": "External::serialize_body",
-                      "op": "call"
+                      "name": "GenericExternal",
+                      "op": "version",
+                      "value": 1
+                    },
+                    {
+                      "name": "GenericExternal::type",
+                      "op": "field",
+                      "type": "char"
+                    },
+                    {
+                      "cases": {
+                        "103": [
+                          {
+                            "layout": "External::serialize_body",
+                            "op": "call"
+                          }
+                        ]
+                      },
+                      "op": "select",
+                      "value": [
+                        "field",
+                        "GenericExternal::type"
+                      ]
                     }
                   ],
                   "FmuFunction": [
@@ -8543,13 +9537,11 @@
                   ],
                   "Integrator": [
                     {
-                      "bind": "plugin",
                       "name": "PluginInterface::plugin_name",
                       "op": "field",
                       "type": "std::string"
                     },
                     {
-                      "bind": "plugin",
                       "cases": {
                         "collocation": [
                           {
@@ -8576,18 +9568,20 @@
                           }
                         ]
                       },
-                      "op": "select"
+                      "op": "select",
+                      "value": [
+                        "field",
+                        "PluginInterface::plugin_name"
+                      ]
                     }
                   ],
                   "Interpolant": [
                     {
-                      "bind": "plugin",
                       "name": "PluginInterface::plugin_name",
                       "op": "field",
                       "type": "std::string"
                     },
                     {
-                      "bind": "plugin",
                       "cases": {
                         "bspline": [
                           {
@@ -8602,13 +9596,11 @@
                             "value": 1
                           },
                           {
-                            "bind": "linear_type",
                             "name": "LinearInterpolant::type",
                             "op": "field",
                             "type": "char"
                           },
                           {
-                            "bind": "linear_type",
                             "cases": {
                               "102": [
                                 {
@@ -8623,31 +9615,34 @@
                                 }
                               ]
                             },
-                            "op": "select"
+                            "op": "select",
+                            "value": [
+                              "field",
+                              "LinearInterpolant::type"
+                            ]
                           }
                         ]
                       },
-                      "op": "select"
+                      "op": "select",
+                      "value": [
+                        "field",
+                        "PluginInterface::plugin_name"
+                      ]
                     }
                   ],
                   "MXFunction": [
                     {
                       "layout": "MXFunction::serialize_body",
-                      "op": "call",
-                      "params": {
-                        "MatType": "MX"
-                      }
+                      "op": "call"
                     }
                   ],
                   "Map": [
                     {
-                      "bind": "class_name()",
                       "name": "Map::class_name",
                       "op": "field",
                       "type": "std::string"
                     },
                     {
-                      "bind": "class_name()",
                       "cases": {
                         "Map": [
                           {
@@ -8668,18 +9663,20 @@
                           }
                         ]
                       },
-                      "op": "select"
+                      "op": "select",
+                      "value": [
+                        "field",
+                        "Map::class_name"
+                      ]
                     }
                   ],
                   "MapSum": [
                     {
-                      "bind": "class_name()",
                       "name": "MapSum::class_name",
                       "op": "field",
                       "type": "std::string"
                     },
                     {
-                      "bind": "class_name()",
                       "cases": {
                         "MapSum": [
                           {
@@ -8688,18 +9685,20 @@
                           }
                         ]
                       },
-                      "op": "select"
+                      "op": "select",
+                      "value": [
+                        "field",
+                        "MapSum::class_name"
+                      ]
                     }
                   ],
                   "Nlpsol": [
                     {
-                      "bind": "plugin",
                       "name": "PluginInterface::plugin_name",
                       "op": "field",
                       "type": "std::string"
                     },
                     {
-                      "bind": "plugin",
                       "cases": {
                         "alpaqa": [
                           {
@@ -8810,18 +9809,20 @@
                           }
                         ]
                       },
-                      "op": "select"
+                      "op": "select",
+                      "value": [
+                        "field",
+                        "PluginInterface::plugin_name"
+                      ]
                     }
                   ],
                   "Onnx": [
                     {
-                      "bind": "plugin",
                       "name": "PluginInterface::plugin_name",
                       "op": "field",
                       "type": "std::string"
                     },
                     {
-                      "bind": "plugin",
                       "cases": {
                         "ort": [
                           {
@@ -8830,18 +9831,20 @@
                           }
                         ]
                       },
-                      "op": "select"
+                      "op": "select",
+                      "value": [
+                        "field",
+                        "PluginInterface::plugin_name"
+                      ]
                     }
                   ],
                   "Rootfinder": [
                     {
-                      "bind": "plugin",
                       "name": "PluginInterface::plugin_name",
                       "op": "field",
                       "type": "std::string"
                     },
                     {
-                      "bind": "plugin",
                       "cases": {
                         "bisection": [
                           {
@@ -8874,16 +9877,17 @@
                           }
                         ]
                       },
-                      "op": "select"
+                      "op": "select",
+                      "value": [
+                        "field",
+                        "PluginInterface::plugin_name"
+                      ]
                     }
                   ],
                   "SXFunction": [
                     {
                       "layout": "SXFunction::serialize_body",
-                      "op": "call",
-                      "params": {
-                        "MatType": "SX"
-                      }
+                      "op": "call"
                     }
                   ],
                   "Smoothing": [
@@ -8899,10 +9903,20 @@
                     }
                   ]
                 },
-                "op": "select"
+                "op": "select",
+                "value": [
+                  "field",
+                  "FunctionInternal::base_function"
+                ]
               }
             ],
-            "condition": "!null",
+            "condition": [
+              "not",
+              [
+                "field",
+                "Function::null"
+              ]
+            ],
             "op": "if"
           }
         ],
@@ -8912,13 +9926,11 @@
       "GenericType": {
         "body": [
           {
-            "bind": "type",
             "name": "GenericType::type",
             "op": "field",
             "type": "int"
           },
           {
-            "bind": "type",
             "cases": {
               "1": [
                 {
@@ -8931,7 +9943,10 @@
                 {
                   "name": "GenericType::d",
                   "op": "field",
-                  "type": "std::vector<std::string>"
+                  "type": {
+                    "element": "std::string",
+                    "name": "std::vector"
+                  }
                 }
               ],
               "11": [
@@ -8952,7 +9967,10 @@
                 {
                   "name": "GenericType::d",
                   "op": "field",
-                  "type": "std::vector<Function>"
+                  "type": {
+                    "element": "Function",
+                    "name": "std::vector"
+                  }
                 }
               ],
               "14": [
@@ -8966,28 +9984,46 @@
                 {
                   "name": "GenericType::d",
                   "op": "field",
-                  "type": "std::vector<std::vector<std::string>>"
+                  "type": {
+                    "element": {
+                      "element": "std::string",
+                      "name": "std::vector"
+                    },
+                    "name": "std::vector"
+                  }
                 }
               ],
               "17": [
                 {
                   "name": "GenericType::d",
                   "op": "field",
-                  "type": "std::vector<Dict>"
+                  "type": {
+                    "element": "Dict",
+                    "name": "std::vector"
+                  }
                 }
               ],
               "18": [
                 {
                   "name": "GenericType::d",
                   "op": "field",
-                  "type": "std::vector<std::vector<GenericType>>"
+                  "type": {
+                    "element": {
+                      "element": "GenericType",
+                      "name": "std::vector"
+                    },
+                    "name": "std::vector"
+                  }
                 }
               ],
               "19": [
                 {
                   "name": "GenericType::d",
                   "op": "field",
-                  "type": "std::vector<GenericType>"
+                  "type": {
+                    "element": "GenericType",
+                    "name": "std::vector"
+                  }
                 }
               ],
               "2": [
@@ -9015,39 +10051,64 @@
                 {
                   "name": "GenericType::d",
                   "op": "field",
-                  "type": "std::vector<casadi_int>"
+                  "type": {
+                    "element": "casadi_int",
+                    "name": "std::vector"
+                  }
                 }
               ],
               "6": [
                 {
                   "name": "GenericType::d",
                   "op": "field",
-                  "type": "std::vector<std::vector<casadi_int>>"
+                  "type": {
+                    "element": {
+                      "element": "casadi_int",
+                      "name": "std::vector"
+                    },
+                    "name": "std::vector"
+                  }
                 }
               ],
               "7": [
                 {
                   "name": "GenericType::d",
                   "op": "field",
-                  "type": "std::vector<bool>"
+                  "type": {
+                    "element": "bool",
+                    "name": "std::vector"
+                  }
                 }
               ],
               "8": [
                 {
                   "name": "GenericType::d",
                   "op": "field",
-                  "type": "std::vector<double>"
+                  "type": {
+                    "element": "double",
+                    "name": "std::vector"
+                  }
                 }
               ],
               "9": [
                 {
                   "name": "GenericType::d",
                   "op": "field",
-                  "type": "std::vector<std::vector<double>>"
+                  "type": {
+                    "element": {
+                      "element": "double",
+                      "name": "std::vector"
+                    },
+                    "name": "std::vector"
+                  }
                 }
               ]
             },
-            "op": "select"
+            "op": "select",
+            "value": [
+              "field",
+              "GenericType::type"
+            ]
           }
         ],
         "decoration": "G",
@@ -9063,20 +10124,47 @@
           {
             "name": "Matrix::nonzeros",
             "op": "field",
-            "type": "std::vector<casadi_int>"
+            "type": {
+              "element": "casadi_int",
+              "name": "std::vector"
+            }
           }
         ]
+      },
+      "Importer": {
+        "body": [
+          {
+            "name": "ImporterInternal::type",
+            "op": "field",
+            "type": "std::string"
+          },
+          {
+            "cases": {
+              "DllLibrary": [
+                {
+                  "layout": "ImporterInternal::serialize_body",
+                  "op": "call"
+                }
+              ]
+            },
+            "op": "select",
+            "value": [
+              "field",
+              "ImporterInternal::type"
+            ]
+          }
+        ],
+        "decoration": "M",
+        "shared": true
       },
       "Linsol": {
         "body": [
           {
-            "bind": "plugin",
             "name": "PluginInterface::plugin_name",
             "op": "field",
             "type": "std::string"
           },
           {
-            "bind": "plugin",
             "cases": {
               "csparse": [
                 {
@@ -9145,7 +10233,11 @@
                 }
               ]
             },
-            "op": "select"
+            "op": "select",
+            "value": [
+              "field",
+              "PluginInterface::plugin_name"
+            ]
           }
         ],
         "decoration": "L",
@@ -9154,13 +10246,11 @@
       "MX": {
         "body": [
           {
-            "bind": "op",
             "name": "MXNode::op",
             "op": "field",
             "type": "int"
           },
           {
-            "bind": "op",
             "cases": {
               "-1": [
                 {
@@ -9193,13 +10283,11 @@
               ],
               "100": [
                 {
-                  "bind": "subtype",
                   "name": "KronContract::kind",
                   "op": "field",
                   "type": "std::string"
                 },
                 {
-                  "bind": "subtype",
                   "cases": {
                     "base": [
                       {
@@ -9226,7 +10314,11 @@
                       }
                     ]
                   },
-                  "op": "select"
+                  "op": "select",
+                  "value": [
+                    "field",
+                    "KronContract::kind"
+                  ]
                 }
               ],
               "11": [
@@ -9522,13 +10614,11 @@
               ],
               "44": [
                 {
-                  "bind": "subtype",
                   "name": "ConstantMX::type",
                   "op": "field",
                   "type": "char"
                 },
                 {
-                  "bind": "subtype",
                   "cases": {
                     "102": [
                       {
@@ -9590,7 +10680,11 @@
                       }
                     ]
                   },
-                  "op": "select"
+                  "op": "select",
+                  "value": [
+                    "field",
+                    "ConstantMX::type"
+                  ]
                 }
               ],
               "45": [
@@ -9637,13 +10731,11 @@
               ],
               "52": [
                 {
-                  "bind": "subtype",
                   "name": "Multiplication::kind",
                   "op": "field",
                   "type": "std::string"
                 },
                 {
-                  "bind": "subtype",
                   "cases": {
                     "base": [
                       {
@@ -9670,7 +10762,11 @@
                       }
                     ]
                   },
-                  "op": "select"
+                  "op": "select",
+                  "value": [
+                    "field",
+                    "Multiplication::kind"
+                  ]
                 }
               ],
               "53": [
@@ -9686,13 +10782,11 @@
               ],
               "54": [
                 {
-                  "bind": "subtype",
                   "name": "Transpose::dense",
                   "op": "field",
                   "type": "bool"
                 },
                 {
-                  "bind": "subtype",
                   "cases": {
                     "false": [
                       {
@@ -9707,7 +10801,11 @@
                       }
                     ]
                   },
-                  "op": "select"
+                  "op": "select",
+                  "value": [
+                    "field",
+                    "Transpose::dense"
+                  ]
                 }
               ],
               "55": [
@@ -9790,13 +10888,11 @@
               ],
               "69": [
                 {
-                  "bind": "subtype",
                   "name": "GetNonzeros::type",
                   "op": "field",
                   "type": "char"
                 },
                 {
-                  "bind": "subtype",
                   "cases": {
                     "97": [
                       {
@@ -9817,7 +10913,11 @@
                       }
                     ]
                   },
-                  "op": "select"
+                  "op": "select",
+                  "value": [
+                    "field",
+                    "GetNonzeros::type"
+                  ]
                 }
               ],
               "7": [
@@ -9828,13 +10928,11 @@
               ],
               "70": [
                 {
-                  "bind": "subtype",
                   "name": "GetNonzerosParam::type",
                   "op": "field",
                   "type": "char"
                 },
                 {
-                  "bind": "subtype",
                   "cases": {
                     "100": [
                       {
@@ -9861,18 +10959,20 @@
                       }
                     ]
                   },
-                  "op": "select"
+                  "op": "select",
+                  "value": [
+                    "field",
+                    "GetNonzerosParam::type"
+                  ]
                 }
               ],
               "71": [
                 {
-                  "bind": "subtype",
                   "name": "SetNonzeros::type",
                   "op": "field",
                   "type": "char"
                 },
                 {
-                  "bind": "subtype",
                   "cases": {
                     "97": [
                       {
@@ -9893,18 +10993,20 @@
                       }
                     ]
                   },
-                  "op": "select"
+                  "op": "select",
+                  "value": [
+                    "field",
+                    "SetNonzeros::type"
+                  ]
                 }
               ],
               "72": [
                 {
-                  "bind": "subtype",
                   "name": "SetNonzerosParam::type",
                   "op": "field",
                   "type": "char"
                 },
                 {
-                  "bind": "subtype",
                   "cases": {
                     "100": [
                       {
@@ -9931,18 +11033,20 @@
                       }
                     ]
                   },
-                  "op": "select"
+                  "op": "select",
+                  "value": [
+                    "field",
+                    "SetNonzerosParam::type"
+                  ]
                 }
               ],
               "73": [
                 {
-                  "bind": "subtype",
                   "name": "SetNonzeros::type",
                   "op": "field",
                   "type": "char"
                 },
                 {
-                  "bind": "subtype",
                   "cases": {
                     "97": [
                       {
@@ -9963,18 +11067,20 @@
                       }
                     ]
                   },
-                  "op": "select"
+                  "op": "select",
+                  "value": [
+                    "field",
+                    "SetNonzeros::type"
+                  ]
                 }
               ],
               "74": [
                 {
-                  "bind": "subtype",
                   "name": "SetNonzerosParam::type",
                   "op": "field",
                   "type": "char"
                 },
                 {
-                  "bind": "subtype",
                   "cases": {
                     "100": [
                       {
@@ -10001,18 +11107,20 @@
                       }
                     ]
                   },
-                  "op": "select"
+                  "op": "select",
+                  "value": [
+                    "field",
+                    "SetNonzerosParam::type"
+                  ]
                 }
               ],
               "75": [
                 {
-                  "bind": "subtype",
                   "name": "Project::type",
                   "op": "field",
                   "type": "char"
                 },
                 {
-                  "bind": "subtype",
                   "cases": {
                     "100": [
                       {
@@ -10033,7 +11141,11 @@
                       }
                     ]
                   },
-                  "op": "select"
+                  "op": "select",
+                  "value": [
+                    "field",
+                    "Project::type"
+                  ]
                 }
               ],
               "76": [
@@ -10154,13 +11266,11 @@
               ],
               "90": [
                 {
-                  "bind": "subtype",
                   "name": "BSpline::type",
                   "op": "field",
                   "type": "char"
                 },
                 {
-                  "bind": "subtype",
                   "cases": {
                     "110": [
                       {
@@ -10175,7 +11285,11 @@
                       }
                     ]
                   },
-                  "op": "select"
+                  "op": "select",
+                  "value": [
+                    "field",
+                    "BSpline::type"
+                  ]
                 }
               ],
               "91": [
@@ -10238,13 +11352,11 @@
               ],
               "99": [
                 {
-                  "bind": "subtype",
                   "name": "Kron::kind",
                   "op": "field",
                   "type": "std::string"
                 },
                 {
-                  "bind": "subtype",
                   "cases": {
                     "base": [
                       {
@@ -10271,11 +11383,19 @@
                       }
                     ]
                   },
-                  "op": "select"
+                  "op": "select",
+                  "value": [
+                    "field",
+                    "Kron::kind"
+                  ]
                 }
               ]
             },
-            "op": "select"
+            "op": "select",
+            "value": [
+              "field",
+              "MXNode::op"
+            ]
           }
         ],
         "decoration": "X",
@@ -10289,13 +11409,11 @@
             "value": 1
           },
           {
-            "bind": "resource_type",
             "name": "ResourceInternal::type",
             "op": "field",
             "type": "std::string"
           },
           {
-            "bind": "resource_type",
             "cases": {
               "DirResource": [
                 {
@@ -10316,7 +11434,11 @@
                 }
               ]
             },
-            "op": "select"
+            "op": "select",
+            "value": [
+              "field",
+              "ResourceInternal::type"
+            ]
           }
         ],
         "decoration": "R",
@@ -10332,20 +11454,21 @@
           {
             "name": "Matrix::nonzeros",
             "op": "field",
-            "type": "std::vector<SXElem>"
+            "type": {
+              "element": "SXElem",
+              "name": "std::vector"
+            }
           }
         ]
       },
       "SXElem": {
         "body": [
           {
-            "bind": "op",
             "name": "SXNode::op",
             "op": "field",
             "type": "casadi_int"
           },
           {
-            "bind": "op",
             "cases": {
               "-1": [
                 {
@@ -10589,19 +11712,16 @@
               ],
               "44": [
                 {
-                  "bind": "subtype",
                   "name": "ConstantSX::type",
                   "op": "field",
                   "type": "char"
                 },
                 {
-                  "bind": "subtype",
                   "cases": {
                     "102": [],
                     "105": [
                       {
                         "name": "ConstantSX::value",
-                        "name_expression": "\"ConstantSX::value\"",
                         "op": "field",
                         "type": "int"
                       }
@@ -10611,7 +11731,6 @@
                     "114": [
                       {
                         "name": "ConstantSX::value",
-                        "name_expression": "\"ConstantSX::value\"",
                         "op": "field",
                         "type": "double"
                       }
@@ -10620,7 +11739,11 @@
                     "49": [],
                     "70": []
                   },
-                  "op": "select"
+                  "op": "select",
+                  "value": [
+                    "field",
+                    "ConstantSX::type"
+                  ]
                 }
               ],
               "47": [
@@ -10708,7 +11831,11 @@
                 }
               ]
             },
-            "op": "select"
+            "op": "select",
+            "value": [
+              "field",
+              "SXNode::op"
+            ]
           }
         ],
         "decoration": "E",
@@ -10729,7 +11856,10 @@
           {
             "name": "SparsityInternal::compressed",
             "op": "field",
-            "type": "std::vector<casadi_int>"
+            "type": {
+              "element": "casadi_int",
+              "name": "std::vector"
+            }
           }
         ],
         "decoration": "S",
