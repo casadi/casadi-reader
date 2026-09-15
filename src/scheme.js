@@ -3643,22 +3643,22 @@ export default {
         {
           "name": "Ipqp::pr_tol",
           "op": "field",
-          "type": "T1"
+          "type": "double"
         },
         {
           "name": "Ipqp::du_tol",
           "op": "field",
-          "type": "T1"
+          "type": "double"
         },
         {
           "name": "Ipqp::co_tol",
           "op": "field",
-          "type": "T1"
+          "type": "double"
         },
         {
           "name": "Ipqp::mu_tol",
           "op": "field",
-          "type": "T1"
+          "type": "double"
         }
       ],
       "KnitroInterface::serialize_body": [
@@ -5292,17 +5292,17 @@ export default {
         {
           "name": "Qrqp::min_lam",
           "op": "field",
-          "type": "T1"
+          "type": "double"
         },
         {
           "name": "Qrqp::constr_viol_tol",
           "op": "field",
-          "type": "T1"
+          "type": "double"
         },
         {
           "name": "Qrqp::dual_inf_tol",
           "op": "field",
-          "type": "T1"
+          "type": "double"
         }
       ],
       "RealtypeSX::serialize_node": [
@@ -6261,7 +6261,7 @@ export default {
         {
           "name": "SuperscsInterface::settings::warm_start",
           "op": "field",
-          "type": "T1"
+          "type": "double"
         },
         {
           "name": "SuperscsInterface::settings::do_super_scs",

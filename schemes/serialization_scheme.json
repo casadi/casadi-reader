@@ -279,7 +279,7 @@
     },
     "*Convexify::margin": {
       "cpp_types": [
-        "T1"
+        "double"
       ]
     },
     "*Convexify::max_iter_eig": {
@@ -2936,12 +2936,12 @@
     },
     "Ipqp::co_tol": {
       "cpp_types": [
-        "T1"
+        "double"
       ]
     },
     "Ipqp::du_tol": {
       "cpp_types": [
-        "T1"
+        "double"
       ]
     },
     "Ipqp::kkt": {
@@ -2964,12 +2964,12 @@
     },
     "Ipqp::mu_tol": {
       "cpp_types": [
-        "T1"
+        "double"
       ]
     },
     "Ipqp::pr_tol": {
       "cpp_types": [
-        "T1"
+        "double"
       ]
     },
     "Ipqp::print_header": {
@@ -3734,7 +3734,7 @@
     },
     "OsqpInterface::settings::rho": {
       "cpp_types": [
-        "T1"
+        "double"
       ]
     },
     "OsqpInterface::settings::scaled_termination": {
@@ -3751,7 +3751,7 @@
     },
     "OsqpInterface::settings::warm_start": {
       "cpp_types": [
-        "T1"
+        "double"
       ]
     },
     "OsqpInterface::warm_start_dual": {
@@ -4113,12 +4113,12 @@
     },
     "Qrqp::constr_viol_tol": {
       "cpp_types": [
-        "T1"
+        "double"
       ]
     },
     "Qrqp::dual_inf_tol": {
       "cpp_types": [
-        "T1"
+        "double"
       ]
     },
     "Qrqp::kkt": {
@@ -4131,7 +4131,7 @@
     },
     "Qrqp::min_lam": {
       "cpp_types": [
-        "T1"
+        "double"
       ]
     },
     "Qrqp::pc": {
@@ -4869,7 +4869,7 @@
     },
     "SuperscsInterface::settings::warm_start": {
       "cpp_types": [
-        "T1"
+        "double"
       ]
     },
     "Switch::f": {
@@ -9074,22 +9074,22 @@
         {
           "name": "Ipqp::pr_tol",
           "op": "field",
-          "type": "T1"
+          "type": "double"
         },
         {
           "name": "Ipqp::du_tol",
           "op": "field",
-          "type": "T1"
+          "type": "double"
         },
         {
           "name": "Ipqp::co_tol",
           "op": "field",
-          "type": "T1"
+          "type": "double"
         },
         {
           "name": "Ipqp::mu_tol",
           "op": "field",
-          "type": "T1"
+          "type": "double"
         }
       ],
       "KnitroInterface::serialize_body": [
@@ -10723,17 +10723,17 @@
         {
           "name": "Qrqp::min_lam",
           "op": "field",
-          "type": "T1"
+          "type": "double"
         },
         {
           "name": "Qrqp::constr_viol_tol",
           "op": "field",
-          "type": "T1"
+          "type": "double"
         },
         {
           "name": "Qrqp::dual_inf_tol",
           "op": "field",
-          "type": "T1"
+          "type": "double"
         }
       ],
       "RealtypeSX::serialize_node": [
@@ -11692,7 +11692,7 @@
         {
           "name": "SuperscsInterface::settings::warm_start",
           "op": "field",
-          "type": "T1"
+          "type": "double"
         },
         {
           "name": "SuperscsInterface::settings::do_super_scs",
