@@ -111,7 +111,9 @@ Python 3.9+ and the development dependencies in package-lock.json.
 ## Scheme and coverage
 
 CasADi's `misc/generate_serialization_scheme.py` produces the vendored
-`schemes/serialization_scheme.json`, including lowered reader layouts.
+`schemes/serialization_scheme.json`: decoding rules and validation metadata,
+without source bodies, pack expressions, source locations or extraction offsets.
+Field bindings are retained only when decoding expressions can reference them.
 `npm run generate` generates all six readers. The generic engines
 execute field, base-layout, repetition, condition and discriminator instructions;
 they contain no SX/MX-specific decoding methods. A small `Generator` base class
@@ -189,5 +191,5 @@ repository `casadi-reader`, workflow `publish.yml`, with no environment name and
 with direct `npm publish` allowed. Publishing uses OIDC and provenance, with no
 npm token secret. See [npm's documentation](https://docs.npmjs.com/trusted-publishers/).
 
-The reader implementation is MIT licensed. Source excerpts in the vendored
-scheme retain CasADi's original license; see NOTICE.
+The reader implementation is MIT licensed. The vendored scheme is derived from
+CasADi; upstream attribution and license texts are retained in NOTICE and LICENSES.

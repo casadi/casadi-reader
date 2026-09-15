@@ -1,7 +1,7 @@
 casadi-reader's implementation is licensed under the MIT License (LICENSE).
 
-The vendored schemes/serialization_scheme.json contains serializer source
-excerpts from CasADi 3.8.1, https://github.com/casadi/casadi. Those excerpts
+The vendored schemes/serialization_scheme.json contains decoding metadata derived
+from CasADi 3.8.1, https://github.com/casadi/casadi. The upstream sources
 retain CasADi's LGPL-3.0-or-later license; they are not relicensed by this
 repository's MIT License. License texts are in LICENSES/.
 
@@ -11,7 +11,7 @@ Copyright (C) 2010-2023 Joel Andersson, Joris Gillis, Moritz Diehl,
 Copyright (C) 2011-2014 Greg Horn
 Additional source-file notices remain available in the referenced CasADi tree.
 
-The published reader runtime assets contain generated protocol metadata,
-not the scheme's serializer source excerpts. The full scheme is included in
+The published reader runtime assets contain generated decoding metadata.
+Neither these assets nor the vendored scheme contains serializer source bodies. The full scheme is included in
 this source repository and Python source distributions as a generation/test
 input; it is not needed by the installed readers.

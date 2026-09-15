@@ -5,201 +5,6 @@ export default {
     "protocol": 3
   },
   "reader": {
-    "dispatch": {
-      "Function": {
-        "BlazingSplineFunction": "BlazingSplineFunction",
-        "Conic": "Conic",
-        "External": "External",
-        "FmuFunction": "FmuFunction",
-        "Integrator": "Integrator",
-        "Interpolant": "Interpolant",
-        "MXFunction": "MXFunction",
-        "Map": "Map",
-        "MapSum": "MapSum",
-        "Nlpsol": "Nlpsol",
-        "Onnx": "OnnxFunction",
-        "Rootfinder": "Rootfinder",
-        "SXFunction": "SXFunction",
-        "Switch": "Switch"
-      },
-      "GenericType": {
-        "1": "bool",
-        "10": "std::vector<std::string>",
-        "11": "Dict",
-        "12": "Function",
-        "13": "std::vector<Function>",
-        "14": "void*",
-        "16": "std::vector<std::vector<std::string>>",
-        "17": "std::vector<Dict>",
-        "18": "std::vector<std::vector<GenericType>>",
-        "19": "std::vector<GenericType>",
-        "2": "casadi_int",
-        "3": "double",
-        "4": "std::string",
-        "5": "std::vector<casadi_int>",
-        "6": "std::vector<std::vector<casadi_int>>",
-        "7": "std::vector<bool>",
-        "8": "std::vector<double>",
-        "9": "std::vector<std::vector<double>>"
-      },
-      "MX": {
-        "-1": "OutputNode",
-        "0": "UnaryMX",
-        "1": "BinaryMX",
-        "10": "UnaryMX",
-        "100": "KronContract",
-        "11": "UnaryMX",
-        "12": "UnaryMX",
-        "13": "UnaryMX",
-        "14": "UnaryMX",
-        "15": "UnaryMX",
-        "16": "UnaryMX",
-        "17": "UnaryMX",
-        "18": "UnaryMX",
-        "19": "BinaryMX",
-        "2": "BinaryMX",
-        "20": "BinaryMX",
-        "21": "BinaryMX",
-        "22": "BinaryMX",
-        "23": "UnaryMX",
-        "24": "BinaryMX",
-        "25": "BinaryMX",
-        "26": "UnaryMX",
-        "27": "UnaryMX",
-        "28": "BinaryMX",
-        "29": "UnaryMX",
-        "3": "BinaryMX",
-        "30": "UnaryMX",
-        "31": "BinaryMX",
-        "32": "BinaryMX",
-        "33": "UnaryMX",
-        "34": "BinaryMX",
-        "35": "BinaryMX",
-        "36": "UnaryMX",
-        "37": "UnaryMX",
-        "38": "UnaryMX",
-        "39": "UnaryMX",
-        "4": "BinaryMX",
-        "40": "UnaryMX",
-        "41": "UnaryMX",
-        "42": "UnaryMX",
-        "43": "BinaryMX",
-        "44": "ConstantMX",
-        "45": "Input",
-        "46": "Output",
-        "47": "SymbolicMX",
-        "48": "Call",
-        "49": "Find",
-        "5": "UnaryMX",
-        "50": "Low",
-        "52": "Multiplication",
-        "53": "LinsolCall<false>",
-        "54": "Transpose",
-        "55": "Determinant",
-        "56": "Inverse",
-        "57": "Dot",
-        "58": "Bilin",
-        "59": "Rank1",
-        "6": "UnaryMX",
-        "60": "Horzcat",
-        "61": "Vertcat",
-        "62": "Diagcat",
-        "63": "Horzsplit",
-        "64": "Vertsplit",
-        "65": "Diagsplit",
-        "66": "Reshape",
-        "69": "GetNonzeros",
-        "7": "UnaryMX",
-        "70": "GetNonzerosParam",
-        "71": "SetNonzeros<true>",
-        "72": "SetNonzerosParam<true>",
-        "73": "SetNonzeros<false>",
-        "74": "SetNonzerosParam<false>",
-        "75": "Project",
-        "76": "Assertion",
-        "77": "Monitor",
-        "78": "Norm2",
-        "79": "Norm1",
-        "8": "BinaryMX",
-        "80": "NormInf",
-        "81": "NormF",
-        "82": "MMin",
-        "83": "MMax",
-        "84": "HorzRepmat",
-        "85": "HorzRepsum",
-        "86": "UnaryMX",
-        "87": "BinaryMX",
-        "88": "BinaryMX",
-        "89": "Einstein",
-        "9": "BinaryMX",
-        "90": "BSplineCommon",
-        "91": "Convexify",
-        "92": "SparsityCast",
-        "93": "UnaryMX",
-        "94": "UnaryMX",
-        "95": "BinaryMX",
-        "96": "LogSumExp",
-        "97": "BinaryMX",
-        "98": "Dump",
-        "99": "Kron"
-      },
-      "SXElem": {
-        "-1": "OutputSX",
-        "0": "UnarySX",
-        "1": "BinarySX",
-        "10": "UnarySX",
-        "11": "UnarySX",
-        "12": "UnarySX",
-        "13": "UnarySX",
-        "14": "UnarySX",
-        "15": "UnarySX",
-        "16": "UnarySX",
-        "17": "UnarySX",
-        "18": "UnarySX",
-        "19": "BinarySX",
-        "2": "BinarySX",
-        "20": "BinarySX",
-        "21": "BinarySX",
-        "22": "BinarySX",
-        "23": "UnarySX",
-        "24": "BinarySX",
-        "25": "BinarySX",
-        "26": "UnarySX",
-        "27": "UnarySX",
-        "28": "BinarySX",
-        "29": "UnarySX",
-        "3": "BinarySX",
-        "30": "UnarySX",
-        "31": "BinarySX",
-        "32": "BinarySX",
-        "33": "UnarySX",
-        "34": "BinarySX",
-        "35": "BinarySX",
-        "36": "UnarySX",
-        "37": "UnarySX",
-        "38": "UnarySX",
-        "39": "UnarySX",
-        "4": "BinarySX",
-        "40": "UnarySX",
-        "41": "UnarySX",
-        "42": "UnarySX",
-        "43": "BinarySX",
-        "47": "SymbolicSX",
-        "48": "CallSX",
-        "5": "UnarySX",
-        "6": "UnarySX",
-        "7": "UnarySX",
-        "8": "BinarySX",
-        "86": "UnarySX",
-        "87": "BinarySX",
-        "88": "BinarySX",
-        "9": "BinarySX",
-        "93": "UnarySX",
-        "94": "UnarySX",
-        "95": "BinarySX",
-        "97": "BinarySX"
-      }
-    },
     "file_types": {
       "0": "Sparsity",
       "10": "std::vector<Sparsity>",
@@ -229,13 +34,11 @@ export default {
           "value": 1
         },
         {
-          "bind": "jacg_sp_",
           "name": "AlpaqaInterface::jacg_sp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "opts_",
           "name": "AlpaqaInterface::opts",
           "op": "field",
           "type": "Dict"
@@ -247,7 +50,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "fail_message_",
           "name": "Assertion::fail_message",
           "op": "field",
           "type": "std::string"
@@ -259,7 +61,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "coeffs_",
           "name": "BSpline::coeffs",
           "op": "field",
           "type": "std::vector<double>"
@@ -271,7 +72,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "'n'",
           "name": "BSpline::type",
           "op": "field",
           "type": "char"
@@ -283,19 +83,16 @@ export default {
           "op": "call"
         },
         {
-          "bind": "knots_",
           "name": "BSplineCommon::knots",
           "op": "field",
           "type": "std::vector<double>"
         },
         {
-          "bind": "offset_",
           "name": "BSplineCommon::offset",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "degree_",
           "name": "BSplineCommon::degree",
           "op": "field",
           "type": "std::vector<casadi_int>"
@@ -307,31 +104,26 @@ export default {
           "type": "casadi_int"
         },
         {
-          "bind": "lookup_mode_",
           "name": "BSplineCommon::lookup_mode",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "strides_",
           "name": "BSplineCommon::strides",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "coeffs_dims_",
           "name": "BSplineCommon::coeffs_dims",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "coeffs_size_",
           "name": "BSplineCommon::coeffs_size",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "jac_cache_",
           "name": "BSplineCommon::jac_cache_",
           "op": "field",
           "type": "MX"
@@ -348,7 +140,6 @@ export default {
           "value": 1
         },
         {
-          "bind": "S_",
           "name": "BSplineInterpolant::s",
           "op": "field",
           "type": "Function"
@@ -360,7 +151,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "'p'",
           "name": "BSpline::type",
           "op": "field",
           "type": "char"
@@ -372,7 +162,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "static_cast<int>(op_)",
           "name": "BinaryMX::op",
           "op": "field",
           "type": "int"
@@ -392,14 +181,12 @@ export default {
       ],
       "BinarySX::serialize_node": [
         {
-          "bind": "dep0_",
           "name": "UnarySX::dep0",
           "name_expression": "\"UnarySX::dep0\"",
           "op": "field",
           "type": "SXElem"
         },
         {
-          "bind": "dep1_",
           "name": "UnarySX::dep1",
           "name_expression": "\"UnarySX::dep1\"",
           "op": "field",
@@ -417,43 +204,36 @@ export default {
           "value": 1
         },
         {
-          "bind": "max_iter_",
           "name": "Bisection::max_iter",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "max_search_",
           "name": "Bisection::max_search",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "search_step_",
           "name": "Bisection::search_step",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "abstol_",
           "name": "Bisection::abstol",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "abstol_step_",
           "name": "Bisection::abstol_step",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "lb_",
           "name": "Bisection::lb",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "ub_",
           "name": "Bisection::ub",
           "op": "field",
           "type": "double"
@@ -470,31 +250,26 @@ export default {
           "value": 2
         },
         {
-          "bind": "diff_order_",
           "name": "BlazingSplineFunction::diff_order",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "precompute_coeff_",
           "name": "BlazingSplineFunction::precompute_coeff",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "precompute_grid_",
           "name": "BlazingSplineFunction::precompute_grid",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "knots_",
           "name": "BlazingSplineFunction::knots",
           "op": "field",
           "type": "std::vector<type-dependent>"
         },
         {
-          "bind": "lookup_modes_",
           "name": "BlazingSplineFunction::lookup_modes",
           "op": "field",
           "type": "std::vector<std::string>"
@@ -508,13 +283,11 @@ export default {
         {
           "body": [
             {
-              "bind": "knots_offset_",
               "name": "BlazingSplineFunction::knots_offset",
               "op": "field",
               "type": "std::vector<casadi_int>"
             },
             {
-              "bind": "inv_input_",
               "name": "BlazingSplineFunction::inv_input",
               "op": "field",
               "type": "bool"
@@ -524,13 +297,11 @@ export default {
           "op": "if"
         },
         {
-          "bind": "pedantic_mode_order_",
           "name": "BlazingSplineFunction::pedantic_mode_order",
           "op": "field",
           "type": "std::string"
         },
         {
-          "bind": "pedantic_mode_size_",
           "name": "BlazingSplineFunction::pedantic_mode_size",
           "op": "field",
           "type": "std::string"
@@ -547,373 +318,311 @@ export default {
           "value": 1
         },
         {
-          "bind": "nblocks_",
           "name": "Blocksqp::nblocks",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "blocks_",
           "name": "Blocksqp::blocks",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "dim_",
           "name": "Blocksqp::dim",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "nnz_H_",
           "name": "Blocksqp::nnz_H",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "Asp_",
           "name": "Blocksqp::Asp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "Hsp_",
           "name": "Blocksqp::Hsp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "exact_hess_lag_sp_",
           "name": "Blocksqp::exact_hess_lag_sp_",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "linsol_plugin_",
           "name": "Blocksqp::linsol_plugin",
           "op": "field",
           "type": "std::string"
         },
         {
-          "bind": "print_header_",
           "name": "Blocksqp::print_header",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "print_iteration_",
           "name": "Blocksqp::print_iteration",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "eps_",
           "name": "Blocksqp::eps",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "opttol_",
           "name": "Blocksqp::opttol",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "nlinfeastol_",
           "name": "Blocksqp::nlinfeastol",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "schur_",
           "name": "Blocksqp::schur",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "globalization_",
           "name": "Blocksqp::globalization",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "restore_feas_",
           "name": "Blocksqp::restore_feas",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "max_line_search_",
           "name": "Blocksqp::max_line_search",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "max_consec_reduced_steps_",
           "name": "Blocksqp::max_consec_reduced_steps",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "max_consec_skipped_updates_",
           "name": "Blocksqp::max_consec_skipped_updates",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "max_it_qp_",
           "name": "Blocksqp::max_it_qp",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "max_iter_",
           "name": "Blocksqp::max_iter",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "warmstart_",
           "name": "Blocksqp::warmstart",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "qp_init_",
           "name": "Blocksqp::qp_init",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "block_hess_",
           "name": "Blocksqp::block_hess",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "hess_scaling_",
           "name": "Blocksqp::hess_scaling",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "fallback_scaling_",
           "name": "Blocksqp::fallback_scaling",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "max_time_qp_",
           "name": "Blocksqp::max_time_qp",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "ini_hess_diag_",
           "name": "Blocksqp::ini_hess_diag",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "col_eps_",
           "name": "Blocksqp::col_eps",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "col_tau1_",
           "name": "Blocksqp::col_tau1",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "col_tau2_",
           "name": "Blocksqp::col_tau2",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "hess_damp_",
           "name": "Blocksqp::hess_damp",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "hess_damp_fac_",
           "name": "Blocksqp::hess_damp_fac",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "hess_update_",
           "name": "Blocksqp::hess_update",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "fallback_update_",
           "name": "Blocksqp::fallback_update",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "hess_lim_mem_",
           "name": "Blocksqp::hess_lim_mem",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "hess_memsize_",
           "name": "Blocksqp::hess_memsize",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "which_second_derv_",
           "name": "Blocksqp::which_second_derv",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "skip_first_globalization_",
           "name": "Blocksqp::skip_first_globalization",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "conv_strategy_",
           "name": "Blocksqp::conv_strategy",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "max_conv_qp_",
           "name": "Blocksqp::max_conv_qp",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "max_soc_iter_",
           "name": "Blocksqp::max_soc_iter",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "gamma_theta_",
           "name": "Blocksqp::gamma_theta",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "gamma_f_",
           "name": "Blocksqp::gamma_f",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "kappa_soc_",
           "name": "Blocksqp::kappa_soc",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "kappa_f_",
           "name": "Blocksqp::kappa_f",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "theta_max_",
           "name": "Blocksqp::theta_max",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "theta_min_",
           "name": "Blocksqp::theta_min",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "delta_",
           "name": "Blocksqp::delta",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "s_theta_",
           "name": "Blocksqp::s_theta",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "s_f_",
           "name": "Blocksqp::s_f",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "kappa_minus_",
           "name": "Blocksqp::kappa_minus",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "kappa_plus_",
           "name": "Blocksqp::kappa_plus",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "kappa_plus_max_",
           "name": "Blocksqp::kappa_plus_max",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "delta_h0_",
           "name": "Blocksqp::delta_h0",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "eta_",
           "name": "Blocksqp::eta",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "obj_lo_",
           "name": "Blocksqp::obj_lo",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "obj_up_",
           "name": "Blocksqp::obj_up",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "rho_",
           "name": "Blocksqp::rho",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "zeta_",
           "name": "Blocksqp::zeta",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "rp_solver_",
           "name": "Blocksqp::rp_solver",
           "op": "field",
           "type": "Function"
         },
         {
-          "bind": "print_maxit_reached_",
           "name": "Blocksqp::print_maxit_reached",
           "op": "field",
           "type": "bool"
@@ -930,133 +639,111 @@ export default {
           "value": 1
         },
         {
-          "bind": "jacg_sp_",
           "name": "BonminInterface::jacg_sp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "hesslag_sp_",
           "name": "BonminInterface::hesslag_sp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "exact_hessian_",
           "name": "BonminInterface::exact_hessian",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "opts_",
           "name": "BonminInterface::opts",
           "op": "field",
           "type": "Dict"
         },
         {
-          "bind": "sos1_weights_",
           "name": "BonminInterface::sos1_weights",
           "op": "field",
           "type": "std::vector<double>"
         },
         {
-          "bind": "sos1_indices_",
           "name": "BonminInterface::sos1_indices",
           "op": "field",
           "type": "std::vector<int>"
         },
         {
-          "bind": "sos1_priorities_",
           "name": "BonminInterface::sos1_priorities",
           "op": "field",
           "type": "std::vector<int>"
         },
         {
-          "bind": "sos1_starts_",
           "name": "BonminInterface::sos1_starts",
           "op": "field",
           "type": "std::vector<int>"
         },
         {
-          "bind": "sos1_types_",
           "name": "BonminInterface::sos1_types",
           "op": "field",
           "type": "std::vector<char>"
         },
         {
-          "bind": "sos1_types_",
           "name": "BonminInterface::sos1_types",
           "op": "field",
           "type": "std::vector<char>"
         },
         {
-          "bind": "sos_num_",
           "name": "BonminInterface::sos_num",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "sos_num_nz_",
           "name": "BonminInterface::sos_num_nz",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "pass_nonlinear_variables_",
           "name": "BonminInterface::pass_nonlinear_variables",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "pass_nonlinear_constraints_",
           "name": "BonminInterface::pass_nonlinear_constraints",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "nl_ex_",
           "name": "BonminInterface::nl_ex",
           "op": "field",
           "type": "std::vector<bool>"
         },
         {
-          "bind": "nl_g_",
           "name": "BonminInterface::nl_g",
           "op": "field",
           "type": "std::vector<bool>"
         },
         {
-          "bind": "var_string_md_",
           "name": "BonminInterface::var_string_md",
           "op": "field",
           "type": "Dict"
         },
         {
-          "bind": "var_integer_md_",
           "name": "BonminInterface::var_integer_md",
           "op": "field",
           "type": "Dict"
         },
         {
-          "bind": "var_numeric_md_",
           "name": "BonminInterface::var_numeric_md",
           "op": "field",
           "type": "Dict"
         },
         {
-          "bind": "con_string_md_",
           "name": "BonminInterface::con_string_md",
           "op": "field",
           "type": "Dict"
         },
         {
-          "bind": "con_integer_md_",
           "name": "BonminInterface::con_integer_md",
           "op": "field",
           "type": "Dict"
         },
         {
-          "bind": "con_numeric_md_",
           "name": "BonminInterface::con_numeric_md",
           "op": "field",
           "type": "Dict"
@@ -1068,7 +755,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "fcn_",
           "name": "Call::fcn",
           "op": "field",
           "type": "Function"
@@ -1076,14 +762,12 @@ export default {
       ],
       "CallSX::serialize_node": [
         {
-          "bind": "f_",
           "name": "CallSX::f",
           "name_expression": "\"CallSX::f\"",
           "op": "field",
           "type": "Function"
         },
         {
-          "bind": "dep_",
           "name": "CallSX::dep",
           "name_expression": "\"CallSX::dep\"",
           "op": "field",
@@ -1101,31 +785,26 @@ export default {
           "value": 1
         },
         {
-          "bind": "opts_",
           "name": "CbcInterface::opts",
           "op": "field",
           "type": "Dict"
         },
         {
-          "bind": "sos_groups_",
           "name": "CbcInterface::sos_groups",
           "op": "field",
           "type": "std::vector< std::vector<int> >"
         },
         {
-          "bind": "sos_weights_",
           "name": "CbcInterface::sos_weights",
           "op": "field",
           "type": "std::vector< std::vector<double> >"
         },
         {
-          "bind": "sos_types_",
           "name": "CbcInterface::sos_types",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "hot_start_",
           "name": "CbcInterface::hot_start",
           "op": "field",
           "type": "bool"
@@ -1142,7 +821,6 @@ export default {
           "value": 1
         },
         {
-          "bind": "opts_",
           "name": "ClarabelInterface::opts",
           "op": "field",
           "type": "Dict"
@@ -1159,7 +837,6 @@ export default {
           "value": 1
         },
         {
-          "bind": "opts_",
           "name": "ClpInterface::opts",
           "op": "field",
           "type": "Dict"
@@ -1176,13 +853,11 @@ export default {
           "value": 2
         },
         {
-          "bind": "deg_",
           "name": "Collocation::deg",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "collocation_scheme_",
           "name": "Collocation::collocation_scheme",
           "op": "field",
           "type": "std::string"
@@ -1199,67 +874,56 @@ export default {
           "value": 4
         },
         {
-          "bind": "discrete_",
           "name": "Conic::discrete",
           "op": "field",
           "type": "std::vector<bool>"
         },
         {
-          "bind": "equality_",
           "name": "Conic::equality",
           "op": "field",
           "type": "std::vector<bool>"
         },
         {
-          "bind": "print_problem_",
           "name": "Conic::print_problem",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "solver_version_check_",
           "name": "Conic::solver_version_check",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "H_",
           "name": "Conic::H",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "A_",
           "name": "Conic::A",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "Q_",
           "name": "Conic::Q",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "P_",
           "name": "Conic::P",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "nx_",
           "name": "Conic::nx",
           "op": "field",
           "type": null
         },
         {
-          "bind": "na_",
           "name": "Conic::na",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "np_",
           "name": "Conic::np",
           "op": "field",
           "type": "casadi_int"
@@ -1286,49 +950,41 @@ export default {
           "value": 1
         },
         {
-          "bind": "exact_hessian_",
           "name": "ConoptInterface::exact_hessian",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "opts_",
           "name": "ConoptInterface::opts",
           "op": "field",
           "type": "Dict"
         },
         {
-          "bind": "gradf_sp_",
           "name": "ConoptInterface::gradf_sp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "jacg_sp_",
           "name": "ConoptInterface::jacg_sp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "hesslag_sp_",
           "name": "ConoptInterface::hesslag_sp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "optfile_",
           "name": "ConoptInterface::optfile",
           "op": "field",
           "type": "std::string"
         },
         {
-          "bind": "warm_start_",
           "name": "ConoptInterface::warm_start",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "debug_",
           "name": "ConoptInterface::debug",
           "op": "field",
           "type": "bool"
@@ -1346,14 +1002,13 @@ export default {
           "op": "call"
         },
         {
-          "bind": "Value::type_char()",
           "name": "ConstantMX::type",
           "op": "field",
           "type": "char"
         },
         {
           "op": "unsupported",
-          "reason": "unlowered serialization call: v_.serialize_type(s);"
+          "reason": "unlowered serialization call"
         }
       ],
       "ConstantDM::serialize_body": [
@@ -1362,7 +1017,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "v.nonzeros()",
           "name": "ConstantMX::nonzeros",
           "op": "field",
           "type": null
@@ -1374,7 +1028,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "'a'",
           "name": "ConstantMX::type",
           "op": "field",
           "type": "char"
@@ -1386,13 +1039,11 @@ export default {
           "op": "call"
         },
         {
-          "bind": "fname_",
           "name": "ConstantFile::fname",
           "op": "field",
           "type": "std::string"
         },
         {
-          "bind": "x_",
           "name": "ConstantFile::x",
           "op": "field",
           "type": null
@@ -1404,7 +1055,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "'f'",
           "name": "ConstantFile::type",
           "op": "field",
           "type": "char"
@@ -1416,13 +1066,11 @@ export default {
           "op": "call"
         },
         {
-          "bind": "name_",
           "name": "ConstantPool::name",
           "op": "field",
           "type": "std::string"
         },
         {
-          "bind": "x_",
           "name": "ConstantPool::x",
           "op": "field",
           "type": null
@@ -1434,7 +1082,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "'p'",
           "name": "ConstantPool::type",
           "op": "field",
           "type": "char"
@@ -1447,7 +1094,7 @@ export default {
         },
         {
           "op": "unsupported",
-          "reason": "unlowered serialization call: serialize(s, \"\", convexify_data_);"
+          "reason": "unlowered serialization call"
         }
       ],
       "CplexInterface::serialize_body": [
@@ -1461,86 +1108,73 @@ export default {
           "value": 1
         },
         {
-          "bind": "opts_",
           "name": "CplexInterface::opts",
           "op": "field",
           "type": "Dict"
         },
         {
-          "bind": "qp_method_",
           "name": "CplexInterface::qp_method",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "dump_to_file_",
           "name": "CplexInterface::dump_to_file",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "tol_",
           "name": "CplexInterface::tol",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "dep_check_",
           "name": "CplexInterface::dep_check",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "warm_start_",
           "name": "CplexInterface::warm_start",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "mip_start_",
           "name": "CplexInterface::mip_start",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "mip_",
           "name": "CplexInterface::mip",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "ctype_",
           "name": "CplexInterface::ctype",
           "op": "field",
           "type": "std::vector<char>"
         },
         {
-          "bind": "sos_weights_",
           "name": "CplexInterface::sos_weights",
           "op": "field",
           "type": "std::vector< double >"
         },
         {
-          "bind": "sos_beg_",
           "name": "CplexInterface::sos_beg",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "sos_ind_",
           "name": "CplexInterface::sos_ind",
           "op": "field",
           "type": "std::vector<int>"
         },
         {
-          "bind": "sos_types_",
           "name": "CplexInterface::sos_types",
           "op": "field",
           "type": "std::vector<char>"
         },
         {
           "op": "unsupported",
-          "reason": "unlowered serialization call: Conic::serialize(s, sdp_to_socp_mem_);"
+          "reason": "unlowered serialization call"
         }
       ],
       "CvodesInterface::serialize_body": [
@@ -1554,25 +1188,21 @@ export default {
           "value": 3
         },
         {
-          "bind": "lmm_",
           "name": "CvodesInterface::lmm",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "iter_",
           "name": "CvodesInterface::iter",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "min_step_size_",
           "name": "CvodesInterface::min_step_size",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "always_recalculate_jacobian_",
           "name": "CvodesInterface::always_recalculate_jacobian",
           "op": "field",
           "type": "bool"
@@ -1589,7 +1219,6 @@ export default {
           "value": 1
         },
         {
-          "bind": "opts_",
           "name": "DaqpInterface::opts",
           "op": "field",
           "type": "Dict"
@@ -1601,7 +1230,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "std::string(\"dense\")",
           "name": "Kron::kind",
           "op": "field",
           "type": "std::string"
@@ -1613,7 +1241,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "std::string(\"dense\")",
           "name": "KronContract::kind",
           "op": "field",
           "type": "std::string"
@@ -1625,7 +1252,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "std::string(\"dense\")",
           "name": "Multiplication::kind",
           "op": "field",
           "type": "std::string"
@@ -1637,7 +1263,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "std::string(\"dense_sparse\")",
           "name": "Kron::kind",
           "op": "field",
           "type": "std::string"
@@ -1649,7 +1274,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "std::string(\"dense_sparse\")",
           "name": "KronContract::kind",
           "op": "field",
           "type": "std::string"
@@ -1661,7 +1285,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "std::string(\"dense_sparse\")",
           "name": "Multiplication::kind",
           "op": "field",
           "type": "std::string"
@@ -1673,7 +1296,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "true",
           "name": "Transpose::dense",
           "op": "field",
           "type": "bool"
@@ -1685,7 +1307,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "'d'",
           "name": "Project::type",
           "op": "field",
           "type": "char"
@@ -1697,7 +1318,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "linsol_",
           "name": "Determinant::linsol",
           "op": "field",
           "type": "Linsol"
@@ -1726,25 +1346,21 @@ export default {
           "value": 1
         },
         {
-          "bind": "base_filename_",
           "name": "Dump::base_filename",
           "op": "field",
           "type": "std::string"
         },
         {
-          "bind": "dir_",
           "name": "Dump::dir",
           "op": "field",
           "type": "std::string"
         },
         {
-          "bind": "format_",
           "name": "Dump::format",
           "op": "field",
           "type": "std::string"
         },
         {
-          "bind": "verbose_",
           "name": "Dump::verbose",
           "op": "field",
           "type": "bool"
@@ -1756,19 +1372,16 @@ export default {
           "op": "call"
         },
         {
-          "bind": "dim_c_",
           "name": "Einstein::dim_c",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "dim_a_",
           "name": "Einstein::dim_a",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "dim_b_",
           "name": "Einstein::dim_b",
           "op": "field",
           "type": "std::vector<casadi_int>"
@@ -1780,43 +1393,36 @@ export default {
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "a_",
           "name": "Einstein::a",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "b_",
           "name": "Einstein::b",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "iter_dims_",
           "name": "Einstein::iter_dims",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "strides_a_",
           "name": "Einstein::strides_a",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "strides_b_",
           "name": "Einstein::strides_b",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "strides_c_",
           "name": "Einstein::strides_c",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "n_iter_",
           "name": "Einstein::n_iter",
           "op": "field",
           "type": "casadi_int"
@@ -1833,31 +1439,26 @@ export default {
           "value": 2
         },
         {
-          "bind": "int_data_",
           "name": "External::int_data",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "real_data_",
           "name": "External::real_data",
           "op": "field",
           "type": "std::vector<double>"
         },
         {
-          "bind": "string_data_",
           "name": "External::string_data",
           "op": "field",
           "type": "std::string"
         },
         {
-          "bind": "compiler_",
           "name": "External::li",
           "op": "field",
           "type": "Importer"
         },
         {
-          "bind": "config_args",
           "name": "External::config_args",
           "op": "field",
           "type": "std::vector<std::string>"
@@ -1874,49 +1475,41 @@ export default {
           "value": 1
         },
         {
-          "bind": "max_iter_",
           "name": "Newton::max_iter",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "abstol_",
           "name": "Newton::abstol",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "abstolStep_",
           "name": "Newton::abstolStep",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "jac_g_x_",
           "name": "Newton::jac_g_x",
           "op": "field",
           "type": "Function"
         },
         {
-          "bind": "sp_v_",
           "name": "Newton::sp_v",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "sp_r_",
           "name": "Newton::sp_r",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "prinv_",
           "name": "Newton::prinv",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "pc_",
           "name": "Newton::pc",
           "op": "field",
           "type": "std::vector<casadi_int>"
@@ -1944,139 +1537,116 @@ export default {
           "value": 1
         },
         {
-          "bind": "jacg_sp_",
           "name": "FatropInterface::jacg_sp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "hesslag_sp_",
           "name": "FatropInterface::hesslag_sp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "exact_hessian_",
           "name": "FatropInterface::exact_hessian",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "opts_",
           "name": "FatropInterface::opts",
           "op": "field",
           "type": "Dict"
         },
         {
-          "bind": "convexify_",
           "name": "FatropInterface::convexify",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "Isp_",
           "name": "FatropInterface::Isp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "ABsp_",
           "name": "FatropInterface::ABsp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "CDsp_",
           "name": "FatropInterface::CDsp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "RSQsp_",
           "name": "FatropInterface::RSQsp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "fatrop_blocks_pack(AB_blocks_)",
           "name": "FatropInterface::AB_blocks",
           "op": "field",
           "type": null
         },
         {
-          "bind": "fatrop_blocks_pack(CD_blocks_)",
           "name": "FatropInterface::CD_blocks",
           "op": "field",
           "type": null
         },
         {
-          "bind": "fatrop_blocks_pack(RSQ_blocks_)",
           "name": "FatropInterface::RSQ_blocks",
           "op": "field",
           "type": null
         },
         {
-          "bind": "fatrop_blocks_pack(I_blocks_)",
           "name": "FatropInterface::I_blocks",
           "op": "field",
           "type": null
         },
         {
-          "bind": "nxs_",
           "name": "FatropInterface::nxs",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "nus_",
           "name": "FatropInterface::nus",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "ngs_",
           "name": "FatropInterface::ngs",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "N_",
           "name": "FatropInterface::N",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "static_cast<casadi_int>(structure_detection_)",
           "name": "FatropInterface::structure_detection",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "AB_offsets_",
           "name": "FatropInterface::AB_offsets",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "CD_offsets_",
           "name": "FatropInterface::CD_offsets",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "RSQ_offsets_",
           "name": "FatropInterface::RSQ_offsets",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "I_offsets_",
           "name": "FatropInterface::I_offsets",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "debug_",
           "name": "FatropInterface::debug",
           "op": "field",
           "type": "bool"
@@ -2093,85 +1663,71 @@ export default {
           "value": 3
         },
         {
-          "bind": "qpsol_",
           "name": "Feasiblesqpmethod::qpsol",
           "op": "field",
           "type": "Function"
         },
         {
-          "bind": "exact_hessian_",
           "name": "Feasiblesqpmethod::exact_hessian",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "max_iter_",
           "name": "Feasiblesqpmethod::max_iter",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "min_iter_",
           "name": "Feasiblesqpmethod::min_iter",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "lbfgs_memory_",
           "name": "Feasiblesqpmethod::lbfgs_memory",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "tol_pr_",
           "name": "Feasiblesqpmethod::tol_pr_",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "tol_du_",
           "name": "Feasiblesqpmethod::tol_du_",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "print_header_",
           "name": "Feasiblesqpmethod::print_header",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "print_iteration_",
           "name": "Feasiblesqpmethod::print_iteration",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "print_status_",
           "name": "Feasiblesqpmethod::print_status",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "init_feasible_",
           "name": "Feasiblesqpmethod::init_feasible",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "Hsp_",
           "name": "Feasiblesqpmethod::Hsp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "Asp_",
           "name": "Feasiblesqpmethod::Asp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "convexify_",
           "name": "Feasiblesqpmethod::convexify",
           "op": "field",
           "type": "bool"
@@ -2188,37 +1744,31 @@ export default {
           "value": 3
         },
         {
-          "bind": "nk_target_",
           "name": "FixedStepIntegrator::nk_target",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "disc_",
           "name": "FixedStepIntegrator::disc",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "nv_",
           "name": "FixedStepIntegrator::nv",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "nv1_",
           "name": "FixedStepIntegrator::nv1",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "nrv_",
           "name": "FixedStepIntegrator::nrv",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "nrv1_",
           "name": "FixedStepIntegrator::nrv1",
           "op": "field",
           "type": "casadi_int"
@@ -2235,97 +1785,81 @@ export default {
           "value": 2
         },
         {
-          "bind": "vr_real_",
           "name": "Fmu2::vr_real",
           "op": "field",
           "type": "std::vector<fmi2ValueReference>"
         },
         {
-          "bind": "vr_integer_",
           "name": "Fmu2::vr_integer",
           "op": "field",
           "type": "std::vector<fmi2ValueReference>"
         },
         {
-          "bind": "vr_boolean_",
           "name": "Fmu2::vr_boolean",
           "op": "field",
           "type": "std::vector<fmi2ValueReference>"
         },
         {
-          "bind": "vr_string_",
           "name": "Fmu2::vr_string",
           "op": "field",
           "type": "std::vector<fmi2ValueReference>"
         },
         {
-          "bind": "init_real_",
           "name": "Fmu2::init_real",
           "op": "field",
           "type": "std::vector<fmi2Real>"
         },
         {
-          "bind": "init_integer_",
           "name": "Fmu2::init_integer",
           "op": "field",
           "type": "std::vector<fmi2Integer>"
         },
         {
-          "bind": "init_boolean_",
           "name": "Fmu2::init_boolean",
           "op": "field",
           "type": "std::vector<fmi2Boolean>"
         },
         {
-          "bind": "init_string_",
           "name": "Fmu2::init_string",
           "op": "field",
           "type": "std::vector<std::string>"
         },
         {
-          "bind": "vn_aux_real_",
           "name": "Fmu2::vn_aux_real",
           "op": "field",
           "type": "std::vector<std::string>"
         },
         {
-          "bind": "vn_aux_integer_",
           "name": "Fmu2::vn_aux_integer",
           "op": "field",
           "type": "std::vector<std::string>"
         },
         {
-          "bind": "vn_aux_boolean_",
           "name": "Fmu2::vn_aux_boolean",
           "op": "field",
           "type": "std::vector<std::string>"
         },
         {
-          "bind": "vn_aux_string_",
           "name": "Fmu2::vn_aux_string",
           "op": "field",
           "type": "std::vector<std::string>"
         },
         {
-          "bind": "vr_aux_real_",
           "name": "Fmu2::vr_aux_real",
           "op": "field",
           "type": "std::vector<fmi2ValueReference>"
         },
         {
-          "bind": "vr_aux_integer_",
           "name": "Fmu2::vr_aux_integer",
           "op": "field",
           "type": "std::vector<fmi2ValueReference>"
         },
         {
-          "bind": "vr_aux_boolean_",
           "name": "Fmu2::vr_aux_boolean",
           "op": "field",
           "type": "std::vector<fmi2ValueReference>"
         },
         {
-          "bind": "vr_aux_string_",
           "name": "Fmu2::vr_aux_string",
           "op": "field",
           "type": "std::vector<fmi2ValueReference>"
@@ -2342,97 +1876,81 @@ export default {
           "value": 1
         },
         {
-          "bind": "vr_real_",
           "name": "Fmu3::vr_real",
           "op": "field",
           "type": "std::vector<fmi3ValueReference>"
         },
         {
-          "bind": "vr_integer_",
           "name": "Fmu3::vr_integer",
           "op": "field",
           "type": "std::vector<fmi3ValueReference>"
         },
         {
-          "bind": "vr_boolean_",
           "name": "Fmu3::vr_boolean",
           "op": "field",
           "type": "std::vector<fmi3ValueReference>"
         },
         {
-          "bind": "vr_string_",
           "name": "Fmu3::vr_string",
           "op": "field",
           "type": "std::vector<fmi3ValueReference>"
         },
         {
-          "bind": "init_real_",
           "name": "Fmu3::init_real",
           "op": "field",
           "type": "std::vector<fmi3Float64>"
         },
         {
-          "bind": "init_integer_",
           "name": "Fmu3::init_integer",
           "op": "field",
           "type": "std::vector<fmi3Int32>"
         },
         {
-          "bind": "init_boolean_",
           "name": "Fmu3::init_boolean",
           "op": "field",
           "type": "std::vector<fmi3Boolean>"
         },
         {
-          "bind": "init_string_",
           "name": "Fmu3::init_string",
           "op": "field",
           "type": "std::vector<std::string>"
         },
         {
-          "bind": "vn_aux_real_",
           "name": "Fmu3::vn_aux_real",
           "op": "field",
           "type": "std::vector<std::string>"
         },
         {
-          "bind": "vn_aux_integer_",
           "name": "Fmu3::vn_aux_integer",
           "op": "field",
           "type": "std::vector<std::string>"
         },
         {
-          "bind": "vn_aux_boolean_",
           "name": "Fmu3::vn_aux_boolean",
           "op": "field",
           "type": "std::vector<std::string>"
         },
         {
-          "bind": "vn_aux_string_",
           "name": "Fmu3::vn_aux_string",
           "op": "field",
           "type": "std::vector<std::string>"
         },
         {
-          "bind": "vr_aux_real_",
           "name": "Fmu3::vr_aux_real",
           "op": "field",
           "type": "std::vector<fmi3ValueReference>"
         },
         {
-          "bind": "vr_aux_integer_",
           "name": "Fmu3::vr_aux_integer",
           "op": "field",
           "type": "std::vector<fmi3ValueReference>"
         },
         {
-          "bind": "vr_aux_boolean_",
           "name": "Fmu3::vr_aux_boolean",
           "op": "field",
           "type": "std::vector<fmi3ValueReference>"
         },
         {
-          "bind": "vr_aux_string_",
           "name": "Fmu3::vr_aux_string",
           "op": "field",
           "type": "std::vector<fmi3ValueReference>"
@@ -2441,7 +1959,7 @@ export default {
       "Fmu::serialize": [
         {
           "op": "unsupported",
-          "reason": "unlowered serialization call: serialize(s);"
+          "reason": "unlowered serialization call"
         }
       ],
       "FmuFunction::serialize_body": [
@@ -2455,7 +1973,6 @@ export default {
           "value": 6
         },
         {
-          "bind": "fmu_",
           "name": "FmuFunction::Fmu",
           "op": "field",
           "type": "Fmu"
@@ -2463,13 +1980,11 @@ export default {
         {
           "body": [
             {
-              "bind": "static_cast<int>(e.type)",
               "name": "FmuFunction::in::type",
               "op": "field",
               "type": "int"
             },
             {
-              "bind": "e.ind",
               "name": "FmuFunction::in::ind",
               "op": "field",
               "type": "size_t"
@@ -2481,43 +1996,36 @@ export default {
         {
           "body": [
             {
-              "bind": "static_cast<int>(e.type)",
               "name": "FmuFunction::out::type",
               "op": "field",
               "type": "int"
             },
             {
-              "bind": "e.ind",
               "name": "FmuFunction::out::ind",
               "op": "field",
               "type": "size_t"
             },
             {
-              "bind": "e.wrt",
               "name": "FmuFunction::out::wrt",
               "op": "field",
               "type": "size_t"
             },
             {
-              "bind": "e.rbegin",
               "name": "FmuFunction::out::rbegin",
               "op": "field",
               "type": "size_t"
             },
             {
-              "bind": "e.rend",
               "name": "FmuFunction::out::rend",
               "op": "field",
               "type": "size_t"
             },
             {
-              "bind": "e.cbegin",
               "name": "FmuFunction::out::cbegin",
               "op": "field",
               "type": "size_t"
             },
             {
-              "bind": "e.cend",
               "name": "FmuFunction::out::cend",
               "op": "field",
               "type": "size_t"
@@ -2527,271 +2035,226 @@ export default {
           "op": "repeat"
         },
         {
-          "bind": "jac_in_",
           "name": "FmuFunction::jac_in",
           "op": "field",
           "type": "std::vector<size_t>"
         },
         {
-          "bind": "jac_out_",
           "name": "FmuFunction::jac_out",
           "op": "field",
           "type": "std::vector<size_t>"
         },
         {
-          "bind": "jac_nom_in_",
           "name": "FmuFunction::jac_nom_in",
           "op": "field",
           "type": "std::vector<double>"
         },
         {
-          "bind": "sp_trans_",
           "name": "FmuFunction::sp_trans",
           "op": "field",
           "type": "std::vector<Sparsity>"
         },
         {
-          "bind": "sp_trans_map_",
           "name": "FmuFunction::sp_trans_map",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "has_jac_",
           "name": "FmuFunction::has_jac",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "has_fwd_",
           "name": "FmuFunction::has_fwd",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "has_adj_",
           "name": "FmuFunction::has_adj",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "has_hess_",
           "name": "FmuFunction::has_hess",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "uses_directional_derivatives_",
           "name": "FmuFunction::uses_directional_derivatives",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "uses_adjoint_derivatives_",
           "name": "FmuFunction::uses_adjoint_derivatives",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "nfwd_",
           "name": "FmuFunction::nfwd",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "nadj_",
           "name": "FmuFunction::nadj",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "validate_forward_",
           "name": "FmuFunction::validate_forward",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "validate_hessian_",
           "name": "FmuFunction::validate_hessian",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "make_symmetric_",
           "name": "FmuFunction::make_symmetric",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "step_",
           "name": "FmuFunction::step",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "fd_flip_",
           "name": "FmuFunction::fd_flip",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "abstol_",
           "name": "FmuFunction::abstol",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "reltol_",
           "name": "FmuFunction::reltol",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "print_progress_",
           "name": "FmuFunction::print_progress",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "new_jacobian_",
           "name": "FmuFunction::new_jacobian",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "new_forward_",
           "name": "FmuFunction::new_forward",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "new_hessian_",
           "name": "FmuFunction::new_hessian",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "hessian_coloring_",
           "name": "FmuFunction::hessian_coloring",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "asymmetric_hessian_coloring_",
           "name": "FmuFunction::asymmetric_hessian_coloring",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "enable_forward_jacobian_",
           "name": "FmuFunction::enable_forward_jacobian",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "enable_adjoint_jacobian_",
           "name": "FmuFunction::enable_adjoint_jacobian",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "enable_adjoint_hessian_",
           "name": "FmuFunction::enable_adjoint_hessian",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "validate_ad_file_",
           "name": "FmuFunction::validate_ad_file",
           "op": "field",
           "type": "std::string"
         },
         {
-          "bind": "static_cast<int>(fd_)",
           "name": "FmuFunction::fd",
           "op": "field",
           "type": "int"
         },
         {
-          "bind": "static_cast<int>(parallelization_)",
           "name": "FmuFunction::parallelization",
           "op": "field",
           "type": "int"
         },
         {
-          "bind": "init_stats_",
           "name": "FmuFunction::init_stats",
           "op": "field",
           "type": "Dict"
         },
         {
-          "bind": "jac_sp_",
           "name": "FmuFunction::jac_sp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "hess_sp_",
           "name": "FmuFunction::hess_sp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "adj_sp_",
           "name": "FmuFunction::adj_sp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "jac_colors_",
           "name": "FmuFunction::jac_colors",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "adj_colors_",
           "name": "FmuFunction::adj_colors",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "hess_colors_",
           "name": "FmuFunction::hess_colors",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "hess_uni_colors_",
           "name": "FmuFunction::hess_uni_colors",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "which_hess_color_",
           "name": "FmuFunction::which_hess_color",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "nonlin_",
           "name": "FmuFunction::nonlin",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "max_jac_tasks_",
           "name": "FmuFunction::max_jac_tasks",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "max_hess_tasks_",
           "name": "FmuFunction::max_hess_tasks",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "max_n_tasks_",
           "name": "FmuFunction::max_n_tasks",
           "op": "field",
           "type": "casadi_int"
@@ -2800,11 +2263,11 @@ export default {
       "FmuInternal::serialize": [
         {
           "op": "unsupported",
-          "reason": "unlowered serialization call: serialize_type(s);"
+          "reason": "unlowered serialization call"
         },
         {
           "op": "unsupported",
-          "reason": "unlowered serialization call: serialize_body(s);"
+          "reason": "unlowered serialization call"
         }
       ],
       "FmuInternal::serialize_body": [
@@ -2814,151 +2277,126 @@ export default {
           "value": 4
         },
         {
-          "bind": "name_",
           "name": "FmuInternal::name",
           "op": "field",
           "type": "std::string"
         },
         {
-          "bind": "scheme_in_",
           "name": "FmuInternal::scheme_in",
           "op": "field",
           "type": "std::vector<std::string>"
         },
         {
-          "bind": "scheme_out_",
           "name": "FmuInternal::scheme_out",
           "op": "field",
           "type": "std::vector<std::string>"
         },
         {
-          "bind": "scheme_",
           "name": "FmuInternal::scheme",
           "op": "field",
           "type": "std::map<std::string, std::vector<size_t>>"
         },
         {
-          "bind": "aux_",
           "name": "FmuInternal::aux",
           "op": "field",
           "type": "std::vector<std::string>"
         },
         {
-          "bind": "iind_",
           "name": "FmuInternal::iind",
           "op": "field",
           "type": "std::vector<size_t>"
         },
         {
-          "bind": "iind_map_",
           "name": "FmuInternal::iind_map",
           "op": "field",
           "type": "std::vector<size_t>"
         },
         {
-          "bind": "oind_",
           "name": "FmuInternal::oind",
           "op": "field",
           "type": null
         },
         {
-          "bind": "oind_map_",
           "name": "FmuInternal::oind_map",
           "op": "field",
           "type": "std::vector<size_t>"
         },
         {
-          "bind": "has_independent_",
           "name": "FmuInternal::has_independent",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "nominal_in_",
           "name": "FmuInternal::nominal_in",
           "op": "field",
           "type": "std::vector<double>"
         },
         {
-          "bind": "nominal_out_",
           "name": "FmuInternal::nominal_out",
           "op": "field",
           "type": "std::vector<double>"
         },
         {
-          "bind": "min_in_",
           "name": "FmuInternal::min_in",
           "op": "field",
           "type": "std::vector<double>"
         },
         {
-          "bind": "min_out_",
           "name": "FmuInternal::min_out",
           "op": "field",
           "type": "std::vector<double>"
         },
         {
-          "bind": "max_in_",
           "name": "FmuInternal::max_in",
           "op": "field",
           "type": "std::vector<double>"
         },
         {
-          "bind": "max_out_",
           "name": "FmuInternal::max_out",
           "op": "field",
           "type": "std::vector<double>"
         },
         {
-          "bind": "vn_in_",
           "name": "FmuInternal::vn_in",
           "op": "field",
           "type": "std::vector<std::string>"
         },
         {
-          "bind": "vn_out_",
           "name": "FmuInternal::vn_out",
           "op": "field",
           "type": "std::vector<std::string>"
         },
         {
-          "bind": "vr_in_",
           "name": "FmuInternal::vr_in",
           "op": "field",
           "type": "std::vector<unsigned int>"
         },
         {
-          "bind": "vr_out_",
           "name": "FmuInternal::vr_out",
           "op": "field",
           "type": "std::vector<unsigned int>"
         },
         {
-          "bind": "value_in_",
           "name": "FmuInternal::value_in",
           "op": "field",
           "type": "std::vector<double>"
         },
         {
-          "bind": "ired_",
           "name": "FmuInternal::ired",
           "op": "field",
           "type": "std::vector<std::vector<size_t>>"
         },
         {
-          "bind": "ored_",
           "name": "FmuInternal::ored",
           "op": "field",
           "type": "std::vector<std::vector<size_t>>"
         },
         {
-          "bind": "jac_sp_",
           "name": "FmuInternal::jac_sp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "hess_sp_",
           "name": "FmuInternal::hess_sp",
           "op": "field",
           "type": "Sparsity"
@@ -2970,67 +2408,56 @@ export default {
           "type": "Resource"
         },
         {
-          "bind": "fmutol_",
           "name": "FmuInternal::fmutol",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "instance_name_",
           "name": "FmuInternal::instance_name",
           "op": "field",
           "type": "std::string"
         },
         {
-          "bind": "instantiation_token_",
           "name": "FmuInternal::instantiation_token",
           "op": "field",
           "type": "std::string"
         },
         {
-          "bind": "logging_on_",
           "name": "FmuInternal::logging_on",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "number_of_event_indicators_",
           "name": "FmuInternal::number_of_event_indicators",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "provides_directional_derivatives_",
           "name": "FmuInternal::provides_directional_derivatives",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "provides_adjoint_derivatives_",
           "name": "FmuInternal::provides_adjoint_derivatives",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "can_be_instantiated_only_once_per_process_",
           "name": "FmuInternal::can_be_instantiated_only_once_per_process",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "start_time_",
           "name": "FmuInternal::start_time",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "nx_",
           "name": "FmuInternal::nx",
           "op": "field",
           "type": null
         },
         {
-          "bind": "do_evaluation_dance_",
           "name": "FmuInternal::do_evaluation_dance",
           "op": "field",
           "type": "bool"
@@ -3061,37 +2488,31 @@ export default {
           "value": 8
         },
         {
-          "bind": "is_diff_in_",
           "name": "FunctionInternal::is_diff_in",
           "op": "field",
           "type": "std::vector<bool>"
         },
         {
-          "bind": "is_diff_out_",
           "name": "FunctionInternal::is_diff_out",
           "op": "field",
           "type": "std::vector<bool>"
         },
         {
-          "bind": "sparsity_in_",
           "name": "FunctionInternal::sp_in",
           "op": "field",
           "type": "std::vector<Sparsity>"
         },
         {
-          "bind": "sparsity_out_",
           "name": "FunctionInternal::sp_out",
           "op": "field",
           "type": "std::vector<Sparsity>"
         },
         {
-          "bind": "name_in_",
           "name": "FunctionInternal::name_in",
           "op": "field",
           "type": "std::vector<std::string>"
         },
         {
-          "bind": "name_out_",
           "name": "FunctionInternal::name_out",
           "op": "field",
           "type": "std::vector<std::string>"
@@ -3103,7 +2524,6 @@ export default {
           "type": "bool"
         },
         {
-          "bind": "jit_cleanup_",
           "name": "FunctionInternal::jit_cleanup",
           "op": "field",
           "type": "bool"
@@ -3117,7 +2537,6 @@ export default {
         {
           "body": [
             {
-              "bind": "compiler_.library()",
               "name": "FunctionInternal::jit_library",
               "op": "field",
               "type": null
@@ -3125,7 +2544,6 @@ export default {
             {
               "body": [
                 {
-                  "bind": "*binary_ptr",
                   "name": "FunctionInternal::jit_binary",
                   "op": "field",
                   "type": null
@@ -3139,277 +2557,231 @@ export default {
           "op": "if"
         },
         {
-          "bind": "jit_temp_suffix_",
           "name": "FunctionInternal::jit_temp_suffix",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "jit_base_name_",
           "name": "FunctionInternal::jit_base_name",
           "op": "field",
           "type": "std::string"
         },
         {
-          "bind": "jit_options_",
           "name": "FunctionInternal::jit_options",
           "op": "field",
           "type": "Dict"
         },
         {
-          "bind": "compiler_plugin_",
           "name": "FunctionInternal::compiler_plugin",
           "op": "field",
           "type": "std::string"
         },
         {
-          "bind": "has_refcount_",
           "name": "FunctionInternal::has_refcount",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "cache_init_",
           "name": "FunctionInternal::cache_init",
           "op": "field",
           "type": "Dict"
         },
         {
-          "bind": "derivative_of_",
           "name": "FunctionInternal::derivative_of",
           "op": "field",
           "type": "Function"
         },
         {
-          "bind": "jac_penalty_",
           "name": "FunctionInternal::jac_penalty",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "enable_forward_",
           "name": "FunctionInternal::enable_forward",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "enable_reverse_",
           "name": "FunctionInternal::enable_reverse",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "enable_jacobian_",
           "name": "FunctionInternal::enable_jacobian",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "enable_fd_",
           "name": "FunctionInternal::enable_fd",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "enable_forward_op_",
           "name": "FunctionInternal::enable_forward_op",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "enable_reverse_op_",
           "name": "FunctionInternal::enable_reverse_op",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "enable_jacobian_op_",
           "name": "FunctionInternal::enable_jacobian_op",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "enable_fd_op_",
           "name": "FunctionInternal::enable_fd_op",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "ad_weight_",
           "name": "FunctionInternal::ad_weight",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "ad_weight_sp_",
           "name": "FunctionInternal::ad_weight_sp",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "always_inline_",
           "name": "FunctionInternal::always_inline",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "never_inline_",
           "name": "FunctionInternal::never_inline",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "max_num_dir_",
           "name": "FunctionInternal::max_num_dir",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "inputs_check_",
           "name": "FunctionInternal::inputs_check",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "fd_step_",
           "name": "FunctionInternal::fd_step",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "fd_method_",
           "name": "FunctionInternal::fd_method",
           "op": "field",
           "type": "std::string"
         },
         {
-          "bind": "print_in_",
           "name": "FunctionInternal::print_in",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "print_out_",
           "name": "FunctionInternal::print_out",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "print_canonical_",
           "name": "FunctionInternal::print_canonical",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "max_io_",
           "name": "FunctionInternal::max_io",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "dump_in_",
           "name": "FunctionInternal::dump_in",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "dump_out_",
           "name": "FunctionInternal::dump_out",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "dump_dir_",
           "name": "FunctionInternal::dump_dir",
           "op": "field",
           "type": "std::string"
         },
         {
-          "bind": "dump_format_",
           "name": "FunctionInternal::dump_format",
           "op": "field",
           "type": "std::string"
         },
         {
-          "bind": "forward_options_",
           "name": "FunctionInternal::forward_options",
           "op": "field",
           "type": "Dict"
         },
         {
-          "bind": "reverse_options_",
           "name": "FunctionInternal::reverse_options",
           "op": "field",
           "type": "Dict"
         },
         {
-          "bind": "jacobian_options_",
           "name": "FunctionInternal::jacobian_options",
           "op": "field",
           "type": "Dict"
         },
         {
-          "bind": "der_options_",
           "name": "FunctionInternal::der_options",
           "op": "field",
           "type": "Dict"
         },
         {
-          "bind": "custom_jacobian_",
           "name": "FunctionInternal::custom_jacobian",
           "op": "field",
           "type": "Function"
         },
         {
-          "bind": "registered_functions_",
           "name": "FunctionInternal::registered_functions",
           "op": "field",
           "type": "std::vector<Function>"
         },
         {
-          "bind": "sz_arg_per_",
           "name": "FunctionInternal::sz_arg_per",
           "op": "field",
           "type": "size_t"
         },
         {
-          "bind": "sz_res_per_",
           "name": "FunctionInternal::sz_res_per",
           "op": "field",
           "type": "size_t"
         },
         {
-          "bind": "sz_iw_per_",
           "name": "FunctionInternal::sz_iw_per",
           "op": "field",
           "type": "size_t"
         },
         {
-          "bind": "sz_w_per_",
           "name": "FunctionInternal::sz_w_per",
           "op": "field",
           "type": "size_t"
         },
         {
-          "bind": "sz_arg_tmp_",
           "name": "FunctionInternal::sz_arg_tmp",
           "op": "field",
           "type": "size_t"
         },
         {
-          "bind": "sz_res_tmp_",
           "name": "FunctionInternal::sz_res_tmp",
           "op": "field",
           "type": "size_t"
         },
         {
-          "bind": "sz_iw_tmp_",
           "name": "FunctionInternal::sz_iw_tmp",
           "op": "field",
           "type": "size_t"
         },
         {
-          "bind": "sz_w_tmp_",
           "name": "FunctionInternal::sz_w_tmp",
           "op": "field",
           "type": "size_t"
@@ -3417,7 +2789,6 @@ export default {
       ],
       "FunctionInternal::serialize_type": [
         {
-          "bind": "serialize_base_function()",
           "name": "FunctionInternal::base_function",
           "op": "field",
           "type": "std::string"
@@ -3434,7 +2805,6 @@ export default {
           "value": 1
         },
         {
-          "bind": "'g'",
           "name": "GenericExternal::type",
           "op": "field",
           "type": "char"
@@ -3442,19 +2812,17 @@ export default {
       ],
       "GenericType::serialize": [
         {
-          "bind": "static_cast<int>(getType())",
           "name": "GenericType::type",
           "op": "field",
           "type": "int"
         },
         {
           "op": "unsupported",
-          "reason": "unlowered serialization call: get())->serialize(s);"
+          "reason": "unlowered serialization call"
         }
       ],
       "GenericTypeInternal::serialize": [
         {
-          "bind": "d_",
           "name": "GenericType::d",
           "name_expression": "\"GenericType::d\"",
           "op": "field",
@@ -3467,7 +2835,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "'d'",
           "name": "GetNonzerosParam::type",
           "op": "field",
           "type": "char"
@@ -3479,7 +2846,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "outer_",
           "name": "GetNonzerosParamSlice::outer",
           "op": "field",
           "type": "Slice"
@@ -3491,7 +2857,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "'b'",
           "name": "GetNonzerosParam::type",
           "op": "field",
           "type": "char"
@@ -3509,7 +2874,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "'a'",
           "name": "GetNonzerosParam::type",
           "op": "field",
           "type": "char"
@@ -3521,13 +2885,11 @@ export default {
           "op": "call"
         },
         {
-          "bind": "inner_",
           "name": "GetNonzerosSlice2::inner",
           "op": "field",
           "type": "Slice"
         },
         {
-          "bind": "outer_",
           "name": "GetNonzerosSlice2::outer",
           "op": "field",
           "type": "Slice"
@@ -3539,7 +2901,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "'c'",
           "name": "GetNonzeros::type",
           "op": "field",
           "type": "char"
@@ -3563,7 +2924,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "'b'",
           "name": "GetNonzeros::type",
           "op": "field",
           "type": "char"
@@ -3575,7 +2935,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "inner_",
           "name": "GetNonzerosSliceParam::inner",
           "op": "field",
           "type": "Slice"
@@ -3587,7 +2946,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "'c'",
           "name": "GetNonzerosParam::type",
           "op": "field",
           "type": "char"
@@ -3599,7 +2957,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "nz_",
           "name": "GetNonzerosVector::nonzeros",
           "op": "field",
           "type": "std::vector<casadi_int>"
@@ -3611,7 +2968,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "'a'",
           "name": "GetNonzeros::type",
           "op": "field",
           "type": "char"
@@ -3628,50 +2984,43 @@ export default {
           "value": 2
         },
         {
-          "bind": "lazy_constraints_callback_",
           "name": "GurobiInterface::lazy_constraints_callback",
           "op": "field",
           "type": "Function"
         },
         {
-          "bind": "vtype_",
           "name": "GurobiInterface::vtype",
           "op": "field",
           "type": "std::vector<char>"
         },
         {
-          "bind": "opts_",
           "name": "GurobiInterface::opts",
           "op": "field",
           "type": "Dict"
         },
         {
-          "bind": "sos_weights_",
           "name": "GurobiInterface::sos_weights",
           "op": "field",
           "type": "std::vector<double>"
         },
         {
-          "bind": "sos_beg_",
           "name": "GurobiInterface::sos_beg",
           "op": "field",
           "type": "std::vector<int>"
         },
         {
-          "bind": "sos_ind_",
           "name": "GurobiInterface::sos_ind",
           "op": "field",
           "type": "std::vector<int>"
         },
         {
-          "bind": "sos_types_",
           "name": "GurobiInterface::sos_types",
           "op": "field",
           "type": "std::vector<int>"
         },
         {
           "op": "unsupported",
-          "reason": "unlowered serialization call: Conic::serialize(s, sdp_to_socp_mem_);"
+          "reason": "unlowered serialization call"
         }
       ],
       "HighsInterface::serialize_body": [
@@ -3685,7 +3034,6 @@ export default {
           "value": 1
         },
         {
-          "bind": "opts_",
           "name": "HighsInterface::opts",
           "op": "field",
           "type": "Dict"
@@ -3732,19 +3080,16 @@ export default {
           "op": "call"
         },
         {
-          "bind": "ind_",
           "name": "IOInstruction::ind",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "segment_",
           "name": "IOInstruction::segment",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "offset_",
           "name": "IOInstruction::offset",
           "op": "field",
           "type": "casadi_int"
@@ -3761,55 +3106,46 @@ export default {
           "value": 2
         },
         {
-          "bind": "cj_scaling_",
           "name": "IdasInterface::cj_scaling",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "calc_ic_",
           "name": "IdasInterface::calc_ic",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "calc_icB_",
           "name": "IdasInterface::calc_icB",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "suppress_algebraic_",
           "name": "IdasInterface::suppress_algebraic",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "abstolv_",
           "name": "IdasInterface::abstolv",
           "op": "field",
           "type": "std::vector<double>"
         },
         {
-          "bind": "first_time_",
           "name": "IdasInterface::first_time",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "init_xdot_",
           "name": "IdasInterface::init_xdot",
           "op": "field",
           "type": "std::vector<double>"
         },
         {
-          "bind": "max_step_size_",
           "name": "IdasInterface::max_step_size",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "y_c_",
           "name": "IdasInterface::y_c",
           "op": "field",
           "type": "std::vector<casadi_int>"
@@ -3829,17 +3165,17 @@ export default {
       "Importer::serialize": [
         {
           "op": "unsupported",
-          "reason": "unlowered serialization call: serialize(s);"
+          "reason": "unlowered serialization call"
         }
       ],
       "ImporterInternal::serialize": [
         {
           "op": "unsupported",
-          "reason": "unlowered serialization call: serialize_type(s);"
+          "reason": "unlowered serialization call"
         },
         {
           "op": "unsupported",
-          "reason": "unlowered serialization call: serialize_body(s);"
+          "reason": "unlowered serialization call"
         }
       ],
       "ImporterInternal::serialize_body": [
@@ -3849,19 +3185,16 @@ export default {
           "value": 1
         },
         {
-          "bind": "name_",
           "name": "ImporterInternal::name",
           "op": "field",
           "type": "std::string"
         },
         {
-          "bind": "meta_",
           "name": "ImporterInternal::meta",
           "op": "field",
           "type": "std::map<std::string, std::pair<casadi_int, std::string> >"
         },
         {
-          "bind": "external_",
           "name": "ImporterInternal::external",
           "op": "field",
           "type": "std::map<std::string, std::pair<bool, std::string> >"
@@ -3877,7 +3210,6 @@ export default {
       ],
       "InfSX::serialize_node": [
         {
-          "bind": "'F'",
           "name": "ConstantSX::type",
           "name_expression": "\"ConstantSX::type\"",
           "op": "field",
@@ -3886,7 +3218,6 @@ export default {
       ],
       "IntegerSX::serialize_node": [
         {
-          "bind": "'i'",
           "name": "ConstantSX::type",
           "name_expression": "\"ConstantSX::type\"",
           "op": "field",
@@ -3911,235 +3242,196 @@ export default {
           "value": 3
         },
         {
-          "bind": "sp_jac_dae_",
           "name": "Integrator::sp_jac_dae",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "sp_jac_rdae_",
           "name": "Integrator::sp_jac_rdae",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "t0_",
           "name": "Integrator::t0",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "tout_",
           "name": "Integrator::tout",
           "op": "field",
           "type": "std::vector<double>"
         },
         {
-          "bind": "nfwd_",
           "name": "Integrator::nfwd",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "nadj_",
           "name": "Integrator::nadj",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "rdae_",
           "name": "Integrator::rdae",
           "op": "field",
           "type": "Function"
         },
         {
-          "bind": "nx_",
           "name": "Integrator::nx",
           "op": "field",
           "type": null
         },
         {
-          "bind": "nz_",
           "name": "Integrator::nz",
           "op": "field",
           "type": null
         },
         {
-          "bind": "nq_",
           "name": "Integrator::nq",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "nx1_",
           "name": "Integrator::nx1",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "nz1_",
           "name": "Integrator::nz1",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "nq1_",
           "name": "Integrator::nq1",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "nrx_",
           "name": "Integrator::nrx",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "nrz_",
           "name": "Integrator::nrz",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "nrq_",
           "name": "Integrator::nrq",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "nuq_",
           "name": "Integrator::nuq",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "nrx1_",
           "name": "Integrator::nrx1",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "nrz1_",
           "name": "Integrator::nrz1",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "nrq1_",
           "name": "Integrator::nrq1",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "nuq1_",
           "name": "Integrator::nuq1",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "np_",
           "name": "Integrator::np",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "nrp_",
           "name": "Integrator::nrp",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "np1_",
           "name": "Integrator::np1",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "nrp1_",
           "name": "Integrator::nrp1",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "nu_",
           "name": "Integrator::nu",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "nu1_",
           "name": "Integrator::nu1",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "ne_",
           "name": "Integrator::ne",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "ntmp_",
           "name": "Integrator::ntmp",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "nom_x_",
           "name": "Integrator::nom_x",
           "op": "field",
           "type": "std::vector<double>"
         },
         {
-          "bind": "nom_z_",
           "name": "Integrator::nom_z",
           "op": "field",
           "type": "std::vector<double>"
         },
         {
-          "bind": "augmented_options_",
           "name": "Integrator::augmented_options",
           "op": "field",
           "type": "Dict"
         },
         {
-          "bind": "opts_",
           "name": "Integrator::opts",
           "op": "field",
           "type": "Dict"
         },
         {
-          "bind": "print_stats_",
           "name": "Integrator::print_stats",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "transition_",
           "name": "Integrator::transition",
           "op": "field",
           "type": "Function"
         },
         {
-          "bind": "max_event_iter_",
           "name": "Integrator::max_event_iter",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "max_events_",
           "name": "Integrator::max_events",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "event_tol_",
           "name": "Integrator::event_tol",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "event_acceptable_tol_",
           "name": "Integrator::event_acceptable_tol",
           "op": "field",
           "type": "double"
@@ -4166,7 +3458,6 @@ export default {
           "value": 2
         },
         {
-          "bind": "ndim_",
           "name": "Interpolant::ndim",
           "op": "field",
           "type": "casadi_int"
@@ -4178,31 +3469,26 @@ export default {
           "type": null
         },
         {
-          "bind": "grid_",
           "name": "Interpolant::grid",
           "op": "field",
           "type": "std::vector<double>"
         },
         {
-          "bind": "offset_",
           "name": "Interpolant::offset",
           "op": "field",
           "type": null
         },
         {
-          "bind": "values_",
           "name": "Interpolant::values",
           "op": "field",
           "type": "std::vector<double>"
         },
         {
-          "bind": "lookup_modes_",
           "name": "Interpolant::lookup_modes",
           "op": "field",
           "type": "std::vector<std::string>"
         },
         {
-          "bind": "batch_x_",
           "name": "Interpolant::batch_x",
           "op": "field",
           "type": "casadi_int"
@@ -4229,97 +3515,81 @@ export default {
           "value": 3
         },
         {
-          "bind": "jacg_sp_",
           "name": "IpoptInterface::jacg_sp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "hesslag_sp_",
           "name": "IpoptInterface::hesslag_sp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "exact_hessian_",
           "name": "IpoptInterface::exact_hessian",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "opts_",
           "name": "IpoptInterface::opts",
           "op": "field",
           "type": "Dict"
         },
         {
-          "bind": "pass_nonlinear_variables_",
           "name": "IpoptInterface::pass_nonlinear_variables",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "nl_ex_",
           "name": "IpoptInterface::nl_ex",
           "op": "field",
           "type": "std::vector<bool>"
         },
         {
-          "bind": "var_string_md_",
           "name": "IpoptInterface::var_string_md",
           "op": "field",
           "type": "Dict"
         },
         {
-          "bind": "var_integer_md_",
           "name": "IpoptInterface::var_integer_md",
           "op": "field",
           "type": "Dict"
         },
         {
-          "bind": "var_numeric_md_",
           "name": "IpoptInterface::var_numeric_md",
           "op": "field",
           "type": "Dict"
         },
         {
-          "bind": "con_string_md_",
           "name": "IpoptInterface::con_string_md",
           "op": "field",
           "type": "Dict"
         },
         {
-          "bind": "con_integer_md_",
           "name": "IpoptInterface::con_integer_md",
           "op": "field",
           "type": "Dict"
         },
         {
-          "bind": "con_numeric_md_",
           "name": "IpoptInterface::con_numeric_md",
           "op": "field",
           "type": "Dict"
         },
         {
-          "bind": "convexify_",
           "name": "IpoptInterface::convexify",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "clip_inactive_lam_",
           "name": "IpoptInterface::clip_inactive_lam",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "inactive_lam_strategy_",
           "name": "IpoptInterface::inactive_lam_strategy",
           "op": "field",
           "type": "std::string"
         },
         {
-          "bind": "inactive_lam_value_",
           "name": "IpoptInterface::inactive_lam_value",
           "op": "field",
           "type": "double"
@@ -4336,67 +3606,56 @@ export default {
           "value": 1
         },
         {
-          "bind": "kkt_",
           "name": "Ipqp::kkt",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "print_iter_",
           "name": "Ipqp::print_iter",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "print_header_",
           "name": "Ipqp::print_header",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "print_info_",
           "name": "Ipqp::print_info",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "linear_solver_",
           "name": "Ipqp::linear_solver",
           "op": "field",
           "type": "std::string"
         },
         {
-          "bind": "linear_solver_options_",
           "name": "Ipqp::linear_solver_options",
           "op": "field",
           "type": "Dict"
         },
         {
-          "bind": "p_.max_iter",
           "name": "Ipqp::max_iter",
           "op": "field",
           "type": null
         },
         {
-          "bind": "p_.pr_tol",
           "name": "Ipqp::pr_tol",
           "op": "field",
           "type": "T1"
         },
         {
-          "bind": "p_.du_tol",
           "name": "Ipqp::du_tol",
           "op": "field",
           "type": "T1"
         },
         {
-          "bind": "p_.co_tol",
           "name": "Ipqp::co_tol",
           "op": "field",
           "type": "T1"
         },
         {
-          "bind": "p_.mu_tol",
           "name": "Ipqp::mu_tol",
           "op": "field",
           "type": "T1"
@@ -4413,49 +3672,41 @@ export default {
           "value": 2
         },
         {
-          "bind": "contype_",
           "name": "KnitroInterface::contype",
           "op": "field",
           "type": "std::vector<int>"
         },
         {
-          "bind": "comp_type_",
           "name": "KnitroInterface::comp_type",
           "op": "field",
           "type": "std::vector<int>"
         },
         {
-          "bind": "comp_i1_",
           "name": "KnitroInterface::comp_i1",
           "op": "field",
           "type": "std::vector<int>"
         },
         {
-          "bind": "comp_i2_",
           "name": "KnitroInterface::comp_i2",
           "op": "field",
           "type": "std::vector<int>"
         },
         {
-          "bind": "opts_",
           "name": "KnitroInterface::opts",
           "op": "field",
           "type": "Dict"
         },
         {
-          "bind": "jacg_sp_",
           "name": "KnitroInterface::jacg_sp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "hesslag_sp_",
           "name": "KnitroInterface::hesslag_sp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "options_file_",
           "name": "KnitroInterface::options_file",
           "op": "field",
           "type": "std::string"
@@ -4467,7 +3718,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "std::string(\"base\")",
           "name": "Kron::kind",
           "op": "field",
           "type": "std::string"
@@ -4479,7 +3729,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "inner_",
           "name": "KronContract::inner",
           "op": "field",
           "type": "bool"
@@ -4491,7 +3740,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "std::string(\"base\")",
           "name": "KronContract::kind",
           "op": "field",
           "type": "std::string"
@@ -4508,13 +3756,11 @@ export default {
           "value": 1
         },
         {
-          "bind": "equilibriate_",
           "name": "LapackLu::equilibriate",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "allow_equilibration_failure_",
           "name": "LapackLu::allow_equilibration_failure",
           "op": "field",
           "type": "bool"
@@ -4526,7 +3772,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "max_nrhs_",
           "name": "LapackQr::max_nrhs",
           "op": "field",
           "type": "casadi_int"
@@ -4538,7 +3783,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "lookup_mode_",
           "name": "LinearInterpolant::lookup_mode",
           "op": "field",
           "type": "std::vector<casadi_int>"
@@ -4555,7 +3799,6 @@ export default {
           "value": 1
         },
         {
-          "bind": "'f'",
           "name": "LinearInterpolant::type",
           "op": "field",
           "type": "char"
@@ -4576,7 +3819,6 @@ export default {
           "value": 1
         },
         {
-          "bind": "'j'",
           "name": "LinearInterpolant::type",
           "op": "field",
           "type": "char"
@@ -4585,7 +3827,7 @@ export default {
       "Linsol::serialize": [
         {
           "op": "unsupported",
-          "reason": "unlowered serialization call: LinsolInternal::serialize(s);"
+          "reason": "unlowered serialization call"
         }
       ],
       "LinsolCall<Tr>::serialize_body": [
@@ -4594,7 +3836,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "linsol_",
           "name": "Solve::Linsol",
           "op": "field",
           "type": "Linsol"
@@ -4612,7 +3853,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "sp_",
           "name": "LinsolInternal::sp",
           "op": "field",
           "type": "Sparsity"
@@ -4639,13 +3879,11 @@ export default {
           "value": 1
         },
         {
-          "bind": "p_",
           "name": "LinsolLdl::p",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "sp_Lt_",
           "name": "LinsolLdl::sp_Lt",
           "op": "field",
           "type": "Sparsity"
@@ -4662,37 +3900,31 @@ export default {
           "value": 2
         },
         {
-          "bind": "prinv_",
           "name": "LinsolQr::prinv",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "pc_",
           "name": "LinsolQr::pc",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "sp_v_",
           "name": "LinsolQr::sp_v",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "sp_r_",
           "name": "LinsolQr::sp_r",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "eps_",
           "name": "LinsolQr::eps",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "n_cache_",
           "name": "LinsolQr::n_cache",
           "op": "field",
           "type": "casadi_int"
@@ -4704,7 +3936,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "static_cast<casadi_int>(lookup_mode_)",
           "name": "Low::lookup_mode",
           "op": "field",
           "type": "casadi_int"
@@ -4713,7 +3944,7 @@ export default {
       "MX::serialize": [
         {
           "op": "unsupported",
-          "reason": "unlowered serialization call: serialize(s);"
+          "reason": "unlowered serialization call"
         }
       ],
       "MXFunction::serialize_body": [
@@ -4735,19 +3966,16 @@ export default {
         {
           "body": [
             {
-              "bind": "e.data",
               "name": "MXFunction::alg::data",
               "op": "field",
               "type": "MX"
             },
             {
-              "bind": "e.arg",
               "name": "MXFunction::alg::arg",
               "op": "field",
               "type": "std::vector<casadi_int>"
             },
             {
-              "bind": "e.res",
               "name": "MXFunction::alg::res",
               "op": "field",
               "type": "std::vector<casadi_int>"
@@ -4757,37 +3985,31 @@ export default {
           "op": "repeat"
         },
         {
-          "bind": "workloc_",
           "name": "MXFunction::workloc",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "free_vars_",
           "name": "MXFunction::free_vars",
           "op": "field",
           "type": "std::vector<MX>"
         },
         {
-          "bind": "default_in_",
           "name": "MXFunction::default_in",
           "op": "field",
           "type": "std::vector<double>"
         },
         {
-          "bind": "live_variables_",
           "name": "MXFunction::live_variables",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "print_instructions_",
           "name": "MXFunction::print_instructions",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "dump_trace_",
           "name": "MXFunction::dump_trace",
           "op": "field",
           "type": "bool"
@@ -4800,22 +4022,20 @@ export default {
       "MXNode::serialize": [
         {
           "op": "unsupported",
-          "reason": "unlowered serialization call: serialize_type(s);"
+          "reason": "unlowered serialization call"
         },
         {
           "op": "unsupported",
-          "reason": "unlowered serialization call: serialize_body(s);"
+          "reason": "unlowered serialization call"
         }
       ],
       "MXNode::serialize_body": [
         {
-          "bind": "dep_",
           "name": "MXNode::deps",
           "op": "field",
           "type": "std::vector<MX>"
         },
         {
-          "bind": "sparsity_",
           "name": "MXNode::sp",
           "op": "field",
           "type": "Sparsity"
@@ -4823,7 +4043,6 @@ export default {
       ],
       "MXNode::serialize_type": [
         {
-          "bind": "static_cast<int>(op())",
           "name": "MXNode::op",
           "op": "field",
           "type": "int"
@@ -4840,49 +4059,41 @@ export default {
           "value": 1
         },
         {
-          "bind": "jacg_sp_",
           "name": "MadmpecInterface::jacg_sp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "hesslag_sp_",
           "name": "MadmpecInterface::hesslag_sp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "exact_hessian_",
           "name": "MadmpecInterface::exact_hessian",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "opts_",
           "name": "MadmpecInterface::opts",
           "op": "field",
           "type": "Dict"
         },
         {
-          "bind": "convexify_",
           "name": "MadmpecInterface::convexify",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "ind_cc1_",
           "name": "MadmpecInterface::ind_cc1",
           "op": "field",
           "type": "std::vector<libmad_int>"
         },
         {
-          "bind": "ind_cc2_",
           "name": "MadmpecInterface::ind_cc2",
           "op": "field",
           "type": "std::vector<libmad_int>"
         },
         {
-          "bind": "cctypes_",
           "name": "MadmpecInterface::cctypes",
           "op": "field",
           "type": "std::vector<libmad_int>"
@@ -4899,31 +4110,26 @@ export default {
           "value": 2
         },
         {
-          "bind": "jacg_sp_",
           "name": "MadnlpInterface::jacg_sp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "hesslag_sp_",
           "name": "MadnlpInterface::hesslag_sp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "exact_hessian_",
           "name": "MadnlpInterface::exact_hessian",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "opts_",
           "name": "MadnlpInterface::opts",
           "op": "field",
           "type": "Dict"
         },
         {
-          "bind": "convexify_",
           "name": "MadnlpInterface::convexify",
           "op": "field",
           "type": "bool"
@@ -4935,7 +4141,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "f_",
           "name": "Map::f",
           "op": "field",
           "type": "Function"
@@ -4965,7 +4170,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "f_",
           "name": "MapSum::f",
           "op": "field",
           "type": "Function"
@@ -4977,13 +4181,11 @@ export default {
           "type": "casadi_int"
         },
         {
-          "bind": "reduce_in_",
           "name": "MapSum::reduce_in",
           "op": "field",
           "type": "std::vector<bool>"
         },
         {
-          "bind": "reduce_out_",
           "name": "MapSum::reduce_out",
           "op": "field",
           "type": "std::vector<bool>"
@@ -5003,13 +4205,11 @@ export default {
       ],
       "Matrix<Scalar>::serialize": [
         {
-          "bind": "sparsity()",
           "name": "Matrix::sparsity",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "nonzeros()",
           "name": "Matrix::nonzeros",
           "op": "field",
           "type": "std::vector<Scalar>"
@@ -5017,7 +4217,6 @@ export default {
       ],
       "MinusInfSX::serialize_node": [
         {
-          "bind": "'f'",
           "name": "ConstantSX::type",
           "name_expression": "\"ConstantSX::type\"",
           "op": "field",
@@ -5026,7 +4225,6 @@ export default {
       ],
       "MinusOneSX::serialize_node": [
         {
-          "bind": "'m'",
           "name": "ConstantSX::type",
           "name_expression": "\"ConstantSX::type\"",
           "op": "field",
@@ -5039,7 +4237,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "comment_",
           "name": "Monitor::comment",
           "op": "field",
           "type": "std::string"
@@ -5056,7 +4253,6 @@ export default {
           "value": 1
         },
         {
-          "bind": "opts_",
           "name": "MosekInterface::opts",
           "op": "field",
           "type": "Dict"
@@ -5068,7 +4264,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "std::string(Blas::name_for_shorthand(blas_shorthand_))",
           "name": "Multiplication::blas",
           "op": "field",
           "type": "std::string"
@@ -5080,7 +4275,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "std::string(\"base\")",
           "name": "Multiplication::kind",
           "op": "field",
           "type": "std::string"
@@ -5097,13 +4291,11 @@ export default {
           "value": 1
         },
         {
-          "bind": "symmetric_",
           "name": "MumpsInterface::symmetric",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "posdef_",
           "name": "MumpsInterface::posdef",
           "op": "field",
           "type": "bool"
@@ -5111,7 +4303,6 @@ export default {
       ],
       "NanSX::serialize_node": [
         {
-          "bind": "'n'",
           "name": "ConstantSX::type",
           "name_expression": "\"ConstantSX::type\"",
           "op": "field",
@@ -5129,31 +4320,26 @@ export default {
           "value": 1
         },
         {
-          "bind": "max_iter_",
           "name": "Newton::max_iter",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "abstol_",
           "name": "Newton::abstol",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "abstolStep_",
           "name": "Newton::abstolStep",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "print_iteration_",
           "name": "Newton::print_iteration",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "line_search_",
           "name": "Newton::line_search",
           "op": "field",
           "type": "bool"
@@ -5170,145 +4356,121 @@ export default {
           "value": 5
         },
         {
-          "bind": "nx_",
           "name": "Nlpsol::nx",
           "op": "field",
           "type": null
         },
         {
-          "bind": "ng_",
           "name": "Nlpsol::ng",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "np_",
           "name": "Nlpsol::np",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "fcallback_",
           "name": "Nlpsol::fcallback",
           "op": "field",
           "type": "Function"
         },
         {
-          "bind": "callback_step_",
           "name": "Nlpsol::callback_step",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "eval_errors_fatal_",
           "name": "Nlpsol::eval_errors_fatal",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "warn_initial_bounds_",
           "name": "Nlpsol::warn_initial_bounds",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "iteration_callback_ignore_errors_",
           "name": "Nlpsol::iteration_callback_ignore_errors",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "calc_multipliers_",
           "name": "Nlpsol::calc_multipliers",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "calc_lam_x_",
           "name": "Nlpsol::calc_lam_x",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "calc_lam_p_",
           "name": "Nlpsol::calc_lam_p",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "calc_f_",
           "name": "Nlpsol::calc_f",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "calc_g_",
           "name": "Nlpsol::calc_g",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "min_lam_",
           "name": "Nlpsol::min_lam",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "bound_consistency_",
           "name": "Nlpsol::bound_consistency",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "no_nlp_grad_",
           "name": "Nlpsol::no_nlp_grad",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "discrete_",
           "name": "Nlpsol::discrete",
           "op": "field",
           "type": "std::vector<bool>"
         },
         {
-          "bind": "equality_",
           "name": "Nlpsol::equality",
           "op": "field",
           "type": "std::vector<bool>"
         },
         {
-          "bind": "mi_",
           "name": "Nlpsol::mi",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "sens_linsol_",
           "name": "Nlpsol::sens_linsol",
           "op": "field",
           "type": "std::string"
         },
         {
-          "bind": "sens_linsol_options_",
           "name": "Nlpsol::sens_linsol_options",
           "op": "field",
           "type": "Dict"
         },
         {
-          "bind": "detect_simple_bounds_is_simple_",
           "name": "Nlpsol::detect_simple_bounds_is_simple",
           "op": "field",
           "type": "std::vector<char>"
         },
         {
-          "bind": "detect_simple_bounds_parts_",
           "name": "Nlpsol::detect_simple_bounds_parts",
           "op": "field",
           "type": "Function"
         },
         {
-          "bind": "detect_simple_bounds_target_x_",
           "name": "Nlpsol::detect_simple_bounds_target_x",
           "op": "field",
           "type": "std::vector<casadi_int>"
@@ -5326,7 +4488,6 @@ export default {
       ],
       "OneSX::serialize_node": [
         {
-          "bind": "'1'",
           "name": "ConstantSX::type",
           "name_expression": "\"ConstantSX::type\"",
           "op": "field",
@@ -5344,7 +4505,6 @@ export default {
           "value": 2
         },
         {
-          "bind": "std::string(model_data_.begin(), model_data_.end())",
           "name": "OnnxFunction::model_data",
           "op": "field",
           "type": "std::string"
@@ -5371,73 +4531,61 @@ export default {
           }
         },
         {
-          "bind": "in_src_",
           "name": "OnnxFunction::in_src",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "in_val_",
           "name": "OnnxFunction::in_val",
           "op": "field",
           "type": "std::vector<double>"
         },
         {
-          "bind": "std::vector<std::string>(model_inputs_.begin(), model_inputs_.end())",
           "name": "OnnxFunction::model_inputs",
           "op": "field",
           "type": "std::vector<std::string>"
         },
         {
-          "bind": "std::vector<std::string>(model_outputs_.begin(), model_outputs_.end())",
           "name": "OnnxFunction::model_outputs",
           "op": "field",
           "type": "std::vector<std::string>"
         },
         {
-          "bind": "fwd_dim_",
           "name": "OnnxFunction::fwd_dim",
           "op": "field",
           "type": "std::string"
         },
         {
-          "bind": "adj_dim_",
           "name": "OnnxFunction::adj_dim",
           "op": "field",
           "type": "std::string"
         },
         {
-          "bind": "input_values_",
           "name": "OnnxFunction::input_values",
           "op": "field",
           "type": "std::map<std::string, std::vector<double>>"
         },
         {
-          "bind": "model_path_",
           "name": "OnnxFunction::model_path",
           "op": "field",
           "type": "std::string"
         },
         {
-          "bind": "dim_bindings_",
           "name": "OnnxFunction::dim_bindings",
           "op": "field",
           "type": "std::map<std::string, casadi_int>"
         },
         {
-          "bind": "input_shapes_",
           "name": "OnnxFunction::input_shapes",
           "op": "field",
           "type": "std::map<std::string, std::vector<casadi_int>>"
         },
         {
-          "bind": "derivative_opts_",
           "name": "OnnxFunction::derivative_opts",
           "op": "field",
           "type": "Dict"
         },
         {
-          "bind": "builder_opts_",
           "name": "OnnxFunction::builder_opts",
           "op": "field",
           "type": "Dict"
@@ -5464,7 +4612,6 @@ export default {
           "value": 1
         },
         {
-          "bind": "provider_",
           "name": "OnnxRuntimeInterface::provider",
           "op": "field",
           "type": "std::string"
@@ -5481,43 +4628,36 @@ export default {
           "value": 1
         },
         {
-          "bind": "spAT_",
           "name": "OoqpInterface::spAT",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "nQ_",
           "name": "OoqpInterface::nQ",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "nH_",
           "name": "OoqpInterface::nH",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "nA_",
           "name": "OoqpInterface::nA",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "print_level_",
           "name": "OoqpInterface::print_level",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "mutol_",
           "name": "OoqpInterface::mutol",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "artol_",
           "name": "OoqpInterface::artol",
           "op": "field",
           "type": "double"
@@ -5541,7 +4681,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "oind_",
           "name": "OutputNode::oind",
           "op": "field",
           "type": "casadi_int"
@@ -5549,14 +4688,12 @@ export default {
       ],
       "OutputSX::serialize_node": [
         {
-          "bind": "dep_",
           "name": "OutputSX::dep",
           "name_expression": "\"OutputSX::dep\"",
           "op": "field",
           "type": "SXElem"
         },
         {
-          "bind": "oind_",
           "name": "OutputSX::oind",
           "name_expression": "\"OutputSX::oind\"",
           "op": "field",
@@ -5574,169 +4711,141 @@ export default {
           "value": 1
         },
         {
-          "bind": "nnzH_",
           "name": "PiqpInterface::nnzH",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "nnzA_",
           "name": "PiqpInterface::nnzA",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "settings_.rho_init",
           "name": "PiqpInterface::settings::rho_init",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.delta_init",
           "name": "PiqpInterface::settings::delta_init",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.eps_abs",
           "name": "PiqpInterface::settings::eps_abs",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.eps_rel",
           "name": "PiqpInterface::settings::eps_rel",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.check_duality_gap",
           "name": "PiqpInterface::settings::check_duality_gap",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.eps_duality_gap_abs",
           "name": "PiqpInterface::settings::eps_duality_gap_abs",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.eps_duality_gap_rel",
           "name": "PiqpInterface::settings::eps_duality_gap_rel",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.reg_lower_limit",
           "name": "PiqpInterface::settings::reg_lower_limit",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.reg_finetune_lower_limit",
           "name": "PiqpInterface::settings::reg_finetune_lower_limit",
           "op": "field",
           "type": null
         },
         {
-          "bind": "tmp",
           "name": "PiqpInterface::settings::reg_finetune_primal_update_threshold",
           "op": "field",
           "type": "std::size_t"
         },
         {
-          "bind": "tmp",
           "name": "PiqpInterface::settings::reg_finetune_dual_update_threshold",
           "op": "field",
           "type": "std::size_t"
         },
         {
-          "bind": "tmp",
           "name": "PiqpInterface::settings::max_iter",
           "op": "field",
           "type": "std::size_t"
         },
         {
-          "bind": "tmp",
           "name": "PiqpInterface::settings::max_factor_retires",
           "op": "field",
           "type": "std::size_t"
         },
         {
-          "bind": "settings_.preconditioner_scale_cost",
           "name": "PiqpInterface::settings::preconditioner_scale_cost",
           "op": "field",
           "type": null
         },
         {
-          "bind": "tmp",
           "name": "PiqpInterface::settings::preconditioner_iter",
           "op": "field",
           "type": "std::size_t"
         },
         {
-          "bind": "settings_.tau",
           "name": "PiqpInterface::settings::tau",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.iterative_refinement_always_enabled",
           "name": "PiqpInterface::settings::iterative_refinement_always_enabled",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.iterative_refinement_eps_abs",
           "name": "PiqpInterface::settings::iterative_refinement_eps_abs",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.iterative_refinement_eps_rel",
           "name": "PiqpInterface::settings::iterative_refinement_eps_rel",
           "op": "field",
           "type": null
         },
         {
-          "bind": "tmp",
           "name": "PiqpInterface::settings::iterative_refinement_max_iter",
           "op": "field",
           "type": "std::size_t"
         },
         {
-          "bind": "settings_.iterative_refinement_min_improvement_rate",
           "name": "PiqpInterface::settings::iterative_refinement_min_improvement_rate",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.iterative_refinement_static_regularization_eps",
           "name": "PiqpInterface::settings::iterative_refinement_static_regularization_eps",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.iterative_refinement_static_regularization_rel",
           "name": "PiqpInterface::settings::iterative_refinement_static_regularization_rel",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.verbose",
           "name": "PiqpInterface::settings::verbose",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.compute_timings",
           "name": "PiqpInterface::settings::compute_timings",
           "op": "field",
           "type": null
         },
         {
-          "bind": "std::string(piqp::kkt_solver_to_string(settings_.kkt_solver))",
           "name": "PiqpInterface::settings::kkt_solver",
           "op": "field",
           "type": "std::string"
@@ -5744,7 +4853,6 @@ export default {
       ],
       "PluginInterface::serialize_type": [
         {
-          "bind": "std::string(plugin_name())",
           "name": "PluginInterface::plugin_name",
           "name_expression": "\"PluginInterface::plugin_name\"",
           "op": "field",
@@ -5757,7 +4865,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "'n'",
           "name": "Project::type",
           "op": "field",
           "type": "char"
@@ -5766,11 +4873,11 @@ export default {
       "ProtoFunction::serialize": [
         {
           "op": "unsupported",
-          "reason": "unlowered serialization call: serialize_type(s);"
+          "reason": "unlowered serialization call"
         },
         {
           "op": "unsupported",
-          "reason": "unlowered serialization call: serialize_body(s);"
+          "reason": "unlowered serialization call"
         }
       ],
       "ProtoFunction::serialize_body": [
@@ -5780,37 +4887,31 @@ export default {
           "value": 2
         },
         {
-          "bind": "name_",
           "name": "ProtoFunction::name",
           "op": "field",
           "type": "std::string"
         },
         {
-          "bind": "verbose_",
           "name": "ProtoFunction::verbose",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "print_time_",
           "name": "ProtoFunction::print_time",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "record_time_",
           "name": "ProtoFunction::record_time",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "regularity_check_",
           "name": "ProtoFunction::regularity_check",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "error_on_fail_",
           "name": "ProtoFunction::error_on_fail",
           "op": "field",
           "type": "bool"
@@ -5828,61 +4929,51 @@ export default {
           "value": 1
         },
         {
-          "bind": "warm_start_primal_",
           "name": "ProxqpInterface::warm_start_primal",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "warm_start_dual_",
           "name": "ProxqpInterface::warm_start_dual",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "settings_.default_rho",
           "name": "ProxqpInterface::settings::default_rho",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.default_mu_eq",
           "name": "ProxqpInterface::settings::default_mu_eq",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.default_mu_in",
           "name": "ProxqpInterface::settings::default_mu_in",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.eps_abs",
           "name": "ProxqpInterface::settings::eps_abs",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.eps_rel",
           "name": "ProxqpInterface::settings::eps_rel",
           "op": "field",
           "type": null
         },
         {
-          "bind": "static_cast<double>(settings_.max_iter)",
           "name": "ProxqpInterface::settings::max_iter",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "settings_.verbose",
           "name": "ProxqpInterface::settings::verbose",
           "op": "field",
           "type": null
         },
         {
-          "bind": "sparse_backend",
           "name": "ProxqpInterface::settings::sparse_backend",
           "op": "field",
           "type": "bool"
@@ -5894,13 +4985,11 @@ export default {
           "op": "call"
         },
         {
-          "bind": "a_",
           "name": "PseudoDenseMultiplication::a",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "b_",
           "name": "PseudoDenseMultiplication::b",
           "op": "field",
           "type": "casadi_int"
@@ -5918,7 +5007,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "std::string(\"pseudo_dense\")",
           "name": "Multiplication::kind",
           "op": "field",
           "type": "std::string"
@@ -5935,7 +5023,6 @@ export default {
           "value": 1
         },
         {
-          "bind": "solver_",
           "name": "QpToNlp::solver",
           "op": "field",
           "type": "Function"
@@ -5952,223 +5039,186 @@ export default {
           "value": 1
         },
         {
-          "bind": "max_nWSR_",
           "name": "QpoasesInterface::max_nWSR",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "max_cputime_",
           "name": "QpoasesInterface::max_cputime",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "static_cast<casadi_int>(hess_)",
           "name": "QpoasesInterface::hess",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "sparse_",
           "name": "QpoasesInterface::sparse",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "schur_",
           "name": "QpoasesInterface::schur",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "max_schur_",
           "name": "QpoasesInterface::max_schur",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "linsol_plugin_",
           "name": "QpoasesInterface::linsol_plugin",
           "op": "field",
           "type": "std::string"
         },
         {
-          "bind": "static_cast<casadi_int>(ops_.printLevel)",
           "name": "QpoasesInterface::ops::printLevel",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "from_BooleanType(ops_.enableRamping)",
           "name": "QpoasesInterface::ops::enableRamping",
           "op": "field",
           "type": null
         },
         {
-          "bind": "from_BooleanType(ops_.enableFarBounds)",
           "name": "QpoasesInterface::ops::enableFarBounds",
           "op": "field",
           "type": null
         },
         {
-          "bind": "from_BooleanType(ops_.enableFlippingBounds)",
           "name": "QpoasesInterface::ops::enableFlippingBounds",
           "op": "field",
           "type": null
         },
         {
-          "bind": "from_BooleanType(ops_.enableRegularisation)",
           "name": "QpoasesInterface::ops::enableRegularisation",
           "op": "field",
           "type": null
         },
         {
-          "bind": "from_BooleanType(ops_.enableFullLITests)",
           "name": "QpoasesInterface::ops::enableFullLITests",
           "op": "field",
           "type": null
         },
         {
-          "bind": "from_BooleanType(ops_.enableNZCTests)",
           "name": "QpoasesInterface::ops::enableNZCTests",
           "op": "field",
           "type": null
         },
         {
-          "bind": "ops_.enableDriftCorrection",
           "name": "QpoasesInterface::ops::enableDriftCorrection",
           "op": "field",
           "type": null
         },
         {
-          "bind": "ops_.enableCholeskyRefactorisation",
           "name": "QpoasesInterface::ops::enableCholeskyRefactorisation",
           "op": "field",
           "type": null
         },
         {
-          "bind": "from_BooleanType(ops_.enableEqualities)",
           "name": "QpoasesInterface::ops::enableEqualities",
           "op": "field",
           "type": null
         },
         {
-          "bind": "ops_.terminationTolerance",
           "name": "QpoasesInterface::ops::terminationTolerance",
           "op": "field",
           "type": null
         },
         {
-          "bind": "ops_.boundTolerance",
           "name": "QpoasesInterface::ops::boundTolerance",
           "op": "field",
           "type": null
         },
         {
-          "bind": "ops_.boundRelaxation",
           "name": "QpoasesInterface::ops::boundRelaxation",
           "op": "field",
           "type": null
         },
         {
-          "bind": "ops_.epsNum",
           "name": "QpoasesInterface::ops::epsNum",
           "op": "field",
           "type": null
         },
         {
-          "bind": "ops_.epsDen",
           "name": "QpoasesInterface::ops::epsDen",
           "op": "field",
           "type": null
         },
         {
-          "bind": "ops_.maxPrimalJump",
           "name": "QpoasesInterface::ops::maxPrimalJump",
           "op": "field",
           "type": null
         },
         {
-          "bind": "ops_.maxDualJump",
           "name": "QpoasesInterface::ops::maxDualJump",
           "op": "field",
           "type": null
         },
         {
-          "bind": "ops_.initialRamping",
           "name": "QpoasesInterface::ops::initialRamping",
           "op": "field",
           "type": null
         },
         {
-          "bind": "ops_.finalRamping",
           "name": "QpoasesInterface::ops::finalRamping",
           "op": "field",
           "type": null
         },
         {
-          "bind": "ops_.initialFarBounds",
           "name": "QpoasesInterface::ops::initialFarBounds",
           "op": "field",
           "type": null
         },
         {
-          "bind": "ops_.growFarBounds",
           "name": "QpoasesInterface::ops::growFarBounds",
           "op": "field",
           "type": null
         },
         {
-          "bind": "from_SubjectToStatus(ops_.initialStatusBounds)",
           "name": "QpoasesInterface::ops::initialStatusBounds",
           "op": "field",
           "type": null
         },
         {
-          "bind": "ops_.epsFlipping",
           "name": "QpoasesInterface::ops::epsFlipping",
           "op": "field",
           "type": null
         },
         {
-          "bind": "ops_.numRegularisationSteps",
           "name": "QpoasesInterface::ops::numRegularisationSteps",
           "op": "field",
           "type": null
         },
         {
-          "bind": "ops_.epsRegularisation",
           "name": "QpoasesInterface::ops::epsRegularisation",
           "op": "field",
           "type": null
         },
         {
-          "bind": "ops_.numRefinementSteps",
           "name": "QpoasesInterface::ops::numRefinementSteps",
           "op": "field",
           "type": null
         },
         {
-          "bind": "ops_.epsIterRef",
           "name": "QpoasesInterface::ops::epsIterRef",
           "op": "field",
           "type": null
         },
         {
-          "bind": "ops_.epsLITests",
           "name": "QpoasesInterface::ops::epsLITests",
           "op": "field",
           "type": null
         },
         {
-          "bind": "ops_.epsNZCTests",
           "name": "QpoasesInterface::ops::epsNZCTests",
           "op": "field",
           "type": null
         },
         {
-          "bind": "from_BooleanType(ops_.enableInertiaCorrection)",
           "name": "QpoasesInterface::ops::enableInertiaCorrection",
           "op": "field",
           "type": null
@@ -6185,85 +5235,71 @@ export default {
           "value": 1
         },
         {
-          "bind": "AT_",
           "name": "Qrqp::AT",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "kkt_",
           "name": "Qrqp::kkt",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "sp_v_",
           "name": "Qrqp::sp_v",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "sp_r_",
           "name": "Qrqp::sp_r",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "prinv_",
           "name": "Qrqp::prinv",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "pc_",
           "name": "Qrqp::pc",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "print_iter_",
           "name": "Qrqp::print_iter",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "print_header_",
           "name": "Qrqp::print_header",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "print_info_",
           "name": "Qrqp::print_info",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "print_lincomb_",
           "name": "Qrqp::print_lincomb_",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "p_.max_iter",
           "name": "Qrqp::max_iter",
           "op": "field",
           "type": null
         },
         {
-          "bind": "p_.min_lam",
           "name": "Qrqp::min_lam",
           "op": "field",
           "type": "T1"
         },
         {
-          "bind": "p_.constr_viol_tol",
           "name": "Qrqp::constr_viol_tol",
           "op": "field",
           "type": "T1"
         },
         {
-          "bind": "p_.dual_inf_tol",
           "name": "Qrqp::dual_inf_tol",
           "op": "field",
           "type": "T1"
@@ -6271,7 +5307,6 @@ export default {
       ],
       "RealtypeSX::serialize_node": [
         {
-          "bind": "'r'",
           "name": "ConstantSX::type",
           "name_expression": "\"ConstantSX::type\"",
           "op": "field",
@@ -6288,7 +5323,7 @@ export default {
       "Resource::serialize": [
         {
           "op": "unsupported",
-          "reason": "unlowered serialization call: serialize(s);"
+          "reason": "unlowered serialization call"
         }
       ],
       "ResourceInternal::serialize": [
@@ -6299,16 +5334,15 @@ export default {
         },
         {
           "op": "unsupported",
-          "reason": "unlowered serialization call: serialize_type(s);"
+          "reason": "unlowered serialization call"
         },
         {
           "op": "unsupported",
-          "reason": "unlowered serialization call: serialize_body(s);"
+          "reason": "unlowered serialization call"
         }
       ],
       "ResourceInternal::serialize_body": [
         {
-          "bind": "serialize_mode_",
           "name": "ResourceInternal::serialize_mode",
           "op": "field",
           "type": "std::string"
@@ -6339,31 +5373,26 @@ export default {
           "type": null
         },
         {
-          "bind": "linsol_",
           "name": "Rootfinder::linsol",
           "op": "field",
           "type": "Linsol"
         },
         {
-          "bind": "sp_jac_",
           "name": "Rootfinder::sp_jac",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "u_c_",
           "name": "Rootfinder::u_c",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "iin_",
           "name": "Rootfinder::iin",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "iout_",
           "name": "Rootfinder::iout",
           "op": "field",
           "type": "casadi_int"
@@ -6401,31 +5430,26 @@ export default {
           "value": 1
         },
         {
-          "bind": "jacg_sp_",
           "name": "SLEQPInterface::jacg_sp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "max_iter_",
           "name": "SLEQPInterface::max_iter",
           "op": "field",
           "type": "int"
         },
         {
-          "bind": "max_wall_time_",
           "name": "SLEQPInterface::max_wall_time",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "print_level_",
           "name": "SLEQPInterface::print_level",
           "op": "field",
           "type": "int"
         },
         {
-          "bind": "opts_",
           "name": "SLEQPInterface::opts",
           "op": "field",
           "type": "Dict"
@@ -6434,7 +5458,7 @@ export default {
       "SXElem::serialize": [
         {
           "op": "unsupported",
-          "reason": "unlowered serialization call: serialize(s);"
+          "reason": "unlowered serialization call"
         }
       ],
       "SXFunction::serialize_body": [
@@ -6454,67 +5478,56 @@ export default {
           "type": "size_t"
         },
         {
-          "bind": "worksize_",
           "name": "SXFunction::worksize",
           "op": "field",
           "type": "size_t"
         },
         {
-          "bind": "free_vars_",
           "name": "SXFunction::free_vars",
           "op": "field",
           "type": "std::vector<SXElem>"
         },
         {
-          "bind": "operations_",
           "name": "SXFunction::operations",
           "op": "field",
           "type": "std::vector<SXElem>"
         },
         {
-          "bind": "constants_",
           "name": "SXFunction::constants",
           "op": "field",
           "type": "std::vector<SXElem>"
         },
         {
-          "bind": "default_in_",
           "name": "SXFunction::default_in",
           "op": "field",
           "type": "std::vector<double>"
         },
         {
-          "bind": "call_.sz_arg",
           "name": "SXFunction::call_sz_arg",
           "op": "field",
           "type": "size_t"
         },
         {
-          "bind": "call_.sz_res",
           "name": "SXFunction::call_sz_res",
           "op": "field",
           "type": "size_t"
         },
         {
-          "bind": "call_.sz_iw",
           "name": "SXFunction::call_sz_iw",
           "op": "field",
           "type": "size_t"
         },
         {
-          "bind": "call_.sz_w",
           "name": "SXFunction::call_sz_w",
           "op": "field",
           "type": "size_t"
         },
         {
-          "bind": "call_.sz_w_arg",
           "name": "SXFunction::call_sz_arg",
           "op": "field",
           "type": "size_t"
         },
         {
-          "bind": "call_.sz_w_res",
           "name": "SXFunction::call_sz_res",
           "op": "field",
           "type": "size_t"
@@ -6528,31 +5541,26 @@ export default {
         {
           "body": [
             {
-              "bind": "n.f",
               "name": "SXFunction::call_el_f",
               "op": "field",
               "type": "Function"
             },
             {
-              "bind": "n.dep",
               "name": "SXFunction::call_el_dep",
               "op": "field",
               "type": "std::vector<int>"
             },
             {
-              "bind": "n.res",
               "name": "SXFunction::call_el_res",
               "op": "field",
               "type": "std::vector<int>"
             },
             {
-              "bind": "n.copy_elision_arg",
               "name": "SXFunction::call_el_copy_elision_arg",
               "op": "field",
               "type": "std::vector<int>"
             },
             {
-              "bind": "n.copy_elision_offset",
               "name": "SXFunction::call_el_copy_elision_offset",
               "op": "field",
               "type": "std::vector<int>"
@@ -6562,7 +5570,6 @@ export default {
           "op": "repeat"
         },
         {
-          "bind": "copy_elision_",
           "name": "SXFunction::copy_elision",
           "op": "field",
           "type": "std::vector<bool>"
@@ -6570,25 +5577,21 @@ export default {
         {
           "body": [
             {
-              "bind": "e.op",
               "name": "SXFunction::ScalarAtomic::op",
               "op": "field",
               "type": "int"
             },
             {
-              "bind": "e.i0",
               "name": "SXFunction::ScalarAtomic::i0",
               "op": "field",
               "type": "int"
             },
             {
-              "bind": "e.i1",
               "name": "SXFunction::ScalarAtomic::i1",
               "op": "field",
               "type": "int"
             },
             {
-              "bind": "e.i2",
               "name": "SXFunction::ScalarAtomic::i2",
               "op": "field",
               "type": "int"
@@ -6598,19 +5601,16 @@ export default {
           "op": "repeat"
         },
         {
-          "bind": "live_variables_",
           "name": "SXFunction::live_variables",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "print_instructions_",
           "name": "SXFunction::print_instructions",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "dump_trace_",
           "name": "SXFunction::dump_trace",
           "op": "field",
           "type": "bool"
@@ -6622,14 +5622,13 @@ export default {
       ],
       "SXNode::serialize": [
         {
-          "bind": "op()",
           "name": "SXNode::op",
           "op": "field",
           "type": "casadi_int"
         },
         {
           "op": "unsupported",
-          "reason": "unlowered serialization call: serialize_node(s);"
+          "reason": "unlowered serialization call"
         }
       ],
       "SetNonzerosParamParam<Add>::serialize_type": [
@@ -6638,7 +5637,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "'d'",
           "name": "SetNonzerosParam::type",
           "op": "field",
           "type": "char"
@@ -6650,7 +5648,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "outer_",
           "name": "SetNonzerosParamSlice::outer",
           "op": "field",
           "type": "Slice"
@@ -6662,7 +5659,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "'b'",
           "name": "SetNonzerosParam::type",
           "op": "field",
           "type": "char"
@@ -6680,7 +5676,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "'a'",
           "name": "SetNonzerosParam::type",
           "op": "field",
           "type": "char"
@@ -6692,13 +5687,11 @@ export default {
           "op": "call"
         },
         {
-          "bind": "inner_",
           "name": "SetNonzerosSlice2::inner",
           "op": "field",
           "type": null
         },
         {
-          "bind": "outer_",
           "name": "SetNonzerosSlice2::outer",
           "op": "field",
           "type": "Slice"
@@ -6710,7 +5703,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "'c'",
           "name": "SetNonzeros::type",
           "op": "field",
           "type": "char"
@@ -6734,7 +5726,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "'b'",
           "name": "SetNonzeros::type",
           "op": "field",
           "type": "char"
@@ -6746,7 +5737,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "inner_",
           "name": "SetNonzerosSliceParam::inner",
           "op": "field",
           "type": null
@@ -6758,7 +5748,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "'c'",
           "name": "SetNonzerosParam::type",
           "op": "field",
           "type": "char"
@@ -6770,7 +5759,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "nz_",
           "name": "SetNonzerosVector::nonzeros",
           "op": "field",
           "type": null
@@ -6782,7 +5770,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "'a'",
           "name": "SetNonzeros::type",
           "op": "field",
           "type": "char"
@@ -6790,19 +5777,16 @@ export default {
       ],
       "Slice::serialize": [
         {
-          "bind": "start",
           "name": "Slice::start",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "stop",
           "name": "Slice::stop",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "step",
           "name": "Slice::step",
           "op": "field",
           "type": "casadi_int"
@@ -6819,37 +5803,31 @@ export default {
           "value": 1
         },
         {
-          "bind": "jacf_sp_",
           "name": "SnoptInterface::jacf_sp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "jacg_sp_",
           "name": "SnoptInterface::jacg_sp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "nnJac_",
           "name": "SnoptInterface::nnJac",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "nnObj_",
           "name": "SnoptInterface::nnObj",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "nnCon_",
           "name": "SnoptInterface::nnCon",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "A_structure_",
           "name": "SnoptInterface::A_structure",
           "op": "field",
           "type": "IM"
@@ -6861,37 +5839,31 @@ export default {
           "type": "casadi_int"
         },
         {
-          "bind": "iObj_",
           "name": "SnoptInterface::iObj",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "jacF_row_",
           "name": "SnoptInterface::jacF_row",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "dummyrow_",
           "name": "SnoptInterface::dummyrow",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "Cold_",
           "name": "SnoptInterface::Cold_",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "inf_",
           "name": "SnoptInterface::inf",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "opts_",
           "name": "SnoptInterface::opts",
           "op": "field",
           "type": "Dict"
@@ -6909,7 +5881,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "Tr",
           "name": "Solve::Tr",
           "op": "field",
           "type": null
@@ -6921,7 +5892,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "std::string(\"sparse_dense\")",
           "name": "Kron::kind",
           "op": "field",
           "type": "std::string"
@@ -6933,7 +5903,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "std::string(\"sparse_dense\")",
           "name": "KronContract::kind",
           "op": "field",
           "type": "std::string"
@@ -6945,7 +5914,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "'s'",
           "name": "Project::type",
           "op": "field",
           "type": "char"
@@ -6963,13 +5931,11 @@ export default {
           "op": "call"
         },
         {
-          "bind": "offset_",
           "name": "Split::offset",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "output_sparsity_",
           "name": "Split::output_sparsity",
           "op": "field",
           "type": "std::vector<Sparsity>"
@@ -6986,157 +5952,131 @@ export default {
           "value": 3
         },
         {
-          "bind": "qpsol_",
           "name": "Sqpmethod::qpsol",
           "op": "field",
           "type": "Function"
         },
         {
-          "bind": "qpsol_ela_",
           "name": "Sqpmethod::qpsol_ela",
           "op": "field",
           "type": "Function"
         },
         {
-          "bind": "exact_hessian_",
           "name": "Sqpmethod::exact_hessian",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "max_iter_",
           "name": "Sqpmethod::max_iter",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "min_iter_",
           "name": "Sqpmethod::min_iter",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "lbfgs_memory_",
           "name": "Sqpmethod::lbfgs_memory",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "tol_pr_",
           "name": "Sqpmethod::tol_pr_",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "tol_du_",
           "name": "Sqpmethod::tol_du_",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "min_step_size_",
           "name": "Sqpmethod::min_step_size_",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "c1_",
           "name": "Sqpmethod::c1",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "beta_",
           "name": "Sqpmethod::beta",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "max_iter_ls_",
           "name": "Sqpmethod::max_iter_ls_",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "merit_memsize_",
           "name": "Sqpmethod::merit_memsize_",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "beta_",
           "name": "Sqpmethod::beta",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "print_header_",
           "name": "Sqpmethod::print_header",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "print_iteration_",
           "name": "Sqpmethod::print_iteration",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "print_status_",
           "name": "Sqpmethod::print_status",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "elastic_mode_",
           "name": "Sqpmethod::elastic_mode",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "gamma_0_",
           "name": "Sqpmethod::gamma_0",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "gamma_max_",
           "name": "Sqpmethod::gamma_max",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "gamma_1_min_",
           "name": "Sqpmethod::gamma_1_min",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "init_feasible_",
           "name": "Sqpmethod::init_feasible",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "so_corr_",
           "name": "Sqpmethod::so_corr",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "Hsp_",
           "name": "Sqpmethod::Hsp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "Asp_",
           "name": "Sqpmethod::Asp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "convexify_",
           "name": "Sqpmethod::convexify",
           "op": "field",
           "type": "bool"
@@ -7153,127 +6093,106 @@ export default {
           "value": 2
         },
         {
-          "bind": "abstol_",
           "name": "SundialsInterface::abstol",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "reltol_",
           "name": "SundialsInterface::reltol",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "max_num_steps_",
           "name": "SundialsInterface::max_num_steps",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "stop_at_end_",
           "name": "SundialsInterface::stop_at_end",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "quad_err_con_",
           "name": "SundialsInterface::quad_err_con",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "steps_per_checkpoint_",
           "name": "SundialsInterface::steps_per_checkpoint",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "disable_internal_warnings_",
           "name": "SundialsInterface::disable_internal_warnings",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "max_multistep_order_",
           "name": "SundialsInterface::max_multistep_order",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "linear_solver_",
           "name": "SundialsInterface::linear_solver",
           "op": "field",
           "type": "std::string"
         },
         {
-          "bind": "linear_solver_options_",
           "name": "SundialsInterface::linear_solver_options",
           "op": "field",
           "type": "Dict"
         },
         {
-          "bind": "max_krylov_",
           "name": "SundialsInterface::max_krylov",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "use_precon_",
           "name": "SundialsInterface::use_precon",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "second_order_correction_",
           "name": "SundialsInterface::second_order_correction",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "step0_",
           "name": "SundialsInterface::step0",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "max_step_size_",
           "name": "SundialsInterface::max_step_size",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "nonlin_conv_coeff_",
           "name": "SundialsInterface::nonlin_conv_coeff",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "max_order_",
           "name": "SundialsInterface::max_order",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "scale_abstol_",
           "name": "SundialsInterface::scale_abstol",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "linsolF_",
           "name": "SundialsInterface::linsolF",
           "op": "field",
           "type": "Linsol"
         },
         {
-          "bind": "static_cast<int>(newton_scheme_)",
           "name": "SundialsInterface::newton_scheme",
           "op": "field",
           "type": "int"
         },
         {
-          "bind": "static_cast<int>(interp_)",
           "name": "SundialsInterface::interp",
           "op": "field",
           "type": "int"
@@ -7290,218 +6209,183 @@ export default {
           "value": 1
         },
         {
-          "bind": "settings_.normalize",
           "name": "SuperscsInterface::settings::normalize",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.scale",
           "name": "SuperscsInterface::settings::scale",
           "op": "field",
           "type": "simde__m256d"
         },
         {
-          "bind": "settings_.rho_x",
           "name": "SuperscsInterface::settings::rho_x",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.max_time_milliseconds",
           "name": "SuperscsInterface::settings::max_time_milliseconds",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.max_iters",
           "name": "SuperscsInterface::settings::max_iters",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.previous_max_iters",
           "name": "SuperscsInterface::settings::previous_max_iters",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.eps",
           "name": "SuperscsInterface::settings::eps",
           "op": "field",
           "type": "double"
         },
         {
-          "bind": "settings_.alpha",
           "name": "SuperscsInterface::settings::alpha",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.cg_rate",
           "name": "SuperscsInterface::settings::cg_rate",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.verbose",
           "name": "SuperscsInterface::settings::verbose",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.warm_start",
           "name": "SuperscsInterface::settings::warm_start",
           "op": "field",
           "type": "T1"
         },
         {
-          "bind": "settings_.do_super_scs",
           "name": "SuperscsInterface::settings::do_super_scs",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.k0",
           "name": "SuperscsInterface::settings::k0",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.c_bl",
           "name": "SuperscsInterface::settings::c_bl",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.k1",
           "name": "SuperscsInterface::settings::k1",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "settings_.k2",
           "name": "SuperscsInterface::settings::k2",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "settings_.c1",
           "name": "SuperscsInterface::settings::c1",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "settings_.sse",
           "name": "SuperscsInterface::settings::sse",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.ls",
           "name": "SuperscsInterface::settings::ls",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.beta",
           "name": "SuperscsInterface::settings::beta",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.sigma",
           "name": "SuperscsInterface::settings::sigma",
           "op": "field",
           "type": null
         },
         {
-          "bind": "static_cast<casadi_int>(settings_.direction)",
           "name": "SuperscsInterface::settings::direction",
           "op": "field",
           "type": "casadi_int"
         },
         {
-          "bind": "settings_.thetabar",
           "name": "SuperscsInterface::settings::thetabar",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.memory",
           "name": "SuperscsInterface::settings::memory",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.tRule",
           "name": "SuperscsInterface::settings::tRule",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.broyden_init_scaling",
           "name": "SuperscsInterface::settings::broyden_init_scaling",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.do_record_progress",
           "name": "SuperscsInterface::settings::do_record_progress",
           "op": "field",
           "type": null
         },
         {
-          "bind": "settings_.do_override_streams",
           "name": "SuperscsInterface::settings::do_override_streams",
           "op": "field",
           "type": null
         },
         {
-          "bind": "Hp_",
           "name": "SuperscsInterface::Hp",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "HL_sp_",
           "name": "SuperscsInterface::HL_sp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "F_",
           "name": "SuperscsInterface::f",
           "op": "field",
           "type": "Function"
         },
         {
-          "bind": "At_",
           "name": "SuperscsInterface::At",
           "op": "field",
           "type": "IM"
         },
         {
-          "bind": "lookup_",
           "name": "SuperscsInterface::lookup",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "perturb_",
           "name": "SuperscsInterface::perturb",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "opts_",
           "name": "SuperscsInterface::opts",
           "op": "field",
           "type": "Dict"
         },
         {
           "op": "unsupported",
-          "reason": "unlowered serialization call: Conic::serialize(s, sdp_to_socp_mem_);"
+          "reason": "unlowered serialization call"
         }
       ],
       "Switch::serialize_body": [
@@ -7515,25 +6399,21 @@ export default {
           "value": 1
         },
         {
-          "bind": "f_",
           "name": "Switch::f",
           "op": "field",
           "type": "std::vector<Function>"
         },
         {
-          "bind": "f_def_",
           "name": "Switch::f_def",
           "op": "field",
           "type": "Function"
         },
         {
-          "bind": "project_in_",
           "name": "Switch::project_in",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "project_out_",
           "name": "Switch::project_out",
           "op": "field",
           "type": "bool"
@@ -7545,7 +6425,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "name_",
           "name": "SymbolicMX::name",
           "op": "field",
           "type": "std::string"
@@ -7562,25 +6441,21 @@ export default {
           "value": 1
         },
         {
-          "bind": "factorize_",
           "name": "SymbolicQr::factorize",
           "op": "field",
           "type": "Function"
         },
         {
-          "bind": "solve_",
           "name": "SymbolicQr::solve",
           "op": "field",
           "type": "Function"
         },
         {
-          "bind": "solveT_",
           "name": "SymbolicQr::solveT",
           "op": "field",
           "type": "Function"
         },
         {
-          "bind": "fopts_",
           "name": "SymbolicQr::fopts",
           "op": "field",
           "type": "Dict"
@@ -7588,7 +6463,6 @@ export default {
       ],
       "SymbolicSX::serialize_node": [
         {
-          "bind": "name_",
           "name": "SymbolicSX::name",
           "name_expression": "\"SymbolicSX::name\"",
           "op": "field",
@@ -7601,7 +6475,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "false",
           "name": "Transpose::dense",
           "op": "field",
           "type": "bool"
@@ -7613,7 +6486,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "static_cast<int>(op_)",
           "name": "UnaryMX::op",
           "op": "field",
           "type": "int"
@@ -7621,7 +6493,6 @@ export default {
       ],
       "UnarySX::serialize_node": [
         {
-          "bind": "dep_",
           "name": "UnarySX::dep",
           "name_expression": "\"UnarySX::dep\"",
           "op": "field",
@@ -7639,19 +6510,16 @@ export default {
           "value": 1
         },
         {
-          "bind": "jacg_sp_",
           "name": "UnoInterface::jacg_sp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "hesslag_sp_",
           "name": "UnoInterface::hesslag_sp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "opts_",
           "name": "UnoInterface::opts",
           "op": "field",
           "type": "Dict"
@@ -7668,37 +6536,31 @@ export default {
           "value": 1
         },
         {
-          "bind": "jacg_sp_",
           "name": "WorhpInterface::jacg_sp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "hesslag_sp_",
           "name": "WorhpInterface::hesslag_sp",
           "op": "field",
           "type": "Sparsity"
         },
         {
-          "bind": "bool_opts_",
           "name": "WorhpInterface::bool_opts",
           "op": "field",
           "type": "std::map<std::string, bool>"
         },
         {
-          "bind": "int_opts_",
           "name": "WorhpInterface::int_opts",
           "op": "field",
           "type": "std::map<std::string, casadi_int>"
         },
         {
-          "bind": "double_opts_",
           "name": "WorhpInterface::double_opts",
           "op": "field",
           "type": "std::map<std::string, double>"
         },
         {
-          "bind": "qp_opts_",
           "name": "WorhpInterface::qp_opts",
           "op": "field",
           "type": "Dict"
@@ -7740,49 +6602,41 @@ export default {
           "value": 2
         },
         {
-          "bind": "opts_",
           "name": "XpressInterface::opts",
           "op": "field",
           "type": "Dict"
         },
         {
-          "bind": "mip_start_",
           "name": "XpressInterface::mip_start",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "log_file_",
           "name": "XpressInterface::log_file",
           "op": "field",
           "type": "std::string"
         },
         {
-          "bind": "compute_iis_",
           "name": "XpressInterface::compute_iis",
           "op": "field",
           "type": "bool"
         },
         {
-          "bind": "sos_settype_",
           "name": "XpressInterface::sos_settype",
           "op": "field",
           "type": "std::vector<char>"
         },
         {
-          "bind": "sos_setstart_",
           "name": "XpressInterface::sos_setstart",
           "op": "field",
           "type": "std::vector<int>"
         },
         {
-          "bind": "sos_setind_",
           "name": "XpressInterface::sos_setind",
           "op": "field",
           "type": "std::vector<int>"
         },
         {
-          "bind": "sos_refval_",
           "name": "XpressInterface::sos_refval",
           "op": "field",
           "type": "std::vector<double>"
@@ -7795,7 +6649,6 @@ export default {
           "op": "call"
         },
         {
-          "bind": "'z'",
           "name": "ConstantMX::type",
           "op": "field",
           "type": "char"
@@ -7803,7 +6656,6 @@ export default {
       ],
       "ZeroSX::serialize_node": [
         {
-          "bind": "'0'",
           "name": "ConstantSX::type",
           "name_expression": "\"ConstantSX::type\"",
           "op": "field",
@@ -7821,7 +6673,6 @@ export default {
           "value": 1
         },
         {
-          "bind": "blob_",
           "name": "ZipMemResource::blob",
           "op": "field",
           "type": "std::stringstream"
@@ -8096,13 +6947,11 @@ export default {
       "DM": {
         "body": [
           {
-            "bind": "Matrix::sparsity",
             "name": "Matrix::sparsity",
             "op": "field",
             "type": "Sparsity"
           },
           {
-            "bind": "Matrix::nonzeros",
             "name": "Matrix::nonzeros",
             "op": "field",
             "type": "std::vector<double>"
@@ -8470,7 +7319,6 @@ export default {
               ],
               "1": [
                 {
-                  "bind": "BinaryMX::scalar_flags",
                   "name": "BinaryMX::scalar_flags",
                   "op": "field",
                   "type": "char"
@@ -8542,7 +7390,6 @@ export default {
               ],
               "19": [
                 {
-                  "bind": "BinaryMX::scalar_flags",
                   "name": "BinaryMX::scalar_flags",
                   "op": "field",
                   "type": "char"
@@ -8554,7 +7401,6 @@ export default {
               ],
               "2": [
                 {
-                  "bind": "BinaryMX::scalar_flags",
                   "name": "BinaryMX::scalar_flags",
                   "op": "field",
                   "type": "char"
@@ -8566,7 +7412,6 @@ export default {
               ],
               "20": [
                 {
-                  "bind": "BinaryMX::scalar_flags",
                   "name": "BinaryMX::scalar_flags",
                   "op": "field",
                   "type": "char"
@@ -8578,7 +7423,6 @@ export default {
               ],
               "21": [
                 {
-                  "bind": "BinaryMX::scalar_flags",
                   "name": "BinaryMX::scalar_flags",
                   "op": "field",
                   "type": "char"
@@ -8590,7 +7434,6 @@ export default {
               ],
               "22": [
                 {
-                  "bind": "BinaryMX::scalar_flags",
                   "name": "BinaryMX::scalar_flags",
                   "op": "field",
                   "type": "char"
@@ -8608,7 +7451,6 @@ export default {
               ],
               "24": [
                 {
-                  "bind": "BinaryMX::scalar_flags",
                   "name": "BinaryMX::scalar_flags",
                   "op": "field",
                   "type": "char"
@@ -8620,7 +7462,6 @@ export default {
               ],
               "25": [
                 {
-                  "bind": "BinaryMX::scalar_flags",
                   "name": "BinaryMX::scalar_flags",
                   "op": "field",
                   "type": "char"
@@ -8644,7 +7485,6 @@ export default {
               ],
               "28": [
                 {
-                  "bind": "BinaryMX::scalar_flags",
                   "name": "BinaryMX::scalar_flags",
                   "op": "field",
                   "type": "char"
@@ -8662,7 +7502,6 @@ export default {
               ],
               "3": [
                 {
-                  "bind": "BinaryMX::scalar_flags",
                   "name": "BinaryMX::scalar_flags",
                   "op": "field",
                   "type": "char"
@@ -8680,7 +7519,6 @@ export default {
               ],
               "31": [
                 {
-                  "bind": "BinaryMX::scalar_flags",
                   "name": "BinaryMX::scalar_flags",
                   "op": "field",
                   "type": "char"
@@ -8692,7 +7530,6 @@ export default {
               ],
               "32": [
                 {
-                  "bind": "BinaryMX::scalar_flags",
                   "name": "BinaryMX::scalar_flags",
                   "op": "field",
                   "type": "char"
@@ -8710,7 +7547,6 @@ export default {
               ],
               "34": [
                 {
-                  "bind": "BinaryMX::scalar_flags",
                   "name": "BinaryMX::scalar_flags",
                   "op": "field",
                   "type": "char"
@@ -8722,7 +7558,6 @@ export default {
               ],
               "35": [
                 {
-                  "bind": "BinaryMX::scalar_flags",
                   "name": "BinaryMX::scalar_flags",
                   "op": "field",
                   "type": "char"
@@ -8758,7 +7593,6 @@ export default {
               ],
               "4": [
                 {
-                  "bind": "BinaryMX::scalar_flags",
                   "name": "BinaryMX::scalar_flags",
                   "op": "field",
                   "type": "char"
@@ -8788,7 +7622,6 @@ export default {
               ],
               "43": [
                 {
-                  "bind": "BinaryMX::scalar_flags",
                   "name": "BinaryMX::scalar_flags",
                   "op": "field",
                   "type": "char"
@@ -8840,7 +7673,6 @@ export default {
                     ],
                     "68": [
                       {
-                        "bind": "Constant::value",
                         "name": "Constant::value",
                         "op": "field",
                         "type": "double"
@@ -8852,7 +7684,6 @@ export default {
                     ],
                     "73": [
                       {
-                        "bind": "Constant::value",
                         "name": "Constant::value",
                         "op": "field",
                         "type": "casadi_int"
@@ -9162,7 +7993,6 @@ export default {
               ],
               "8": [
                 {
-                  "bind": "BinaryMX::scalar_flags",
                   "name": "BinaryMX::scalar_flags",
                   "op": "field",
                   "type": "char"
@@ -9216,7 +8046,6 @@ export default {
               ],
               "87": [
                 {
-                  "bind": "BinaryMX::scalar_flags",
                   "name": "BinaryMX::scalar_flags",
                   "op": "field",
                   "type": "char"
@@ -9228,7 +8057,6 @@ export default {
               ],
               "88": [
                 {
-                  "bind": "BinaryMX::scalar_flags",
                   "name": "BinaryMX::scalar_flags",
                   "op": "field",
                   "type": "char"
@@ -9246,7 +8074,6 @@ export default {
               ],
               "9": [
                 {
-                  "bind": "BinaryMX::scalar_flags",
                   "name": "BinaryMX::scalar_flags",
                   "op": "field",
                   "type": "char"
@@ -9288,7 +8115,6 @@ export default {
               ],
               "95": [
                 {
-                  "bind": "BinaryMX::scalar_flags",
                   "name": "BinaryMX::scalar_flags",
                   "op": "field",
                   "type": "char"
@@ -9306,7 +8132,6 @@ export default {
               ],
               "97": [
                 {
-                  "bind": "BinaryMX::scalar_flags",
                   "name": "BinaryMX::scalar_flags",
                   "op": "field",
                   "type": "char"
@@ -9379,13 +8204,11 @@ export default {
       "SX": {
         "body": [
           {
-            "bind": "Matrix::sparsity",
             "name": "Matrix::sparsity",
             "op": "field",
             "type": "Sparsity"
           },
           {
-            "bind": "Matrix::nonzeros",
             "name": "Matrix::nonzeros",
             "op": "field",
             "type": "std::vector<SXElem>"
@@ -9785,7 +8608,6 @@ export default {
       "Sparsity": {
         "body": [
           {
-            "bind": "SparsityInternal::compressed",
             "name": "SparsityInternal::compressed",
             "op": "field",
             "type": "std::vector<casadi_int>"
