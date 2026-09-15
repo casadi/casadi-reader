@@ -1,4 +1,4 @@
-name: Publish npm package
+name: Publish language packages
 on:
   release:
     types: [published]
@@ -6,6 +6,7 @@ permissions:
   contents: read
 jobs:
   publish:
+    needs: bindings
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -25,6 +26,9 @@ jobs:
           RELEASE_TAG: ${{ github.event.release.tag_name }}
         run: |
           node --input-type=commonjs -e 'if (process.env.RELEASE_TAG !== "v" + require("./package.json").version) throw Error("Release tag must match package.json version")'
+      - run: python scripts/check-version.py
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
       - run: npm ci
       - run: npm run check:generated
       - run: npm test
@@ -34,3 +38,47 @@ jobs:
         run: |
           reader_dist_tag=$(node --input-type=commonjs -p 'require("./package.json").version.includes("-") ? "next" : "latest"')
           npm publish --access public --provenance --tag "$reader_dist_tag"
+  bindings:
+    uses: ./.github/workflows/bindings.yml
+  publish-python:
+    needs: bindings
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/casadi-reader
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: python-package
+          path: dist
+      - uses: pypa/gh-action-pypi-publish@release/v1
+  release-assets:
+    needs: bindings
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: native-*
+          merge-multiple: true
+          path: artifacts
+      - uses: actions/download-artifact@v4
+        with:
+          name: source-packages
+          path: artifacts
+      - uses: actions/download-artifact@v4
+        with:
+          name: python-package
+          path: artifacts
+      - name: Attach tested language packages
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          sha256sum artifacts/* > artifacts/SHA256SUMS
+          gh release upload "$RELEASE_TAG" artifacts/*

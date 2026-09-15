@@ -1,3 +1,12 @@
+# 0.2.1
+
+- Add independent native C, Julia and MATLAB readers; remove the Julia/MATLAB C wrappers.
+- Generate all six implementations from explicit serializer field references and concrete container types.
+- Resolve template specialization and C++ expressions in CasADi's scheme generator, not in runtime readers.
+- Separate and format the C/C++ runtime templates for input handling, JSON, scheme execution and public APIs.
+- Build and test Python, Julia, MATLAB, C and C++ distributions in CI; publish Python to PyPI with trusted publishing.
+- Keep the prototype scheme version at 1, without compatibility code for prior incarnations.
+
 # 0.2.0
 
 - Generate JavaScript, Python, C/C++, MATLAB and Julia readers from the compact serialization scheme, with language-specific runtime templates.

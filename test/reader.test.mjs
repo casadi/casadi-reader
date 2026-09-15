@@ -3,7 +3,6 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {spawnSync} from 'node:child_process';
 import {decode} from '../src/index.js';
-import scheme from '../src/scheme.js';
 const fixture=name=>readFileSync(new URL(`./fixtures/${name}.casadi`,import.meta.url),'utf8');
 for(const name of ['arithmetic','mapping','slice','assignment','assignment_vector','sparse','sx','sx_nested','mx_sx_call','mx_constants','mx_new_ops','mapped_sx','switch_sx','options_sx','onnx'])test('native plain/debug layouts agree: '+name,()=>{
  const plain=decode(fixture(name)),decorated=decode(fixture(name+'.debug'));
@@ -22,16 +21,10 @@ test('ONNX bytes are retained without parsing the model',()=>{
  assert.deepEqual(bytes,new Uint8Array(readFileSync(new URL('./fixtures/onnx-model.bin',import.meta.url))));
  assert(document.objects[document.root].fields.some(f=>f.name==='OnnxFunction::in::shapes'));
 });
-test('new function discriminators need layout data, not runtime code',()=>{
+test('unknown function discriminators fail explicitly',()=>{
  const text=fixture('arithmetic');
  const encode=s=>Array.from(Buffer.from(s),b=>String.fromCharCode(97+(b&15),97+(b>>4))).join('');
- const changed=text.replace(encode('MXFunction'),encode('QXFunction'));
- assert.throws(()=>decode(changed),/Unknown serialization discriminator/);
- const extended=structuredClone(scheme);
- const cases=extended.reader.types.Function.body[1].body[1].cases;
- cases.QXFunction=cases.MXFunction;
- const document=decode(changed,{scheme:extended});
- assert(document.objects[document.root].fields.some(f=>f.name==='FunctionInternal::base_function'&&f.value==='QXFunction'));
+ assert.throws(()=>decode(text.replace(encode('MXFunction'),encode('QXFunction'))),/Unknown serialization discriminator/);
 });
 test('malformed encoding, truncation, references and protocol fail',()=>{
  const text=fixture('mapping');

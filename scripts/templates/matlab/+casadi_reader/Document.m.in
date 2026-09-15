@@ -1,34 +1,460 @@
 classdef Document < handle
-    % Inspect a CasADi file using the standalone native reader.
+    % Native MATLAB reader; no MEX, CasADi, or foreign runtime.
     properties (Access = private)
-        Handle = []
+        fid = -1
+        start = 0
+        length = 0
+        pos = 0
+        depth = 0
+        debug = false
+        lazy = false
+        scheme
+        objects = {}
+        shared = []
+        blobs = zeros(0, 2)
+        result
+        cache = uint8([])
+        cacheStart = -1
+        maxItems = 1000000
     end
     methods
-        function self = Document(path, resource, lazy)
-            if nargin < 2, resource = false; end
-            if nargin < 3, lazy = false; end
-            if isstring(resource), resource = char(resource); end
-            if ~ischar(resource), resource = double(resource); end
-            self.Handle = casadi_reader_mex('open', char(path), resource, double(lazy));
-        end
-        function delete(self)
-            if ~isempty(self.Handle)
-                casadi_reader_mex('close', self.Handle);
-                self.Handle = [];
+
+        function self = Document(path, type, lazy)
+            if nargin < 2
+                type = '';
+            end
+            if nargin < 3
+                lazy = false;
+            end
+            if islogical(type)
+                if type
+                    type = 'Resource';
+                else
+                    type = '';
+                end
+            end
+            self.scheme = casadi_reader.metadata();
+            self.lazy = lazy;
+            self.fid = fopen(path, 'rb');
+            if self.fid < 0
+                error('casadi_reader:Input', 'Cannot open file');
+            end
+            try
+                fseek(self.fid, 0, 'eof');
+                stop = ftell(self.fid);
+                while self.start < stop
+                    fseek(self.fid, self.start, 'bof');
+                    c = fread(self.fid, 1, '*uint8');
+                    if ~ismember(c, [32 9 13 10])
+                        break
+                    end
+                    self.start = self.start + 1;
+                end
+                while stop > self.start
+                    fseek(self.fid, stop - 1, 'bof');
+                    c = fread(self.fid, 1, '*uint8');
+                    if ~ismember(c, [32 9 13 10])
+                        break
+                    end
+                    stop = stop - 1;
+                end
+                n = stop - self.start;
+                if mod(n, 2) || n / 2 > 1024^3
+                    self.fail('Invalid .casadi encoding or file too large');
+                end
+                self.length = n / 2;
+                self.result = self.decode(type);
+            catch e
+                self.delete();
+                rethrow(e);
             end
         end
-        function value = json(self)
-            value = casadi_reader_mex('json', self.Handle);
+
+        function delete(self)
+            if self.fid >= 0
+                fclose(self.fid);
+                self.fid = -1;
+            end
+            self.cache = uint8([]);
         end
+
         function value = data(self)
             value = jsondecode(self.json());
         end
-        function value = blobSize(self, index)
-            % Blob indices are one-based; byte offsets in readBlob are zero-based.
-            value = casadi_reader_mex('size', self.Handle, index - 1);
+
+        function text = json(self)
+            self.check();
+            text = self.encode(self.result);
         end
-        function value = readBlob(self, index, offset, count)
-            value = casadi_reader_mex('read', self.Handle, index - 1, offset, count);
+
+        function count = blobCount(self)
+            self.check();
+            count = size(self.blobs, 1);
         end
+
+        function size = blobSize(self, index)
+            self.check();
+            if index < 1 || index > self.blobCount() || fix(index) ~= index
+                self.fail('Blob index out of bounds');
+            end
+            size = self.blobs(index, 2);
+        end
+
+        function bytes = readBlob(self, index, offset, size)
+            total = self.blobSize(index);
+            if nargin < 3
+                offset = 0;
+            end
+            if nargin < 4
+                size = total - offset;
+            end
+            if offset < 0 || size < 0 || offset > total || size > total - offset || fix(offset) ~= offset || fix(size) ~= size
+                self.fail('Blob slice out of bounds');
+            end
+            bytes = self.readBytes(self.blobs(index, 1) + offset, size);
+        end
+
+    end
+    methods (Access = private)
+
+        function check(self)
+            if self.fid < 0
+                self.fail('Document is closed');
+            end
+        end
+
+        function fail(self, message)
+            error('casadi_reader:Decode', '.casadi byte %d: %s', self.pos, message);
+        end
+
+        function bytes = readBytes(self, offset, n)
+            self.check();
+            if offset < 0 || n < 0 || offset > self.length || n > self.length - offset
+                self.fail('Source range out of bounds');
+            end
+            p = self.start + 2 * offset;
+            count = 2 * n;
+            if p < self.cacheStart || p + count > self.cacheStart + numel(self.cache)
+                fseek(self.fid, p, 'bof');
+                self.cache = fread(self.fid, max(count, 65536), '*uint8')';
+                self.cacheStart = p;
+            end
+            i = p - self.cacheStart + 1;
+            encoded = self.cache(i:i + count - 1);
+            if any(encoded < 97 | encoded > 112)
+                self.fail('Invalid .casadi encoding');
+            end
+            encoded = encoded - 97;
+            bytes = bitor(encoded(1:2:end), bitshift(encoded(2:2:end), 4));
+        end
+
+        function start = take(self, n)
+            if ~isnumeric(n) || ~isscalar(n) || n < 0 || fix(n) ~= n || n > self.length - self.pos
+                self.fail('Truncated or excessive payload');
+            end
+            start = self.pos;
+            self.pos = self.pos + double(n);
+        end
+
+        function n = count(self, n)
+            if ~isnumeric(n) || ~isscalar(n) || n < 0 || n > self.maxItems || fix(n) ~= n
+                self.fail('Invalid or excessive collection size');
+            end
+            n = double(n);
+        end
+
+        function b = byte(self)
+            b = double(self.readBytes(self.take(1), 1));
+        end
+
+        function decoration(self, tag)
+            if self.debug && self.byte() ~= double(tag)
+                self.fail(['Expected wire decoration ' tag]);
+            end
+        end
+
+        function fieldname(self, name)
+            if self.debug && ~isequal(self.stringValue(), name)
+                self.fail(['Expected serialized field ' name]);
+            end
+        end
+
+        function v = number(self, kind)
+            switch kind
+                case 'int'
+                    tag = 'i';
+                    cls = 'int32';
+                    n = 4;
+                case 'unsignedint'
+                    tag = 'u';
+                    cls = 'uint32';
+                    n = 4;
+                case 'casadi_int'
+                    tag = 'J';
+                    cls = 'int64';
+                    n = 8;
+                case 'size_t'
+                    tag = 'K';
+                    cls = 'uint64';
+                    n = 8;
+                case 'double'
+                    tag = 'd';
+                    cls = 'double';
+                    n = 8;
+            end
+            self.decoration(tag);
+            bytes = self.readBytes(self.take(n), n);
+            v = typecast(bytes, cls);
+            [~, ~, endian] = computer;
+            if endian == 'B'
+                v = swapbytes(v);
+            end
+            if strcmp(kind, 'double')
+                if ~isfinite(v)
+                    if isnan(v)
+                        text = 'NaN';
+                    elseif v > 0
+                        text = 'Infinity';
+                    else
+                        text = '-Infinity';
+                    end
+                    v = self.object({'$float'}, {text});
+                end
+            elseif v > 9007199254740991 || (isinteger(v) && ~isa(v, 'uint64') && v < -9007199254740991)
+                v = self.object({'$integer'}, {char(string(v))});
+            else
+                v = double(v);
+            end
+        end
+
+        function v = blob(self, offset, n)
+            self.blobs(end + 1, :) = [offset n];
+            v = self.object({'kind', 'offset', 'byteLength', 'encoding'}, {'deferred_bytes', offset, n, 'casadi-nibbles'});
+        end
+
+        function v = stringValue(self)
+            self.decoration('s');
+            n = self.number('int');
+            offset = self.take(n);
+            if self.lazy && n >= 65536
+                v = self.blob(offset, n);
+                return
+            end
+            bytes = self.readBytes(offset, n);
+            v = native2unicode(bytes, 'UTF-8');
+            if ~isequal(unicode2native(v, 'UTF-8'), bytes)
+                if self.lazy
+                    v = self.blob(offset, n);
+                else
+                    v = self.object({'$bytes'}, {num2cell(double(bytes))});
+                end
+            end
+        end
+
+        function enterLayout(self)
+            self.depth = self.depth + 1;
+            if self.depth > 256
+                self.fail('Layout nesting limit exceeded');
+            end
+        end
+
+        function v = field(self, record, name, kind, read)
+            self.fieldname(name);
+            v = read();
+            fields = record('fields');
+            fields{end + 1} = self.object({'name', 'type', 'value'}, {name, kind, v});
+            record('fields') = fields;
+            self.count(numel(fields));
+        end
+
+        function version(self, record, base, expected)
+            v = self.field(record, [base '::serialization::version'], 'int', @() self.number('int'));
+            if ~isequal(v, expected)
+                self.fail(['Unsupported version: ' base]);
+            end
+        end
+
+        function recordLayout(self, record, name)
+            layouts = record('layouts');
+            layouts{end + 1} = name;
+            record('layouts') = layouts;
+        end
+
+        function v = tag(self, v)
+            if islogical(v)
+                if v, v = 'true'; else, v = 'false'; end
+            elseif isnumeric(v)
+                v = num2str(v);
+            end
+        end
+
+@GENERATED_METHODS@
+
+        function v = primitive(self, kind)
+
+            if strcmp(kind, 'std::size_t')
+                kind = 'size_t';
+            end
+            if ismember(kind, {'int', 'unsignedint', 'casadi_int', 'size_t', 'double'})
+                v = self.number(kind);
+                return
+            end
+            switch kind
+                case 'char'
+                    v = self.byte();
+                    return
+                case 'bool'
+                    v = self.boolValue();
+                    return
+                case 'std::string'
+                    v = self.stringValue();
+                    return
+                case {'std::istream', 'std::stringstream'}
+                    v = self.streamValue();
+                    return
+            end
+            self.fail(['Unknown serialization type: ' kind]);
+        end
+
+        function v = boolValue(self)
+            self.decoration('b');
+            v = self.byte();
+            if v > 1, self.fail('Invalid boolean'); end
+            v = logical(v);
+        end
+
+        function v = streamValue(self)
+            self.decoration('B');
+            n = self.number('size_t');
+            offset = self.take(n);
+            if self.lazy
+                v = self.blob(offset, n);
+            else
+                v = self.object({'$bytes'}, {num2cell(double(self.readBytes(offset, n)))});
+            end
+        end
+
+        function v = readObject(self, kind, tag, shared, read)
+            if ~isempty(tag)
+                self.decoration(tag);
+            end
+            if shared
+                self.fieldname('Shared::flag');
+                flag = self.byte();
+                if flag == double('r')
+                    self.fieldname('Shared::reference');
+                    index = self.number('casadi_int');
+                    if ~isnumeric(index) || ~isscalar(index) || index < 0 || index >= numel(self.shared)
+                        self.fail('Invalid shared reference');
+                    end
+                    v = self.object({'$ref'}, {self.shared(index + 1)});
+                    return
+                end
+                if flag ~= double('d')
+                    self.fail('Invalid shared definition');
+                end
+            end
+            record = self.object({'type', 'fields', 'layouts'}, {kind, {}, {}});
+            read(record, self.object({}, {}));
+            if ~shared
+                v = record;
+                return
+            end
+            self.count(numel(self.objects) + 1);
+            index = numel(self.objects);
+            self.objects{end + 1} = record;
+            self.shared(end + 1) = index;
+            v = self.object({'$ref'}, {index});
+        end
+
+        function v = decode(self, type)
+            wire = self.scheme('wire');
+            reader = self.scheme('reader');
+            if ~isequal(self.number('casadi_int'), wire('magic'))
+                self.fail('Invalid serialization magic');
+            end
+            if ~isequal(self.number('casadi_int'), wire('protocol'))
+                self.fail('Unsupported serialization protocol');
+            end
+            debug = self.byte();
+            if debug > 1
+                self.fail('Invalid debug flag');
+            end
+            self.debug = logical(debug);
+            roots = {};
+            if ~isempty(type)
+                roots = {self.value(type)};
+            else
+                kinds = reader('file_types');
+                prefixes = self.get(reader, 'file_prefixes', self.object({}, {}));
+                while self.pos < self.length
+                    tag = num2str(self.byte());
+                    if ~isKey(kinds, tag)
+                        self.fail(['Unsupported serialized file type ' tag]);
+                    end
+                    if isKey(prefixes, tag)
+                        self.value(prefixes(tag));
+                    end
+                    roots{end + 1} = self.value(kinds(tag));
+                end
+            end
+            if self.pos ~= self.length
+                self.fail('Trailing serialization data');
+            end
+            root = [];
+            if numel(roots) == 1 && isa(roots{1}, 'containers.Map')
+                root = self.get(roots{1}, '$ref', []);
+            end
+            v = self.object({'format', 'version', 'serializationProtocol', 'root', 'roots', 'objects'}, ...
+                          {'casadi_serialization', 1, wire('protocol'), root, roots, self.objects});
+        end
+
+    end
+    methods (Static, Access = private)
+
+        function v = object(keys, values)
+            v = containers.Map('KeyType', 'char', 'ValueType', 'any');
+            for i = 1:numel(keys)
+                v(keys{i}) = values{i};
+            end
+        end
+
+        function v = get(map, key, default)
+            if isKey(map, key)
+                v = map(key);
+            else
+                v = default;
+            end
+        end
+
+        function v = truth(x)
+            if isnumeric(x) || islogical(x)
+                v = ~isempty(x) && any(x ~= 0);
+            else
+                v = ~isempty(x);
+            end
+        end
+
+        function text = encode(v)
+            if isa(v, 'containers.Map')
+                keys = v.keys;
+                parts = cell(size(keys));
+                for i = 1:numel(keys)
+                    parts{i} = [jsonencode(keys{i}) ':' casadi_reader.Document.encode(v(keys{i}))];
+                end
+                text = ['{' strjoin(parts, ',') '}'];
+            elseif iscell(v)
+                parts = cell(size(v));
+                for i = 1:numel(v)
+                    parts{i} = casadi_reader.Document.encode(v{i});
+                end
+                text = ['[' strjoin(parts, ',') ']'];
+            elseif isnumeric(v) && isempty(v)
+                text = 'null';
+            else
+                text = jsonencode(v);
+            end
+        end
+
     end
 end

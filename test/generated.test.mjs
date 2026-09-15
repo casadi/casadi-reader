@@ -10,13 +10,13 @@ test('CI freshness check rejects a stale generated source asset',async()=>{
   const temporary=await mkdtemp(join(tmpdir(),'casadi-reader-generation-'));
   try {
     const script='scripts/generate-reader-assets.py';
-    for(const relative of ['scripts','schemes','src','python','native','matlab','julia']) {
+    for(const relative of ['scripts','schemes','src','python','c','cpp','matlab','julia','LICENSE','NOTICE','LICENSES','test/fixtures']) {
       await cp(join(root,relative),join(temporary,relative),{recursive:true,
         filter:source=>!source.includes('__pycache__')&&!source.includes('/deps/usr')&&!source.includes('/deps/build')});
     }
     const check=()=>spawnSync('python3',[script,'--check'],{cwd:temporary,encoding:'utf8'});
     assert.equal(check().status,0);
-    await appendFile(join(temporary,'src/scheme.js'),'// stale\n');
-    const failed=check();assert.equal(failed.status,1);assert.match(failed.stderr,/Stale reader assets: src\/scheme.js/);
+    await appendFile(join(temporary,'src/generated.js'),'// stale\n');
+    const failed=check();assert.equal(failed.status,1);assert.match(failed.stderr,/Stale reader assets: src\/generated.js/);
   }finally{await rm(temporary,{recursive:true,force:true});}
 });

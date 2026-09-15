@@ -1,182 +1,245 @@
-import scheme from './scheme.js';
-import {EncodedSource, LazyBlob, LazyFileBlob, PagedSource, MissingPage} from './source.js';
+import { readers, metadata } from "./generated.js";
+import {
+  EncodedSource,
+  LazyBlob,
+  LazyFileBlob,
+  PagedSource,
+  MissingPage,
+} from "./source.js";
 
-// The engine understands wire primitives and layout instructions only.
+// Shared binary primitives and object/reference bookkeeping.
 // Concrete object layouts and polymorphic selectors are generated from CasADi.
-function argumentsOf(text) {
-  const result=[]; let depth=0,start=0;
-  for(let i=0;i<text.length;i++) {
-    if(text[i]==='<')depth++;
-    if(text[i]==='>')depth--;
-    if(text[i]===','&&!depth){result.push(text.slice(start,i));start=i+1;}
-  }
-  result.push(text.slice(start)); return result;
-}
 class Reader {
-  constructor(text,options) {
-    this.scheme=options.scheme??scheme;this.source=new EncodedSource(text,options);this.pos=0;this.objects=[];this.shared=[];
-    this.debug=false;this.lazy=!!options.lazy;this.depth=0;this.maxItems=options.maxItems??1000000;
-    this.lazyThreshold=options.lazyThreshold??65536;
+  constructor(text, options) {
+    this.scheme = metadata;
+    if (options.scheme)
+      throw Error("Generate a reader for a custom scheme before decoding");
+    this.source = new EncodedSource(text, options);
+    this.pos = 0;
+    this.objects = [];
+    this.shared = [];
+    this.debug = false;
+    this.lazy = !!options.lazy;
+    this.depth = 0;
+    this.maxItems = options.maxItems ?? 1000000;
+    this.lazyThreshold = options.lazyThreshold ?? 65536;
   }
-  fail(message){throw Error(`.casadi byte ${this.pos}: ${message}`);}
-  take(n){if(!Number.isSafeInteger(n)||n<0||n>this.source.byteLength-this.pos)this.fail('Truncated or excessive payload');const p=this.pos;this.pos+=n;return p;}
-  count(n){if(!Number.isSafeInteger(n)||n<0||n>this.maxItems)this.fail('Invalid or excessive collection size');return n;}
-  byte(){return this.source.byte(this.take(1));}
-  decoration(tag){if(this.debug&&this.byte()!==tag.charCodeAt(0))this.fail('Expected wire decoration '+tag);}
-  name(name){if(this.debug&&this.string()!==name)this.fail('Expected serialized field '+name);}
-  number(type){
-    this.decoration({int:'i',unsignedint:'u',casadi_int:'J',size_t:'K',double:'d'}[type]);
-    const sizes={int:4,'unsignedint':4,casadi_int:8,size_t:8,double:8};
-    const n=sizes[type],view=this.source.view(this.take(n),n);
-    if(type==='double'){const value=view.getFloat64(0,true);return Number.isFinite(value)?value:{$float:String(value)};}
-    if(type==='int')return view.getInt32(0,true);
-    if(type==='unsignedint')return view.getUint32(0,true);
-    const value=type==='size_t'?view.getBigUint64(0,true):view.getBigInt64(0,true);
-    return value>BigInt(Number.MAX_SAFE_INTEGER)||value<BigInt(Number.MIN_SAFE_INTEGER)?{$integer:String(value)}:Number(value);
+  fail(message) {
+    throw Error(`.casadi byte ${this.pos}: ${message}`);
   }
-  string(){
-    this.decoration('s');
-    const n=this.number('int'),offset=this.take(n);
-    if(this.lazy&&n>=this.lazyThreshold)return new LazyBlob(this.source,offset,n);
-    const bytes=this.source.read(offset,n);
-    try{return new TextDecoder('utf8',{fatal:true}).decode(bytes);}
-    catch{return this.lazy?new LazyBlob(this.source,offset,n):{$bytes:Array.from(bytes)};}
+  take(n) {
+    if (
+      !Number.isSafeInteger(n) ||
+      n < 0 ||
+      n > this.source.byteLength - this.pos
+    )
+      this.fail("Truncated or excessive payload");
+    const p = this.pos;
+    this.pos += n;
+    return p;
   }
-  expression(expression,scope){
-    const e=expression.trim();
-    if(Object.hasOwn(scope,e))return scope[e];
-    if(e==='true'||e==='false')return e==='true';
-    if(/^"(?:[^"\\]|\\.)*"$/.test(e))return JSON.parse(e);
-    if(/^-?\d+$/.test(e))return Number(e);
-    for(const operator of ['||','&&','==','!=']) {
-      const p=e.indexOf(operator);
-      if(p>=0){const a=this.expression(e.slice(0,p),scope),b=this.expression(e.slice(p+operator.length),scope);
-        return operator==='||'?a||b:operator==='&&'?a&&b:operator==='=='?a===b:a!==b;}
-    }
-    if(e.startsWith('!'))return !this.expression(e.slice(1),scope);
-    const plus=e.match(/^(\w+)\s*\+\s*(".*")$/);
-    if(plus)return this.expression(plus[1],scope)+JSON.parse(plus[2]);
-    this.fail('Scheme expression is unavailable: '+e);
+  count(n) {
+    if (!Number.isSafeInteger(n) || n < 0 || n > this.maxItems)
+      this.fail("Invalid or excessive collection size");
+    return n;
   }
-  layout(name) {
-    const layout=this.scheme.reader.layouts[name];
-    if(!layout)this.fail('Serialization layout absent from scheme: '+name);
-    return layout;
+  byte() {
+    return this.source.byte(this.take(1));
   }
-  program(steps,record,scope) {
-    if(++this.depth>256)this.fail('Layout nesting limit exceeded');
-    for(const step of steps) {
-      if(step.op==='field') {
-        const name=step.name??this.expression(step.name_expression,scope);
-        let type=step.type;
-        if(!type)this.fail('Unresolved serialization type: '+name);
-        type=type.replace(/\b(?:MatType|Scalar|T)\b/g,key=>scope[key]??key);
-        this.name(name);
-        const value=this.value(type);
-        record.fields.push({name,type,value});
-        if(record.fields.length>this.maxItems)this.fail('Too many fields');
-        if(step.bind){scope[step.bind]=value;if(Array.isArray(value))scope[step.bind+'.size()']=value.length;}
-      }else if(step.op==='version') {
-        this.name(step.name+'::serialization::version');
-        const value=this.number('int');
-        if(value!==step.value)this.fail(`Unsupported ${step.name} version ${value}; scheme expects ${step.value}`);
-        record.fields.push({name:step.name+'::serialization::version',type:'int',value});
-      }else if(step.op==='call') {
-        record.layouts.push(step.layout);
-        Object.assign(scope,step.params);
-        this.program(this.layout(step.layout),record,scope);
-      }else if(step.op==='if') {
-        this.program(this.expression(step.condition,scope)?step.body:(step.else??[]),record,scope);
-      }else if(step.op==='repeat') {
-        const n=this.count(this.expression(step.count,scope));
-        for(let i=0;i<n;i++)this.program(step.body,record,scope);
-      }else if(step.op==='select') {
-        const tag=this.expression(step.bind,scope),body=step.cases[String(tag)];
-        if(!body)this.fail(`Unknown serialization discriminator ${step.bind}=${String(tag)}`);
-        this.program(body,record,scope);
-      }else this.fail('Unsupported scheme instruction: '+(step.reason??step.op));
-    }
-    --this.depth;
+  decoration(tag) {
+    if (this.debug && this.byte() !== tag.charCodeAt(0))
+      this.fail("Expected wire decoration " + tag);
   }
-  value(cppType) {
-    const type=cppType.replace(/\s/g,'');
-    if(['int','unsignedint','casadi_int','size_t','double'].includes(type))return this.number(type);
-    if(type==='char')return this.byte();
-    if(type==='bool'){this.decoration('b');const b=this.byte();if(b>1)this.fail('Invalid boolean');return !!b;}
-    if(type==='std::string')return this.string();
-    if(type==='std::istream'||type==='std::stringstream') {
-      this.decoration('B');const n=this.number('size_t'),offset=this.take(n);
-      return this.lazy?new LazyBlob(this.source,offset,n):{$bytes:Array.from(this.source.read(offset,n))};
+  name(name) {
+    if (this.debug && this.string() !== name)
+      this.fail("Expected serialized field " + name);
+  }
+  number(type) {
+    this.decoration(
+      { int: "i", unsignedint: "u", casadi_int: "J", size_t: "K", double: "d" }[
+        type
+      ],
+    );
+    const sizes = {
+      int: 4,
+      unsignedint: 4,
+      casadi_int: 8,
+      size_t: 8,
+      double: 8,
+    };
+    const n = sizes[type],
+      view = this.source.view(this.take(n), n);
+    if (type === "double") {
+      const value = view.getFloat64(0, true);
+      return Number.isFinite(value) ? value : { $float: String(value) };
     }
-    if(type==='Dict')return this.value('std::map<std::string,GenericType>');
-    if(type.startsWith('std::vector<')) {
-      this.decoration('V');const element=type.slice(12,-1),n=this.count(this.number('casadi_int'));
-      return Array.from({length:n},()=>this.value(element));
+    if (type === "int") return view.getInt32(0, true);
+    if (type === "unsignedint") return view.getUint32(0, true);
+    const value =
+      type === "size_t"
+        ? view.getBigUint64(0, true)
+        : view.getBigInt64(0, true);
+    return value > BigInt(Number.MAX_SAFE_INTEGER) ||
+      value < BigInt(Number.MIN_SAFE_INTEGER)
+      ? { $integer: String(value) }
+      : Number(value);
+  }
+  string() {
+    this.decoration("s");
+    const n = this.number("int"),
+      offset = this.take(n);
+    if (this.lazy && n >= this.lazyThreshold)
+      return new LazyBlob(this.source, offset, n);
+    const bytes = this.source.read(offset, n);
+    try {
+      return new TextDecoder("utf8", { fatal: true }).decode(bytes);
+    } catch {
+      return this.lazy
+        ? new LazyBlob(this.source, offset, n)
+        : { $bytes: Array.from(bytes) };
     }
-    if(type.startsWith('std::map<')) {
-      this.decoration('D');const [key,value]=argumentsOf(type.slice(9,-1)),n=this.count(this.number('casadi_int'));
-      const entries=[];for(let i=0;i<n;i++)entries.push([this.value(key),this.value(value)]);
-      return {$map:entries};
+  }
+  enterLayout() {
+    if (++this.depth > 256) this.fail("Layout nesting limit exceeded");
+  }
+  field(record, name, type, read) {
+    this.name(name);
+    const value = read();
+    record.fields.push({ name, type, value });
+    this.count(record.fields.length);
+    return value;
+  }
+  version(record, base, expected) {
+    const value = this.field(
+      record,
+      base + "::serialization::version",
+      "int",
+      () => this.number("int"),
+    );
+    if (value !== expected) this.fail(`Unsupported ${base} version ${value}`);
+  }
+  value(type) {
+    return Object.hasOwn(readers, type)
+      ? readers[type](this)
+      : this.primitive(type);
+  }
+  primitive(cppType) {
+    const type = cppType;
+    if (["int", "unsignedint", "casadi_int", "size_t", "double"].includes(type))
+      return this.number(type);
+    if (type === "char") return this.byte();
+    if (type === "bool") return this.boolean();
+    if (type === "std::string") return this.string();
+    if (type === "std::istream" || type === "std::stringstream")
+      return this.stream();
+    this.fail("Unknown serialization type: " + type);
+  }
+  boolean() {
+    this.decoration("b");
+    const b = this.byte();
+    if (b > 1) this.fail("Invalid boolean");
+    return !!b;
+  }
+  stream() {
+    this.decoration("B");
+    const n = this.number("size_t"),
+      offset = this.take(n);
+    return this.lazy
+      ? new LazyBlob(this.source, offset, n)
+      : { $bytes: Array.from(this.source.read(offset, n)) };
+  }
+  object(type, decoration, shared, read) {
+    if (decoration) this.decoration(decoration);
+    if (shared) {
+      this.name("Shared::flag");
+      const flag = this.byte();
+      if (flag === 114) {
+        this.name("Shared::reference");
+        const id = this.number("casadi_int");
+        if (!Number.isSafeInteger(id) || id < 0 || id >= this.shared.length)
+          this.fail("Invalid shared reference");
+        return { $ref: this.shared[id] };
+      }
+      if (flag !== 100) this.fail("Invalid shared definition");
     }
-    if(type.startsWith('std::pair<')){this.decoration('p');return argumentsOf(type.slice(10,-1)).map(t=>this.value(t));}
-    const definition=this.scheme.reader.types[type];
-    if(!definition)this.fail('Serialization type absent from scheme: '+type);
-    if(definition.decoration)this.decoration(definition.decoration);
-    if(definition.shared){
-      this.name('Shared::flag');const flag=this.byte();
-      if(flag===114){this.name('Shared::reference');const id=this.number('casadi_int');if(!Number.isSafeInteger(id)||id<0||id>=this.shared.length)this.fail('Invalid shared reference');return {$ref:this.shared[id]};}
-      if(flag!==100)this.fail('Invalid shared definition');
-    }
-    const record={type,fields:[],layouts:[]};
-    this.program(definition.body,record,Object.create(null));
-    if(!definition.shared)return record;
-    this.count(this.objects.length+1);const id=this.objects.length;this.objects.push(record);this.shared.push(id);
-    return {$ref:id};
+    const record = { type, fields: [], layouts: [] };
+    read(this, record, Object.create(null));
+    if (!shared) return record;
+    this.count(this.objects.length + 1);
+    const id = this.objects.length;
+    this.objects.push(record);
+    this.shared.push(id);
+    return { $ref: id };
   }
   decode(options) {
-    if(this.number('casadi_int')!==this.scheme.wire.magic)this.fail('Invalid serialization magic');
-    if(this.number('casadi_int')!==this.scheme.wire.protocol)this.fail('Unsupported serialization protocol');
-    const debug=this.byte();if(debug>1)this.fail('Invalid debug flag');this.debug=!!debug;
-    const roots=[];
-    if(options.type)roots.push(this.value(options.type));
-    else while(this.pos<this.source.byteLength){
-      const tag=this.byte(),type=this.scheme.reader.file_types?.[tag];
-      if(!type)this.fail('Unsupported serialized file type '+tag);
-      const prefix=this.scheme.reader.file_prefixes?.[tag];
-      if(prefix)this.value(prefix);
-      roots.push(this.value(type));
-    }
-    if(this.pos!==this.source.byteLength)this.fail('Trailing serialization data');
-    return {format:'casadi_serialization',version:1,serializationProtocol:this.scheme.wire.protocol,
-      root:roots.length===1&&Object.hasOwn(roots[0],'$ref')?roots[0].$ref:null,roots,objects:this.objects};
+    if (this.number("casadi_int") !== this.scheme.wire.magic)
+      this.fail("Invalid serialization magic");
+    if (this.number("casadi_int") !== this.scheme.wire.protocol)
+      this.fail("Unsupported serialization protocol");
+    const debug = this.byte();
+    if (debug > 1) this.fail("Invalid debug flag");
+    this.debug = !!debug;
+    const roots = [];
+    if (options.type) roots.push(this.value(options.type));
+    else
+      while (this.pos < this.source.byteLength) {
+        const tag = this.byte(),
+          type = this.scheme.reader.file_types?.[tag];
+        if (!type) this.fail("Unsupported serialized file type " + tag);
+        const prefix = this.scheme.reader.file_prefixes?.[tag];
+        if (prefix) this.value(prefix);
+        roots.push(this.value(type));
+      }
+    if (this.pos !== this.source.byteLength)
+      this.fail("Trailing serialization data");
+    return {
+      format: "casadi_serialization",
+      version: 1,
+      serializationProtocol: this.scheme.wire.protocol,
+      root:
+        roots.length === 1 && Object.hasOwn(roots[0], "$ref")
+          ? roots[0].$ref
+          : null,
+      roots,
+      objects: this.objects,
+    };
   }
 }
 /** Read serialized structure. No graph interpretation, plugin loading or evaluation. */
-export function decode(text,options={}){return new Reader(text,options).decode(options);}
+export function decode(text, options = {}) {
+  return new Reader(text, options).decode(options);
+}
 /** Open an unpadded File/Blob; lazy mode reads only metadata pages. */
-export async function open(file,options={}){
-  if(!options.lazy)return decode(await file.text(),options);
-  const source=new PagedSource(file.size,options);
-  for(;;){
-    const reader=new Reader('',options);reader.source=source;
+export async function open(file, options = {}) {
+  if (!options.lazy) return decode(await file.text(), options);
+  const source = new PagedSource(file.size, options);
+  for (;;) {
+    const reader = new Reader("", options);
+    reader.source = source;
     try {
-      const document=reader.decode(options);
-      const convert=value=>{
-        if(value instanceof LazyBlob)return new LazyFileBlob(file,value.offset,value.byteLength);
-        if(Array.isArray(value))return value.map(convert);
-        if(value&&typeof value==='object')for(const key of Object.keys(value))value[key]=convert(value[key]);
+      const document = reader.decode(options);
+      const convert = (value) => {
+        if (value instanceof LazyBlob)
+          return new LazyFileBlob(file, value.offset, value.byteLength);
+        if (Array.isArray(value)) return value.map(convert);
+        if (value && typeof value === "object")
+          for (const key of Object.keys(value))
+            value[key] = convert(value[key]);
         return value;
       };
       return convert(document);
-    }catch(error){
-      if(!(error instanceof MissingPage))throw error;
-      const start=error.index*source.pageBytes*2;
-      const text=await file.slice(start,Math.min(file.size,start+source.pageBytes*2)).text();
+    } catch (error) {
+      if (!(error instanceof MissingPage)) throw error;
+      const start = error.index * source.pageBytes * 2;
+      const text = await file
+        .slice(start, Math.min(file.size, start + source.pageBytes * 2))
+        .text();
       // Preserve page boundaries; unlike complete text inputs they must not trim.
-      if(text.length%2||/[^a-p]/.test(text))throw Error('Invalid .casadi encoding in file page');
-      source.pages.set(error.index,new EncodedSource(text,{lazy:true}));
+      if (text.length % 2 || /[^a-p]/.test(text))
+        throw Error("Invalid .casadi encoding in file page");
+      source.pages.set(error.index, new EncodedSource(text, { lazy: true }));
     }
   }
 }
-export {LazyBlob};
-export const decodeCasadi=decode;
+export { LazyBlob };
+export const decodeCasadi = decode;

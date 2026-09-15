@@ -1,0 +1,171 @@
+name: Build language packages
+on:
+  workflow_call:
+permissions:
+  contents: read
+jobs:
+  python:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-22.04
+            python: '3.9'
+          - os: ubuntu-latest
+            python: '3.14'
+          - os: windows-latest
+            python: '3.11'
+          - os: macos-latest
+            python: '3.11'
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: python scripts/generate-reader-assets.py
+      - run: python -m pip install build twine
+      - run: python -m build
+      - run: python -m twine check dist/*
+      - run: python scripts/package-bindings.py --output artifacts --language python
+      - run: python scripts/test-standalone.py artifacts --language python
+      - run: python scripts/test-python-package.py dist
+      - uses: actions/upload-artifact@v4
+        if: matrix.os == 'ubuntu-latest'
+        with:
+          name: python-package
+          path: dist/*
+  native:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-22.04
+            platform: linux-x86_64
+          - os: windows-latest
+            platform: windows-x86_64
+          - os: macos-latest
+            platform: macos-arm64
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: python scripts/generate-reader-assets.py
+      - run: python -m pip install .
+      - run: python scripts/check-version.py
+      - run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_LIBDIR=lib
+      - run: cmake --build build --config Release --parallel 2
+      - run: ctest --test-dir build -C Release --output-on-failure
+      - name: Test and package each independent implementation
+        run: |
+          for language in c cpp; do
+            cmake --install build --config Release --component "$language" --prefix "$PWD/install-$language"
+            reader_cli="$PWD/install-$language/bin/casadi-reader-$language"
+            if [ "$RUNNER_OS" = Windows ]; then reader_cli="$reader_cli.exe"; fi
+            CASADI_READER_NATIVE="$reader_cli" python -m unittest discover -s python/tests -p test_reader.py
+            python scripts/package-bindings.py --output artifacts --native-prefix "install-$language" --language "$language" --platform '${{ matrix.platform }}'
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: native-${{ matrix.platform }}
+          path: artifacts/*
+  julia:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-22.04
+            julia: '1.6'
+          - os: ubuntu-latest
+            julia: '1'
+          - os: windows-latest
+            julia: '1'
+          - os: macos-latest
+            julia: '1'
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: ${{ matrix.julia }}
+      - run: python scripts/generate-reader-assets.py
+      - run: python -m pip install .
+      - run: python scripts/prepare-binding-fixtures.py fixtures
+      - run: python scripts/package-bindings.py --output artifacts --language julia
+      - name: Unpack the standalone Julia package
+        shell: bash
+        run: |
+          mkdir unpacked
+          python -m zipfile -e artifacts/casadi-reader-julia.zip unpacked
+      - run: python scripts/test-standalone.py artifacts --language julia
+      - run: julia --project=julia -e 'using Pkg; Pkg.instantiate()'
+      - run: python -m unittest discover -s python/tests -p test_generation.py
+        env:
+          CASADI_READER_TEST_LANGUAGES: julia
+      - run: julia --project=unpacked/casadi-reader-julia -e 'using Pkg; Pkg.test()'
+        env:
+          CASADI_READER_FIXTURES: ${{ github.workspace }}/fixtures
+  matlab:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python scripts/generate-reader-assets.py
+      - run: python -m pip install .
+      - run: python scripts/prepare-binding-fixtures.py fixtures
+      - run: python scripts/package-bindings.py --output artifacts --language matlab
+      - uses: matlab-actions/setup-matlab@v3
+      - run: python -m unittest discover -s python/tests -p test_generation.py
+        env:
+          CASADI_READER_TEST_LANGUAGES: matlab
+          CASADI_READER_PREPARE_MATLAB: matlab-codegen
+      - uses: matlab-actions/run-command@v3
+        with:
+          command: |
+            unzip('artifacts/casadi-reader-matlab.zip','unpacked');
+            addpath('unpacked/casadi-reader-matlab'); test_reader('fixtures');
+            rmpath('unpacked/casadi-reader-matlab'); clear classes;
+            addpath('matlab-codegen/matlab');
+            for name = {'arithmetic','arithmetic.debug'}
+              d = casadi_reader.Document(fullfile('matlab-codegen',[name{1} '.casadi']));
+              expected = jsondecode(fileread(fullfile('matlab-codegen',[name{1} '.json'])));
+              assert(isequal(jsondecode(d.json()), expected)); delete(d);
+            end
+            disp('MATLAB scheme-only extension: ordinary and debug readers passed');
+  source-packages:
+    needs: [python, native, julia, matlab]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci
+      - run: npm run build
+      - run: python scripts/check-version.py
+      - run: python scripts/package-bindings.py --output artifacts
+      - run: python scripts/test-standalone.py artifacts --language javascript
+      - run: python scripts/test-standalone.py artifacts --language python
+      - uses: actions/upload-artifact@v4
+        with:
+          name: source-packages
+          path: artifacts/*

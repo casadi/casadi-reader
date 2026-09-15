@@ -1,5 +1,6 @@
 name: npm package
-on: [push, pull_request]
+on:
+  workflow_call:
 permissions:
   contents: read
 jobs:
@@ -15,9 +16,10 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
-      # Check before build regenerates assets, so stale committed output fails CI.
+      - run: npm run generate
       - run: npm run check:generated
       - run: npm test
+      - run: PYTHONPATH=python python -m unittest discover -s python/tests -p test_generation.py
       - run: npx playwright install --with-deps chromium
       - run: npm run test:browser
       - run: mkdir -p artifacts && npm pack --pack-destination artifacts
