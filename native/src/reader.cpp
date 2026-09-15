@@ -208,12 +208,12 @@ struct Reader {
       if(op=="field"){
         const auto& fixed=optional(step,"name");auto n=fixed.kind==J::String?fixed.scalar:expression(step.at("name_expression").scalar,scope).scalar;
         if(optional(step,"type").kind!=J::String)fail("Unresolved serialization type: "+n);
-        auto type=specialize(step.at("type").scalar,scope);name(n);auto offset=pos;J v=value(type),f=J::object();
-        f["name"]=n;f["type"]=type;f["value"]=v;f["offset"]=J(int64_t(offset));f["byteLength"]=J(int64_t(pos-offset));record["fields"].a.push_back(f);count(J(int64_t(record["fields"].a.size())));
+        auto type=specialize(step.at("type").scalar,scope);name(n);J v=value(type),f=J::object();
+        f["name"]=n;f["type"]=type;f["value"]=v;record["fields"].a.push_back(f);count(J(int64_t(record["fields"].a.size())));
         const auto& bind=optional(step,"bind");if(bind.kind==J::String){scope[bind.scalar]=v;if(v.kind==J::Array)scope[bind.scalar+".size()"]=J(int64_t(v.a.size()));}
       }else if(op=="version"){
-        auto n=step.at("name").scalar+"::serialization::version";name(n);auto offset=pos;J v=number("int");if(v.dump()!=step.at("value").dump())fail("Unsupported "+step.at("name").scalar+" version "+v.dump());
-        J f=J::object();f["name"]=n;f["type"]="int";f["value"]=v;f["offset"]=J(int64_t(offset));f["byteLength"]=J(int64_t(pos-offset));record["fields"].a.push_back(f);
+        auto n=step.at("name").scalar+"::serialization::version";name(n);J v=number("int");if(v.dump()!=step.at("value").dump())fail("Unsupported "+step.at("name").scalar+" version "+v.dump());
+        J f=J::object();f["name"]=n;f["type"]="int";f["value"]=v;record["fields"].a.push_back(f);
       }else if(op=="call"){
         auto n=step.at("layout").scalar;record["layouts"].a.push_back(J(n));for(const auto& p:optional(step,"params").o)scope[p.first]=p.second;program(layout(n),record,scope);
       }else if(op=="if"){
@@ -238,9 +238,9 @@ struct Reader {
     if(type.find("std::map<")==0){decoration('D');auto types=arguments_of(type.substr(9,type.size()-10));auto n=count(number("casadi_int"));J j=J::object(),a=J::array();for(uint64_t i=0;i<n;++i){J pair=J::array();pair.a.push_back(value(types.at(0)));pair.a.push_back(value(types.at(1)));a.a.push_back(pair);}j["$map"]=a;return j;}
     if(type.find("std::pair<")==0){decoration('p');J a=J::array();for(const auto& t:arguments_of(type.substr(10,type.size()-11)))a.a.push_back(value(t));return a;}
     const auto& types=scheme().at("reader").at("types").o;auto found=types.find(type);if(found==types.end())fail("Serialization type absent from scheme: "+type);const auto& def=found->second;
-    const auto& tag=optional(def,"decoration");if(tag.kind==J::String)decoration(tag.scalar[0]);auto offset=pos;
+    const auto& tag=optional(def,"decoration");if(tag.kind==J::String)decoration(tag.scalar[0]);
     if(truth(optional(def,"shared"))){name("Shared::flag");int flag=byte();if(flag=='r'){name("Shared::reference");auto id=number("casadi_int");if(id.kind!=J::Number||id.n()<0||uint64_t(id.n())>=shared.size())fail("Invalid shared reference");J r=J::object();r["$ref"]=J(shared[size_t(id.n())]);return r;}if(flag!='d')fail("Invalid shared definition");}
-    J record=J::object();record["type"]=type;record["fields"]=J::array();record["layouts"]=J::array();record["offset"]=J(int64_t(offset));std::map<std::string,J> scope;program(def.at("body"),record,scope);record["byteLength"]=J(int64_t(pos-offset));
+    J record=J::object();record["type"]=type;record["fields"]=J::array();record["layouts"]=J::array();std::map<std::string,J> scope;program(def.at("body"),record,scope);
     if(!truth(optional(def,"shared")))return record;
     count(J(int64_t(objects.a.size()+1)));int64_t id=objects.a.size();objects.a.push_back(std::move(record));shared.push_back(id);J r=J::object();r["$ref"]=J(id);return r;
   }

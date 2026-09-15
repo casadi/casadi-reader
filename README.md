@@ -40,26 +40,23 @@ The output is ordinary JavaScript data:
     {
       type: 'Function',
       fields: [
-        {name: 'Function::null', type: 'bool', value: false, offset: 19, byteLength: 1},
+        {name: 'Function::null', type: 'bool', value: false},
         // Serialized field order and duplicate field names are preserved.
       ],
-      layouts: ['MXFunction::serialize_body', /* base layouts ... */],
-      offset: 18,
-      byteLength: 1234
+      layouts: ['MXFunction::serialize_body', /* base layouts ... */]
     }
   ]
 }
 ```
 
-The example's indices and byte counts are illustrative. `$ref` values are
+The example's indices are illustrative. `$ref` values are
 zero-based indices into `objects`. Shared definitions appear once, even when
 referenced by several functions. Inline structures have their own `type` and
 `fields`. Vectors are arrays, pairs are two-element arrays, and maps are
 `{$map: [[key, value], ...]}` so arbitrary key types and field order survive.
 Repeated serializer fields remain repeated entries, not overwritten properties.
 64-bit integers outside JavaScript's exact range use `{$integer: "..."}`;
-nonfinite floating-point values use `{$float: "..."}`. Byte offsets count decoded
-wire bytes from the stream start, not characters in its a–p encoding.
+nonfinite floating-point values use `{$float: "..."}`. Records and fields contain no source byte ranges.
 
 A file can contain several roots; `roots` retains them in order. `root` is a
 convenience index for a single shared-object root, otherwise null.
@@ -174,7 +171,7 @@ bytes; compile `matlab/casadi_reader_mex.cpp` with the native engine.
 Julia uses `CasadiReader.read_casadi(path)` or `Document(path; lazy=true)` and
 loads the native library through `CASADI_READER_LIBRARY`.
 
-`python/tests/test_reader.py` compares every field and offset against JavaScript
+`python/tests/test_reader.py` compares every field against JavaScript
 on all plain/debug fixtures, and also checks the native CLI when
 `CASADI_READER_NATIVE` points to it. `scripts/test-bindings.py` runs the same
 fixture comparisons in MATLAB/Julia; see its `--help` for local paths. Native

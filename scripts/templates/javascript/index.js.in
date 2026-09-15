@@ -72,15 +72,15 @@ class Reader {
         if(!type)this.fail('Unresolved serialization type: '+name);
         type=type.replace(/\b(?:MatType|Scalar|T)\b/g,key=>scope[key]??key);
         this.name(name);
-        const offset=this.pos,value=this.value(type);
-        record.fields.push({name,type,value,offset,byteLength:this.pos-offset});
+        const value=this.value(type);
+        record.fields.push({name,type,value});
         if(record.fields.length>this.maxItems)this.fail('Too many fields');
         if(step.bind){scope[step.bind]=value;if(Array.isArray(value))scope[step.bind+'.size()']=value.length;}
       }else if(step.op==='version') {
         this.name(step.name+'::serialization::version');
-        const offset=this.pos,value=this.number('int');
+        const value=this.number('int');
         if(value!==step.value)this.fail(`Unsupported ${step.name} version ${value}; scheme expects ${step.value}`);
-        record.fields.push({name:step.name+'::serialization::version',type:'int',value,offset,byteLength:this.pos-offset});
+        record.fields.push({name:step.name+'::serialization::version',type:'int',value});
       }else if(step.op==='call') {
         record.layouts.push(step.layout);
         Object.assign(scope,step.params);
@@ -122,15 +122,13 @@ class Reader {
     const definition=this.scheme.reader.types[type];
     if(!definition)this.fail('Serialization type absent from scheme: '+type);
     if(definition.decoration)this.decoration(definition.decoration);
-    const offset=this.pos;
     if(definition.shared){
       this.name('Shared::flag');const flag=this.byte();
       if(flag===114){this.name('Shared::reference');const id=this.number('casadi_int');if(!Number.isSafeInteger(id)||id<0||id>=this.shared.length)this.fail('Invalid shared reference');return {$ref:this.shared[id]};}
       if(flag!==100)this.fail('Invalid shared definition');
     }
-    const record={type,fields:[],layouts:[],offset};
+    const record={type,fields:[],layouts:[]};
     this.program(definition.body,record,Object.create(null));
-    record.byteLength=this.pos-offset;
     if(!definition.shared)return record;
     this.count(this.objects.length+1);const id=this.objects.length;this.objects.push(record);this.shared.push(id);
     return {$ref:id};

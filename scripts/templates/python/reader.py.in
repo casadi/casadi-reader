@@ -175,18 +175,17 @@ class Reader:
                 kind = step.get('type')
                 if not kind: self.fail('Unresolved serialization type: '+name)
                 kind = re.sub(r'\b(MatType|Scalar|T)\b', lambda m: scope.get(m[0], m[0]), kind)
-                self.name(name); offset = self.pos; value = self.value(kind)
-                record['fields'].append(dict(name=name, type=kind, value=value,
-                                             offset=offset, byteLength=self.pos-offset))
+                self.name(name); value = self.value(kind)
+                record['fields'].append(dict(name=name, type=kind, value=value))
                 self.count(len(record['fields']))
                 if step.get('bind'):
                     scope[step['bind']] = value
                     if isinstance(value, list): scope[step['bind']+'.size()'] = len(value)
             elif op == 'version':
                 name = step['name']+'::serialization::version'
-                self.name(name); offset = self.pos; value = self.number('int')
+                self.name(name); value = self.number('int')
                 if value != step['value']: self.fail('Unsupported '+step['name']+' version '+str(value))
-                record['fields'].append(dict(name=name,type='int',value=value,offset=offset,byteLength=self.pos-offset))
+                record['fields'].append(dict(name=name,type='int',value=value))
             elif op == 'call':
                 record['layouts'].append(step['layout']); scope.update(step.get('params', {}))
                 self.program(self.layout(step['layout']), record, scope)
@@ -227,7 +226,6 @@ class Reader:
         definition = self.scheme['reader']['types'].get(kind)
         if definition is None: self.fail('Serialization type absent from scheme: '+kind)
         if definition.get('decoration'): self.decoration(definition['decoration'])
-        offset = self.pos
         if definition.get('shared'):
             self.name('Shared::flag'); flag = self.byte()
             if flag == ord('r'):
@@ -235,9 +233,8 @@ class Reader:
                 if not isinstance(index, int) or not 0 <= index < len(self.shared): self.fail('Invalid shared reference')
                 return {'$ref': self.shared[index]}
             if flag != ord('d'): self.fail('Invalid shared definition')
-        record = dict(type=kind,fields=[],layouts=[],offset=offset)
+        record = dict(type=kind,fields=[],layouts=[])
         self.program(definition['body'], record, {})
-        record['byteLength'] = self.pos-offset
         if not definition.get('shared'): return record
         self.count(len(self.objects)+1); index = len(self.objects)
         self.objects.append(record); self.shared.append(index)

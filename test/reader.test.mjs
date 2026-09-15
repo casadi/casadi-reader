@@ -5,14 +5,10 @@ import {spawnSync} from 'node:child_process';
 import {decode} from '../src/index.js';
 import scheme from '../src/scheme.js';
 const fixture=name=>readFileSync(new URL(`./fixtures/${name}.casadi`,import.meta.url),'utf8');
-const structural=value=>{
- if(Array.isArray(value))return value.map(structural);
- if(value&&typeof value==='object')return Object.fromEntries(Object.entries(value).filter(([k])=>!['offset','byteLength'].includes(k)).map(([k,v])=>[k,structural(v)]));
- return value;
-};
 for(const name of ['arithmetic','mapping','slice','assignment','sparse','sx','sx_nested','mx_sx_call','mx_constants','mx_new_ops','mapped_sx','switch_sx','options_sx','onnx'])test('native plain/debug layouts agree: '+name,()=>{
  const plain=decode(fixture(name)),decorated=decode(fixture(name+'.debug'));
- assert.deepEqual(structural(plain),structural(decorated));
+ assert.deepEqual(plain,decorated);
+ assert(!/"(?:offset|byteLength)"\s*:/.test(JSON.stringify(plain)));
  assert.equal(plain.format,'casadi_serialization');
  const root=plain.objects[plain.root];assert.equal(root.type,'Function');
  assert(root.fields.some(f=>f.name==='ProtoFunction::name'));
