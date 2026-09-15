@@ -5,16 +5,34 @@ export default {
     "protocol": 3
   },
   "reader": {
+    "file_prefixes": {
+      "1": "Function",
+      "11": "Function",
+      "13": "Function",
+      "20": "std::vector<MX>",
+      "21": "std::vector<SX>",
+      "22": "std::vector<MX>",
+      "23": "std::vector<SX>",
+      "3": "Function"
+    },
     "file_types": {
       "0": "Sparsity",
+      "1": "MX",
       "10": "std::vector<Sparsity>",
+      "11": "std::vector<MX>",
       "12": "std::vector<DM>",
+      "13": "std::vector<SX>",
       "15": "std::vector<Function>",
       "16": "std::vector<GenericType>",
       "17": "std::vector<casadi_int>",
       "18": "std::vector<double>",
       "19": "std::vector<std::string>",
       "2": "DM",
+      "20": "MX",
+      "21": "SX",
+      "22": "std::vector<MX>",
+      "23": "std::vector<SX>",
+      "3": "SX",
       "4": "Linsol",
       "5": "Function",
       "6": "GenericType",
@@ -166,6 +184,12 @@ export default {
           "name": "BSpline::type",
           "op": "field",
           "type": "char"
+        }
+      ],
+      "BackwardDiff::serialize_body": [
+        {
+          "layout": "ForwardDiff::serialize_body",
+          "op": "call"
         }
       ],
       "Bilin::serialize_body": [
@@ -834,6 +858,12 @@ export default {
           "type": "bool"
         }
       ],
+      "CentralDiff::serialize_body": [
+        {
+          "layout": "FiniteDiff::serialize_body",
+          "op": "call"
+        }
+      ],
       "ClarabelInterface::serialize_body": [
         {
           "layout": "Conic::serialize_body",
@@ -891,6 +921,44 @@ export default {
         {
           "layout": "MXNode::serialize_body",
           "op": "call"
+        }
+      ],
+      "Conic::serialize": [
+        {
+          "name": "Conic::SDPToSOCPMem::r",
+          "name_expression": "\"Conic::SDPToSOCPMem::r\"",
+          "op": "field",
+          "type": "std::vector<casadi_int>"
+        },
+        {
+          "name": "Conic::SDPToSOCPMem::AT",
+          "name_expression": "\"Conic::SDPToSOCPMem::AT\"",
+          "op": "field",
+          "type": "Sparsity"
+        },
+        {
+          "name": "Conic::SDPToSOCPMem::A_mapping",
+          "name_expression": "\"Conic::SDPToSOCPMem::A_mapping\"",
+          "op": "field",
+          "type": "std::vector<casadi_int>"
+        },
+        {
+          "name": "Conic::SDPToSOCPMem::map_Q",
+          "name_expression": "\"Conic::SDPToSOCPMem::map_Q\"",
+          "op": "field",
+          "type": "IM"
+        },
+        {
+          "name": "Conic::SDPToSOCPMem::map_P",
+          "name_expression": "\"Conic::SDPToSOCPMem::map_P\"",
+          "op": "field",
+          "type": "std::vector<casadi_int>"
+        },
+        {
+          "name": "Conic::SDPToSOCPMem::indval_size",
+          "name_expression": "\"Conic::SDPToSOCPMem::indval_size\"",
+          "op": "field",
+          "type": "casadi_int"
         }
       ],
       "Conic::serialize_body": [
@@ -1076,7 +1144,7 @@ export default {
         {
           "name": "ConstantFile::x",
           "op": "field",
-          "type": null
+          "type": "std::vector<double>"
         }
       ],
       "ConstantFile::serialize_type": [
@@ -1103,7 +1171,7 @@ export default {
         {
           "name": "ConstantPool::x",
           "op": "field",
-          "type": null
+          "type": "std::vector<double>"
         }
       ],
       "ConstantPool::serialize_type": [
@@ -1117,14 +1185,91 @@ export default {
           "type": "char"
         }
       ],
+      "Convexify::serialize": [
+        {
+          "name": null,
+          "name_expression": "prefix + \"Convexify\"",
+          "op": "version",
+          "value": 1
+        },
+        {
+          "name": null,
+          "name_expression": "prefix + \"Convexify::type_in\"",
+          "op": "field",
+          "type": "int"
+        },
+        {
+          "name": null,
+          "name_expression": "prefix + \"Convexify::strategy\"",
+          "op": "field",
+          "type": "int"
+        },
+        {
+          "name": null,
+          "name_expression": "prefix + \"Convexify::margin\"",
+          "op": "field",
+          "type": "double"
+        },
+        {
+          "name": null,
+          "name_expression": "prefix + \"Convexify::max_iter_eig\"",
+          "op": "field",
+          "type": "casadi_int"
+        },
+        {
+          "name": null,
+          "name_expression": "prefix + \"Convexify::scc_offset\"",
+          "op": "field",
+          "type": "std::vector<casadi_int>"
+        },
+        {
+          "name": null,
+          "name_expression": "prefix + \"Convexify::scc_mapping\"",
+          "op": "field",
+          "type": "std::vector<casadi_int>"
+        },
+        {
+          "name": null,
+          "name_expression": "prefix + \"Convexify::Hsp_project\"",
+          "op": "field",
+          "type": "int"
+        },
+        {
+          "name": null,
+          "name_expression": "prefix + \"Convexify::scc_transform\"",
+          "op": "field",
+          "type": "int"
+        },
+        {
+          "name": null,
+          "name_expression": "prefix + \"Convexify::verbose\"",
+          "op": "field",
+          "type": "int"
+        },
+        {
+          "name": null,
+          "name_expression": "prefix + \"Convexify::Hsp\"",
+          "op": "field",
+          "type": "Sparsity"
+        },
+        {
+          "name": null,
+          "name_expression": "prefix + \"Convexify::Hrsp\"",
+          "op": "field",
+          "type": "Sparsity"
+        }
+      ],
       "Convexify::serialize_body": [
         {
           "layout": "MXNode::serialize_body",
           "op": "call"
         },
         {
-          "op": "unsupported",
-          "reason": "unlowered serialization call"
+          "layout": "Convexify::serialize",
+          "op": "call",
+          "params": {
+            "prefix": ""
+          }
         }
       ],
       "CplexInterface::serialize_body": [
@@ -1203,8 +1348,8 @@ export default {
           "type": "std::vector<char>"
         },
         {
-          "op": "unsupported",
-          "reason": "unlowered serialization call"
+          "layout": "Conic::serialize",
+          "op": "call"
         }
       ],
       "CsparseInterface::serialize_body": [
@@ -1683,6 +1828,7 @@ export default {
           "type": "Dict"
         },
         {
+          "bind": "convexify_",
           "name": "FatropInterface::convexify",
           "op": "field",
           "type": "bool"
@@ -1854,15 +2000,96 @@ export default {
           "type": "Sparsity"
         },
         {
+          "bind": "convexify_",
           "name": "Feasiblesqpmethod::convexify",
           "op": "field",
           "type": "bool"
+        },
+        {
+          "body": [
+            {
+              "layout": "Convexify::serialize",
+              "op": "call",
+              "params": {
+                "prefix": "Feasiblesqpmethod::"
+              }
+            }
+          ],
+          "condition": "convexify_",
+          "op": "if"
         }
       ],
       "Find::serialize_body": [
         {
           "layout": "MXNode::serialize_body",
           "op": "call"
+        }
+      ],
+      "FiniteDiff::serialize_body": [
+        {
+          "layout": "FunctionInternal::serialize_body",
+          "op": "call"
+        },
+        {
+          "name": "FiniteDiff",
+          "op": "version",
+          "value": 1
+        },
+        {
+          "bind": "n_",
+          "name": "FiniteDiff::n",
+          "op": "field",
+          "type": "casadi_int"
+        },
+        {
+          "name": "FiniteDiff::h_iter",
+          "op": "field",
+          "type": "casadi_int"
+        },
+        {
+          "name": "FiniteDiff::h",
+          "op": "field",
+          "type": "double"
+        },
+        {
+          "name": "FiniteDiff::n_z",
+          "op": "field",
+          "type": "casadi_int"
+        },
+        {
+          "name": "FiniteDiff::n_y",
+          "op": "field",
+          "type": "casadi_int"
+        },
+        {
+          "name": "FiniteDiff::u_aim",
+          "op": "field",
+          "type": "double"
+        },
+        {
+          "name": "FiniteDiff::h_min",
+          "op": "field",
+          "type": "double"
+        },
+        {
+          "name": "FiniteDiff::h_max",
+          "op": "field",
+          "type": "double"
+        },
+        {
+          "name": "FiniteDiff::reltol",
+          "op": "field",
+          "type": "double"
+        },
+        {
+          "name": "FiniteDiff::abstol",
+          "op": "field",
+          "type": "double"
+        },
+        {
+          "name": "FiniteDiff::smoothing",
+          "op": "field",
+          "type": "double"
         }
       ],
       "FixedStepIntegrator::serialize_body": [
@@ -2603,6 +2830,12 @@ export default {
           "type": "std::string"
         }
       ],
+      "ForwardDiff::serialize_body": [
+        {
+          "layout": "FiniteDiff::serialize_body",
+          "op": "call"
+        }
+      ],
       "Function::serialize": [
         {
           "body": [
@@ -3199,8 +3432,8 @@ export default {
           "type": "std::vector<int>"
         },
         {
-          "op": "unsupported",
-          "reason": "unlowered serialization call"
+          "layout": "Conic::serialize",
+          "op": "call"
         }
       ],
       "HighsInterface::serialize_body": [
@@ -3434,7 +3667,6 @@ export default {
           "type": "char"
         },
         {
-          "bind": "value",
           "name": "ConstantSX::value",
           "name_expression": "\"ConstantSX::value\"",
           "op": "field",
@@ -3791,9 +4023,23 @@ export default {
           "type": "Dict"
         },
         {
+          "bind": "convexify_",
           "name": "IpoptInterface::convexify",
           "op": "field",
           "type": "bool"
+        },
+        {
+          "body": [
+            {
+              "layout": "Convexify::serialize",
+              "op": "call",
+              "params": {
+                "prefix": "IpoptInterface::"
+              }
+            }
+          ],
+          "condition": "convexify_",
+          "op": "if"
         },
         {
           "name": "IpoptInterface::clip_inactive_lam",
@@ -3854,7 +4100,7 @@ export default {
         {
           "name": "Ipqp::max_iter",
           "op": "field",
-          "type": null
+          "type": "casadi_int"
         },
         {
           "name": "Ipqp::pr_tol",
@@ -4349,6 +4595,7 @@ export default {
           "type": "Dict"
         },
         {
+          "bind": "convexify_",
           "name": "MadmpecInterface::convexify",
           "op": "field",
           "type": "bool"
@@ -4400,6 +4647,7 @@ export default {
           "type": "Dict"
         },
         {
+          "bind": "convexify_",
           "name": "MadnlpInterface::convexify",
           "op": "field",
           "type": "bool"
@@ -5103,8 +5351,133 @@ export default {
       ],
       "OsqpInterface::serialize_body": [
         {
-          "op": "unsupported",
-          "reason": "unlowered else branch"
+          "layout": "Conic::serialize_body",
+          "op": "call"
+        },
+        {
+          "name": "OsqpInterface",
+          "op": "version",
+          "value": 2
+        },
+        {
+          "name": "OsqpInterface::nnzHupp",
+          "op": "field",
+          "type": "casadi_int"
+        },
+        {
+          "name": "OsqpInterface::nnzA",
+          "op": "field",
+          "type": "casadi_int"
+        },
+        {
+          "name": "OsqpInterface::warm_start_primal",
+          "op": "field",
+          "type": "bool"
+        },
+        {
+          "name": "OsqpInterface::warm_start_dual",
+          "op": "field",
+          "type": "bool"
+        },
+        {
+          "name": "OsqpInterface::settings::rho",
+          "op": "field",
+          "type": "double"
+        },
+        {
+          "name": "OsqpInterface::settings::sigma",
+          "op": "field",
+          "type": "double"
+        },
+        {
+          "name": "OsqpInterface::settings::scaling",
+          "op": "field",
+          "type": "casadi_int"
+        },
+        {
+          "name": "OsqpInterface::settings::adaptive_rho",
+          "op": "field",
+          "type": "casadi_int"
+        },
+        {
+          "name": "OsqpInterface::settings::adaptive_rho_interval",
+          "op": "field",
+          "type": "casadi_int"
+        },
+        {
+          "name": "OsqpInterface::settings::adaptive_rho_tolerance",
+          "op": "field",
+          "type": "double"
+        },
+        {
+          "name": "OsqpInterface::settings::max_iter",
+          "op": "field",
+          "type": "casadi_int"
+        },
+        {
+          "name": "OsqpInterface::settings::eps_abs",
+          "op": "field",
+          "type": "double"
+        },
+        {
+          "name": "OsqpInterface::settings::eps_rel",
+          "op": "field",
+          "type": "double"
+        },
+        {
+          "name": "OsqpInterface::settings::eps_prim_inf",
+          "op": "field",
+          "type": "double"
+        },
+        {
+          "name": "OsqpInterface::settings::eps_dual_inf",
+          "op": "field",
+          "type": "double"
+        },
+        {
+          "name": "OsqpInterface::settings::alpha",
+          "op": "field",
+          "type": "double"
+        },
+        {
+          "name": "OsqpInterface::settings::delta",
+          "op": "field",
+          "type": "double"
+        },
+        {
+          "name": "OsqpInterface::settings::polish",
+          "op": "field",
+          "type": "casadi_int"
+        },
+        {
+          "name": "OsqpInterface::settings::polish_refine_iter",
+          "op": "field",
+          "type": "casadi_int"
+        },
+        {
+          "name": "OsqpInterface::settings::verbose",
+          "op": "field",
+          "type": "casadi_int"
+        },
+        {
+          "name": "OsqpInterface::settings::scaled_termination",
+          "op": "field",
+          "type": "casadi_int"
+        },
+        {
+          "name": "OsqpInterface::settings::check_termination",
+          "op": "field",
+          "type": "casadi_int"
+        },
+        {
+          "name": "OsqpInterface::settings::warm_start",
+          "op": "field",
+          "type": "casadi_int"
+        },
+        {
+          "name": "OsqpInterface::rho_initial",
+          "op": "field",
+          "type": "double"
         }
       ],
       "Output::serialize_body": [
@@ -5161,47 +5534,47 @@ export default {
         {
           "name": "PiqpInterface::settings::rho_init",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "PiqpInterface::settings::delta_init",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "PiqpInterface::settings::eps_abs",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "PiqpInterface::settings::eps_rel",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "PiqpInterface::settings::check_duality_gap",
           "op": "field",
-          "type": null
+          "type": "bool"
         },
         {
           "name": "PiqpInterface::settings::eps_duality_gap_abs",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "PiqpInterface::settings::eps_duality_gap_rel",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "PiqpInterface::settings::reg_lower_limit",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "PiqpInterface::settings::reg_finetune_lower_limit",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "PiqpInterface::settings::reg_finetune_primal_update_threshold",
@@ -5226,7 +5599,7 @@ export default {
         {
           "name": "PiqpInterface::settings::preconditioner_scale_cost",
           "op": "field",
-          "type": null
+          "type": "bool"
         },
         {
           "name": "PiqpInterface::settings::preconditioner_iter",
@@ -5236,22 +5609,22 @@ export default {
         {
           "name": "PiqpInterface::settings::tau",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "PiqpInterface::settings::iterative_refinement_always_enabled",
           "op": "field",
-          "type": null
+          "type": "bool"
         },
         {
           "name": "PiqpInterface::settings::iterative_refinement_eps_abs",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "PiqpInterface::settings::iterative_refinement_eps_rel",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "PiqpInterface::settings::iterative_refinement_max_iter",
@@ -5261,27 +5634,27 @@ export default {
         {
           "name": "PiqpInterface::settings::iterative_refinement_min_improvement_rate",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "PiqpInterface::settings::iterative_refinement_static_regularization_eps",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "PiqpInterface::settings::iterative_refinement_static_regularization_rel",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "PiqpInterface::settings::verbose",
           "op": "field",
-          "type": null
+          "type": "bool"
         },
         {
           "name": "PiqpInterface::settings::compute_timings",
           "op": "field",
-          "type": null
+          "type": "bool"
         },
         {
           "name": "PiqpInterface::settings::kkt_solver",
@@ -5385,27 +5758,27 @@ export default {
         {
           "name": "ProxqpInterface::settings::default_rho",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "ProxqpInterface::settings::default_mu_eq",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "ProxqpInterface::settings::default_mu_in",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "ProxqpInterface::settings::eps_abs",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "ProxqpInterface::settings::eps_rel",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "ProxqpInterface::settings::max_iter",
@@ -5415,7 +5788,7 @@ export default {
         {
           "name": "ProxqpInterface::settings::verbose",
           "op": "field",
-          "type": null
+          "type": "bool"
         },
         {
           "name": "ProxqpInterface::settings::sparse_backend",
@@ -5555,12 +5928,12 @@ export default {
         {
           "name": "QpoasesInterface::ops::enableDriftCorrection",
           "op": "field",
-          "type": null
+          "type": "int"
         },
         {
           "name": "QpoasesInterface::ops::enableCholeskyRefactorisation",
           "op": "field",
-          "type": null
+          "type": "int"
         },
         {
           "name": "QpoasesInterface::ops::enableEqualities",
@@ -5570,57 +5943,57 @@ export default {
         {
           "name": "QpoasesInterface::ops::terminationTolerance",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "QpoasesInterface::ops::boundTolerance",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "QpoasesInterface::ops::boundRelaxation",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "QpoasesInterface::ops::epsNum",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "QpoasesInterface::ops::epsDen",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "QpoasesInterface::ops::maxPrimalJump",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "QpoasesInterface::ops::maxDualJump",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "QpoasesInterface::ops::initialRamping",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "QpoasesInterface::ops::finalRamping",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "QpoasesInterface::ops::initialFarBounds",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "QpoasesInterface::ops::growFarBounds",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "QpoasesInterface::ops::initialStatusBounds",
@@ -5630,37 +6003,37 @@ export default {
         {
           "name": "QpoasesInterface::ops::epsFlipping",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "QpoasesInterface::ops::numRegularisationSteps",
           "op": "field",
-          "type": null
+          "type": "int"
         },
         {
           "name": "QpoasesInterface::ops::epsRegularisation",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "QpoasesInterface::ops::numRefinementSteps",
           "op": "field",
-          "type": null
+          "type": "int"
         },
         {
           "name": "QpoasesInterface::ops::epsIterRef",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "QpoasesInterface::ops::epsLITests",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "QpoasesInterface::ops::epsNZCTests",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "QpoasesInterface::ops::enableInertiaCorrection",
@@ -5731,7 +6104,7 @@ export default {
         {
           "name": "Qrqp::max_iter",
           "op": "field",
-          "type": null
+          "type": "casadi_int"
         },
         {
           "name": "Qrqp::min_lam",
@@ -5769,7 +6142,6 @@ export default {
           "type": "char"
         },
         {
-          "bind": "value",
           "name": "ConstantSX::value",
           "name_expression": "\"ConstantSX::value\"",
           "op": "field",
@@ -6100,15 +6472,15 @@ export default {
           "op": "call"
         }
       ],
-      "SetNonzerosParam<false>::serialize_body": [
+      "SetNonzerosParam<Add>::serialize_body": [
         {
           "layout": "MXNode::serialize_body",
           "op": "call"
         }
       ],
-      "SetNonzerosParam<true>::serialize_body": [
+      "SetNonzerosParamParam<Add>::serialize_body": [
         {
-          "layout": "MXNode::serialize_body",
+          "layout": "SetNonzerosParam<Add>::serialize_body",
           "op": "call"
         }
       ],
@@ -6170,7 +6542,7 @@ export default {
         {
           "name": "SetNonzerosSlice2::inner",
           "op": "field",
-          "type": null
+          "type": "Slice"
         },
         {
           "name": "SetNonzerosSlice2::outer",
@@ -6220,7 +6592,7 @@ export default {
         {
           "name": "SetNonzerosSliceParam::inner",
           "op": "field",
-          "type": null
+          "type": "Slice"
         }
       ],
       "SetNonzerosSliceParam<Add>::serialize_type": [
@@ -6242,7 +6614,7 @@ export default {
         {
           "name": "SetNonzerosVector::nonzeros",
           "op": "field",
-          "type": null
+          "type": "std::vector<casadi_int>"
         }
       ],
       "SetNonzerosVector<Add>::serialize_type": [
@@ -6271,6 +6643,12 @@ export default {
           "name": "Slice::step",
           "op": "field",
           "type": "casadi_int"
+        }
+      ],
+      "Smoothing::serialize_body": [
+        {
+          "layout": "FiniteDiff::serialize_body",
+          "op": "call"
         }
       ],
       "SnoptInterface::serialize_body": [
@@ -6602,9 +6980,23 @@ export default {
           "type": "Sparsity"
         },
         {
+          "bind": "convexify_",
           "name": "Sqpmethod::convexify",
           "op": "field",
           "type": "bool"
+        },
+        {
+          "body": [
+            {
+              "layout": "Convexify::serialize",
+              "op": "call",
+              "params": {
+                "prefix": "Sqpmethod::"
+              }
+            }
+          ],
+          "condition": "convexify_",
+          "op": "if"
         }
       ],
       "SundialsInterface::serialize_body": [
@@ -6736,32 +7128,32 @@ export default {
         {
           "name": "SuperscsInterface::settings::normalize",
           "op": "field",
-          "type": null
+          "type": "casadi_int"
         },
         {
           "name": "SuperscsInterface::settings::scale",
           "op": "field",
-          "type": "simde__m256d"
+          "type": "double"
         },
         {
           "name": "SuperscsInterface::settings::rho_x",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "SuperscsInterface::settings::max_time_milliseconds",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "SuperscsInterface::settings::max_iters",
           "op": "field",
-          "type": null
+          "type": "casadi_int"
         },
         {
           "name": "SuperscsInterface::settings::previous_max_iters",
           "op": "field",
-          "type": null
+          "type": "casadi_int"
         },
         {
           "name": "SuperscsInterface::settings::eps",
@@ -6771,37 +7163,37 @@ export default {
         {
           "name": "SuperscsInterface::settings::alpha",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "SuperscsInterface::settings::cg_rate",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "SuperscsInterface::settings::verbose",
           "op": "field",
-          "type": null
+          "type": "casadi_int"
         },
         {
           "name": "SuperscsInterface::settings::warm_start",
           "op": "field",
-          "type": "double"
+          "type": "casadi_int"
         },
         {
           "name": "SuperscsInterface::settings::do_super_scs",
           "op": "field",
-          "type": null
+          "type": "casadi_int"
         },
         {
           "name": "SuperscsInterface::settings::k0",
           "op": "field",
-          "type": null
+          "type": "casadi_int"
         },
         {
           "name": "SuperscsInterface::settings::c_bl",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "SuperscsInterface::settings::k1",
@@ -6816,27 +7208,27 @@ export default {
         {
           "name": "SuperscsInterface::settings::c1",
           "op": "field",
-          "type": "casadi_int"
+          "type": "double"
         },
         {
           "name": "SuperscsInterface::settings::sse",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "SuperscsInterface::settings::ls",
           "op": "field",
-          "type": null
+          "type": "casadi_int"
         },
         {
           "name": "SuperscsInterface::settings::beta",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "SuperscsInterface::settings::sigma",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "SuperscsInterface::settings::direction",
@@ -6846,32 +7238,32 @@ export default {
         {
           "name": "SuperscsInterface::settings::thetabar",
           "op": "field",
-          "type": null
+          "type": "double"
         },
         {
           "name": "SuperscsInterface::settings::memory",
           "op": "field",
-          "type": null
+          "type": "casadi_int"
         },
         {
           "name": "SuperscsInterface::settings::tRule",
           "op": "field",
-          "type": null
+          "type": "casadi_int"
         },
         {
           "name": "SuperscsInterface::settings::broyden_init_scaling",
           "op": "field",
-          "type": null
+          "type": "casadi_int"
         },
         {
           "name": "SuperscsInterface::settings::do_record_progress",
           "op": "field",
-          "type": null
+          "type": "casadi_int"
         },
         {
           "name": "SuperscsInterface::settings::do_override_streams",
           "op": "field",
-          "type": null
+          "type": "casadi_int"
         },
         {
           "name": "SuperscsInterface::Hp",
@@ -6909,8 +7301,8 @@ export default {
           "type": "Dict"
         },
         {
-          "op": "unsupported",
-          "reason": "unlowered serialization call"
+          "layout": "Conic::serialize",
+          "op": "call"
         }
       ],
       "Switch::serialize_body": [
@@ -7288,28 +7680,24 @@ export default {
       ],
       "pack_tensors": [
         {
-          "bind": "names",
           "name": null,
           "name_expression": "d + \"::names\"",
           "op": "field",
           "type": "std::vector<std::string>"
         },
         {
-          "bind": "shapes",
           "name": null,
           "name_expression": "d + \"::shapes\"",
           "op": "field",
           "type": "std::vector<std::vector<casadi_int>>"
         },
         {
-          "bind": "elem_types",
           "name": null,
           "name_expression": "d + \"::elem_types\"",
           "op": "field",
           "type": "std::vector<casadi_int>"
         },
         {
-          "bind": "numels",
           "name": null,
           "name_expression": "d + \"::numels\"",
           "op": "field",
@@ -7351,9 +7739,21 @@ export default {
               {
                 "bind": "base",
                 "cases": {
+                  "BackwardDiff": [
+                    {
+                      "layout": "BackwardDiff::serialize_body",
+                      "op": "call"
+                    }
+                  ],
                   "BlazingSplineFunction": [
                     {
                       "layout": "BlazingSplineFunction::serialize_body",
+                      "op": "call"
+                    }
+                  ],
+                  "CentralDiff": [
+                    {
+                      "layout": "CentralDiff::serialize_body",
                       "op": "call"
                     }
                   ],
@@ -7512,6 +7912,12 @@ export default {
                   "FmuFunction": [
                     {
                       "layout": "FmuFunction::serialize_body",
+                      "op": "call"
+                    }
+                  ],
+                  "ForwardDiff": [
+                    {
+                      "layout": "ForwardDiff::serialize_body",
                       "op": "call"
                     }
                   ],
@@ -7860,6 +8266,12 @@ export default {
                       }
                     }
                   ],
+                  "Smoothing": [
+                    {
+                      "layout": "Smoothing::serialize_body",
+                      "op": "call"
+                    }
+                  ],
                   "Switch": [
                     {
                       "layout": "Switch::serialize_body",
@@ -7890,7 +8302,6 @@ export default {
             "cases": {
               "1": [
                 {
-                  "bind": "GenericType::d",
                   "name": "GenericType::d",
                   "op": "field",
                   "type": "bool"
@@ -7898,7 +8309,6 @@ export default {
               ],
               "10": [
                 {
-                  "bind": "GenericType::d",
                   "name": "GenericType::d",
                   "op": "field",
                   "type": "std::vector<std::string>"
@@ -7906,7 +8316,6 @@ export default {
               ],
               "11": [
                 {
-                  "bind": "GenericType::d",
                   "name": "GenericType::d",
                   "op": "field",
                   "type": "Dict"
@@ -7914,7 +8323,6 @@ export default {
               ],
               "12": [
                 {
-                  "bind": "GenericType::d",
                   "name": "GenericType::d",
                   "op": "field",
                   "type": "Function"
@@ -7922,7 +8330,6 @@ export default {
               ],
               "13": [
                 {
-                  "bind": "GenericType::d",
                   "name": "GenericType::d",
                   "op": "field",
                   "type": "std::vector<Function>"
@@ -7930,7 +8337,6 @@ export default {
               ],
               "14": [
                 {
-                  "bind": "GenericType::d",
                   "name": "GenericType::d",
                   "op": "field",
                   "type": "void*"
@@ -7938,7 +8344,6 @@ export default {
               ],
               "16": [
                 {
-                  "bind": "GenericType::d",
                   "name": "GenericType::d",
                   "op": "field",
                   "type": "std::vector<std::vector<std::string>>"
@@ -7946,7 +8351,6 @@ export default {
               ],
               "17": [
                 {
-                  "bind": "GenericType::d",
                   "name": "GenericType::d",
                   "op": "field",
                   "type": "std::vector<Dict>"
@@ -7954,7 +8358,6 @@ export default {
               ],
               "18": [
                 {
-                  "bind": "GenericType::d",
                   "name": "GenericType::d",
                   "op": "field",
                   "type": "std::vector<std::vector<GenericType>>"
@@ -7962,7 +8365,6 @@ export default {
               ],
               "19": [
                 {
-                  "bind": "GenericType::d",
                   "name": "GenericType::d",
                   "op": "field",
                   "type": "std::vector<GenericType>"
@@ -7970,7 +8372,6 @@ export default {
               ],
               "2": [
                 {
-                  "bind": "GenericType::d",
                   "name": "GenericType::d",
                   "op": "field",
                   "type": "casadi_int"
@@ -7978,7 +8379,6 @@ export default {
               ],
               "3": [
                 {
-                  "bind": "GenericType::d",
                   "name": "GenericType::d",
                   "op": "field",
                   "type": "double"
@@ -7986,7 +8386,6 @@ export default {
               ],
               "4": [
                 {
-                  "bind": "GenericType::d",
                   "name": "GenericType::d",
                   "op": "field",
                   "type": "std::string"
@@ -7994,7 +8393,6 @@ export default {
               ],
               "5": [
                 {
-                  "bind": "GenericType::d",
                   "name": "GenericType::d",
                   "op": "field",
                   "type": "std::vector<casadi_int>"
@@ -8002,7 +8400,6 @@ export default {
               ],
               "6": [
                 {
-                  "bind": "GenericType::d",
                   "name": "GenericType::d",
                   "op": "field",
                   "type": "std::vector<std::vector<casadi_int>>"
@@ -8010,7 +8407,6 @@ export default {
               ],
               "7": [
                 {
-                  "bind": "GenericType::d",
                   "name": "GenericType::d",
                   "op": "field",
                   "type": "std::vector<bool>"
@@ -8018,7 +8414,6 @@ export default {
               ],
               "8": [
                 {
-                  "bind": "GenericType::d",
                   "name": "GenericType::d",
                   "op": "field",
                   "type": "std::vector<double>"
@@ -8026,7 +8421,6 @@ export default {
               ],
               "9": [
                 {
-                  "bind": "GenericType::d",
                   "name": "GenericType::d",
                   "op": "field",
                   "type": "std::vector<std::vector<double>>"
@@ -8038,6 +8432,20 @@ export default {
         ],
         "decoration": "G",
         "shared": true
+      },
+      "IM": {
+        "body": [
+          {
+            "name": "Matrix::sparsity",
+            "op": "field",
+            "type": "Sparsity"
+          },
+          {
+            "name": "Matrix::nonzeros",
+            "op": "field",
+            "type": "std::vector<casadi_int>"
+          }
+        ]
       },
       "Linsol": {
         "body": [
@@ -8870,8 +9278,40 @@ export default {
               ],
               "72": [
                 {
-                  "layout": "SetNonzerosParam<true>::serialize_body",
-                  "op": "call"
+                  "bind": "subtype",
+                  "name": "SetNonzerosParam::type",
+                  "op": "field",
+                  "type": "char"
+                },
+                {
+                  "bind": "subtype",
+                  "cases": {
+                    "100": [
+                      {
+                        "layout": "SetNonzerosParamParam<Add>::serialize_body",
+                        "op": "call"
+                      }
+                    ],
+                    "97": [
+                      {
+                        "layout": "SetNonzerosParamVector<Add>::serialize_body",
+                        "op": "call"
+                      }
+                    ],
+                    "98": [
+                      {
+                        "layout": "SetNonzerosParamSlice<Add>::serialize_body",
+                        "op": "call"
+                      }
+                    ],
+                    "99": [
+                      {
+                        "layout": "SetNonzerosSliceParam<Add>::serialize_body",
+                        "op": "call"
+                      }
+                    ]
+                  },
+                  "op": "select"
                 }
               ],
               "73": [
@@ -8908,8 +9348,40 @@ export default {
               ],
               "74": [
                 {
-                  "layout": "SetNonzerosParam<false>::serialize_body",
-                  "op": "call"
+                  "bind": "subtype",
+                  "name": "SetNonzerosParam::type",
+                  "op": "field",
+                  "type": "char"
+                },
+                {
+                  "bind": "subtype",
+                  "cases": {
+                    "100": [
+                      {
+                        "layout": "SetNonzerosParamParam<Add>::serialize_body",
+                        "op": "call"
+                      }
+                    ],
+                    "97": [
+                      {
+                        "layout": "SetNonzerosParamVector<Add>::serialize_body",
+                        "op": "call"
+                      }
+                    ],
+                    "98": [
+                      {
+                        "layout": "SetNonzerosParamSlice<Add>::serialize_body",
+                        "op": "call"
+                      }
+                    ],
+                    "99": [
+                      {
+                        "layout": "SetNonzerosSliceParam<Add>::serialize_body",
+                        "op": "call"
+                      }
+                    ]
+                  },
+                  "op": "select"
                 }
               ],
               "75": [
@@ -9508,7 +9980,6 @@ export default {
                     "102": [],
                     "105": [
                       {
-                        "bind": "value",
                         "name": "ConstantSX::value",
                         "name_expression": "\"ConstantSX::value\"",
                         "op": "field",
@@ -9519,7 +9990,6 @@ export default {
                     "110": [],
                     "114": [
                       {
-                        "bind": "value",
                         "name": "ConstantSX::value",
                         "name_expression": "\"ConstantSX::value\"",
                         "op": "field",

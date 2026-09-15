@@ -142,6 +142,8 @@ class Reader {
     else while(this.pos<this.source.byteLength){
       const tag=this.byte(),type=this.scheme.reader.file_types?.[tag];
       if(!type)this.fail('Unsupported serialized file type '+tag);
+      const prefix=this.scheme.reader.file_prefixes?.[tag];
+      if(prefix)this.value(prefix);
       roots.push(this.value(type));
     }
     if(this.pos!==this.source.byteLength)this.fail('Trailing serialization data');

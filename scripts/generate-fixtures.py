@@ -33,6 +33,11 @@ cases['mapped_sx'] = f.map(3)
 option_x = ca.SX.sym('x', 2)
 cases['options_sx'] = ca.Function('options_sx', [option_x], [option_x+option_x], {'forward_options': {'ad_weight':0.25,'enable_fd':True}, 'jit_options': {'flags':['-O2','-g']}})
 cases['switch_sx'] = ca.Function.if_else('switch_sx', f, f)
+x = ca.MX.sym('x', 6)
+y = ca.MX.sym('y', 3)
+z = ca.MX(x)
+z[[0, 3, 5]] = y
+cases['assignment_vector'] = ca.Function('assignment_vector', [x, y], [z])
 for name, f in cases.items():
     for debug in (False, True):
         f.save(str(fixtures/(name+('.debug' if debug else '')+'.casadi')), {'debug': debug})
@@ -52,3 +57,13 @@ if args.onnx:
         for debug in (False, True):
             f.save(str(fixtures/('onnx'+('.debug' if debug else '')+'.casadi')), {'debug': debug})
         (fixtures/'onnx-model.bin').write_bytes(path.read_bytes())
+
+# Expression files include ordered dependencies before their roots.
+for X, name in [(ca.MX, 'mx_expression'), (ca.SX, 'sx_expression')]:
+    x = X.sym('x', 2)
+    nested = ca.Function('nested', [x], [x*x, x+1], {'never_inline': True})
+    a, b = nested(x)
+    for debug in (False, True):
+        serializer = ca.StringSerializer({'debug': debug})
+        serializer.pack([ca.vertcat(a, x, b), x])
+        (fixtures/(name+('_debug' if debug else '')+'.casadi')).write_text(serializer.encode())

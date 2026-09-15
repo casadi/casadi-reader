@@ -5,7 +5,7 @@ import {spawnSync} from 'node:child_process';
 import {decode} from '../src/index.js';
 import scheme from '../src/scheme.js';
 const fixture=name=>readFileSync(new URL(`./fixtures/${name}.casadi`,import.meta.url),'utf8');
-for(const name of ['arithmetic','mapping','slice','assignment','sparse','sx','sx_nested','mx_sx_call','mx_constants','mx_new_ops','mapped_sx','switch_sx','options_sx','onnx'])test('native plain/debug layouts agree: '+name,()=>{
+for(const name of ['arithmetic','mapping','slice','assignment','assignment_vector','sparse','sx','sx_nested','mx_sx_call','mx_constants','mx_new_ops','mapped_sx','switch_sx','options_sx','onnx'])test('native plain/debug layouts agree: '+name,()=>{
  const plain=decode(fixture(name)),decorated=decode(fixture(name+'.debug'));
  assert.deepEqual(plain,decorated);
  assert(!/"(?:offset|byteLength)"\s*:/.test(JSON.stringify(plain)));
@@ -41,4 +41,17 @@ test('malformed encoding, truncation, references and protocol fail',()=>{
 test('CLI emits structural JSON',()=>{
  const run=spawnSync(process.execPath,['bin/casadi-reader.js','test/fixtures/mapping.casadi'],{encoding:'utf8',cwd:new URL('..',import.meta.url)});
  assert.equal(run.status,0,run.stderr);assert.equal(JSON.parse(run.stdout).format,'casadi_serialization');
+});
+for(const type of ['mx','sx'])test(type+' expression vectors decode ordered dependencies in plain/debug files',()=>{
+ const plain=decode(fixture(type+'_expression'));
+ assert.deepEqual(plain,decode(fixture(type+'_expression_debug')));
+ assert.equal(plain.root,null);assert.equal(plain.roots.length,1);
+ assert.equal(plain.roots[0].length,2);
+});
+
+test('irregular assignment indices have a resolved vector type',()=>{
+ const doc=decode(fixture('assignment_vector'));
+ const field=doc.objects.flatMap(o=>o.fields).find(f=>f.name==='SetNonzerosVector::nonzeros');
+ assert.equal(field.type,'std::vector<casadi_int>');
+ assert.deepEqual(field.value,[0,3,5]);
 });

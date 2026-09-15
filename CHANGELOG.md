@@ -1,3 +1,14 @@
+# 0.2.0
+
+- Generate JavaScript, Python, C/C++, MATLAB and Julia readers from the compact serialization scheme, with language-specific runtime templates.
+- Decode MX/SX expression vectors and their ordered dependencies, in ordinary and debug files.
+- Refresh serializer layouts, including irregular nonzero assignments and finite differences.
+- Preserve typed fields and shared references for generic Function property inspection.
+- Remove structural `offset` and `byteLength` fields; keep `root` and `roots`. Lazy byte payload handles retain their I/O metadata.
+- Use explicit layout calls instead of runtime inheritance resolution.
+
+Breaking change: structural records no longer expose byte spans. npm publication remains JavaScript-only; the other language readers are available as source.
+
 # 0.1.0
 
 - Replace MX graph interpretation with a schema-driven structural reader.

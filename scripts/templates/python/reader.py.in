@@ -252,6 +252,8 @@ class Reader:
             while self.pos < self.source.byte_length:
                 tag = self.byte(); kind = self.scheme['reader']['file_types'].get(str(tag))
                 if not kind: self.fail('Unsupported serialized file type '+str(tag))
+                prefix = self.scheme['reader'].get('file_prefixes', {}).get(str(tag))
+                if prefix: self.value(prefix)
                 roots.append(self.value(kind))
         if self.pos != self.source.byte_length: self.fail('Trailing serialization data')
         return dict(format='casadi_serialization',version=1,serializationProtocol=self.scheme['wire']['protocol'],

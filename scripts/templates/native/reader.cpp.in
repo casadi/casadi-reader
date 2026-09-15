@@ -249,7 +249,7 @@ struct Reader {
     if(number("casadi_int").dump()!=scheme().at("wire").at("magic").dump())fail("Invalid serialization magic");
     if(number("casadi_int").dump()!=scheme().at("wire").at("protocol").dump())fail("Unsupported serialization protocol");
     int b=byte();if(b>1)fail("Invalid debug flag");debug=b!=0;J roots=J::array();
-    if(!type.empty())roots.a.push_back(value(type));else while(pos<source->size){auto tag=std::to_string(byte());const auto& t=optional(scheme().at("reader").at("file_types"),tag);if(t.kind!=J::String)fail("Unsupported serialized file type "+tag);roots.a.push_back(value(t.scalar));}
+    if(!type.empty())roots.a.push_back(value(type));else while(pos<source->size){auto tag=std::to_string(byte());const auto& t=optional(scheme().at("reader").at("file_types"),tag);if(t.kind!=J::String)fail("Unsupported serialized file type "+tag);const auto& prefix=optional(optional(scheme().at("reader"),"file_prefixes"),tag);if(prefix.kind==J::String)value(prefix.scalar);roots.a.push_back(value(t.scalar));}
     if(pos!=source->size)fail("Trailing serialization data");
     J d=J::object();d["format"]="casadi_serialization";d["version"]=J(1);d["serializationProtocol"]=scheme().at("wire").at("protocol");d["root"]=roots.a.size()==1?optional(roots.a[0],"$ref"):J();d["roots"]=roots;d["objects"]=objects;return d;
   }
