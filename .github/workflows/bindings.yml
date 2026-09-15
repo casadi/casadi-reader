@@ -28,16 +28,16 @@ jobs:
           node-version: '22'
       - run: python scripts/generate-reader-assets.py
       - run: python -m pip install build twine
-      - run: python -m build
-      - run: python -m twine check dist/*
+      - run: python -m build --outdir python-dist
+      - run: python -m twine check python-dist/*
       - run: python scripts/package-bindings.py --output artifacts --language python
       - run: python scripts/test-standalone.py artifacts --language python
-      - run: python scripts/test-python-package.py dist
+      - run: python scripts/test-python-package.py python-dist
       - uses: actions/upload-artifact@v4
         if: matrix.os == 'ubuntu-latest'
         with:
           name: python-package
-          path: dist/*
+          path: python-dist/*
   native:
     strategy:
       fail-fast: false
