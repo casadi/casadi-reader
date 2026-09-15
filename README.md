@@ -154,6 +154,7 @@ extractor and fixtures, followed by regeneration of the readers.
 
 ```sh
 npm ci
+npm run generate
 npm run check:generated
 npm test
 npm run test:browser
