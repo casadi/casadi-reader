@@ -1,6 +1,6 @@
-module CasadiReader
+module CasADiReader
 using Mmap
-export Document, read_casadi, read_resource, loads, json, data, blob_size, read_blob
+export Document, read_casadi, read_resource, parse_casadi, casadi_json, casadi_data, blob_size, read_blob
 include("generated.jl")
 
 mutable struct Source
@@ -287,22 +287,22 @@ function Document(path::AbstractString; resource = false, type = "", lazy = fals
     end
 end
 Base.close(d::Document) = close(d.reader.source)
-function data(d::Document)
+function casadi_data(d::Document)
     d.reader.source.closed && throw(ArgumentError("Document is closed"))
     d.result
 end
-json(d::Document) = encode_json(data(d))
+casadi_json(d::Document) = encode_json(casadi_data(d))
 function read_casadi(path::AbstractString; options...)
     d = Document(path; options...)
     try
-        data(d)
+        casadi_data(d)
     finally
         close(d)
     end
 end
 read_resource(path::AbstractString; lazy = false, options...) =
     Document(path; resource = true, lazy = lazy, options...)
-function loads(text::AbstractString; type = "", options...)
+function parse_casadi(text::AbstractString; type = "", options...)
     r = Reader(Source(Vector{UInt8}(codeunits(text))); options...)
     try
         decode(r, type)
@@ -311,7 +311,7 @@ function loads(text::AbstractString; type = "", options...)
     end
 end
 function blob_size(d::Document, index::Integer = 1)
-    data(d)
+    casadi_data(d)
     d.reader.blobs[index][2]
 end
 function read_blob(

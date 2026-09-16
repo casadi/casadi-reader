@@ -30,8 +30,8 @@ with tempfile.TemporaryDirectory() as directory:
         # Empty depot: no registries, packages, manifests, or package-manager calls.
         env['JULIA_DEPOT_PATH'] = str(work / 'empty-depot')
         command = ['julia', '--startup-file=no', '--project=' + str(package), '-e',
-                   'using CasadiReader; d=CasadiReader.read_casadi(ARGS[1]); '
-                   'println(CasadiReader.encode_json(d))', str(fixture)]
+                   'using CasADiReader; d=CasADiReader.read_casadi(ARGS[1]); '
+                   'println(CasADiReader.encode_json(d))', str(fixture)]
     result = json.loads(subprocess.check_output(command, cwd=work, env=env))
     assert result['format'] == 'casadi_serialization'
     assert any(f['name'] == 'ProtoFunction::name' for f in result['objects'][result['root']]['fields'])

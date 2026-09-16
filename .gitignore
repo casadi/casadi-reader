@@ -32,7 +32,7 @@ julia/deps/build/
 /julia/LICENSES/LGPL-3.0.txt
 /julia/NOTICE
 /julia/Project.toml
-/julia/src/CasadiReader.jl
+/julia/src/CasADiReader.jl
 /julia/src/generated.jl
 /matlab/+casadi_reader/Document.m
 /matlab/+casadi_reader/metadata.m

@@ -115,7 +115,7 @@ class MatlabGenerator(Generator):
 
 class JuliaGenerator(Generator):
     templates = {
-        "julia/src/CasadiReader.jl": "julia/CasadiReader.jl.in",
+        "julia/src/CasADiReader.jl": "julia/CasADiReader.jl.in",
         "julia/Project.toml": "julia/Project.toml.in",
     }
 

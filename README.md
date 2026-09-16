@@ -184,13 +184,13 @@ Julia is a native implementation requiring only Julia’s standard library:
 
 ```julia
 using Pkg
-Pkg.add(url="https://github.com/casadi/casadi-reader", subdir="julia", rev="v0.2.1")
-using CasadiReader
+Pkg.add(url="https://github.com/casadi/casadi-reader", subdir="julia", rev="main")
+using CasADiReader
 record = read_casadi("function.casadi")
 ```
 
 For a standalone download, extract `casadi-reader-julia.zip` and call
-`push!(LOAD_PATH, "/path/to/casadi-reader-julia")` before `using CasadiReader`.
+`push!(LOAD_PATH, "/path/to/casadi-reader-julia")` before `using CasADiReader`.
 No package-manager call or dependency download is needed.
 
 MATLAB is implemented in `.m` files. Extract the MATLAB ZIP, add its directory
@@ -224,7 +224,8 @@ Python wheels/sdists and npm publication remain available alongside these ZIPs.
 
 ## Publishing
 
-`publish.yml` publishes on a published GitHub release, after tests. The release
+`publish.yml` publishes on a published GitHub release whose tag starts with `v`,
+after tests. Julia-specific releases are skipped. The release
 tag must equal `v` plus the package version. Prereleases use npm's `next` tag;
 stable versions use `latest`.
 
@@ -247,3 +248,19 @@ release. The PyPI publisher identifies owner `casadi`, repository
 All language metadata must match `package.json`; `scripts/check-version.py`
 checks this before publication. `scripts/package-bindings.py` builds source
 archives without requiring CasADi or a native compiler.
+
+### Julia registration and tags
+
+The Julia package is named `CasADiReader`. Its version remains synchronized with
+other languages, but its tags are separate: `CasADiReader-vX.Y.Z`. Existing shared
+`vX.Y.Z` tags stay unchanged.
+
+Make changes on `generate` and let CI produce the generated snapshot on `main`.
+Request registration on the exact generated `main` commit with
+`@JuliaRegistrator register subdir=julia` (or use JuliaHub's Registrator with
+subdirectory `julia`). Register the renamed package as version `0.2.2`; the
+pending registration under the old name is replaced by a new registry PR.
+
+After the registration merges, `TagBot.yml` creates the Julia tag and GitHub
+release. Do not create the Julia tag before registration. Shared releases can
+continue independently through `publish.yml`.

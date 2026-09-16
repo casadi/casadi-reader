@@ -39,6 +39,7 @@ jobs:
           reader_dist_tag=$(node --input-type=commonjs -p 'require("./package.json").version.includes("-") ? "next" : "latest"')
           npm publish --access public --provenance --tag "$reader_dist_tag"
   bindings:
+    if: startsWith(github.event.release.tag_name, 'v')
     uses: ./.github/workflows/bindings.yml
   publish-python:
     needs: bindings
