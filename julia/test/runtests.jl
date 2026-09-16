@@ -1,14 +1,36 @@
 using Test, CasADiReader
 using JSON
-fixtures = get(ENV, "CASADI_READER_FIXTURES", joinpath(@__DIR__, "fixtures"))
-@testset "Structural plain/debug fixtures" begin
-    for name in filter(n->endswith(n,".casadi"), readdir(fixtures))
-        document = read_casadi(joinpath(fixtures, name); type=name=="resource.casadi" ? "Resource" : "")
-        @test document["format"] == "casadi_serialization"
-        expected = joinpath(fixtures, replace(name,r"\.casadi$"=>".reader.json"))
-        if haskey(ENV, "CASADI_READER_FIXTURES")
-            @test isfile(expected)
-            @test document == JSON.parsefile(expected)
+fixtures = joinpath(@__DIR__, "fixtures")
+manifest = JSON.parsefile(joinpath(fixtures, "manifest.json"))
+@testset "Shipped CasADi corpus" begin
+    for case in manifest["cases"]
+        @testset "$(case["file"])" begin
+            path = joinpath(fixtures, case["file"])
+            if haskey(case, "error")
+                error = try
+                    read_casadi(path; type=case["type"])
+                    nothing
+                catch exception
+                    exception
+                end
+                @test error isa ArgumentError
+                @test occursin(case["error"], sprint(showerror, error))
+            else
+                expected = JSON.parsefile(joinpath(fixtures, case["expected"]))
+                decoded = read_casadi(path; type=case["type"])
+                @test decoded == expected
+                @test JSON.parse(CasADiReader.encode_json(decoded)) == expected
+                @test parse_casadi(read(path, String); type=case["type"]) == expected
+            end
+        end
+    end
+end
+if haskey(ENV, "CASADI_READER_FIXTURES")
+    @testset "External cross-language fixtures" begin
+        directory = ENV["CASADI_READER_FIXTURES"]
+        for name in filter(n -> endswith(n, ".casadi"), readdir(directory))
+            expected = joinpath(directory, replace(name, r"\.casadi$" => ".reader.json"))
+            @test read_casadi(joinpath(directory, name); type=name == "resource.casadi" ? "Resource" : "") == JSON.parsefile(expected)
         end
     end
 end
@@ -30,14 +52,13 @@ end
 @testset "Native JSON output" begin
     value = Dict("quoted\"\\\n\t\0" => Any[true, false, nothing, "τ", 1.25, -3])
     @test JSON.parse(CasADiReader.encode_json(value)) == value
-    for name in filter(n -> endswith(n, ".casadi"), readdir(fixtures))
-        value = read_casadi(joinpath(fixtures, name); type=name=="resource.casadi" ? "Resource" : "")
-        @test JSON.parse(CasADiReader.encode_json(value)) == value
-    end
 end
 
 @testset "Specific exports alongside JSON" begin
-    @test json === JSON.json
+    @test !(:json in names(CasADiReader))
+    if Base.isexported(JSON, :json)
+        @test json === JSON.json
+    end
     @test !(:data in names(CasADiReader))
     @test !(:loads in names(CasADiReader))
     path = joinpath(fixtures, "arithmetic.casadi")
@@ -50,3 +71,5 @@ end
         close(document)
     end
 end
+
+include("runtime.jl")

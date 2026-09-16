@@ -4,6 +4,23 @@ on:
 permissions:
   contents: read
 jobs:
+  julia-fixtures:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r scripts/requirements-fixtures.txt
+      - run: python scripts/generate-reader-assets.py
+      - run: python scripts/generate-julia-fixtures.py
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+          OMP_NUM_THREADS: '1'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: julia-fixtures
+          path: julia/test/fixtures/
   python:
     strategy:
       fail-fast: false
@@ -81,6 +98,7 @@ jobs:
           name: native-${{ matrix.platform }}
           path: artifacts/*
   julia:
+    needs: julia-fixtures
     strategy:
       fail-fast: false
       matrix:
@@ -103,6 +121,10 @@ jobs:
         with:
           version: ${{ matrix.julia }}
       - run: python scripts/generate-reader-assets.py
+      - uses: actions/download-artifact@v4
+        with:
+          name: julia-fixtures
+          path: julia/test/fixtures
       - run: python -m pip install .
       - run: python scripts/prepare-binding-fixtures.py fixtures
       - run: python scripts/package-bindings.py --output artifacts --language julia
@@ -116,9 +138,17 @@ jobs:
       - run: python -m unittest discover -s python/tests -p test_generation.py
         env:
           CASADI_READER_TEST_LANGUAGES: julia
-      - run: julia --project=unpacked/casadi-reader-julia -e 'using Pkg; Pkg.test()'
+      - run: julia --project=unpacked/casadi-reader-julia -e 'using Pkg; Pkg.test(coverage=true)'
         env:
           CASADI_READER_FIXTURES: ${{ github.workspace }}/fixtures
+      - name: Report Julia coverage (including generated decoder)
+        if: matrix.os == 'ubuntu-latest'
+        run: python scripts/julia-coverage.py --source unpacked/casadi-reader-julia/src --minimum 90 --runtime-minimum 100
+      - uses: actions/upload-artifact@v4
+        if: matrix.os == 'ubuntu-latest'
+        with:
+          name: julia-coverage
+          path: coverage/
   matlab:
     runs-on: ubuntu-latest
     steps:
@@ -161,6 +191,10 @@ jobs:
           node-version: '22'
       - run: npm ci
       - run: npm run build
+      - uses: actions/download-artifact@v4
+        with:
+          name: julia-fixtures
+          path: julia/test/fixtures
       - run: python scripts/check-version.py
       - run: python scripts/package-bindings.py --output artifacts
       - run: python scripts/test-standalone.py artifacts --language javascript

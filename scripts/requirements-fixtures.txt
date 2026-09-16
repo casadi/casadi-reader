@@ -1,0 +1,5 @@
+# Match schemes/serialization_scheme.json. Required only to regenerate fixtures.
+casadi==3.8.1
+numpy==2.0.2
+# FMI headers for tiny generated FMUs; no FMU binaries ship in the corpus.
+fmpy==0.3.21

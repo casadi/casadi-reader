@@ -45,3 +45,7 @@ julia/deps/build/
 /src/index.js
 /src/source.js
 /julia/test/fixtures/
+
+# Local Julia line-coverage output.
+*.cov
+/coverage/
