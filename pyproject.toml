@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "casadi-reader"
-version = "0.2.1"
+version = "0.2.2"
 description = "Standalone reader for CasADi typed serialization records"
 readme = "README.md"
 requires-python = ">=3.9"

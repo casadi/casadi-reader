@@ -1858,9 +1858,9 @@ function layout_MadmpecInterface_serialize_body(r, record, scope) {
     r.field(record, "MadmpecInterface::exact_hessian", "bool", () => r.boolean());
     r.field(record, "MadmpecInterface::opts", "Dict", () => read_Dict(r));
     r.field(record, "MadmpecInterface::convexify", "bool", () => r.boolean());
-    r.field(record, "MadmpecInterface::ind_cc1", "std::vector<libmad_int>", () => read_std_vector_libmad_int(r));
-    r.field(record, "MadmpecInterface::ind_cc2", "std::vector<libmad_int>", () => read_std_vector_libmad_int(r));
-    r.field(record, "MadmpecInterface::cctypes", "std::vector<libmad_int>", () => read_std_vector_libmad_int(r));
+    r.field(record, "MadmpecInterface::ind_cc1", "std::vector<casadi_int>", () => read_std_vector_casadi_int(r));
+    r.field(record, "MadmpecInterface::ind_cc2", "std::vector<casadi_int>", () => read_std_vector_casadi_int(r));
+    r.field(record, "MadmpecInterface::cctypes", "std::vector<casadi_int>", () => read_std_vector_casadi_int(r));
     --r.depth;
 }
 
@@ -4162,17 +4162,17 @@ function read_MX_body(r, record, scope) {
             layout_ConstantFile_serialize_body(r, record, scope);
             break;
         }
+        case "109": {
+            record.layouts.push("MXNode::serialize_body");
+            layout_MXNode_serialize_body(r, record, scope);
+            break;
+        }
         case "112": {
             record.layouts.push("ConstantPool::serialize_body");
             layout_ConstantPool_serialize_body(r, record, scope);
             break;
         }
         case "122": {
-            break;
-        }
-        case "45": {
-            record.layouts.push("MXNode::serialize_body");
-            layout_MXNode_serialize_body(r, record, scope);
             break;
         }
         case "48": {
@@ -5216,11 +5216,6 @@ function read_std_vector_MX(r) {
     return Array.from({length: r.count(r.number("casadi_int"))}, () => read_MX(r));
 }
 
-function read_std_vector_libmad_int(r) {
-    r.decoration("V");
-    return Array.from({length: r.count(r.number("casadi_int"))}, () => r.primitive("libmad_int"));
-}
-
 function read_std_map_std_string_std_vector_double(r) {
     r.decoration("D");
     return {$map: Array.from({length: r.count(r.number("casadi_int"))}, () => [r.string(), read_std_vector_double(r)])};
@@ -5320,7 +5315,6 @@ export const readers = {
   "std::pair<bool,std::string>": read_std_pair_bool_std_string,
   "std::map<std::string,std::pair<bool,std::string>>": read_std_map_std_string_std_pair_bool_std_string,
   "std::vector<MX>": read_std_vector_MX,
-  "std::vector<libmad_int>": read_std_vector_libmad_int,
   "std::map<std::string,std::vector<double>>": read_std_map_std_string_std_vector_double,
   "std::map<std::string,casadi_int>": read_std_map_std_string_casadi_int,
   "std::map<std::string,std::vector<casadi_int>>": read_std_map_std_string_std_vector_casadi_int,

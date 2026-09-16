@@ -1681,9 +1681,9 @@ def layout_MadmpecInterface_serialize_body(r, record, scope):
     r.field(record, 'MadmpecInterface::exact_hessian', 'bool', lambda: r.boolean())
     r.field(record, 'MadmpecInterface::opts', 'Dict', lambda: read_Dict(r))
     r.field(record, 'MadmpecInterface::convexify', 'bool', lambda: r.boolean())
-    r.field(record, 'MadmpecInterface::ind_cc1', 'std::vector<libmad_int>', lambda: read_std_vector_libmad_int(r))
-    r.field(record, 'MadmpecInterface::ind_cc2', 'std::vector<libmad_int>', lambda: read_std_vector_libmad_int(r))
-    r.field(record, 'MadmpecInterface::cctypes', 'std::vector<libmad_int>', lambda: read_std_vector_libmad_int(r))
+    r.field(record, 'MadmpecInterface::ind_cc1', 'std::vector<casadi_int>', lambda: read_std_vector_casadi_int(r))
+    r.field(record, 'MadmpecInterface::ind_cc2', 'std::vector<casadi_int>', lambda: read_std_vector_casadi_int(r))
+    r.field(record, 'MadmpecInterface::cctypes', 'std::vector<casadi_int>', lambda: read_std_vector_casadi_int(r))
     r.depth -= 1
 
 def layout_MadnlpInterface_serialize_body(r, record, scope):
@@ -3483,14 +3483,14 @@ def read_MX_body(r, record, scope):
         if tag_18 == '102':
             record["layouts"].append('ConstantFile::serialize_body')
             layout_ConstantFile_serialize_body(r, record, scope)
+        elif tag_18 == '109':
+            record["layouts"].append('MXNode::serialize_body')
+            layout_MXNode_serialize_body(r, record, scope)
         elif tag_18 == '112':
             record["layouts"].append('ConstantPool::serialize_body')
             layout_ConstantPool_serialize_body(r, record, scope)
         elif tag_18 == '122':
             pass
-        elif tag_18 == '45':
-            record["layouts"].append('MXNode::serialize_body')
-            layout_MXNode_serialize_body(r, record, scope)
         elif tag_18 == '48':
             record["layouts"].append('MXNode::serialize_body')
             layout_MXNode_serialize_body(r, record, scope)
@@ -4146,10 +4146,6 @@ def read_std_vector_MX(r):
     r.decoration('V')
     return [read_MX(r) for _ in range(r.count(r.number("casadi_int")))]
 
-def read_std_vector_libmad_int(r):
-    r.decoration('V')
-    return [r.primitive('libmad_int') for _ in range(r.count(r.number("casadi_int")))]
-
 def read_std_map_std_string_std_vector_double(r):
     r.decoration('D')
     return {"$map": [[r.string(), read_std_vector_double(r)] for _ in range(r.count(r.number("casadi_int")))]}
@@ -4236,7 +4232,6 @@ READERS = {
     'std::pair<bool,std::string>': read_std_pair_bool_std_string,
     'std::map<std::string,std::pair<bool,std::string>>': read_std_map_std_string_std_pair_bool_std_string,
     'std::vector<MX>': read_std_vector_MX,
-    'std::vector<libmad_int>': read_std_vector_libmad_int,
     'std::map<std::string,std::vector<double>>': read_std_map_std_string_std_vector_double,
     'std::map<std::string,casadi_int>': read_std_map_std_string_casadi_int,
     'std::map<std::string,std::vector<casadi_int>>': read_std_map_std_string_std_vector_casadi_int,

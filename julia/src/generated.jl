@@ -1855,9 +1855,9 @@ function layout_MadmpecInterface_serialize_body(r, record, scope)
     field(r, record, "MadmpecInterface::exact_hessian", "bool", () -> boolvalue(r))
     field(r, record, "MadmpecInterface::opts", "Dict", () -> read_Dict(r))
     field(r, record, "MadmpecInterface::convexify", "bool", () -> boolvalue(r))
-    field(r, record, "MadmpecInterface::ind_cc1", "std::vector<libmad_int>", () -> read_std_vector_libmad_int(r))
-    field(r, record, "MadmpecInterface::ind_cc2", "std::vector<libmad_int>", () -> read_std_vector_libmad_int(r))
-    field(r, record, "MadmpecInterface::cctypes", "std::vector<libmad_int>", () -> read_std_vector_libmad_int(r))
+    field(r, record, "MadmpecInterface::ind_cc1", "std::vector<casadi_int>", () -> read_std_vector_casadi_int(r))
+    field(r, record, "MadmpecInterface::ind_cc2", "std::vector<casadi_int>", () -> read_std_vector_casadi_int(r))
+    field(r, record, "MadmpecInterface::cctypes", "std::vector<casadi_int>", () -> read_std_vector_casadi_int(r))
     r.depth -= 1
 end
 
@@ -3828,13 +3828,13 @@ function read_MX_body(r, record, scope)
         if tag_18 == "102"
             push!(record["layouts"], "ConstantFile::serialize_body")
             layout_ConstantFile_serialize_body(r, record, scope)
+        elseif tag_18 == "109"
+            push!(record["layouts"], "MXNode::serialize_body")
+            layout_MXNode_serialize_body(r, record, scope)
         elseif tag_18 == "112"
             push!(record["layouts"], "ConstantPool::serialize_body")
             layout_ConstantPool_serialize_body(r, record, scope)
         elseif tag_18 == "122"
-        elseif tag_18 == "45"
-            push!(record["layouts"], "MXNode::serialize_body")
-            layout_MXNode_serialize_body(r, record, scope)
         elseif tag_18 == "48"
             push!(record["layouts"], "MXNode::serialize_body")
             layout_MXNode_serialize_body(r, record, scope)
@@ -4532,11 +4532,6 @@ function read_std_vector_MX(r)
     return Any[read_MX(r) for _ in 1:count(r, number(r, "casadi_int"))]
 end
 
-function read_std_vector_libmad_int(r)
-    decoration(r, "V")
-    return Any[primitive(r, "libmad_int") for _ in 1:count(r, number(r, "casadi_int"))]
-end
-
 function read_std_map_std_string_std_vector_double(r)
     decoration(r, "D")
     return Dict("\$map" => Any[Any[stringvalue(r), read_std_vector_double(r)] for _ in 1:count(r, number(r, "casadi_int"))])
@@ -4636,7 +4631,6 @@ const READERS = Dict(
     "std::pair<bool,std::string>" => read_std_pair_bool_std_string,
     "std::map<std::string,std::pair<bool,std::string>>" => read_std_map_std_string_std_pair_bool_std_string,
     "std::vector<MX>" => read_std_vector_MX,
-    "std::vector<libmad_int>" => read_std_vector_libmad_int,
     "std::map<std::string,std::vector<double>>" => read_std_map_std_string_std_vector_double,
     "std::map<std::string,casadi_int>" => read_std_map_std_string_casadi_int,
     "std::map<std::string,std::vector<casadi_int>>" => read_std_map_std_string_std_vector_casadi_int,

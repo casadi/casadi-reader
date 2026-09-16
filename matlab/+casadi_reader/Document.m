@@ -2143,9 +2143,9 @@ classdef Document < handle
             self.field(record, 'MadmpecInterface::exact_hessian', 'bool', @() self.boolValue());
             self.field(record, 'MadmpecInterface::opts', 'Dict', @() self.read_Dict());
             self.field(record, 'MadmpecInterface::convexify', 'bool', @() self.boolValue());
-            self.field(record, 'MadmpecInterface::ind_cc1', 'std::vector<libmad_int>', @() self.read_std_vector_libmad_int());
-            self.field(record, 'MadmpecInterface::ind_cc2', 'std::vector<libmad_int>', @() self.read_std_vector_libmad_int());
-            self.field(record, 'MadmpecInterface::cctypes', 'std::vector<libmad_int>', @() self.read_std_vector_libmad_int());
+            self.field(record, 'MadmpecInterface::ind_cc1', 'std::vector<casadi_int>', @() self.read_std_vector_casadi_int());
+            self.field(record, 'MadmpecInterface::ind_cc2', 'std::vector<casadi_int>', @() self.read_std_vector_casadi_int());
+            self.field(record, 'MadmpecInterface::cctypes', 'std::vector<casadi_int>', @() self.read_std_vector_casadi_int());
             self.depth = self.depth - 1;
         end
 
@@ -4134,13 +4134,13 @@ classdef Document < handle
                         case '102'
                             self.recordLayout(record, 'ConstantFile::serialize_body');
                             self.layout_ConstantFile_serialize_body(record, scope);
+                        case '109'
+                            self.recordLayout(record, 'MXNode::serialize_body');
+                            self.layout_MXNode_serialize_body(record, scope);
                         case '112'
                             self.recordLayout(record, 'ConstantPool::serialize_body');
                             self.layout_ConstantPool_serialize_body(record, scope);
                         case '122'
-                        case '45'
-                            self.recordLayout(record, 'MXNode::serialize_body');
-                            self.layout_MXNode_serialize_body(record, scope);
                         case '48'
                             self.recordLayout(record, 'MXNode::serialize_body');
                             self.layout_MXNode_serialize_body(record, scope);
@@ -4927,15 +4927,6 @@ classdef Document < handle
             end
         end
 
-        function v = read_std_vector_libmad_int(self)
-            self.decoration('V');
-            n = self.count(self.number('casadi_int'));
-            v = cell(1, n);
-            for i = 1:n
-                v{i} = self.primitive('libmad_int');
-            end
-        end
-
         function v = read_std_map_std_string_std_vector_double(self)
             self.decoration('D');
             n = self.count(self.number('casadi_int'));
@@ -5127,8 +5118,6 @@ classdef Document < handle
                     v = self.read_std_map_std_string_std_pair_bool_std_string();
                 case 'std::vector<MX>'
                     v = self.read_std_vector_MX();
-                case 'std::vector<libmad_int>'
-                    v = self.read_std_vector_libmad_int();
                 case 'std::map<std::string,std::vector<double>>'
                     v = self.read_std_map_std_string_std_vector_double();
                 case 'std::map<std::string,casadi_int>'

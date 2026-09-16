@@ -1,3 +1,8 @@
+# 0.2.2
+
+- Refresh all six generated readers from the CasADi 3.8.1 release serialization scheme (dafc81035257e0e57db5c65b2ac851a6239fb1c4).
+- Correct MadMPEC integer-vector types and MX serialization dispatch according to the released scheme.
+
 # 0.2.1
 
 - Add independent native C, Julia and MATLAB readers; remove the Julia/MATLAB C wrappers.

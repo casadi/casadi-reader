@@ -343,7 +343,6 @@ static J* read_std_map_std_string_std_pair_casadi_int_std_string(cr_document* d)
 static J* read_std_pair_bool_std_string(cr_document* d);
 static J* read_std_map_std_string_std_pair_bool_std_string(cr_document* d);
 static J* read_std_vector_MX(cr_document* d);
-static J* read_std_vector_libmad_int(cr_document* d);
 static J* read_std_map_std_string_std_vector_double(cr_document* d);
 static J* read_std_map_std_string_casadi_int(cr_document* d);
 static J* read_std_map_std_string_std_vector_casadi_int(cr_document* d);
@@ -2261,9 +2260,9 @@ static void layout_MadmpecInterface_serialize_body(cr_document* d, J* record, J*
     field(d, record, "MadmpecInterface::exact_hessian", "bool", primitive_bool);
     field(d, record, "MadmpecInterface::opts", "Dict", read_Dict);
     field(d, record, "MadmpecInterface::convexify", "bool", primitive_bool);
-    field(d, record, "MadmpecInterface::ind_cc1", "std::vector<libmad_int>", read_std_vector_libmad_int);
-    field(d, record, "MadmpecInterface::ind_cc2", "std::vector<libmad_int>", read_std_vector_libmad_int);
-    field(d, record, "MadmpecInterface::cctypes", "std::vector<libmad_int>", read_std_vector_libmad_int);
+    field(d, record, "MadmpecInterface::ind_cc1", "std::vector<casadi_int>", read_std_vector_casadi_int);
+    field(d, record, "MadmpecInterface::ind_cc2", "std::vector<casadi_int>", read_std_vector_casadi_int);
+    field(d, record, "MadmpecInterface::cctypes", "std::vector<casadi_int>", read_std_vector_casadi_int);
     --d->depth;
 }
 
@@ -4237,13 +4236,13 @@ static void read_MX_body(cr_document* d, J* record, J* scope) {
         if (!strcmp(tag_30, "102")) {
             push(d, get(record, "layouts"), str(d, "ConstantFile::serialize_body"));
             layout_ConstantFile_serialize_body(d, record, scope);
+        } else if (!strcmp(tag_30, "109")) {
+            push(d, get(record, "layouts"), str(d, "MXNode::serialize_body"));
+            layout_MXNode_serialize_body(d, record, scope);
         } else if (!strcmp(tag_30, "112")) {
             push(d, get(record, "layouts"), str(d, "ConstantPool::serialize_body"));
             layout_ConstantPool_serialize_body(d, record, scope);
         } else if (!strcmp(tag_30, "122")) {
-        } else if (!strcmp(tag_30, "45")) {
-            push(d, get(record, "layouts"), str(d, "MXNode::serialize_body"));
-            layout_MXNode_serialize_body(d, record, scope);
         } else if (!strcmp(tag_30, "48")) {
             push(d, get(record, "layouts"), str(d, "MXNode::serialize_body"));
             layout_MXNode_serialize_body(d, record, scope);
@@ -5046,16 +5045,6 @@ static J* read_std_vector_MX(cr_document* d) {
     return result;
 }
 
-static J* read_std_vector_libmad_int(cr_document* d) {
-    decoration(d, 'V');
-    J* result = node(d, ARRAY);
-    const uint64_t n = sizevalue(d, number(d, "casadi_int"), 1000000);
-    for (uint64_t i = 0; i < n; ++i) {
-        push(d, result, primitive(d, "libmad_int"));
-    }
-    return result;
-}
-
 static J* read_std_map_std_string_std_vector_double(cr_document* d) {
     decoration(d, 'D');
     J* result = node(d, ARRAY);
@@ -5238,7 +5227,6 @@ static J* value(cr_document* d, const char* type) {
     if (!strcmp(type, "std::pair<bool,std::string>")) return read_std_pair_bool_std_string(d);
     if (!strcmp(type, "std::map<std::string,std::pair<bool,std::string>>")) return read_std_map_std_string_std_pair_bool_std_string(d);
     if (!strcmp(type, "std::vector<MX>")) return read_std_vector_MX(d);
-    if (!strcmp(type, "std::vector<libmad_int>")) return read_std_vector_libmad_int(d);
     if (!strcmp(type, "std::map<std::string,std::vector<double>>")) return read_std_map_std_string_std_vector_double(d);
     if (!strcmp(type, "std::map<std::string,casadi_int>")) return read_std_map_std_string_casadi_int(d);
     if (!strcmp(type, "std::map<std::string,std::vector<casadi_int>>")) return read_std_map_std_string_std_vector_casadi_int(d);

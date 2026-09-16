@@ -1857,9 +1857,9 @@ void layout_MadmpecInterface_serialize_body(JsonValue& record, Scope& scope) {
     field(record, "MadmpecInterface::exact_hessian", "bool", [&]() { return boolvalue(); });
     field(record, "MadmpecInterface::opts", "Dict", [&]() { return read_Dict(); });
     field(record, "MadmpecInterface::convexify", "bool", [&]() { return boolvalue(); });
-    field(record, "MadmpecInterface::ind_cc1", "std::vector<libmad_int>", [&]() { return read_std_vector_libmad_int(); });
-    field(record, "MadmpecInterface::ind_cc2", "std::vector<libmad_int>", [&]() { return read_std_vector_libmad_int(); });
-    field(record, "MadmpecInterface::cctypes", "std::vector<libmad_int>", [&]() { return read_std_vector_libmad_int(); });
+    field(record, "MadmpecInterface::ind_cc1", "std::vector<casadi_int>", [&]() { return read_std_vector_casadi_int(); });
+    field(record, "MadmpecInterface::ind_cc2", "std::vector<casadi_int>", [&]() { return read_std_vector_casadi_int(); });
+    field(record, "MadmpecInterface::cctypes", "std::vector<casadi_int>", [&]() { return read_std_vector_casadi_int(); });
     --depth;
 }
 
@@ -3833,13 +3833,13 @@ void read_MX_body(JsonValue& record, Scope& scope) {
         if (tag_30 == "102") {
             record["layouts"].a.push_back(JsonValue("ConstantFile::serialize_body"));
             layout_ConstantFile_serialize_body(record, scope);
+        } else if (tag_30 == "109") {
+            record["layouts"].a.push_back(JsonValue("MXNode::serialize_body"));
+            layout_MXNode_serialize_body(record, scope);
         } else if (tag_30 == "112") {
             record["layouts"].a.push_back(JsonValue("ConstantPool::serialize_body"));
             layout_ConstantPool_serialize_body(record, scope);
         } else if (tag_30 == "122") {
-        } else if (tag_30 == "45") {
-            record["layouts"].a.push_back(JsonValue("MXNode::serialize_body"));
-            layout_MXNode_serialize_body(record, scope);
         } else if (tag_30 == "48") {
             record["layouts"].a.push_back(JsonValue("MXNode::serialize_body"));
             layout_MXNode_serialize_body(record, scope);
@@ -4648,16 +4648,6 @@ JsonValue read_std_vector_MX() {
     return result;
 }
 
-JsonValue read_std_vector_libmad_int() {
-    decoration('V');
-    JsonValue result = JsonValue::array();
-    const auto n = count(number("casadi_int"));
-    for (uint64_t i = 0; i < n; ++i) {
-        result.a.push_back(primitive("libmad_int"));
-    }
-    return result;
-}
-
 JsonValue read_std_map_std_string_std_vector_double() {
     decoration('D');
     JsonValue result = JsonValue::array();
@@ -4852,7 +4842,6 @@ JsonValue value(const std::string& type) {
     if (type == "std::pair<bool,std::string>") return read_std_pair_bool_std_string();
     if (type == "std::map<std::string,std::pair<bool,std::string>>") return read_std_map_std_string_std_pair_bool_std_string();
     if (type == "std::vector<MX>") return read_std_vector_MX();
-    if (type == "std::vector<libmad_int>") return read_std_vector_libmad_int();
     if (type == "std::map<std::string,std::vector<double>>") return read_std_map_std_string_std_vector_double();
     if (type == "std::map<std::string,casadi_int>") return read_std_map_std_string_casadi_int();
     if (type == "std::map<std::string,std::vector<casadi_int>>") return read_std_map_std_string_std_vector_casadi_int();
