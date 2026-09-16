@@ -5925,7 +5925,7 @@
           "name": "MadmpecInterface::ind_cc1",
           "op": "field",
           "type": {
-            "element": "libmad_int",
+            "element": "casadi_int",
             "name": "std::vector"
           }
         },
@@ -5933,7 +5933,7 @@
           "name": "MadmpecInterface::ind_cc2",
           "op": "field",
           "type": {
-            "element": "libmad_int",
+            "element": "casadi_int",
             "name": "std::vector"
           }
         },
@@ -5941,7 +5941,7 @@
           "name": "MadmpecInterface::cctypes",
           "op": "field",
           "type": {
-            "element": "libmad_int",
+            "element": "casadi_int",
             "name": "std::vector"
           }
         }
@@ -10626,6 +10626,12 @@
                         "op": "call"
                       }
                     ],
+                    "109": [
+                      {
+                        "layout": "MXNode::serialize_body",
+                        "op": "call"
+                      }
+                    ],
                     "112": [
                       {
                         "layout": "ConstantPool::serialize_body",
@@ -10633,12 +10639,6 @@
                       }
                     ],
                     "122": [],
-                    "45": [
-                      {
-                        "layout": "MXNode::serialize_body",
-                        "op": "call"
-                      }
-                    ],
                     "48": [
                       {
                         "layout": "MXNode::serialize_body",
