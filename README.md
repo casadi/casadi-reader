@@ -228,10 +228,10 @@ Python wheels/sdists and npm publication remain available alongside these ZIPs.
 
 ## Publishing
 
-`publish.yml` publishes on a published GitHub release whose tag starts with `v`,
-after tests. Julia-specific releases are skipped. The release
-tag must equal `v` plus the package version. Prereleases use npm's `next` tag;
-stable versions use `latest`.
+`publish.yml` is dispatched by TagBot at the shared `vX.Y.Z` tag after Julia
+registration merges. Before building or publishing, it verifies that all language
+versions match and that the tagged Julia source tree matches the version registered
+in General. All language releases therefore wait for Julia registration.
 
 The npm Trusted Publisher configuration is GitHub organization `casadi`,
 repository `casadi-reader`, workflow `publish.yml`, with no environment name and
@@ -255,16 +255,23 @@ archives without requiring CasADi or a native compiler.
 
 ### Julia registration and tags
 
-The Julia package is named `CasADiReader`. Its version remains synchronized with
-other languages, but its tags are separate: `CasADiReader-vX.Y.Z`. Existing shared
-`vX.Y.Z` tags stay unchanged.
+The Julia package is named `CasADiReader`. All languages share one version and one
+`vX.Y.Z` tag. Existing tags stay unchanged; the next release is `v0.2.3`.
 
-Make changes on `generate` and let CI produce the generated snapshot on `main`.
-Request registration on the exact generated `main` commit with
+Bump all language versions on `generate` and let CI produce the tested, generated
+snapshot on `main`. Request registration on that exact `main` commit with
 `@JuliaRegistrator register subdir=julia` (or use JuliaHub's Registrator with
-subdirectory `julia`). Register the renamed package as version `0.2.2`; the
+subdirectory `julia`). Register the renamed package as version `0.2.3`; the
 pending registration under the old name is replaced by a new registry PR.
 
-After the registration merges, `TagBot.yml` creates the Julia tag and GitHub
-release. Do not create the Julia tag before registration. Shared releases can
-continue independently through `publish.yml`.
+After registration merges, `TagBot.yml` creates the shared tag and GitHub release.
+Do not create the tag beforehand. TagBot dispatches `publish.yml` at that tag, which tests
+and publishes the other language packages and attaches the release assets.
+New packages normally wait three days in General; subsequent versions normally
+wait 15 minutes, provided the registration checks pass and there are no blockers.
+
+TagBot uses `GITHUB_TOKEN` and explicitly dispatches publishing because releases
+created with that token do not trigger another release workflow. No extra deploy
+key or personal token is needed. To retry publishing, manually dispatch
+`publish.yml` at the release tag; its registration gate still applies. Publishing
+also runs for manually published GitHub releases, with the same gate.

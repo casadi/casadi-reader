@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(casadi_reader VERSION 0.2.2 LANGUAGES NONE)
+project(casadi_reader VERSION 0.2.3 LANGUAGES NONE)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/c/src")
   enable_language(C)
 endif()

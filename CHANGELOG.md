@@ -1,3 +1,9 @@
+# 0.2.3
+
+- Rename the Julia package to CasADiReader and export parse_casadi, casadi_data and casadi_json.
+- Ship a broad Julia fixture corpus and measure decoder coverage, including 100% runtime line coverage.
+- Gate shared release tags and language package publication on Julia registration in General.
+
 # 0.2.2
 
 - Refresh all six generated readers from the CasADi 3.8.1 release serialization scheme (dafc81035257e0e57db5c65b2ac851a6239fb1c4).

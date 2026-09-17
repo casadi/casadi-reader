@@ -1,10 +1,24 @@
 name: Publish language packages
 on:
+  workflow_dispatch:
   release:
     types: [published]
 permissions:
   contents: read
 jobs:
+  registered:
+    if: github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python scripts/check-version.py
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+      - name: Require matching Julia registration in General
+        run: python scripts/check-julia-registration.py
   publish:
     needs: bindings
     runs-on: ubuntu-latest
@@ -23,12 +37,12 @@ jobs:
       - run: npm install --global npm@11
       - name: Check release version
         env:
-          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          RELEASE_TAG: ${{ github.ref_name }}
         run: |
           node --input-type=commonjs -e 'if (process.env.RELEASE_TAG !== "v" + require("./package.json").version) throw Error("Release tag must match package.json version")'
       - run: python scripts/check-version.py
         env:
-          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          RELEASE_TAG: ${{ github.ref_name }}
       - run: npm ci
       - run: npm run check:generated
       - run: npm test
@@ -39,7 +53,7 @@ jobs:
           reader_dist_tag=$(node --input-type=commonjs -p 'require("./package.json").version.includes("-") ? "next" : "latest"')
           npm publish --access public --provenance --tag "$reader_dist_tag"
   bindings:
-    if: startsWith(github.event.release.tag_name, 'v')
+    needs: registered
     uses: ./.github/workflows/bindings.yml
   publish-python:
     needs: bindings
@@ -79,7 +93,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
-          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          RELEASE_TAG: ${{ github.ref_name }}
         run: |
           sha256sum artifacts/* > artifacts/SHA256SUMS
           gh release upload "$RELEASE_TAG" artifacts/*
