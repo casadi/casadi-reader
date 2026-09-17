@@ -21,6 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      id-token: write
     steps:
       - uses: actions/checkout@v4
         with:
@@ -33,4 +34,25 @@ jobs:
           node-version: '22'
       - run: npm ci
       - run: npm run build
-      - run: python scripts/update-generated-branch.py --push
+      - uses: actions/download-artifact@v4
+        with:
+          name: julia-fixtures
+          path: julia/test/fixtures
+      - id: snapshot
+        run: python scripts/update-generated-branch.py --push
+      # Coverage describes generated files, which are tracked only on main.
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.snapshot.outputs.commit }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: julia-coverage
+          path: coverage
+      - uses: codecov/codecov-action@v5
+        with:
+          files: coverage/julia.lcov
+          disable_search: true
+          flags: julia
+          use_oidc: true
+          override_commit: ${{ steps.snapshot.outputs.commit }}
+          override_branch: main

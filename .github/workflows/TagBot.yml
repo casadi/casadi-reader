@@ -1,0 +1,40 @@
+name: Julia TagBot
+on:
+  issue_comment:
+    types: [created]
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: write
+concurrency:
+  group: julia-tagbot
+  cancel-in-progress: false
+jobs:
+  tag:
+    if: github.event_name == 'workflow_dispatch' || github.actor == 'JuliaTagBot'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Record existing releases
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: gh api --paginate "repos/$GH_REPO/releases" --jq '.[].id' > "$RUNNER_TEMP/tagbot-existing-releases"
+      - uses: JuliaRegistries/TagBot@cded32665b34ca0496d3ac10a67d08ddfc726963 # v1.25.11
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          subdir: julia
+          tag_prefix: NO_PREFIX
+          branch: main
+      # GITHUB_TOKEN release events do not trigger other workflows, but explicit
+      # workflow dispatches do. Dispatch at the tag so all jobs build that release.
+      - name: Publish newly registered releases
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          gh api --paginate "repos/$GH_REPO/releases" --jq '.[] | select(.draft == false) | [.id, .tag_name] | @tsv' > "$RUNNER_TEMP/tagbot-current-releases"
+          while IFS=$'\t' read -r release_id release_tag; do
+            if ! grep -Fxq "$release_id" "$RUNNER_TEMP/tagbot-existing-releases"; then
+              gh workflow run publish.yml --ref "$release_tag"
+            fi
+          done < "$RUNNER_TEMP/tagbot-current-releases"

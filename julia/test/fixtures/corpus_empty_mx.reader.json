@@ -1,0 +1,1 @@
+{"format":"casadi_serialization","objects":[{"fields":[{"name":"MXNode::op","type":"int","value":44},{"name":"ConstantMX::type","type":"char","value":122}],"layouts":[],"type":"MX"}],"root":0,"roots":[{"$ref":0}],"serializationProtocol":3,"version":1}

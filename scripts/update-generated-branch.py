@@ -2,6 +2,7 @@
 import argparse
 import importlib.util
 import json
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -36,6 +37,18 @@ def snapshot(destination):
         target = destination / name
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(text)
+    # Ship the exact corpus exercised by the Julia jobs, without regenerating it.
+    fixtures = root / 'julia/test/fixtures'
+    manifest = json.loads((fixtures / 'manifest.json').read_text())
+    names = {'manifest.json'}
+    for case in manifest['cases']:
+        names.add(case['file'])
+        if 'expected' in case:
+            names.add(case['expected'])
+    for name in sorted(names):
+        target = destination / 'julia/test/fixtures' / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(fixtures / name, target)
     (destination / 'dist').mkdir(exist_ok=True)
     shutil.copy2(root / 'dist/index.js', destination / 'dist/index.js')
     metadata = {'sourceBranch': 'generate', 'sourceCommit': source,
@@ -65,5 +78,8 @@ else:
                     git('push', 'origin', 'HEAD:refs/heads/main', cwd=work)
             else:
                 print('main already contains this generated snapshot')
+            if os.environ.get('GITHUB_OUTPUT'):
+                with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+                    output.write('commit=' + git('rev-parse', 'HEAD', cwd=work) + '\n')
         finally:
             git('worktree', 'remove', '--force', str(work))

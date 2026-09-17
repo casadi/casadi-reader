@@ -1,6 +1,6 @@
-name = "CasadiReader"
+name = "CasADiReader"
 uuid = "ef5a11f6-3a71-4d7e-9f08-4c447f7f275c"
-version = "0.2.2"
+version = "0.2.3"
 
 [deps]
 Mmap = "a63ad114-7e13-5084-954f-fe012c677804"

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fmiModelDescription fmiVersion="2.0" modelName="fixture_fmi2"
+  guid="00000000000000000000000000000000" numberOfEventIndicators="0">
+  <ModelExchange modelIdentifier="fixture_fmi2"/>
+  <ModelVariables>
+    <ScalarVariable name="x" valueReference="0" causality="local" variability="continuous" initial="exact">
+      <Real start="1"/>
+    </ScalarVariable>
+    <ScalarVariable name="der_x" valueReference="1" causality="local" variability="continuous" initial="calculated">
+      <Real derivative="1"/>
+    </ScalarVariable>
+  </ModelVariables>
+  <ModelStructure>
+    <Derivatives><Unknown index="2" dependencies="1"/></Derivatives>
+    <InitialUnknowns><Unknown index="2" dependencies="1"/></InitialUnknowns>
+  </ModelStructure>
+</fmiModelDescription>

@@ -1,0 +1,1 @@
+{"format":"casadi_serialization","objects":[{"fields":[{"name":"GenericType::type","type":"int","value":7},{"name":"GenericType::d","type":"std::vector<bool>","value":[true,false]}],"layouts":[],"type":"GenericType"}],"root":0,"roots":[{"$ref":0}],"serializationProtocol":3,"version":1}

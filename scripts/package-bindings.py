@@ -50,7 +50,7 @@ with tempfile.TemporaryDirectory() as temporary:
                 shutil.copy2(root / 'CMakeLists.txt', target / 'CMakeLists.txt')
             elif language == 'julia':
                 shutil.copytree(root / 'julia', target,
-                                ignore=shutil.ignore_patterns('Manifest.toml', 'deps', '__pycache__'))
+                                ignore=shutil.ignore_patterns('Manifest.toml', 'deps', '__pycache__', '*.cov'))
             elif language == 'matlab':
                 shutil.copytree(root / 'matlab', target)
             elif language == 'python':

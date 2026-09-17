@@ -1,0 +1,1 @@
+{"format":"casadi_serialization","objects":[{"fields":[{"name":"SparsityInternal::compressed","type":"std::vector<casadi_int>","value":[3,3,0,1,2,3,0,1,2]}],"layouts":[],"type":"Sparsity"}],"root":0,"roots":[{"$ref":0}],"serializationProtocol":3,"version":1}

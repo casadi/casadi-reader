@@ -1,0 +1,2144 @@
+{
+  "casadi_version": "3.8.1",
+  "cases": [
+    {
+      "file": "arithmetic.casadi",
+      "type": "",
+      "expected": "arithmetic.reader.json"
+    },
+    {
+      "file": "arithmetic.debug.casadi",
+      "type": "",
+      "expected": "arithmetic.reader.json"
+    },
+    {
+      "file": "assignment.casadi",
+      "type": "",
+      "expected": "assignment.reader.json"
+    },
+    {
+      "file": "assignment.debug.casadi",
+      "type": "",
+      "expected": "assignment.reader.json"
+    },
+    {
+      "file": "assignment_vector.casadi",
+      "type": "",
+      "expected": "assignment_vector.reader.json"
+    },
+    {
+      "file": "assignment_vector.debug.casadi",
+      "type": "",
+      "expected": "assignment_vector.reader.json"
+    },
+    {
+      "file": "mapped_sx.casadi",
+      "type": "",
+      "expected": "mapped_sx.reader.json"
+    },
+    {
+      "file": "mapped_sx.debug.casadi",
+      "type": "",
+      "expected": "mapped_sx.reader.json"
+    },
+    {
+      "file": "mapping.casadi",
+      "type": "",
+      "expected": "mapping.reader.json"
+    },
+    {
+      "file": "mapping.debug.casadi",
+      "type": "",
+      "expected": "mapping.reader.json"
+    },
+    {
+      "file": "mx_constants.casadi",
+      "type": "",
+      "expected": "mx_constants.reader.json"
+    },
+    {
+      "file": "mx_constants.debug.casadi",
+      "type": "",
+      "expected": "mx_constants.reader.json"
+    },
+    {
+      "file": "mx_expression.casadi",
+      "type": "",
+      "expected": "mx_expression.reader.json"
+    },
+    {
+      "file": "mx_expression_debug.casadi",
+      "type": "",
+      "expected": "mx_expression.reader.json"
+    },
+    {
+      "file": "mx_new_ops.casadi",
+      "type": "",
+      "expected": "mx_new_ops.reader.json"
+    },
+    {
+      "file": "mx_new_ops.debug.casadi",
+      "type": "",
+      "expected": "mx_new_ops.reader.json"
+    },
+    {
+      "file": "mx_sx_call.casadi",
+      "type": "",
+      "expected": "mx_sx_call.reader.json"
+    },
+    {
+      "file": "mx_sx_call.debug.casadi",
+      "type": "",
+      "expected": "mx_sx_call.reader.json"
+    },
+    {
+      "file": "onnx.casadi",
+      "type": "",
+      "expected": "onnx.reader.json"
+    },
+    {
+      "file": "onnx.debug.casadi",
+      "type": "",
+      "expected": "onnx.reader.json"
+    },
+    {
+      "file": "options_sx.casadi",
+      "type": "",
+      "expected": "options_sx.reader.json"
+    },
+    {
+      "file": "options_sx.debug.casadi",
+      "type": "",
+      "expected": "options_sx.reader.json"
+    },
+    {
+      "file": "resource.casadi",
+      "type": "Resource",
+      "expected": "resource.reader.json"
+    },
+    {
+      "file": "slice.casadi",
+      "type": "",
+      "expected": "slice.reader.json"
+    },
+    {
+      "file": "slice.debug.casadi",
+      "type": "",
+      "expected": "slice.reader.json"
+    },
+    {
+      "file": "sparse.casadi",
+      "type": "",
+      "expected": "sparse.reader.json"
+    },
+    {
+      "file": "sparse.debug.casadi",
+      "type": "",
+      "expected": "sparse.reader.json"
+    },
+    {
+      "file": "switch_sx.casadi",
+      "type": "",
+      "expected": "switch_sx.reader.json"
+    },
+    {
+      "file": "switch_sx.debug.casadi",
+      "type": "",
+      "expected": "switch_sx.reader.json"
+    },
+    {
+      "file": "sx.casadi",
+      "type": "",
+      "expected": "sx.reader.json"
+    },
+    {
+      "file": "sx.debug.casadi",
+      "type": "",
+      "expected": "sx.reader.json"
+    },
+    {
+      "file": "sx_expression.casadi",
+      "type": "",
+      "expected": "sx_expression.reader.json"
+    },
+    {
+      "file": "sx_expression_debug.casadi",
+      "type": "",
+      "expected": "sx_expression.reader.json"
+    },
+    {
+      "file": "sx_nested.casadi",
+      "type": "",
+      "expected": "sx_nested.reader.json"
+    },
+    {
+      "file": "sx_nested.debug.casadi",
+      "type": "",
+      "expected": "sx_nested.reader.json"
+    },
+    {
+      "file": "corpus_mx_binary.casadi",
+      "type": "",
+      "expected": "corpus_mx_binary.reader.json"
+    },
+    {
+      "file": "corpus_mx_binary.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_binary.reader.json"
+    },
+    {
+      "file": "corpus_mx_unary.casadi",
+      "type": "",
+      "expected": "corpus_mx_unary.reader.json"
+    },
+    {
+      "file": "corpus_mx_unary.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_unary.reader.json"
+    },
+    {
+      "file": "corpus_mx_matmul.casadi",
+      "type": "",
+      "expected": "corpus_mx_matmul.reader.json"
+    },
+    {
+      "file": "corpus_mx_matmul.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_matmul.reader.json"
+    },
+    {
+      "file": "corpus_mx_sparse_matmul.casadi",
+      "type": "",
+      "expected": "corpus_mx_sparse_matmul.reader.json"
+    },
+    {
+      "file": "corpus_mx_sparse_matmul.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_sparse_matmul.reader.json"
+    },
+    {
+      "file": "corpus_mx_mixed_matmul.casadi",
+      "type": "",
+      "expected": "corpus_mx_mixed_matmul.reader.json"
+    },
+    {
+      "file": "corpus_mx_mixed_matmul.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_mixed_matmul.reader.json"
+    },
+    {
+      "file": "corpus_mx_transpose.casadi",
+      "type": "",
+      "expected": "corpus_mx_transpose.reader.json"
+    },
+    {
+      "file": "corpus_mx_transpose.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_transpose.reader.json"
+    },
+    {
+      "file": "corpus_mx_sparse_transpose.casadi",
+      "type": "",
+      "expected": "corpus_mx_sparse_transpose.reader.json"
+    },
+    {
+      "file": "corpus_mx_sparse_transpose.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_sparse_transpose.reader.json"
+    },
+    {
+      "file": "corpus_mx_reshape.casadi",
+      "type": "",
+      "expected": "corpus_mx_reshape.reader.json"
+    },
+    {
+      "file": "corpus_mx_reshape.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_reshape.reader.json"
+    },
+    {
+      "file": "corpus_mx_densify.casadi",
+      "type": "",
+      "expected": "corpus_mx_densify.reader.json"
+    },
+    {
+      "file": "corpus_mx_densify.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_densify.reader.json"
+    },
+    {
+      "file": "corpus_mx_project.casadi",
+      "type": "",
+      "expected": "corpus_mx_project.reader.json"
+    },
+    {
+      "file": "corpus_mx_project.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_project.reader.json"
+    },
+    {
+      "file": "corpus_mx_dot.casadi",
+      "type": "",
+      "expected": "corpus_mx_dot.reader.json"
+    },
+    {
+      "file": "corpus_mx_dot.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_dot.reader.json"
+    },
+    {
+      "file": "corpus_mx_bilin.casadi",
+      "type": "",
+      "expected": "corpus_mx_bilin.reader.json"
+    },
+    {
+      "file": "corpus_mx_bilin.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_bilin.reader.json"
+    },
+    {
+      "file": "corpus_mx_rank1.casadi",
+      "type": "",
+      "expected": "corpus_mx_rank1.reader.json"
+    },
+    {
+      "file": "corpus_mx_rank1.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_rank1.reader.json"
+    },
+    {
+      "file": "corpus_mx_norms.casadi",
+      "type": "",
+      "expected": "corpus_mx_norms.reader.json"
+    },
+    {
+      "file": "corpus_mx_norms.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_norms.reader.json"
+    },
+    {
+      "file": "corpus_mx_extrema.casadi",
+      "type": "",
+      "expected": "corpus_mx_extrema.reader.json"
+    },
+    {
+      "file": "corpus_mx_extrema.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_extrema.reader.json"
+    },
+    {
+      "file": "corpus_mx_det.casadi",
+      "type": "",
+      "expected": "corpus_mx_det.reader.json"
+    },
+    {
+      "file": "corpus_mx_det.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_det.reader.json"
+    },
+    {
+      "file": "corpus_mx_inverse.casadi",
+      "type": "",
+      "expected": "corpus_mx_inverse.reader.json"
+    },
+    {
+      "file": "corpus_mx_inverse.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_inverse.reader.json"
+    },
+    {
+      "file": "corpus_mx_kron.casadi",
+      "type": "",
+      "expected": "corpus_mx_kron.reader.json"
+    },
+    {
+      "file": "corpus_mx_kron.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_kron.reader.json"
+    },
+    {
+      "file": "corpus_mx_sparse_kron.casadi",
+      "type": "",
+      "expected": "corpus_mx_sparse_kron.reader.json"
+    },
+    {
+      "file": "corpus_mx_sparse_kron.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_sparse_kron.reader.json"
+    },
+    {
+      "file": "corpus_mx_mixed_kron.casadi",
+      "type": "",
+      "expected": "corpus_mx_mixed_kron.reader.json"
+    },
+    {
+      "file": "corpus_mx_mixed_kron.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_mixed_kron.reader.json"
+    },
+    {
+      "file": "corpus_mx_concat.casadi",
+      "type": "",
+      "expected": "corpus_mx_concat.reader.json"
+    },
+    {
+      "file": "corpus_mx_concat.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_concat.reader.json"
+    },
+    {
+      "file": "corpus_mx_horzcat.casadi",
+      "type": "",
+      "expected": "corpus_mx_horzcat.reader.json"
+    },
+    {
+      "file": "corpus_mx_horzcat.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_horzcat.reader.json"
+    },
+    {
+      "file": "corpus_mx_diagcat.casadi",
+      "type": "",
+      "expected": "corpus_mx_diagcat.reader.json"
+    },
+    {
+      "file": "corpus_mx_diagcat.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_diagcat.reader.json"
+    },
+    {
+      "file": "corpus_mx_split.casadi",
+      "type": "",
+      "expected": "corpus_mx_split.reader.json"
+    },
+    {
+      "file": "corpus_mx_split.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_split.reader.json"
+    },
+    {
+      "file": "corpus_mx_vsplit.casadi",
+      "type": "",
+      "expected": "corpus_mx_vsplit.reader.json"
+    },
+    {
+      "file": "corpus_mx_vsplit.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_vsplit.reader.json"
+    },
+    {
+      "file": "corpus_mx_repmat.casadi",
+      "type": "",
+      "expected": "corpus_mx_repmat.reader.json"
+    },
+    {
+      "file": "corpus_mx_repmat.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_repmat.reader.json"
+    },
+    {
+      "file": "corpus_mx_sum.casadi",
+      "type": "",
+      "expected": "corpus_mx_sum.reader.json"
+    },
+    {
+      "file": "corpus_mx_sum.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_sum.reader.json"
+    },
+    {
+      "file": "corpus_mx_slice.casadi",
+      "type": "",
+      "expected": "corpus_mx_slice.reader.json"
+    },
+    {
+      "file": "corpus_mx_slice.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_slice.reader.json"
+    },
+    {
+      "file": "corpus_mx_gather.casadi",
+      "type": "",
+      "expected": "corpus_mx_gather.reader.json"
+    },
+    {
+      "file": "corpus_mx_gather.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_gather.reader.json"
+    },
+    {
+      "file": "corpus_mx_solve.casadi",
+      "type": "",
+      "expected": "corpus_mx_solve.reader.json"
+    },
+    {
+      "file": "corpus_mx_solve.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_solve.reader.json"
+    },
+    {
+      "file": "corpus_mx_logic.casadi",
+      "type": "",
+      "expected": "corpus_mx_logic.reader.json"
+    },
+    {
+      "file": "corpus_mx_logic.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_logic.reader.json"
+    },
+    {
+      "file": "corpus_mx_monitor.casadi",
+      "type": "",
+      "expected": "corpus_mx_monitor.reader.json"
+    },
+    {
+      "file": "corpus_mx_monitor.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_monitor.reader.json"
+    },
+    {
+      "file": "corpus_mx_assertion.casadi",
+      "type": "",
+      "expected": "corpus_mx_assertion.reader.json"
+    },
+    {
+      "file": "corpus_mx_assertion.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_assertion.reader.json"
+    },
+    {
+      "file": "corpus_mx_logsumexp.casadi",
+      "type": "",
+      "expected": "corpus_mx_logsumexp.reader.json"
+    },
+    {
+      "file": "corpus_mx_logsumexp.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_logsumexp.reader.json"
+    },
+    {
+      "file": "corpus_mx_constants.casadi",
+      "type": "",
+      "expected": "corpus_mx_constants.reader.json"
+    },
+    {
+      "file": "corpus_mx_constants.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_constants.reader.json"
+    },
+    {
+      "file": "corpus_mx_set_slice.casadi",
+      "type": "",
+      "expected": "corpus_mx_set_slice.reader.json"
+    },
+    {
+      "file": "corpus_mx_set_slice.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_set_slice.reader.json"
+    },
+    {
+      "file": "corpus_mx_set_vector.casadi",
+      "type": "",
+      "expected": "corpus_mx_set_vector.reader.json"
+    },
+    {
+      "file": "corpus_mx_set_vector.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_set_vector.reader.json"
+    },
+    {
+      "file": "corpus_mx_add_slice.casadi",
+      "type": "",
+      "expected": "corpus_mx_add_slice.reader.json"
+    },
+    {
+      "file": "corpus_mx_add_slice.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_add_slice.reader.json"
+    },
+    {
+      "file": "corpus_mx_add_vector.casadi",
+      "type": "",
+      "expected": "corpus_mx_add_vector.reader.json"
+    },
+    {
+      "file": "corpus_mx_add_vector.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_add_vector.reader.json"
+    },
+    {
+      "file": "corpus_sx_function.casadi",
+      "type": "",
+      "expected": "corpus_sx_function.reader.json"
+    },
+    {
+      "file": "corpus_sx_function.debug.casadi",
+      "type": "",
+      "expected": "corpus_sx_function.reader.json"
+    },
+    {
+      "file": "corpus_sx_constants.casadi",
+      "type": "",
+      "expected": "corpus_sx_constants.reader.json"
+    },
+    {
+      "file": "corpus_sx_constants.debug.casadi",
+      "type": "",
+      "expected": "corpus_sx_constants.reader.json"
+    },
+    {
+      "file": "corpus_sx_nested.casadi",
+      "type": "",
+      "expected": "corpus_sx_nested.reader.json"
+    },
+    {
+      "file": "corpus_sx_nested.debug.casadi",
+      "type": "",
+      "expected": "corpus_sx_nested.reader.json"
+    },
+    {
+      "file": "corpus_mx_expression.casadi",
+      "type": "",
+      "expected": "corpus_mx_expression.reader.json"
+    },
+    {
+      "file": "corpus_mx_expression.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_expression.reader.json"
+    },
+    {
+      "file": "corpus_sx_expression.casadi",
+      "type": "",
+      "expected": "corpus_sx_expression.reader.json"
+    },
+    {
+      "file": "corpus_sx_expression.debug.casadi",
+      "type": "",
+      "expected": "corpus_sx_expression.reader.json"
+    },
+    {
+      "file": "corpus_mx_operators.casadi",
+      "type": "",
+      "expected": "corpus_mx_operators.reader.json"
+    },
+    {
+      "file": "corpus_mx_operators.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_operators.reader.json"
+    },
+    {
+      "file": "corpus_sx_operators.casadi",
+      "type": "",
+      "expected": "corpus_sx_operators.reader.json"
+    },
+    {
+      "file": "corpus_sx_operators.debug.casadi",
+      "type": "",
+      "expected": "corpus_sx_operators.reader.json"
+    },
+    {
+      "file": "corpus_mapped.casadi",
+      "type": "",
+      "expected": "corpus_mapped.reader.json"
+    },
+    {
+      "file": "corpus_mapped.debug.casadi",
+      "type": "",
+      "expected": "corpus_mapped.reader.json"
+    },
+    {
+      "file": "corpus_openmp_mapped.casadi",
+      "type": "",
+      "expected": "corpus_openmp_mapped.reader.json"
+    },
+    {
+      "file": "corpus_openmp_mapped.debug.casadi",
+      "type": "",
+      "expected": "corpus_openmp_mapped.reader.json"
+    },
+    {
+      "file": "corpus_map_reduction.casadi",
+      "type": "",
+      "expected": "corpus_map_reduction.reader.json"
+    },
+    {
+      "file": "corpus_map_reduction.debug.casadi",
+      "type": "",
+      "expected": "corpus_map_reduction.reader.json"
+    },
+    {
+      "file": "corpus_thread_mapped.casadi",
+      "type": "",
+      "expected": "corpus_thread_mapped.reader.json"
+    },
+    {
+      "file": "corpus_thread_mapped.debug.casadi",
+      "type": "",
+      "expected": "corpus_thread_mapped.reader.json"
+    },
+    {
+      "file": "corpus_mapsum.casadi",
+      "type": "",
+      "expected": "corpus_mapsum.reader.json"
+    },
+    {
+      "file": "corpus_mapsum.debug.casadi",
+      "type": "",
+      "expected": "corpus_mapsum.reader.json"
+    },
+    {
+      "file": "corpus_mapaccum.casadi",
+      "type": "",
+      "expected": "corpus_mapaccum.reader.json"
+    },
+    {
+      "file": "corpus_mapaccum.debug.casadi",
+      "type": "",
+      "expected": "corpus_mapaccum.reader.json"
+    },
+    {
+      "file": "corpus_switch.casadi",
+      "type": "",
+      "expected": "corpus_switch.reader.json"
+    },
+    {
+      "file": "corpus_switch.debug.casadi",
+      "type": "",
+      "expected": "corpus_switch.reader.json"
+    },
+    {
+      "file": "corpus_forward.casadi",
+      "type": "",
+      "expected": "corpus_forward.reader.json"
+    },
+    {
+      "file": "corpus_forward.debug.casadi",
+      "type": "",
+      "expected": "corpus_forward.reader.json"
+    },
+    {
+      "file": "corpus_reverse.casadi",
+      "type": "",
+      "expected": "corpus_reverse.reader.json"
+    },
+    {
+      "file": "corpus_reverse.debug.casadi",
+      "type": "",
+      "expected": "corpus_reverse.reader.json"
+    },
+    {
+      "file": "corpus_jacobian.casadi",
+      "type": "",
+      "expected": "corpus_jacobian.reader.json"
+    },
+    {
+      "file": "corpus_jacobian.debug.casadi",
+      "type": "",
+      "expected": "corpus_jacobian.reader.json"
+    },
+    {
+      "file": "corpus_finite_difference_forward.casadi",
+      "type": "",
+      "expected": "corpus_finite_difference_forward.reader.json"
+    },
+    {
+      "file": "corpus_finite_difference_forward.debug.casadi",
+      "type": "",
+      "expected": "corpus_finite_difference_forward.reader.json"
+    },
+    {
+      "file": "corpus_finite_difference_backward.casadi",
+      "type": "",
+      "expected": "corpus_finite_difference_backward.reader.json"
+    },
+    {
+      "file": "corpus_finite_difference_backward.debug.casadi",
+      "type": "",
+      "expected": "corpus_finite_difference_backward.reader.json"
+    },
+    {
+      "file": "corpus_finite_difference_central.casadi",
+      "type": "",
+      "expected": "corpus_finite_difference_central.reader.json"
+    },
+    {
+      "file": "corpus_finite_difference_central.debug.casadi",
+      "type": "",
+      "expected": "corpus_finite_difference_central.reader.json"
+    },
+    {
+      "file": "corpus_finite_difference_smoothing.casadi",
+      "type": "",
+      "expected": "corpus_finite_difference_smoothing.reader.json"
+    },
+    {
+      "file": "corpus_finite_difference_smoothing.debug.casadi",
+      "type": "",
+      "expected": "corpus_finite_difference_smoothing.reader.json"
+    },
+    {
+      "file": "corpus_interpolant_linear.casadi",
+      "type": "",
+      "expected": "corpus_interpolant_linear.reader.json"
+    },
+    {
+      "file": "corpus_interpolant_linear.debug.casadi",
+      "type": "",
+      "expected": "corpus_interpolant_linear.reader.json"
+    },
+    {
+      "file": "corpus_interpolant_jac_linear.casadi",
+      "type": "",
+      "expected": "corpus_interpolant_jac_linear.reader.json"
+    },
+    {
+      "file": "corpus_interpolant_jac_linear.debug.casadi",
+      "type": "",
+      "expected": "corpus_interpolant_jac_linear.reader.json"
+    },
+    {
+      "file": "corpus_interpolant_bspline.casadi",
+      "type": "",
+      "expected": "corpus_interpolant_bspline.reader.json"
+    },
+    {
+      "file": "corpus_interpolant_bspline.debug.casadi",
+      "type": "",
+      "expected": "corpus_interpolant_bspline.reader.json"
+    },
+    {
+      "file": "corpus_interpolant_jac_bspline.casadi",
+      "type": "",
+      "expected": "corpus_interpolant_jac_bspline.reader.json"
+    },
+    {
+      "file": "corpus_interpolant_jac_bspline.debug.casadi",
+      "type": "",
+      "expected": "corpus_interpolant_jac_bspline.reader.json"
+    },
+    {
+      "file": "corpus_integrator_rk.casadi",
+      "type": "",
+      "expected": "corpus_integrator_rk.reader.json"
+    },
+    {
+      "file": "corpus_integrator_rk.debug.casadi",
+      "type": "",
+      "expected": "corpus_integrator_rk.reader.json"
+    },
+    {
+      "file": "corpus_integrator_collocation.casadi",
+      "type": "",
+      "expected": "corpus_integrator_collocation.reader.json"
+    },
+    {
+      "file": "corpus_integrator_collocation.debug.casadi",
+      "type": "",
+      "expected": "corpus_integrator_collocation.reader.json"
+    },
+    {
+      "file": "corpus_integrator_cvodes.casadi",
+      "type": "",
+      "expected": "corpus_integrator_cvodes.reader.json"
+    },
+    {
+      "file": "corpus_integrator_cvodes.debug.casadi",
+      "type": "",
+      "expected": "corpus_integrator_cvodes.reader.json"
+    },
+    {
+      "file": "corpus_integrator_idas.casadi",
+      "type": "",
+      "expected": "corpus_integrator_idas.reader.json"
+    },
+    {
+      "file": "corpus_integrator_idas.debug.casadi",
+      "type": "",
+      "expected": "corpus_integrator_idas.reader.json"
+    },
+    {
+      "file": "corpus_rootfinder_newton.casadi",
+      "type": "",
+      "expected": "corpus_rootfinder_newton.reader.json"
+    },
+    {
+      "file": "corpus_rootfinder_newton.debug.casadi",
+      "type": "",
+      "expected": "corpus_rootfinder_newton.reader.json"
+    },
+    {
+      "file": "corpus_rootfinder_fast_newton.casadi",
+      "type": "",
+      "expected": "corpus_rootfinder_fast_newton.reader.json"
+    },
+    {
+      "file": "corpus_rootfinder_fast_newton.debug.casadi",
+      "type": "",
+      "expected": "corpus_rootfinder_fast_newton.reader.json"
+    },
+    {
+      "file": "corpus_rootfinder_kinsol.casadi",
+      "type": "",
+      "expected": "corpus_rootfinder_kinsol.reader.json"
+    },
+    {
+      "file": "corpus_rootfinder_kinsol.debug.casadi",
+      "type": "",
+      "expected": "corpus_rootfinder_kinsol.reader.json"
+    },
+    {
+      "file": "corpus_rootfinder_bisection.casadi",
+      "type": "",
+      "expected": "corpus_rootfinder_bisection.reader.json"
+    },
+    {
+      "file": "corpus_rootfinder_bisection.debug.casadi",
+      "type": "",
+      "expected": "corpus_rootfinder_bisection.reader.json"
+    },
+    {
+      "file": "corpus_rootfinder_nlpsol.casadi",
+      "type": "",
+      "expected": "corpus_rootfinder_nlpsol.reader.json"
+    },
+    {
+      "file": "corpus_rootfinder_nlpsol.debug.casadi",
+      "type": "",
+      "expected": "corpus_rootfinder_nlpsol.reader.json"
+    },
+    {
+      "file": "corpus_linsol_qr.casadi",
+      "type": "",
+      "expected": "corpus_linsol_qr.reader.json"
+    },
+    {
+      "file": "corpus_linsol_qr.debug.casadi",
+      "type": "",
+      "expected": "corpus_linsol_qr.reader.json"
+    },
+    {
+      "file": "corpus_linsol_ldl.casadi",
+      "type": "",
+      "expected": "corpus_linsol_ldl.reader.json"
+    },
+    {
+      "file": "corpus_linsol_ldl.debug.casadi",
+      "type": "",
+      "expected": "corpus_linsol_ldl.reader.json"
+    },
+    {
+      "file": "corpus_linsol_tridiag.casadi",
+      "type": "",
+      "expected": "corpus_linsol_tridiag.reader.json"
+    },
+    {
+      "file": "corpus_linsol_tridiag.debug.casadi",
+      "type": "",
+      "expected": "corpus_linsol_tridiag.reader.json"
+    },
+    {
+      "file": "corpus_linsol_lsqr.casadi",
+      "type": "",
+      "expected": "corpus_linsol_lsqr.reader.json"
+    },
+    {
+      "file": "corpus_linsol_lsqr.debug.casadi",
+      "type": "",
+      "expected": "corpus_linsol_lsqr.reader.json"
+    },
+    {
+      "file": "corpus_linsol_csparse.casadi",
+      "type": "",
+      "expected": "corpus_linsol_csparse.reader.json"
+    },
+    {
+      "file": "corpus_linsol_csparse.debug.casadi",
+      "type": "",
+      "expected": "corpus_linsol_csparse.reader.json"
+    },
+    {
+      "file": "corpus_linsol_csparsecholesky.casadi",
+      "type": "",
+      "expected": "corpus_linsol_csparsecholesky.reader.json"
+    },
+    {
+      "file": "corpus_linsol_csparsecholesky.debug.casadi",
+      "type": "",
+      "expected": "corpus_linsol_csparsecholesky.reader.json"
+    },
+    {
+      "file": "corpus_linsol_lapacklu.casadi",
+      "type": "",
+      "expected": "corpus_linsol_lapacklu.reader.json"
+    },
+    {
+      "file": "corpus_linsol_lapacklu.debug.casadi",
+      "type": "",
+      "expected": "corpus_linsol_lapacklu.reader.json"
+    },
+    {
+      "file": "corpus_linsol_lapackqr.casadi",
+      "type": "",
+      "expected": "corpus_linsol_lapackqr.reader.json"
+    },
+    {
+      "file": "corpus_linsol_lapackqr.debug.casadi",
+      "type": "",
+      "expected": "corpus_linsol_lapackqr.reader.json"
+    },
+    {
+      "file": "corpus_linsol_mumps.casadi",
+      "type": "",
+      "expected": "corpus_linsol_mumps.reader.json"
+    },
+    {
+      "file": "corpus_linsol_mumps.debug.casadi",
+      "type": "",
+      "expected": "corpus_linsol_mumps.reader.json"
+    },
+    {
+      "file": "corpus_linsol_symbolicqr.casadi",
+      "type": "",
+      "expected": "corpus_linsol_symbolicqr.reader.json"
+    },
+    {
+      "file": "corpus_linsol_symbolicqr.debug.casadi",
+      "type": "",
+      "expected": "corpus_linsol_symbolicqr.reader.json"
+    },
+    {
+      "file": "corpus_nlpsol_sqpmethod.casadi",
+      "type": "",
+      "expected": "corpus_nlpsol_sqpmethod.reader.json"
+    },
+    {
+      "file": "corpus_nlpsol_sqpmethod.debug.casadi",
+      "type": "",
+      "expected": "corpus_nlpsol_sqpmethod.reader.json"
+    },
+    {
+      "file": "corpus_nlpsol_qrsqp.casadi",
+      "type": "",
+      "expected": "corpus_nlpsol_qrsqp.reader.json"
+    },
+    {
+      "file": "corpus_nlpsol_qrsqp.debug.casadi",
+      "type": "",
+      "expected": "corpus_nlpsol_qrsqp.reader.json"
+    },
+    {
+      "file": "corpus_nlpsol_feasiblesqpmethod.casadi",
+      "type": "",
+      "expected": "corpus_nlpsol_feasiblesqpmethod.reader.json"
+    },
+    {
+      "file": "corpus_nlpsol_feasiblesqpmethod.debug.casadi",
+      "type": "",
+      "expected": "corpus_nlpsol_feasiblesqpmethod.reader.json"
+    },
+    {
+      "file": "corpus_nlpsol_ipopt.casadi",
+      "type": "",
+      "expected": "corpus_nlpsol_ipopt.reader.json"
+    },
+    {
+      "file": "corpus_nlpsol_ipopt.debug.casadi",
+      "type": "",
+      "expected": "corpus_nlpsol_ipopt.reader.json"
+    },
+    {
+      "file": "corpus_nlpsol_alpaqa.casadi",
+      "type": "",
+      "expected": "corpus_nlpsol_alpaqa.reader.json"
+    },
+    {
+      "file": "corpus_nlpsol_alpaqa.debug.casadi",
+      "type": "",
+      "expected": "corpus_nlpsol_alpaqa.reader.json"
+    },
+    {
+      "file": "corpus_nlpsol_blocksqp.casadi",
+      "type": "",
+      "expected": "corpus_nlpsol_blocksqp.reader.json"
+    },
+    {
+      "file": "corpus_nlpsol_blocksqp.debug.casadi",
+      "type": "",
+      "expected": "corpus_nlpsol_blocksqp.reader.json"
+    },
+    {
+      "file": "corpus_nlpsol_bonmin.casadi",
+      "type": "",
+      "expected": "corpus_nlpsol_bonmin.reader.json"
+    },
+    {
+      "file": "corpus_nlpsol_bonmin.debug.casadi",
+      "type": "",
+      "expected": "corpus_nlpsol_bonmin.reader.json"
+    },
+    {
+      "file": "corpus_nlpsol_sleqp.casadi",
+      "type": "",
+      "expected": "corpus_nlpsol_sleqp.reader.json"
+    },
+    {
+      "file": "corpus_nlpsol_sleqp.debug.casadi",
+      "type": "",
+      "expected": "corpus_nlpsol_sleqp.reader.json"
+    },
+    {
+      "file": "corpus_nlpsol_fatrop.casadi",
+      "type": "",
+      "expected": "corpus_nlpsol_fatrop.reader.json"
+    },
+    {
+      "file": "corpus_nlpsol_fatrop.debug.casadi",
+      "type": "",
+      "expected": "corpus_nlpsol_fatrop.reader.json"
+    },
+    {
+      "file": "corpus_nlpsol_uno.casadi",
+      "type": "",
+      "expected": "corpus_nlpsol_uno.reader.json"
+    },
+    {
+      "file": "corpus_nlpsol_uno.debug.casadi",
+      "type": "",
+      "expected": "corpus_nlpsol_uno.reader.json"
+    },
+    {
+      "file": "corpus_conic_qrqp.casadi",
+      "type": "",
+      "expected": "corpus_conic_qrqp.reader.json"
+    },
+    {
+      "file": "corpus_conic_qrqp.debug.casadi",
+      "type": "",
+      "expected": "corpus_conic_qrqp.reader.json"
+    },
+    {
+      "file": "corpus_conic_ipqp.casadi",
+      "type": "",
+      "expected": "corpus_conic_ipqp.reader.json"
+    },
+    {
+      "file": "corpus_conic_ipqp.debug.casadi",
+      "type": "",
+      "expected": "corpus_conic_ipqp.reader.json"
+    },
+    {
+      "file": "corpus_conic_osqp.casadi",
+      "type": "",
+      "expected": "corpus_conic_osqp.reader.json"
+    },
+    {
+      "file": "corpus_conic_osqp.debug.casadi",
+      "type": "",
+      "expected": "corpus_conic_osqp.reader.json"
+    },
+    {
+      "file": "corpus_conic_proxqp.casadi",
+      "type": "",
+      "expected": "corpus_conic_proxqp.reader.json"
+    },
+    {
+      "file": "corpus_conic_proxqp.debug.casadi",
+      "type": "",
+      "expected": "corpus_conic_proxqp.reader.json"
+    },
+    {
+      "file": "corpus_conic_highs.casadi",
+      "type": "",
+      "expected": "corpus_conic_highs.reader.json"
+    },
+    {
+      "file": "corpus_conic_highs.debug.casadi",
+      "type": "",
+      "expected": "corpus_conic_highs.reader.json"
+    },
+    {
+      "file": "corpus_conic_daqp.casadi",
+      "type": "",
+      "expected": "corpus_conic_daqp.reader.json"
+    },
+    {
+      "file": "corpus_conic_daqp.debug.casadi",
+      "type": "",
+      "expected": "corpus_conic_daqp.reader.json"
+    },
+    {
+      "file": "corpus_conic_clp.casadi",
+      "type": "",
+      "expected": "corpus_conic_clp.reader.json"
+    },
+    {
+      "file": "corpus_conic_clp.debug.casadi",
+      "type": "",
+      "expected": "corpus_conic_clp.reader.json"
+    },
+    {
+      "file": "corpus_conic_cbc.casadi",
+      "type": "",
+      "expected": "corpus_conic_cbc.reader.json"
+    },
+    {
+      "file": "corpus_conic_cbc.debug.casadi",
+      "type": "",
+      "expected": "corpus_conic_cbc.reader.json"
+    },
+    {
+      "file": "corpus_conic_qpoases.casadi",
+      "type": "",
+      "expected": "corpus_conic_qpoases.reader.json"
+    },
+    {
+      "file": "corpus_conic_qpoases.debug.casadi",
+      "type": "",
+      "expected": "corpus_conic_qpoases.reader.json"
+    },
+    {
+      "file": "corpus_conic_piqp.casadi",
+      "type": "",
+      "expected": "corpus_conic_piqp.reader.json"
+    },
+    {
+      "file": "corpus_conic_piqp.debug.casadi",
+      "type": "",
+      "expected": "corpus_conic_piqp.reader.json"
+    },
+    {
+      "file": "corpus_conic_superscs.casadi",
+      "type": "",
+      "expected": "corpus_conic_superscs.reader.json"
+    },
+    {
+      "file": "corpus_conic_superscs.debug.casadi",
+      "type": "",
+      "expected": "corpus_conic_superscs.reader.json"
+    },
+    {
+      "file": "corpus_conic_fatrop.casadi",
+      "type": "",
+      "expected": "corpus_conic_fatrop.reader.json"
+    },
+    {
+      "file": "corpus_conic_fatrop.debug.casadi",
+      "type": "",
+      "expected": "corpus_conic_fatrop.reader.json"
+    },
+    {
+      "file": "corpus_conic_hpipm.casadi",
+      "type": "",
+      "expected": "corpus_conic_hpipm.reader.json"
+    },
+    {
+      "file": "corpus_conic_hpipm.debug.casadi",
+      "type": "",
+      "expected": "corpus_conic_hpipm.reader.json"
+    },
+    {
+      "file": "corpus_conic_nlpsol.casadi",
+      "type": "",
+      "expected": "corpus_conic_nlpsol.reader.json"
+    },
+    {
+      "file": "corpus_conic_nlpsol.debug.casadi",
+      "type": "",
+      "expected": "corpus_conic_nlpsol.reader.json"
+    },
+    {
+      "file": "corpus_mx_pseudo_dense.casadi",
+      "type": "",
+      "expected": "corpus_mx_pseudo_dense.reader.json"
+    },
+    {
+      "file": "corpus_mx_pseudo_dense.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_pseudo_dense.reader.json"
+    },
+    {
+      "file": "corpus_mx_sparse_contract.casadi",
+      "type": "",
+      "expected": "corpus_mx_sparse_contract.reader.json"
+    },
+    {
+      "file": "corpus_mx_sparse_contract.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_sparse_contract.reader.json"
+    },
+    {
+      "file": "corpus_mx_minus_one.casadi",
+      "type": "",
+      "expected": "corpus_mx_minus_one.reader.json"
+    },
+    {
+      "file": "corpus_mx_minus_one.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_minus_one.reader.json"
+    },
+    {
+      "file": "corpus_mx_add_scatter_vector.casadi",
+      "type": "",
+      "expected": "corpus_mx_add_scatter_vector.reader.json"
+    },
+    {
+      "file": "corpus_mx_add_scatter_vector.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_add_scatter_vector.reader.json"
+    },
+    {
+      "file": "corpus_mx_add_scatter_slice.casadi",
+      "type": "",
+      "expected": "corpus_mx_add_scatter_slice.reader.json"
+    },
+    {
+      "file": "corpus_mx_add_scatter_slice.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_add_scatter_slice.reader.json"
+    },
+    {
+      "file": "corpus_mx_add_scatter_slice2.casadi",
+      "type": "",
+      "expected": "corpus_mx_add_scatter_slice2.reader.json"
+    },
+    {
+      "file": "corpus_mx_add_scatter_slice2.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_add_scatter_slice2.reader.json"
+    },
+    {
+      "file": "corpus_mx_inverse_node.casadi",
+      "type": "",
+      "expected": "corpus_mx_inverse_node.reader.json"
+    },
+    {
+      "file": "corpus_mx_inverse_node.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_inverse_node.reader.json"
+    },
+    {
+      "file": "corpus_mx_dump.casadi",
+      "type": "",
+      "expected": "corpus_mx_dump.reader.json"
+    },
+    {
+      "file": "corpus_mx_dump.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_dump.reader.json"
+    },
+    {
+      "file": "corpus_mx_constant_pool.casadi",
+      "type": "",
+      "expected": "corpus_mx_constant_pool.reader.json"
+    },
+    {
+      "file": "corpus_mx_constant_pool.debug.casadi",
+      "type": "",
+      "error": "Expected serialized field ConstantMX::type"
+    },
+    {
+      "file": "corpus_mx_contract_dense.casadi",
+      "type": "",
+      "expected": "corpus_mx_contract_dense.reader.json"
+    },
+    {
+      "file": "corpus_mx_contract_dense.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_contract_dense.reader.json"
+    },
+    {
+      "file": "corpus_mx_contract_dense_sparse.casadi",
+      "type": "",
+      "expected": "corpus_mx_contract_dense_sparse.reader.json"
+    },
+    {
+      "file": "corpus_mx_contract_dense_sparse.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_contract_dense_sparse.reader.json"
+    },
+    {
+      "file": "corpus_mx_contract_sparse_dense.casadi",
+      "type": "",
+      "expected": "corpus_mx_contract_sparse_dense.reader.json"
+    },
+    {
+      "file": "corpus_mx_contract_sparse_dense.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_contract_sparse_dense.reader.json"
+    },
+    {
+      "file": "corpus_mx_scatter_param.casadi",
+      "type": "",
+      "expected": "corpus_mx_scatter_param.reader.json"
+    },
+    {
+      "file": "corpus_mx_scatter_param.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_scatter_param.reader.json"
+    },
+    {
+      "file": "corpus_mx_scatter_add_param.casadi",
+      "type": "",
+      "expected": "corpus_mx_scatter_add_param.reader.json"
+    },
+    {
+      "file": "corpus_mx_scatter_add_param.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_scatter_add_param.reader.json"
+    },
+    {
+      "file": "corpus_mx_scatter_param_param.casadi",
+      "type": "",
+      "expected": "corpus_mx_scatter_param_param.reader.json"
+    },
+    {
+      "file": "corpus_mx_scatter_param_param.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_scatter_param_param.reader.json"
+    },
+    {
+      "file": "corpus_mx_scatter_add_param_param.casadi",
+      "type": "",
+      "expected": "corpus_mx_scatter_add_param_param.reader.json"
+    },
+    {
+      "file": "corpus_mx_scatter_add_param_param.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_scatter_add_param_param.reader.json"
+    },
+    {
+      "file": "corpus_mx_scatter_slice_param.casadi",
+      "type": "",
+      "expected": "corpus_mx_scatter_slice_param.reader.json"
+    },
+    {
+      "file": "corpus_mx_scatter_slice_param.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_scatter_slice_param.reader.json"
+    },
+    {
+      "file": "corpus_mx_scatter_add_slice_param.casadi",
+      "type": "",
+      "expected": "corpus_mx_scatter_add_slice_param.reader.json"
+    },
+    {
+      "file": "corpus_mx_scatter_add_slice_param.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_scatter_add_slice_param.reader.json"
+    },
+    {
+      "file": "corpus_mx_scatter_param_slice.casadi",
+      "type": "",
+      "expected": "corpus_mx_scatter_param_slice.reader.json"
+    },
+    {
+      "file": "corpus_mx_scatter_param_slice.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_scatter_param_slice.reader.json"
+    },
+    {
+      "file": "corpus_mx_scatter_add_param_slice.casadi",
+      "type": "",
+      "expected": "corpus_mx_scatter_add_param_slice.reader.json"
+    },
+    {
+      "file": "corpus_mx_scatter_add_param_slice.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_scatter_add_param_slice.reader.json"
+    },
+    {
+      "file": "corpus_mx_gather_slice2.casadi",
+      "type": "",
+      "expected": "corpus_mx_gather_slice2.reader.json"
+    },
+    {
+      "file": "corpus_mx_gather_slice2.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_gather_slice2.reader.json"
+    },
+    {
+      "file": "corpus_mx_scatter_slice2.casadi",
+      "type": "",
+      "expected": "corpus_mx_scatter_slice2.reader.json"
+    },
+    {
+      "file": "corpus_mx_scatter_slice2.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_scatter_slice2.reader.json"
+    },
+    {
+      "file": "corpus_nlpsol_scpgen.casadi",
+      "type": "",
+      "expected": "corpus_nlpsol_scpgen.reader.json"
+    },
+    {
+      "file": "corpus_nlpsol_scpgen.debug.casadi",
+      "type": "",
+      "expected": "corpus_nlpsol_scpgen.reader.json"
+    },
+    {
+      "file": "corpus_nlpsol_convexify.casadi",
+      "type": "",
+      "expected": "corpus_nlpsol_convexify.reader.json"
+    },
+    {
+      "file": "corpus_nlpsol_convexify.debug.casadi",
+      "type": "",
+      "expected": "corpus_nlpsol_convexify.reader.json"
+    },
+    {
+      "file": "corpus_convexify_ipopt.casadi",
+      "type": "",
+      "expected": "corpus_convexify_ipopt.reader.json"
+    },
+    {
+      "file": "corpus_convexify_ipopt.debug.casadi",
+      "type": "",
+      "expected": "corpus_convexify_ipopt.reader.json"
+    },
+    {
+      "file": "corpus_convexify_feasiblesqpmethod.casadi",
+      "type": "",
+      "expected": "corpus_convexify_feasiblesqpmethod.reader.json"
+    },
+    {
+      "file": "corpus_convexify_feasiblesqpmethod.debug.casadi",
+      "type": "",
+      "expected": "corpus_convexify_feasiblesqpmethod.reader.json"
+    },
+    {
+      "file": "corpus_mx_norm2.casadi",
+      "type": "",
+      "expected": "corpus_mx_norm2.reader.json"
+    },
+    {
+      "file": "corpus_mx_norm2.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_norm2.reader.json"
+    },
+    {
+      "file": "corpus_mx_find.casadi",
+      "type": "",
+      "expected": "corpus_mx_find.reader.json"
+    },
+    {
+      "file": "corpus_mx_find.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_find.reader.json"
+    },
+    {
+      "file": "corpus_mx_low.casadi",
+      "type": "",
+      "expected": "corpus_mx_low.reader.json"
+    },
+    {
+      "file": "corpus_mx_low.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_low.reader.json"
+    },
+    {
+      "file": "corpus_mx_cast.casadi",
+      "type": "",
+      "expected": "corpus_mx_cast.reader.json"
+    },
+    {
+      "file": "corpus_mx_cast.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_cast.reader.json"
+    },
+    {
+      "file": "corpus_mx_diagsplit.casadi",
+      "type": "",
+      "expected": "corpus_mx_diagsplit.reader.json"
+    },
+    {
+      "file": "corpus_mx_diagsplit.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_diagsplit.reader.json"
+    },
+    {
+      "file": "corpus_mx_convexify.casadi",
+      "type": "",
+      "expected": "corpus_mx_convexify.reader.json"
+    },
+    {
+      "file": "corpus_mx_convexify.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_convexify.reader.json"
+    },
+    {
+      "file": "corpus_mx_einstein.casadi",
+      "type": "",
+      "expected": "corpus_mx_einstein.reader.json"
+    },
+    {
+      "file": "corpus_mx_einstein.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_einstein.reader.json"
+    },
+    {
+      "file": "corpus_mx_kron_contract.casadi",
+      "type": "",
+      "expected": "corpus_mx_kron_contract.reader.json"
+    },
+    {
+      "file": "corpus_mx_kron_contract.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_kron_contract.reader.json"
+    },
+    {
+      "file": "corpus_mx_sparse_kron_contract.casadi",
+      "type": "",
+      "expected": "corpus_mx_sparse_kron_contract.reader.json"
+    },
+    {
+      "file": "corpus_mx_sparse_kron_contract.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_sparse_kron_contract.reader.json"
+    },
+    {
+      "file": "corpus_mx_dense_sparse_kron_contract.casadi",
+      "type": "",
+      "expected": "corpus_mx_dense_sparse_kron_contract.reader.json"
+    },
+    {
+      "file": "corpus_mx_dense_sparse_kron_contract.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_dense_sparse_kron_contract.reader.json"
+    },
+    {
+      "file": "corpus_mx_get_param.casadi",
+      "type": "",
+      "expected": "corpus_mx_get_param.reader.json"
+    },
+    {
+      "file": "corpus_mx_get_param.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_get_param.reader.json"
+    },
+    {
+      "file": "corpus_mx_get_param_param.casadi",
+      "type": "",
+      "expected": "corpus_mx_get_param_param.reader.json"
+    },
+    {
+      "file": "corpus_mx_get_param_param.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_get_param_param.reader.json"
+    },
+    {
+      "file": "corpus_mx_get_slice_param.casadi",
+      "type": "",
+      "expected": "corpus_mx_get_slice_param.reader.json"
+    },
+    {
+      "file": "corpus_mx_get_slice_param.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_get_slice_param.reader.json"
+    },
+    {
+      "file": "corpus_mx_get_param_slice.casadi",
+      "type": "",
+      "expected": "corpus_mx_get_param_slice.reader.json"
+    },
+    {
+      "file": "corpus_mx_get_param_slice.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_get_param_slice.reader.json"
+    },
+    {
+      "file": "corpus_mx_set_param.casadi",
+      "type": "",
+      "expected": "corpus_mx_set_param.reader.json"
+    },
+    {
+      "file": "corpus_mx_set_param.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_set_param.reader.json"
+    },
+    {
+      "file": "corpus_mx_bspline_parametric.casadi",
+      "type": "",
+      "expected": "corpus_mx_bspline_parametric.reader.json"
+    },
+    {
+      "file": "corpus_mx_bspline_parametric.debug.casadi",
+      "type": "",
+      "expected": "corpus_mx_bspline_parametric.reader.json"
+    },
+    {
+      "file": "corpus_blazing_spline.casadi",
+      "type": "",
+      "expected": "corpus_blazing_spline.reader.json"
+    },
+    {
+      "file": "corpus_blazing_spline.debug.casadi",
+      "type": "",
+      "expected": "corpus_blazing_spline.reader.json"
+    },
+    {
+      "file": "corpus_blazing_spline_parametric.casadi",
+      "type": "",
+      "expected": "corpus_blazing_spline_parametric.reader.json"
+    },
+    {
+      "file": "corpus_blazing_spline_parametric.debug.casadi",
+      "type": "",
+      "expected": "corpus_blazing_spline_parametric.reader.json"
+    },
+    {
+      "file": "corpus_integer.casadi",
+      "type": "",
+      "expected": "corpus_integer.reader.json"
+    },
+    {
+      "file": "corpus_integer.debug.casadi",
+      "type": "",
+      "expected": "corpus_integer.reader.json"
+    },
+    {
+      "file": "corpus_negative_integer.casadi",
+      "type": "",
+      "expected": "corpus_negative_integer.reader.json"
+    },
+    {
+      "file": "corpus_negative_integer.debug.casadi",
+      "type": "",
+      "expected": "corpus_negative_integer.reader.json"
+    },
+    {
+      "file": "corpus_double.casadi",
+      "type": "",
+      "expected": "corpus_double.reader.json"
+    },
+    {
+      "file": "corpus_double.debug.casadi",
+      "type": "",
+      "expected": "corpus_double.reader.json"
+    },
+    {
+      "file": "corpus_nan.casadi",
+      "type": "",
+      "expected": "corpus_nan.reader.json"
+    },
+    {
+      "file": "corpus_nan.debug.casadi",
+      "type": "",
+      "expected": "corpus_nan.reader.json"
+    },
+    {
+      "file": "corpus_inf.casadi",
+      "type": "",
+      "expected": "corpus_inf.reader.json"
+    },
+    {
+      "file": "corpus_inf.debug.casadi",
+      "type": "",
+      "expected": "corpus_inf.reader.json"
+    },
+    {
+      "file": "corpus_minus_inf.casadi",
+      "type": "",
+      "expected": "corpus_minus_inf.reader.json"
+    },
+    {
+      "file": "corpus_minus_inf.debug.casadi",
+      "type": "",
+      "expected": "corpus_minus_inf.reader.json"
+    },
+    {
+      "file": "corpus_string.casadi",
+      "type": "",
+      "expected": "corpus_string.reader.json"
+    },
+    {
+      "file": "corpus_string.debug.casadi",
+      "type": "",
+      "expected": "corpus_string.reader.json"
+    },
+    {
+      "file": "corpus_integers.casadi",
+      "type": "",
+      "expected": "corpus_integers.reader.json"
+    },
+    {
+      "file": "corpus_integers.debug.casadi",
+      "type": "",
+      "expected": "corpus_integers.reader.json"
+    },
+    {
+      "file": "corpus_doubles.casadi",
+      "type": "",
+      "expected": "corpus_doubles.reader.json"
+    },
+    {
+      "file": "corpus_doubles.debug.casadi",
+      "type": "",
+      "expected": "corpus_doubles.reader.json"
+    },
+    {
+      "file": "corpus_strings.casadi",
+      "type": "",
+      "expected": "corpus_strings.reader.json"
+    },
+    {
+      "file": "corpus_strings.debug.casadi",
+      "type": "",
+      "expected": "corpus_strings.reader.json"
+    },
+    {
+      "file": "corpus_sparsity.casadi",
+      "type": "",
+      "expected": "corpus_sparsity.reader.json"
+    },
+    {
+      "file": "corpus_sparsity.debug.casadi",
+      "type": "",
+      "expected": "corpus_sparsity.reader.json"
+    },
+    {
+      "file": "corpus_sparsities.casadi",
+      "type": "",
+      "expected": "corpus_sparsities.reader.json"
+    },
+    {
+      "file": "corpus_sparsities.debug.casadi",
+      "type": "",
+      "expected": "corpus_sparsities.reader.json"
+    },
+    {
+      "file": "corpus_dm.casadi",
+      "type": "",
+      "expected": "corpus_dm.reader.json"
+    },
+    {
+      "file": "corpus_dm.debug.casadi",
+      "type": "",
+      "expected": "corpus_dm.reader.json"
+    },
+    {
+      "file": "corpus_dms.casadi",
+      "type": "",
+      "expected": "corpus_dms.reader.json"
+    },
+    {
+      "file": "corpus_dms.debug.casadi",
+      "type": "",
+      "expected": "corpus_dms.reader.json"
+    },
+    {
+      "file": "corpus_functions.casadi",
+      "type": "",
+      "expected": "corpus_functions.reader.json"
+    },
+    {
+      "file": "corpus_functions.debug.casadi",
+      "type": "",
+      "expected": "corpus_functions.reader.json"
+    },
+    {
+      "file": "corpus_empty_mx.casadi",
+      "type": "",
+      "expected": "corpus_empty_mx.reader.json"
+    },
+    {
+      "file": "corpus_empty_mx.debug.casadi",
+      "type": "",
+      "expected": "corpus_empty_mx.reader.json"
+    },
+    {
+      "file": "corpus_empty_sx.casadi",
+      "type": "",
+      "expected": "corpus_empty_sx.reader.json"
+    },
+    {
+      "file": "corpus_empty_sx.debug.casadi",
+      "type": "",
+      "expected": "corpus_empty_sx.reader.json"
+    },
+    {
+      "file": "corpus_generic_bools.casadi",
+      "type": "",
+      "expected": "corpus_generic_bools.reader.json"
+    },
+    {
+      "file": "corpus_generic_bools.debug.casadi",
+      "type": "",
+      "expected": "corpus_generic_bools.reader.json"
+    },
+    {
+      "file": "corpus_generic_values.casadi",
+      "type": "",
+      "expected": "corpus_generic_values.reader.json"
+    },
+    {
+      "file": "corpus_generic_values.debug.casadi",
+      "type": "",
+      "expected": "corpus_generic_values.reader.json"
+    },
+    {
+      "file": "corpus_generic_value_matrix.casadi",
+      "type": "",
+      "expected": "corpus_generic_value_matrix.reader.json"
+    },
+    {
+      "file": "corpus_generic_value_matrix.debug.casadi",
+      "type": "",
+      "expected": "corpus_generic_value_matrix.reader.json"
+    },
+    {
+      "file": "corpus_generic_bool.casadi",
+      "type": "",
+      "expected": "corpus_generic_bool.reader.json"
+    },
+    {
+      "file": "corpus_generic_bool.debug.casadi",
+      "type": "",
+      "expected": "corpus_generic_bool.reader.json"
+    },
+    {
+      "file": "corpus_generic_int.casadi",
+      "type": "",
+      "expected": "corpus_generic_int.reader.json"
+    },
+    {
+      "file": "corpus_generic_int.debug.casadi",
+      "type": "",
+      "expected": "corpus_generic_int.reader.json"
+    },
+    {
+      "file": "corpus_generic_double.casadi",
+      "type": "",
+      "expected": "corpus_generic_double.reader.json"
+    },
+    {
+      "file": "corpus_generic_double.debug.casadi",
+      "type": "",
+      "expected": "corpus_generic_double.reader.json"
+    },
+    {
+      "file": "corpus_generic_string.casadi",
+      "type": "",
+      "expected": "corpus_generic_string.reader.json"
+    },
+    {
+      "file": "corpus_generic_string.debug.casadi",
+      "type": "",
+      "expected": "corpus_generic_string.reader.json"
+    },
+    {
+      "file": "corpus_generic_ints.casadi",
+      "type": "",
+      "expected": "corpus_generic_ints.reader.json"
+    },
+    {
+      "file": "corpus_generic_ints.debug.casadi",
+      "type": "",
+      "expected": "corpus_generic_ints.reader.json"
+    },
+    {
+      "file": "corpus_generic_doubles.casadi",
+      "type": "",
+      "expected": "corpus_generic_doubles.reader.json"
+    },
+    {
+      "file": "corpus_generic_doubles.debug.casadi",
+      "type": "",
+      "expected": "corpus_generic_doubles.reader.json"
+    },
+    {
+      "file": "corpus_generic_strings.casadi",
+      "type": "",
+      "expected": "corpus_generic_strings.reader.json"
+    },
+    {
+      "file": "corpus_generic_strings.debug.casadi",
+      "type": "",
+      "expected": "corpus_generic_strings.reader.json"
+    },
+    {
+      "file": "corpus_generic_dict.casadi",
+      "type": "",
+      "expected": "corpus_generic_dict.reader.json"
+    },
+    {
+      "file": "corpus_generic_dict.debug.casadi",
+      "type": "",
+      "expected": "corpus_generic_dict.reader.json"
+    },
+    {
+      "file": "corpus_generic_dicts.casadi",
+      "type": "",
+      "expected": "corpus_generic_dicts.reader.json"
+    },
+    {
+      "file": "corpus_generic_dicts.debug.casadi",
+      "type": "",
+      "expected": "corpus_generic_dicts.reader.json"
+    },
+    {
+      "file": "corpus_generic_function.casadi",
+      "type": "",
+      "expected": "corpus_generic_function.reader.json"
+    },
+    {
+      "file": "corpus_generic_function.debug.casadi",
+      "type": "",
+      "expected": "corpus_generic_function.reader.json"
+    },
+    {
+      "file": "corpus_generic_functions.casadi",
+      "type": "",
+      "expected": "corpus_generic_functions.reader.json"
+    },
+    {
+      "file": "corpus_generic_functions.debug.casadi",
+      "type": "",
+      "expected": "corpus_generic_functions.reader.json"
+    },
+    {
+      "file": "corpus_generic_int_matrix.casadi",
+      "type": "",
+      "expected": "corpus_generic_int_matrix.reader.json"
+    },
+    {
+      "file": "corpus_generic_int_matrix.debug.casadi",
+      "type": "",
+      "expected": "corpus_generic_int_matrix.reader.json"
+    },
+    {
+      "file": "corpus_generic_double_matrix.casadi",
+      "type": "",
+      "expected": "corpus_generic_double_matrix.reader.json"
+    },
+    {
+      "file": "corpus_generic_double_matrix.debug.casadi",
+      "type": "",
+      "expected": "corpus_generic_double_matrix.reader.json"
+    },
+    {
+      "file": "corpus_generic_string_matrix.casadi",
+      "type": "",
+      "expected": "corpus_generic_string_matrix.reader.json"
+    },
+    {
+      "file": "corpus_generic_string_matrix.debug.casadi",
+      "type": "",
+      "expected": "corpus_generic_string_matrix.reader.json"
+    },
+    {
+      "file": "corpus_mx_constant_file.casadi",
+      "type": "",
+      "expected": "corpus_mx_constant_file.reader.json"
+    },
+    {
+      "file": "corpus_mx_constant_file.debug.casadi",
+      "type": "",
+      "error": "Expected serialized field ConstantMX::type"
+    },
+    {
+      "file": "corpus_external.casadi",
+      "type": "",
+      "expected": "corpus_external.reader.json"
+    },
+    {
+      "file": "corpus_external.debug.casadi",
+      "type": "",
+      "expected": "corpus_external.reader.json"
+    },
+    {
+      "file": "corpus_jit_source.casadi",
+      "type": "",
+      "expected": "corpus_jit_source.reader.json"
+    },
+    {
+      "file": "corpus_jit_source.debug.casadi",
+      "type": "",
+      "expected": "corpus_jit_source.reader.json"
+    },
+    {
+      "file": "corpus_jit_link.casadi",
+      "type": "",
+      "expected": "corpus_jit_link.reader.json"
+    },
+    {
+      "file": "corpus_jit_link.debug.casadi",
+      "type": "",
+      "expected": "corpus_jit_link.reader.json"
+    },
+    {
+      "file": "corpus_jit_embed.casadi",
+      "type": "",
+      "expected": "corpus_jit_embed.reader.json"
+    },
+    {
+      "file": "corpus_jit_embed.debug.casadi",
+      "type": "",
+      "expected": "corpus_jit_embed.reader.json"
+    },
+    {
+      "file": "corpus_fmi2_zip.casadi",
+      "type": "",
+      "expected": "corpus_fmi2_zip.reader.json"
+    },
+    {
+      "file": "corpus_fmi2_zip.debug.casadi",
+      "type": "",
+      "expected": "corpus_fmi2_zip.reader.json"
+    },
+    {
+      "file": "corpus_fmi2_directory.casadi",
+      "type": "",
+      "expected": "corpus_fmi2_directory.reader.json"
+    },
+    {
+      "file": "corpus_fmi2_directory.debug.casadi",
+      "type": "",
+      "expected": "corpus_fmi2_directory.reader.json"
+    },
+    {
+      "file": "corpus_fmi3_zip.casadi",
+      "type": "",
+      "expected": "corpus_fmi3_zip.reader.json"
+    },
+    {
+      "file": "corpus_fmi3_zip.debug.casadi",
+      "type": "",
+      "expected": "corpus_fmi3_zip.reader.json"
+    },
+    {
+      "file": "corpus_fmi3_directory.casadi",
+      "type": "",
+      "expected": "corpus_fmi3_directory.reader.json"
+    },
+    {
+      "file": "corpus_fmi3_directory.debug.casadi",
+      "type": "",
+      "expected": "corpus_fmi3_directory.reader.json"
+    }
+  ],
+  "native_roundtrip_limitations": {
+    "rootfinder_kinsol": ".../casadi/core/plugin_interface.hpp:167: Assertion \"m\" failed:\nPlugin \"kinsol\" does not support deserialize",
+    "rootfinder_kinsol.debug": ".../casadi/core/plugin_interface.hpp:167: Assertion \"m\" failed:\nPlugin \"kinsol\" does not support deserialize",
+    "rootfinder_nlpsol": ".../casadi/core/plugin_interface.hpp:167: Assertion \"m\" failed:\nPlugin \"nlpsol\" does not support deserialize",
+    "rootfinder_nlpsol.debug": ".../casadi/core/plugin_interface.hpp:167: Assertion \"m\" failed:\nPlugin \"nlpsol\" does not support deserialize",
+    "linsol_tridiag": ".../casadi/core/plugin_interface.hpp:167: Assertion \"m\" failed:\nPlugin \"tridiag\" does not support deserialize",
+    "linsol_tridiag.debug": ".../casadi/core/plugin_interface.hpp:167: Assertion \"m\" failed:\nPlugin \"tridiag\" does not support deserialize",
+    "nlpsol_qrsqp": ".../casadi/core/plugin_interface.hpp:167: Assertion \"m\" failed:\nPlugin \"qrsqp\" does not support deserialize",
+    "nlpsol_qrsqp.debug": ".../casadi/core/plugin_interface.hpp:167: Assertion \"m\" failed:\nPlugin \"qrsqp\" does not support deserialize",
+    "nlpsol_feasiblesqpmethod": ".../casadi/core/serializing_stream.hpp:198: Assertion \"false\" failed:\nNotify the CasADi developers.",
+    "nlpsol_feasiblesqpmethod.debug": ".../casadi/core/serializing_stream.hpp:151: Assertion \"d==descr\" failed:\nMismatch: 'Feasiblesqpmethod::qpsol_ela' expected, got 'Feasiblesqpmethod::exact_hessian'.",
+    "conic_fatrop": ".../casadi/core/plugin_interface.hpp:167: Assertion \"m\" failed:\nPlugin \"fatrop\" does not support deserialize",
+    "conic_fatrop.debug": ".../casadi/core/plugin_interface.hpp:167: Assertion \"m\" failed:\nPlugin \"fatrop\" does not support deserialize",
+    "conic_hpipm": ".../casadi/core/plugin_interface.hpp:167: Assertion \"m\" failed:\nPlugin \"hpipm\" does not support deserialize",
+    "conic_hpipm.debug": ".../casadi/core/plugin_interface.hpp:167: Assertion \"m\" failed:\nPlugin \"hpipm\" does not support deserialize",
+    "mx_constant_pool.debug": ".../casadi/core/serializing_stream.hpp:151: Assertion \"d==descr\" failed:\nMismatch: 'ConstantMX::type' expected, got 'ConstantPool::type'.",
+    "nlpsol_scpgen": ".../casadi/core/plugin_interface.hpp:167: Assertion \"m\" failed:\nPlugin \"scpgen\" does not support deserialize",
+    "nlpsol_scpgen.debug": ".../casadi/core/plugin_interface.hpp:167: Assertion \"m\" failed:\nPlugin \"scpgen\" does not support deserialize",
+    "convexify_feasiblesqpmethod": ".../casadi/core/serializing_stream.hpp:198: Assertion \"false\" failed:\nNotify the CasADi developers.",
+    "convexify_feasiblesqpmethod.debug": ".../casadi/core/serializing_stream.hpp:151: Assertion \"d==descr\" failed:\nMismatch: 'Feasiblesqpmethod::qpsol_ela' expected, got 'Feasiblesqpmethod::exact_hessian'.",
+    "generic_bools": ".../casadi/core/generic_type.cpp:816: Not implemented: OT_BOOLVECTOR",
+    "generic_bools.debug": ".../casadi/core/generic_type.cpp:816: Not implemented: OT_BOOLVECTOR",
+    "mx_constant_file.debug": ".../casadi/core/serializing_stream.hpp:151: Assertion \"d==descr\" failed:\nMismatch: 'ConstantMX::type' expected, got 'ConstantFile::type'."
+  }
+}
