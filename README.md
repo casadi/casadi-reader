@@ -264,13 +264,12 @@ archives without requiring CasADi or a native compiler.
 ### Julia registration and tags
 
 The Julia package is named `CasADiReader`. All languages share one version and one
-`vX.Y.Z` tag. Existing tags stay unchanged; the next release is `v0.2.3`.
+`vX.Y.Z` tag. Existing tags stay unchanged.
 
 Bump all language versions on `generate` and let CI produce the tested, generated
 snapshot on `main`. Request registration on that exact `main` commit with
 `@JuliaRegistrator register subdir=julia` (or use JuliaHub's Registrator with
-subdirectory `julia`). Register the renamed package as version `0.2.3`; the
-pending registration under the old name is replaced by a new registry PR.
+subdirectory `julia`).
 
 After registration merges, `TagBot.yml` creates the shared tag and GitHub release.
 Do not create the tag beforehand. TagBot dispatches `publish.yml` at that tag, which tests
