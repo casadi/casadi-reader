@@ -1,8 +1,8 @@
-# Unreleased
+# 0.3.0
 
 - Read files written by earlier CasADi releases, as CasADi itself does: version steps accept the readable range, conditions compare versions, defaults the deserializer assigns are honoured, and pre-3.8 matrix products are recognized by their upcoming field.
 - Ship a release corpus (CasADi 3.5.5 to 3.8.1, plain and debug) that all six languages read identically.
-- Generate from the CasADi main serialization scheme (FunctionInternal version 9).
+- Generate all six readers from the CasADi main serialization scheme (03b793c175e0, FunctionInternal version 9).
 
 # 0.2.3
 
