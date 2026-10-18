@@ -1,4 +1,4 @@
-from .base import Emitter, indent
+from .base import Emitter, indent, COMPARISONS
 import json
 
 
@@ -15,6 +15,10 @@ class JavaScript(Emitter):
         if op == "not":
             return f"(!{a})"
         b = args[1]
+        if op == "next":
+            return f"r.next({a}, {b})"
+        if op in COMPARISONS:
+            return f"({a} {COMPARISONS[op]} {b})"
         if op == "concat":
             return f"(String({a}) + String({b}))"
         return (
@@ -49,8 +53,12 @@ class JavaScript(Emitter):
         call = f"r.field(record, {name}, {self.literal(kind)}, () => {self.read(kind)})"
         return [(f"scope[{name}] = " if retain else "") + call + ";"]
 
-    def version(self, name, version):
-        return [f"r.version(record, {name}, {version});"]
+    def version(self, name, minimum, maximum, retain):
+        call = f"r.version(record, {name}, {minimum}, {maximum})"
+        return [(f'scope[{name} + "::serialization::version"] = ' if retain else "") + call + ";"]
+
+    def assign_scope(self, name, value):
+        return [f"scope[{name}] = {value};"]
 
     def call_layout(self, name, params):
         return [

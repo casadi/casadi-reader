@@ -12,6 +12,7 @@ def reader_model(scheme):
     )
     containers = {}
     fields = set()
+    versions = set()
     dynamic_fields = False
 
     def type_name(descriptor):
@@ -31,6 +32,8 @@ def reader_model(scheme):
     def references(value):
         nonlocal dynamic_fields
         if isinstance(value, list):
+            if len(value) == 2 and value[0] == "version":
+                versions.add(value[1])
             if len(value) == 2 and value[0] == "field":
                 if isinstance(value[1], str):
                     fields.add(value[1])
@@ -49,6 +52,8 @@ def reader_model(scheme):
             for child in value:
                 visit(child)
         elif isinstance(value, dict):
+            if value.get("op") == "version" and value.get("name") in versions:
+                value["retain"] = True
             if value.get("op") == "field":
                 if value.get("type"):
                     value["type"] = type_name(value["type"])

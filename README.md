@@ -146,11 +146,19 @@ ordinary undecorated files use the same layouts. Tests also exercise a new
 function discriminator added to the scheme, followed by regeneration and execution
 of all six implementations on ordinary and debug input.
 
-This is **not yet a guarantee that every CasADi class/version can be read**.
-Unsupported lowering, missing field types, absent layouts and unknown
-discriminators fail explicitly. Current fixtures target the CasADi 3.8.1 source
-snapshot, little-endian protocol 3. Expanding coverage belongs in the scheme
-extractor and fixtures, followed by regeneration of the readers.
+Files written by earlier CasADi releases are read as CasADi reads them. The
+scheme takes the layout of every class CasADi can read at several versions from
+its deserializer: version guards, fields only older versions carry, defaults
+later conditions depend on, and the versions CasADi refuses with its own
+message. `test/fixtures/releases` holds plain and debug files written by CasADi
+3.5.5 to 3.8.1 (`scripts/generate-release-fixtures.py`); all six languages read
+them identically, and `expected.json` records the few that CasADi itself refuses.
+
+This is **not a guarantee that every CasADi class can be read**. Unsupported
+lowering, missing field types, absent layouts and unknown discriminators fail
+explicitly. The fixtures use little-endian protocol 3. Expanding coverage
+belongs in the scheme extractor and fixtures, followed by regeneration of the
+readers.
 
 ```sh
 npm ci

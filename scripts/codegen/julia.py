@@ -1,4 +1,4 @@
-from .base import Emitter, indent
+from .base import Emitter, indent, COMPARISONS
 import json
 
 
@@ -26,6 +26,10 @@ class Julia(Emitter):
         b = args[1]
         if op == "concat":
             return f"(string({a}) * string({b}))"
+        if op == "next":
+            return f"next_field(r, {a}, {b})"
+        if op in COMPARISONS:
+            return f"({a} {COMPARISONS[op]} {b})"
         if op in ("and", "or"):
             return f"(truth({a}) " + {"and": "&&", "or": "||"}[op] + f" truth({b}))"
         return f"({a} " + {"equal": "==", "not_equal": "!="}[op] + f" {b})"
@@ -58,8 +62,12 @@ class Julia(Emitter):
         call = f"field(r, record, {name}, {self.literal(kind)}, () -> {self.read(kind)})"
         return [(f"scope[{name}] = " if retain else "") + call]
 
-    def version(self, name, version):
-        return [f"version(r, record, {name}, {version})"]
+    def version(self, name, minimum, maximum, retain):
+        call = f"version(r, record, {name}, {minimum}, {maximum})"
+        return [(f'scope[{name} * "::serialization::version"] = ' if retain else "") + call]
+
+    def assign_scope(self, name, value):
+        return [f"scope[{name}] = {value}"]
 
     def call_layout(self, name, params):
         return [

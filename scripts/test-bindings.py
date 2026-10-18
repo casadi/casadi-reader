@@ -21,6 +21,11 @@ if not args.matlab_dir and not args.julia_project:
 with tempfile.TemporaryDirectory(prefix='casadi-reader-bindings-') as temporary:
     fixtures = Path(temporary)/'fixtures'
     shutil.copytree(root/'test/fixtures', fixtures)
+    # Readable files of the release corpus join the comparison.
+    releases = fixtures/'releases'
+    for name, outcome in json.loads((releases/'expected.json').read_text()).items():
+        if outcome == 'read': shutil.copy(releases/name, fixtures/('release_'+name))
+    shutil.rmtree(releases)
     for path in fixtures.glob('*.casadi'):
         options = {'type': 'Resource'} if path.stem == 'resource' else {}
         path.with_suffix('.reader.json').write_text(json.dumps(read_casadi(path, **options)))

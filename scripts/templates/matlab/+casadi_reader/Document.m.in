@@ -267,11 +267,24 @@ classdef Document < handle
             self.count(numel(fields));
         end
 
-        function version(self, record, base, expected)
+        function v = version(self, record, base, minimum, maximum)
             v = self.field(record, [base '::serialization::version'], 'int', @() self.number('int'));
-            if ~isequal(v, expected)
+            if v < minimum || v > maximum
                 self.fail(['Unsupported version: ' base]);
             end
+        end
+
+        % Is the upcoming field NAME? Debug streams name it; plain ones only show a bool's byte.
+        function v = nextField(self, name, kind)
+            start = self.pos;
+            if self.debug
+                v = isequal(self.stringValue(), name);
+            elseif strcmp(kind, 'bool')
+                v = self.byte() <= 1;
+            else
+                self.fail(['Cannot recognize an upcoming ' kind]);
+            end
+            self.pos = start;
         end
 
         function recordLayout(self, record, name)

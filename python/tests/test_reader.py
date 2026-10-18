@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[2]
 FIXTURES = ROOT/'test/fixtures'
 PATHS = sorted(FIXTURES.glob('*.casadi'))
 NATIVE = os.environ.get('CASADI_READER_NATIVE')
+RELEASES = FIXTURES/'releases'
 
 
 def blob(document):
@@ -42,6 +43,26 @@ class ReaderTests(unittest.TestCase):
                     if NATIVE:
                         args = [NATIVE]+(['--resource'] if options else [])+(['--lazy'] if lazy else [])
                         self.assertEqual(json.loads(subprocess.check_output(args+[str(path)])), expected)
+
+    @unittest.skipUnless(RELEASES.exists(), 'Release corpus not shipped')
+    def test_older_releases(self):
+        # Files written by earlier CasADi releases read as in CasADi itself, which also refuses some.
+        expected = json.loads((RELEASES/'expected.json').read_text())
+        self.assertEqual(set(expected), {path.name for path in RELEASES.glob('*.casadi')})
+        for name, outcome in expected.items():
+            with self.subTest(file=name):
+                if outcome != 'read':
+                    with self.assertRaisesRegex(ValueError, outcome):
+                        read_casadi(RELEASES/name)
+                    continue
+                got = json.loads(to_json(read_casadi(RELEASES/name)))
+                if shutil.which('node'):
+                    self.assertEqual(got, json.loads(subprocess.check_output(['node', '--input-type=module', '-e',
+                        "import{decode}from'./src/index.js';import{readFileSync}from'node:fs';"
+                        "console.log(JSON.stringify(decode(readFileSync(process.argv[1],'utf8'))));",
+                        str(RELEASES/name)], cwd=ROOT)))
+                if NATIVE:
+                    self.assertEqual(json.loads(subprocess.check_output([NATIVE, str(RELEASES/name)])), got)
 
     def test_matches_precompiler_structural_documents(self):
         # Digests of the interpreter's complete documents, recorded before direct code generation.

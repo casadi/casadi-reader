@@ -1,4 +1,4 @@
-from .base import Emitter, indent
+from .base import Emitter, indent, COMPARISONS
 import pprint
 
 
@@ -15,6 +15,10 @@ class Python(Emitter):
         if op == "not":
             return f"(not {a})"
         b = args[1]
+        if op == "next":
+            return f"r.next({a}, {b})"
+        if op in COMPARISONS:
+            return f"({a} {COMPARISONS[op]} {b})"
         if op == "concat":
             return f"(str({a}) + str({b}))"
         return (
@@ -56,8 +60,12 @@ class Python(Emitter):
     def read_callback(self, kind):
         return f"lambda: {self.read(kind)}"
 
-    def version(self, name, version):
-        return [f"r.version(record, {name}, {version})"]
+    def version(self, name, minimum, maximum, retain):
+        call = f"r.version(record, {name}, {minimum}, {maximum})"
+        return [(f'scope[{name} + "::serialization::version"] = ' if retain else "") + call]
+
+    def assign_scope(self, name, value):
+        return [f"scope[{name}] = {value}"]
 
     def call_layout(self, name, params):
         return [

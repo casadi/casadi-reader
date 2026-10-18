@@ -48,3 +48,15 @@ test('irregular assignment indices have a resolved vector type',()=>{
  assert.equal(field.type,'std::vector<casadi_int>');
  assert.deepEqual(field.value,[0,3,5]);
 });
+test('files of earlier CasADi releases read as in CasADi, which also refuses some',()=>{
+ const releases=new URL('./fixtures/releases/',import.meta.url);
+ const expected=JSON.parse(readFileSync(new URL('expected.json',releases),'utf8'));
+ const read=name=>decode(readFileSync(new URL(name,releases),'utf8'));
+ for(const [name,outcome] of Object.entries(expected)){
+  if(outcome!=='read'){assert.throws(()=>read(name),new RegExp(outcome),name);continue;}
+  if(name.endsWith('.debug.casadi'))assert.deepEqual(read(name),read(name.replace('.debug.casadi','.casadi')),name);
+ }
+ // CasADi 3.5.5 wrote version 1 of MXFunction; the current scheme writes 3.
+ const versions=read('mx_3.5.5.casadi').objects.flatMap(o=>o.fields||[]).filter(f=>f.name==='MXFunction::serialization::version');
+ assert.deepEqual(versions.map(f=>f.value),[1]);
+});

@@ -3,3 +3,4 @@ recursive-include LICENSES *.txt
 recursive-include python *.py *.json
 recursive-include test/fixtures *.casadi *.json *.zip
 recursive-include schemes *.json
+prune test/fixtures/releases
