@@ -1,5 +1,5 @@
 from .cpp import Cpp
-from .base import Emitter, indent
+from .base import Emitter, indent, COMPARISONS, VERSION
 
 
 class C(Cpp):
@@ -22,6 +22,8 @@ class C(Cpp):
     def expr(self, operand):
         if operand[0] in ("field", "parameter"):
             return f"scope_value(d, scope, {self.string_operand(operand[1])})"
+        if operand[0] == "version":
+            return f"scope_value(d, scope, {self.quote(operand[1] + VERSION)})"
         return Emitter.expr(self, operand)
 
     def condition(self, operand):
@@ -61,6 +63,10 @@ class C(Cpp):
         if op == "not":
             return f"boolean(d, !truth({a}))"
         b = args[1]
+        if op == "next":
+            return f"next_field(d, {a}, {b})"
+        if op in COMPARISONS:
+            return f"boolean(d, numeric({a}) {COMPARISONS[op]} numeric({b}))"
         if op == "concat":
             return f"concat(d, text({a}), text({b}))"
         if op in ("equal", "not_equal"):
@@ -104,8 +110,14 @@ class C(Cpp):
 
         return "primitive_" + re.sub("[^a-zA-Z0-9]", "_", kind)
 
-    def version(self, name, version):
-        return [f"version(d, record, {name}, {version});"]
+    def version(self, name, minimum, maximum, retain):
+        call = f"version(d, record, {name}, {minimum}, {maximum})"
+        if not retain:
+            return [call + ";"]
+        return [f'set(d, scope, text(concat(d, {name}, "::serialization::version")), {call});']
+
+    def assign_scope(self, name, value):
+        return [f"set(d, scope, {name}, {value});"]
 
     def call_layout(self, name, params):
         return [

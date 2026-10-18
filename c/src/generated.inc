@@ -406,7 +406,7 @@ static void layout_AlpaqaInterface_serialize_body(cr_document* d, J* record, J* 
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Nlpsol::serialize_body"));
     layout_Nlpsol_serialize_body(d, record, scope);
-    version(d, record, "AlpaqaInterface", 1);
+    version(d, record, "AlpaqaInterface", 1, 1);
     field(d, record, "AlpaqaInterface::jacg_sp", "Sparsity", read_Sparsity);
     field(d, record, "AlpaqaInterface::opts", "Dict", read_Dict);
     --d->depth;
@@ -463,7 +463,7 @@ static void layout_BSplineInterpolant_serialize_body(cr_document* d, J* record, 
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Interpolant::serialize_body"));
     layout_Interpolant_serialize_body(d, record, scope);
-    version(d, record, "BSplineInterpolant", 1);
+    version(d, record, "BSplineInterpolant", 1, 1);
     field(d, record, "BSplineInterpolant::s", "Function", read_Function);
     --d->depth;
 }
@@ -524,7 +524,7 @@ static void layout_Bisection_serialize_body(cr_document* d, J* record, J* scope)
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Rootfinder::serialize_body"));
     layout_Rootfinder_serialize_body(d, record, scope);
-    version(d, record, "Bisection", 1);
+    version(d, record, "Bisection", 1, 1);
     field(d, record, "Bisection::max_iter", "casadi_int", primitive_casadi_int);
     field(d, record, "Bisection::max_search", "casadi_int", primitive_casadi_int);
     field(d, record, "Bisection::search_step", "double", primitive_double);
@@ -539,19 +539,23 @@ static void layout_BlazingSplineFunction_serialize_body(cr_document* d, J* recor
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "FunctionInternal::serialize_body"));
     layout_FunctionInternal_serialize_body(d, record, scope);
-    version(d, record, "BlazingSplineFunction", 2);
+    set(d, scope, text(concat(d, "BlazingSplineFunction", "::serialization::version")), version(d, record, "BlazingSplineFunction", 1, 2));
     field(d, record, "BlazingSplineFunction::diff_order", "casadi_int", primitive_casadi_int);
-    field(d, record, "BlazingSplineFunction::precompute_coeff", "bool", primitive_bool);
-    field(d, record, "BlazingSplineFunction::precompute_grid", "bool", primitive_bool);
-    field(d, record, "BlazingSplineFunction::knots", "std::vector<std::vector<double>>", read_std_vector_std_vector_double);
-    field(d, record, "BlazingSplineFunction::lookup_modes", "std::vector<std::string>", read_std_vector_std_string);
-    set(d, scope, "BlazingSplineFunction::parametric_knots", field(d, record, "BlazingSplineFunction::parametric_knots", "bool", primitive_bool));
-    if (truth(scope_value(d, scope, "BlazingSplineFunction::parametric_knots"))) {
-        field(d, record, "BlazingSplineFunction::knots_offset", "std::vector<casadi_int>", read_std_vector_casadi_int);
-        field(d, record, "BlazingSplineFunction::inv_input", "bool", primitive_bool);
+    if (truth(boolean(d, numeric(scope_value(d, scope, "BlazingSplineFunction::serialization::version")) >= numeric(integer(d, 2))))) {
+        field(d, record, "BlazingSplineFunction::precompute_coeff", "bool", primitive_bool);
+        field(d, record, "BlazingSplineFunction::precompute_grid", "bool", primitive_bool);
     }
-    field(d, record, "BlazingSplineFunction::pedantic_mode_order", "std::string", primitive_std__string);
-    field(d, record, "BlazingSplineFunction::pedantic_mode_size", "std::string", primitive_std__string);
+    field(d, record, "BlazingSplineFunction::knots", "std::vector<std::vector<double>>", read_std_vector_std_vector_double);
+    if (truth(boolean(d, numeric(scope_value(d, scope, "BlazingSplineFunction::serialization::version")) >= numeric(integer(d, 2))))) {
+        field(d, record, "BlazingSplineFunction::lookup_modes", "std::vector<std::string>", read_std_vector_std_string);
+        set(d, scope, "BlazingSplineFunction::parametric_knots", field(d, record, "BlazingSplineFunction::parametric_knots", "bool", primitive_bool));
+        if (truth(scope_value(d, scope, "BlazingSplineFunction::parametric_knots"))) {
+            field(d, record, "BlazingSplineFunction::knots_offset", "std::vector<casadi_int>", read_std_vector_casadi_int);
+            field(d, record, "BlazingSplineFunction::inv_input", "bool", primitive_bool);
+        }
+        field(d, record, "BlazingSplineFunction::pedantic_mode_order", "std::string", primitive_std__string);
+        field(d, record, "BlazingSplineFunction::pedantic_mode_size", "std::string", primitive_std__string);
+    }
     --d->depth;
 }
 
@@ -559,7 +563,7 @@ static void layout_Blocksqp_serialize_body(cr_document* d, J* record, J* scope) 
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Nlpsol::serialize_body"));
     layout_Nlpsol_serialize_body(d, record, scope);
-    version(d, record, "Blocksqp", 1);
+    version(d, record, "Blocksqp", 1, 1);
     field(d, record, "Blocksqp::nblocks", "casadi_int", primitive_casadi_int);
     field(d, record, "Blocksqp::blocks", "std::vector<casadi_int>", read_std_vector_casadi_int);
     field(d, record, "Blocksqp::dim", "std::vector<casadi_int>", read_std_vector_casadi_int);
@@ -629,7 +633,7 @@ static void layout_BonminInterface_serialize_body(cr_document* d, J* record, J* 
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Nlpsol::serialize_body"));
     layout_Nlpsol_serialize_body(d, record, scope);
-    version(d, record, "BonminInterface", 1);
+    version(d, record, "BonminInterface", 1, 1);
     field(d, record, "BonminInterface::jacg_sp", "Sparsity", read_Sparsity);
     field(d, record, "BonminInterface::hesslag_sp", "Sparsity", read_Sparsity);
     field(d, record, "BonminInterface::exact_hessian", "bool", primitive_bool);
@@ -681,7 +685,7 @@ static void layout_CbcInterface_serialize_body(cr_document* d, J* record, J* sco
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Conic::serialize_body"));
     layout_Conic_serialize_body(d, record, scope);
-    version(d, record, "CbcInterface", 1);
+    version(d, record, "CbcInterface", 1, 1);
     field(d, record, "CbcInterface::opts", "Dict", read_Dict);
     field(d, record, "CbcInterface::sos_groups", "std::vector<std::vector<int>>", read_std_vector_std_vector_int);
     field(d, record, "CbcInterface::sos_weights", "std::vector<std::vector<double>>", read_std_vector_std_vector_double);
@@ -701,7 +705,7 @@ static void layout_ClarabelInterface_serialize_body(cr_document* d, J* record, J
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Conic::serialize_body"));
     layout_Conic_serialize_body(d, record, scope);
-    version(d, record, "ClarabelInterface", 1);
+    version(d, record, "ClarabelInterface", 1, 1);
     field(d, record, "ClarabelInterface::opts", "Dict", read_Dict);
     --d->depth;
 }
@@ -710,7 +714,7 @@ static void layout_ClpInterface_serialize_body(cr_document* d, J* record, J* sco
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Conic::serialize_body"));
     layout_Conic_serialize_body(d, record, scope);
-    version(d, record, "ClpInterface", 1);
+    version(d, record, "ClpInterface", 1, 1);
     field(d, record, "ClpInterface::opts", "Dict", read_Dict);
     --d->depth;
 }
@@ -719,7 +723,7 @@ static void layout_Collocation_serialize_body(cr_document* d, J* record, J* scop
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "ImplicitFixedStepIntegrator::serialize_body"));
     layout_ImplicitFixedStepIntegrator_serialize_body(d, record, scope);
-    version(d, record, "Collocation", 2);
+    version(d, record, "Collocation", 2, 2);
     field(d, record, "Collocation::deg", "casadi_int", primitive_casadi_int);
     field(d, record, "Collocation::collocation_scheme", "std::string", primitive_std__string);
     --d->depth;
@@ -747,11 +751,18 @@ static void layout_Conic_serialize_body(cr_document* d, J* record, J* scope) {
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "FunctionInternal::serialize_body"));
     layout_FunctionInternal_serialize_body(d, record, scope);
-    version(d, record, "Conic", 4);
+    set(d, scope, text(concat(d, "Conic", "::serialization::version")), version(d, record, "Conic", 1, 4));
     field(d, record, "Conic::discrete", "std::vector<bool>", read_std_vector_bool);
-    field(d, record, "Conic::equality", "std::vector<bool>", read_std_vector_bool);
+    if (truth(boolean(d, numeric(scope_value(d, scope, "Conic::serialization::version")) >= numeric(integer(d, 3))))) {
+        field(d, record, "Conic::equality", "std::vector<bool>", read_std_vector_bool);
+    }
     field(d, record, "Conic::print_problem", "bool", primitive_bool);
-    field(d, record, "Conic::solver_version_check", "bool", primitive_bool);
+    if (truth(boolean(d, numeric(scope_value(d, scope, "Conic::serialization::version")) >= numeric(integer(d, 4))))) {
+        field(d, record, "Conic::solver_version_check", "bool", primitive_bool);
+    }
+    if (equal(scope_value(d, scope, "Conic::serialization::version"), integer(d, 1))) {
+        field(d, record, "Conic::error_on_fail", "bool", primitive_bool);
+    }
     field(d, record, "Conic::H", "Sparsity", read_Sparsity);
     field(d, record, "Conic::A", "Sparsity", read_Sparsity);
     field(d, record, "Conic::Q", "Sparsity", read_Sparsity);
@@ -775,7 +786,7 @@ static void layout_ConoptInterface_serialize_body(cr_document* d, J* record, J* 
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Nlpsol::serialize_body"));
     layout_Nlpsol_serialize_body(d, record, scope);
-    version(d, record, "ConoptInterface", 1);
+    version(d, record, "ConoptInterface", 1, 1);
     field(d, record, "ConoptInterface::exact_hessian", "bool", primitive_bool);
     field(d, record, "ConoptInterface::opts", "Dict", read_Dict);
     field(d, record, "ConoptInterface::gradf_sp", "Sparsity", read_Sparsity);
@@ -855,7 +866,7 @@ static void layout_ConstantPool_serialize_type(cr_document* d, J* record, J* sco
 
 static void layout_Convexify_serialize(cr_document* d, J* record, J* scope) {
     enter_layout(d);
-    version(d, record, text(concat(d, text(scope_value(d, scope, "prefix")), "Convexify")), 1);
+    version(d, record, text(concat(d, text(scope_value(d, scope, "prefix")), "Convexify")), 1, 1);
     field(d, record, text(concat(d, text(scope_value(d, scope, "prefix")), "Convexify::type_in")), "int", primitive_int);
     field(d, record, text(concat(d, text(scope_value(d, scope, "prefix")), "Convexify::strategy")), "int", primitive_int);
     field(d, record, text(concat(d, text(scope_value(d, scope, "prefix")), "Convexify::margin")), "double", primitive_double);
@@ -884,7 +895,7 @@ static void layout_CplexInterface_serialize_body(cr_document* d, J* record, J* s
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Conic::serialize_body"));
     layout_Conic_serialize_body(d, record, scope);
-    version(d, record, "CplexInterface", 1);
+    version(d, record, "CplexInterface", 1, 1);
     field(d, record, "CplexInterface::opts", "Dict", read_Dict);
     field(d, record, "CplexInterface::qp_method", "casadi_int", primitive_casadi_int);
     field(d, record, "CplexInterface::dump_to_file", "bool", primitive_bool);
@@ -914,11 +925,15 @@ static void layout_CvodesInterface_serialize_body(cr_document* d, J* record, J* 
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "SundialsInterface::serialize_body"));
     layout_SundialsInterface_serialize_body(d, record, scope);
-    version(d, record, "CvodesInterface", 3);
+    set(d, scope, text(concat(d, "CvodesInterface", "::serialization::version")), version(d, record, "CvodesInterface", 1, 3));
     field(d, record, "CvodesInterface::lmm", "casadi_int", primitive_casadi_int);
     field(d, record, "CvodesInterface::iter", "casadi_int", primitive_casadi_int);
-    field(d, record, "CvodesInterface::min_step_size", "double", primitive_double);
-    field(d, record, "CvodesInterface::always_recalculate_jacobian", "bool", primitive_bool);
+    if (truth(boolean(d, numeric(scope_value(d, scope, "CvodesInterface::serialization::version")) >= numeric(integer(d, 2))))) {
+        field(d, record, "CvodesInterface::min_step_size", "double", primitive_double);
+    }
+    if (truth(boolean(d, numeric(scope_value(d, scope, "CvodesInterface::serialization::version")) >= numeric(integer(d, 3))))) {
+        field(d, record, "CvodesInterface::always_recalculate_jacobian", "bool", primitive_bool);
+    }
     --d->depth;
 }
 
@@ -926,7 +941,7 @@ static void layout_DaqpInterface_serialize_body(cr_document* d, J* record, J* sc
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Conic::serialize_body"));
     layout_Conic_serialize_body(d, record, scope);
-    version(d, record, "DaqpInterface", 1);
+    version(d, record, "DaqpInterface", 1, 1);
     field(d, record, "DaqpInterface::opts", "Dict", read_Dict);
     --d->depth;
 }
@@ -1077,7 +1092,7 @@ static void layout_DirResource_serialize_body(cr_document* d, J* record, J* scop
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "ResourceInternal::serialize_body"));
     layout_ResourceInternal_serialize_body(d, record, scope);
-    version(d, record, "DirResource", 1);
+    version(d, record, "DirResource", 1, 1);
     if (equal(scope_value(d, scope, "ResourceInternal::serialize_mode"), str(d, "embed"))) {
         field(d, record, "ZipMemResource::blob", "std::stringstream", primitive_std__stringstream);
     } else {
@@ -1103,7 +1118,7 @@ static void layout_Dump_serialize_body(cr_document* d, J* record, J* scope) {
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "MXNode::serialize_body"));
     layout_MXNode_serialize_body(d, record, scope);
-    version(d, record, "Dump", 1);
+    version(d, record, "Dump", 1, 1);
     field(d, record, "Dump::base_filename", "std::string", primitive_std__string);
     field(d, record, "Dump::dir", "std::string", primitive_std__string);
     field(d, record, "Dump::format", "std::string", primitive_std__string);
@@ -1133,12 +1148,14 @@ static void layout_External_serialize_body(cr_document* d, J* record, J* scope) 
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "FunctionInternal::serialize_body"));
     layout_FunctionInternal_serialize_body(d, record, scope);
-    version(d, record, "External", 2);
+    set(d, scope, text(concat(d, "External", "::serialization::version")), version(d, record, "External", 1, 2));
     field(d, record, "External::int_data", "std::vector<casadi_int>", read_std_vector_casadi_int);
     field(d, record, "External::real_data", "std::vector<double>", read_std_vector_double);
     field(d, record, "External::string_data", "std::string", primitive_std__string);
     field(d, record, "External::li", "Importer", read_Importer);
-    field(d, record, "External::config_args", "std::vector<std::string>", read_std_vector_std_string);
+    if (truth(boolean(d, numeric(scope_value(d, scope, "External::serialization::version")) >= numeric(integer(d, 2))))) {
+        field(d, record, "External::config_args", "std::vector<std::string>", read_std_vector_std_string);
+    }
     --d->depth;
 }
 
@@ -1146,7 +1163,7 @@ static void layout_FastNewton_serialize_body(cr_document* d, J* record, J* scope
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Rootfinder::serialize_body"));
     layout_Rootfinder_serialize_body(d, record, scope);
-    version(d, record, "Newton", 1);
+    version(d, record, "Newton", 1, 1);
     field(d, record, "Newton::max_iter", "casadi_int", primitive_casadi_int);
     field(d, record, "Newton::abstol", "double", primitive_double);
     field(d, record, "Newton::abstolStep", "double", primitive_double);
@@ -1162,7 +1179,7 @@ static void layout_FatropConicInterface_serialize_body(cr_document* d, J* record
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Conic::serialize_body"));
     layout_Conic_serialize_body(d, record, scope);
-    version(d, record, "FatropConicInterface", 1);
+    version(d, record, "FatropConicInterface", 1, 1);
     --d->depth;
 }
 
@@ -1170,7 +1187,7 @@ static void layout_FatropInterface_serialize_body(cr_document* d, J* record, J* 
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Nlpsol::serialize_body"));
     layout_Nlpsol_serialize_body(d, record, scope);
-    version(d, record, "FatropInterface", 1);
+    version(d, record, "FatropInterface", 1, 1);
     field(d, record, "FatropInterface::jacg_sp", "Sparsity", read_Sparsity);
     field(d, record, "FatropInterface::hesslag_sp", "Sparsity", read_Sparsity);
     field(d, record, "FatropInterface::exact_hessian", "bool", primitive_bool);
@@ -1201,7 +1218,7 @@ static void layout_Feasiblesqpmethod_serialize_body(cr_document* d, J* record, J
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Nlpsol::serialize_body"));
     layout_Nlpsol_serialize_body(d, record, scope);
-    version(d, record, "Feasiblesqpmethod", 3);
+    set(d, scope, text(concat(d, "Feasiblesqpmethod", "::serialization::version")), version(d, record, "Feasiblesqpmethod", 1, 4));
     field(d, record, "Feasiblesqpmethod::qpsol", "Function", read_Function);
     field(d, record, "Feasiblesqpmethod::exact_hessian", "bool", primitive_bool);
     field(d, record, "Feasiblesqpmethod::max_iter", "casadi_int", primitive_casadi_int);
@@ -1212,14 +1229,52 @@ static void layout_Feasiblesqpmethod_serialize_body(cr_document* d, J* record, J
     field(d, record, "Feasiblesqpmethod::print_header", "bool", primitive_bool);
     field(d, record, "Feasiblesqpmethod::print_iteration", "bool", primitive_bool);
     field(d, record, "Feasiblesqpmethod::print_status", "bool", primitive_bool);
-    field(d, record, "Feasiblesqpmethod::init_feasible", "bool", primitive_bool);
+    if (truth(boolean(d, numeric(scope_value(d, scope, "Feasiblesqpmethod::serialization::version")) >= numeric(integer(d, 3))))) {
+        field(d, record, "Feasiblesqpmethod::init_feasible", "bool", primitive_bool);
+    }
     field(d, record, "Feasiblesqpmethod::Hsp", "Sparsity", read_Sparsity);
+    if (equal(scope_value(d, scope, "Feasiblesqpmethod::serialization::version"), integer(d, 1))) {
+        field(d, record, "Feasiblesqpmethod::Hrsp", "Sparsity", read_Sparsity);
+    }
     field(d, record, "Feasiblesqpmethod::Asp", "Sparsity", read_Sparsity);
-    set(d, scope, "Feasiblesqpmethod::convexify", field(d, record, "Feasiblesqpmethod::convexify", "bool", primitive_bool));
-    if (truth(scope_value(d, scope, "Feasiblesqpmethod::convexify"))) {
-        push(d, get(record, "layouts"), str(d, "Convexify::serialize"));
-        set(d, scope, "prefix", str(d, "Feasiblesqpmethod::"));
-        layout_Convexify_serialize(d, record, scope);
+    if (equal(scope_value(d, scope, "Feasiblesqpmethod::serialization::version"), integer(d, 1))) {
+        field(d, record, "Feasiblesqpmethod::convexify_margin", "double", primitive_double);
+        field(d, record, "Feasiblesqpmethod::convexify_strategy", "char", primitive_char);
+        field(d, record, "Feasiblesqpmethod::Hsp_project", "bool", primitive_bool);
+        field(d, record, "Feasiblesqpmethod::scc_transform", "bool", primitive_bool);
+        field(d, record, "Feasiblesqpmethod::scc_offset", "std::vector<casadi_int>", read_std_vector_casadi_int);
+        field(d, record, "Feasiblesqpmethod::scc_mapping", "std::vector<casadi_int>", read_std_vector_casadi_int);
+        field(d, record, "Feasiblesqpmethod::max_iter_eig", "casadi_int", primitive_casadi_int);
+        field(d, record, "Feasiblesqpmethod::block_size", "casadi_int", primitive_casadi_int);
+        field(d, record, "Feasiblesqpmethod::scc_sp", "Sparsity", read_Sparsity);
+    }
+    if (truth(boolean(d, numeric(scope_value(d, scope, "Feasiblesqpmethod::serialization::version")) >= numeric(integer(d, 2))))) {
+        set(d, scope, "Feasiblesqpmethod::convexify", field(d, record, "Feasiblesqpmethod::convexify", "bool", primitive_bool));
+        if (truth(scope_value(d, scope, "Feasiblesqpmethod::convexify"))) {
+            push(d, get(record, "layouts"), str(d, "Convexify::serialize"));
+            set(d, scope, "prefix", str(d, "Feasiblesqpmethod::"));
+            layout_Convexify_serialize(d, record, scope);
+        }
+    }
+    if (truth(boolean(d, numeric(scope_value(d, scope, "Feasiblesqpmethod::serialization::version")) >= numeric(integer(d, 4))))) {
+        field(d, record, "Feasiblesqpmethod::use_sqp", "bool", primitive_bool);
+        field(d, record, "Feasiblesqpmethod::use_anderson", "bool", primitive_bool);
+        field(d, record, "Feasiblesqpmethod::anderson_memory", "casadi_int", primitive_casadi_int);
+        field(d, record, "Feasiblesqpmethod::optim_tol", "double", primitive_double);
+        field(d, record, "Feasiblesqpmethod::feas_tol", "double", primitive_double);
+        field(d, record, "Feasiblesqpmethod::tr_eta1", "double", primitive_double);
+        field(d, record, "Feasiblesqpmethod::tr_eta2", "double", primitive_double);
+        field(d, record, "Feasiblesqpmethod::tr_alpha1", "double", primitive_double);
+        field(d, record, "Feasiblesqpmethod::tr_alpha2", "double", primitive_double);
+        field(d, record, "Feasiblesqpmethod::tr_tol", "double", primitive_double);
+        field(d, record, "Feasiblesqpmethod::tr_acceptance", "double", primitive_double);
+        field(d, record, "Feasiblesqpmethod::tr_rad_min", "double", primitive_double);
+        field(d, record, "Feasiblesqpmethod::tr_rad_max", "double", primitive_double);
+        field(d, record, "Feasiblesqpmethod::tr_rad0", "double", primitive_double);
+        field(d, record, "Feasiblesqpmethod::tr_scale_vector", "std::vector<double>", read_std_vector_double);
+        field(d, record, "Feasiblesqpmethod::contraction_acceptance_value", "double", primitive_double);
+        field(d, record, "Feasiblesqpmethod::watchdog", "casadi_int", primitive_casadi_int);
+        field(d, record, "Feasiblesqpmethod::max_inner_iter", "casadi_int", primitive_casadi_int);
     }
     --d->depth;
 }
@@ -1235,7 +1290,7 @@ static void layout_FiniteDiff_serialize_body(cr_document* d, J* record, J* scope
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "FunctionInternal::serialize_body"));
     layout_FunctionInternal_serialize_body(d, record, scope);
-    version(d, record, "FiniteDiff", 1);
+    version(d, record, "FiniteDiff", 1, 1);
     field(d, record, "FiniteDiff::n", "casadi_int", primitive_casadi_int);
     field(d, record, "FiniteDiff::h_iter", "casadi_int", primitive_casadi_int);
     field(d, record, "FiniteDiff::h", "double", primitive_double);
@@ -1254,7 +1309,7 @@ static void layout_FixedStepIntegrator_serialize_body(cr_document* d, J* record,
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Integrator::serialize_body"));
     layout_Integrator_serialize_body(d, record, scope);
-    version(d, record, "FixedStepIntegrator", 3);
+    version(d, record, "FixedStepIntegrator", 3, 3);
     field(d, record, "FixedStepIntegrator::nk_target", "casadi_int", primitive_casadi_int);
     field(d, record, "FixedStepIntegrator::disc", "std::vector<casadi_int>", read_std_vector_casadi_int);
     field(d, record, "FixedStepIntegrator::nv", "casadi_int", primitive_casadi_int);
@@ -1268,7 +1323,7 @@ static void layout_Fmu2_serialize_body(cr_document* d, J* record, J* scope) {
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "FmuInternal::serialize_body"));
     layout_FmuInternal_serialize_body(d, record, scope);
-    version(d, record, "Fmu2", 2);
+    version(d, record, "Fmu2", 2, 2);
     field(d, record, "Fmu2::vr_real", "std::vector<unsignedint>", read_std_vector_unsignedint);
     field(d, record, "Fmu2::vr_integer", "std::vector<unsignedint>", read_std_vector_unsignedint);
     field(d, record, "Fmu2::vr_boolean", "std::vector<unsignedint>", read_std_vector_unsignedint);
@@ -1292,7 +1347,7 @@ static void layout_Fmu3_serialize_body(cr_document* d, J* record, J* scope) {
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "FmuInternal::serialize_body"));
     layout_FmuInternal_serialize_body(d, record, scope);
-    version(d, record, "Fmu3", 1);
+    set(d, scope, text(concat(d, "Fmu3", "::serialization::version")), version(d, record, "Fmu3", 1, 2));
     field(d, record, "Fmu3::vr_real", "std::vector<unsignedint>", read_std_vector_unsignedint);
     field(d, record, "Fmu3::vr_integer", "std::vector<unsignedint>", read_std_vector_unsignedint);
     field(d, record, "Fmu3::vr_boolean", "std::vector<unsignedint>", read_std_vector_unsignedint);
@@ -1309,6 +1364,12 @@ static void layout_Fmu3_serialize_body(cr_document* d, J* record, J* scope) {
     field(d, record, "Fmu3::vr_aux_integer", "std::vector<unsignedint>", read_std_vector_unsignedint);
     field(d, record, "Fmu3::vr_aux_boolean", "std::vector<unsignedint>", read_std_vector_unsignedint);
     field(d, record, "Fmu3::vr_aux_string", "std::vector<unsignedint>", read_std_vector_unsignedint);
+    if (truth(boolean(d, numeric(scope_value(d, scope, "Fmu3::serialization::version")) >= numeric(integer(d, 2))))) {
+        field(d, record, "Fmu3::off_aux_real", "std::vector<casadi_int>", read_std_vector_casadi_int);
+        field(d, record, "Fmu3::off_aux_integer", "std::vector<casadi_int>", read_std_vector_casadi_int);
+        field(d, record, "Fmu3::off_aux_boolean", "std::vector<casadi_int>", read_std_vector_casadi_int);
+        field(d, record, "Fmu3::off_aux_string", "std::vector<casadi_int>", read_std_vector_casadi_int);
+    }
     --d->depth;
 }
 
@@ -1322,7 +1383,7 @@ static void layout_FmuFunction_serialize_body(cr_document* d, J* record, J* scop
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "FunctionInternal::serialize_body"));
     layout_FunctionInternal_serialize_body(d, record, scope);
-    version(d, record, "FmuFunction", 6);
+    version(d, record, "FmuFunction", 6, 6);
     field(d, record, "FmuFunction::Fmu", "Fmu", read_Fmu);
     const uint64_t count_1 = sizevalue(d, integer(d, (int64_t)(scope_value(d, scope, "FunctionInternal::sp_in"))->count), 1000000);
     for (uint64_t i_2 = 0; i_2 < count_1; ++i_2) {
@@ -1396,7 +1457,7 @@ static void layout_FmuInternal_serialize(cr_document* d, J* record, J* scope) {
 
 static void layout_FmuInternal_serialize_body(cr_document* d, J* record, J* scope) {
     enter_layout(d);
-    version(d, record, "FmuInternal", 4);
+    version(d, record, "FmuInternal", 4, 4);
     field(d, record, "FmuInternal::name", "std::string", primitive_std__string);
     field(d, record, "FmuInternal::scheme_in", "std::vector<std::string>", read_std_vector_std_string);
     field(d, record, "FmuInternal::scheme_out", "std::vector<std::string>", read_std_vector_std_string);
@@ -1460,7 +1521,7 @@ static void layout_FunctionInternal_serialize_body(cr_document* d, J* record, J*
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "ProtoFunction::serialize_body"));
     layout_ProtoFunction_serialize_body(d, record, scope);
-    version(d, record, "FunctionInternal", 8);
+    set(d, scope, text(concat(d, "FunctionInternal", "::serialization::version")), version(d, record, "FunctionInternal", 1, 9));
     field(d, record, "FunctionInternal::is_diff_in", "std::vector<bool>", read_std_vector_bool);
     field(d, record, "FunctionInternal::is_diff_out", "std::vector<bool>", read_std_vector_bool);
     set(d, scope, "FunctionInternal::sp_in", field(d, record, "FunctionInternal::sp_in", "std::vector<Sparsity>", read_std_vector_Sparsity));
@@ -1469,7 +1530,11 @@ static void layout_FunctionInternal_serialize_body(cr_document* d, J* record, J*
     field(d, record, "FunctionInternal::name_out", "std::vector<std::string>", read_std_vector_std_string);
     set(d, scope, "FunctionInternal::jit", field(d, record, "FunctionInternal::jit", "bool", primitive_bool));
     field(d, record, "FunctionInternal::jit_cleanup", "bool", primitive_bool);
-    set(d, scope, "FunctionInternal::jit_serialize", field(d, record, "FunctionInternal::jit_serialize", "std::string", primitive_std__string));
+    if (truth(boolean(d, numeric(scope_value(d, scope, "FunctionInternal::serialization::version")) < numeric(integer(d, 2))))) {
+        set(d, scope, "FunctionInternal::jit_serialize", str(d, "source"));
+    } else {
+        set(d, scope, "FunctionInternal::jit_serialize", field(d, record, "FunctionInternal::jit_serialize", "std::string", primitive_std__string));
+    }
     if ((equal(scope_value(d, scope, "FunctionInternal::jit_serialize"), str(d, "link")) || equal(scope_value(d, scope, "FunctionInternal::jit_serialize"), str(d, "embed")))) {
         field(d, record, "FunctionInternal::jit_library", "std::string", primitive_std__string);
         if (equal(scope_value(d, scope, "FunctionInternal::jit_serialize"), str(d, "embed"))) {
@@ -1479,9 +1544,14 @@ static void layout_FunctionInternal_serialize_body(cr_document* d, J* record, J*
     field(d, record, "FunctionInternal::jit_temp_suffix", "bool", primitive_bool);
     field(d, record, "FunctionInternal::jit_base_name", "std::string", primitive_std__string);
     field(d, record, "FunctionInternal::jit_options", "Dict", read_Dict);
+    if (truth(boolean(d, numeric(scope_value(d, scope, "FunctionInternal::serialization::version")) >= numeric(integer(d, 9))))) {
+        field(d, record, "FunctionInternal::codegen_options", "Dict", read_Dict);
+    }
     field(d, record, "FunctionInternal::compiler_plugin", "std::string", primitive_std__string);
     field(d, record, "FunctionInternal::has_refcount", "bool", primitive_bool);
-    field(d, record, "FunctionInternal::cache_init", "Dict", read_Dict);
+    if (truth(boolean(d, numeric(scope_value(d, scope, "FunctionInternal::serialization::version")) >= numeric(integer(d, 6))))) {
+        field(d, record, "FunctionInternal::cache_init", "Dict", read_Dict);
+    }
     field(d, record, "FunctionInternal::derivative_of", "Function", read_Function);
     field(d, record, "FunctionInternal::jac_penalty", "double", primitive_double);
     field(d, record, "FunctionInternal::enable_forward", "bool", primitive_bool);
@@ -1497,23 +1567,34 @@ static void layout_FunctionInternal_serialize_body(cr_document* d, J* record, J*
     field(d, record, "FunctionInternal::always_inline", "bool", primitive_bool);
     field(d, record, "FunctionInternal::never_inline", "bool", primitive_bool);
     field(d, record, "FunctionInternal::max_num_dir", "casadi_int", primitive_casadi_int);
+    if (truth(boolean(d, numeric(scope_value(d, scope, "FunctionInternal::serialization::version")) < numeric(integer(d, 3))))) {
+        field(d, record, "FunctionInternal::regularity_check", "bool", primitive_bool);
+    }
     field(d, record, "FunctionInternal::inputs_check", "bool", primitive_bool);
     field(d, record, "FunctionInternal::fd_step", "double", primitive_double);
     field(d, record, "FunctionInternal::fd_method", "std::string", primitive_std__string);
     field(d, record, "FunctionInternal::print_in", "bool", primitive_bool);
     field(d, record, "FunctionInternal::print_out", "bool", primitive_bool);
-    field(d, record, "FunctionInternal::print_canonical", "bool", primitive_bool);
-    field(d, record, "FunctionInternal::max_io", "casadi_int", primitive_casadi_int);
+    if (truth(boolean(d, numeric(scope_value(d, scope, "FunctionInternal::serialization::version")) >= numeric(integer(d, 7))))) {
+        field(d, record, "FunctionInternal::print_canonical", "bool", primitive_bool);
+    }
+    if (truth(boolean(d, numeric(scope_value(d, scope, "FunctionInternal::serialization::version")) >= numeric(integer(d, 4))))) {
+        field(d, record, "FunctionInternal::max_io", "casadi_int", primitive_casadi_int);
+    }
     field(d, record, "FunctionInternal::dump_in", "bool", primitive_bool);
     field(d, record, "FunctionInternal::dump_out", "bool", primitive_bool);
     field(d, record, "FunctionInternal::dump_dir", "std::string", primitive_std__string);
     field(d, record, "FunctionInternal::dump_format", "std::string", primitive_std__string);
     field(d, record, "FunctionInternal::forward_options", "Dict", read_Dict);
     field(d, record, "FunctionInternal::reverse_options", "Dict", read_Dict);
-    field(d, record, "FunctionInternal::jacobian_options", "Dict", read_Dict);
-    field(d, record, "FunctionInternal::der_options", "Dict", read_Dict);
+    if (truth(boolean(d, numeric(scope_value(d, scope, "FunctionInternal::serialization::version")) >= numeric(integer(d, 5))))) {
+        field(d, record, "FunctionInternal::jacobian_options", "Dict", read_Dict);
+        field(d, record, "FunctionInternal::der_options", "Dict", read_Dict);
+    }
     field(d, record, "FunctionInternal::custom_jacobian", "Function", read_Function);
-    field(d, record, "FunctionInternal::registered_functions", "std::vector<Function>", read_std_vector_Function);
+    if (truth(boolean(d, numeric(scope_value(d, scope, "FunctionInternal::serialization::version")) >= numeric(integer(d, 8))))) {
+        field(d, record, "FunctionInternal::registered_functions", "std::vector<Function>", read_std_vector_Function);
+    }
     field(d, record, "FunctionInternal::sz_arg_per", "size_t", primitive_size_t);
     field(d, record, "FunctionInternal::sz_res_per", "size_t", primitive_size_t);
     field(d, record, "FunctionInternal::sz_iw_per", "size_t", primitive_size_t);
@@ -1535,7 +1616,7 @@ static void layout_GenericExternal_serialize_type(cr_document* d, J* record, J* 
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "FunctionInternal::serialize_type"));
     layout_FunctionInternal_serialize_type(d, record, scope);
-    version(d, record, "GenericExternal", 1);
+    version(d, record, "GenericExternal", 1, 1);
     set(d, scope, "GenericExternal::type", field(d, record, "GenericExternal::type", "char", primitive_char));
     --d->depth;
 }
@@ -1690,8 +1771,10 @@ static void layout_GurobiInterface_serialize_body(cr_document* d, J* record, J* 
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Conic::serialize_body"));
     layout_Conic_serialize_body(d, record, scope);
-    version(d, record, "GurobiInterface", 2);
-    field(d, record, "GurobiInterface::lazy_constraints_callback", "Function", read_Function);
+    set(d, scope, text(concat(d, "GurobiInterface", "::serialization::version")), version(d, record, "GurobiInterface", 1, 2));
+    if (truth(boolean(d, numeric(scope_value(d, scope, "GurobiInterface::serialization::version")) >= numeric(integer(d, 2))))) {
+        field(d, record, "GurobiInterface::lazy_constraints_callback", "Function", read_Function);
+    }
     field(d, record, "GurobiInterface::vtype", "std::vector<char>", read_std_vector_char);
     field(d, record, "GurobiInterface::opts", "Dict", read_Dict);
     field(d, record, "GurobiInterface::sos_weights", "std::vector<double>", read_std_vector_double);
@@ -1707,7 +1790,7 @@ static void layout_HighsInterface_serialize_body(cr_document* d, J* record, J* s
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Conic::serialize_body"));
     layout_Conic_serialize_body(d, record, scope);
-    version(d, record, "HighsInterface", 1);
+    version(d, record, "HighsInterface", 1, 1);
     field(d, record, "HighsInterface::opts", "Dict", read_Dict);
     --d->depth;
 }
@@ -1746,7 +1829,7 @@ static void layout_HpipmInterface_serialize_body(cr_document* d, J* record, J* s
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Conic::serialize_body"));
     layout_Conic_serialize_body(d, record, scope);
-    version(d, record, "HpipmInterface", 1);
+    version(d, record, "HpipmInterface", 1, 1);
     --d->depth;
 }
 
@@ -1771,7 +1854,7 @@ static void layout_IdasInterface_serialize_body(cr_document* d, J* record, J* sc
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "SundialsInterface::serialize_body"));
     layout_SundialsInterface_serialize_body(d, record, scope);
-    version(d, record, "IdasInterface", 2);
+    set(d, scope, text(concat(d, "IdasInterface", "::serialization::version")), version(d, record, "IdasInterface", 1, 2));
     field(d, record, "IdasInterface::cj_scaling", "bool", primitive_bool);
     field(d, record, "IdasInterface::calc_ic", "bool", primitive_bool);
     field(d, record, "IdasInterface::calc_icB", "bool", primitive_bool);
@@ -1779,8 +1862,10 @@ static void layout_IdasInterface_serialize_body(cr_document* d, J* record, J* sc
     field(d, record, "IdasInterface::abstolv", "std::vector<double>", read_std_vector_double);
     field(d, record, "IdasInterface::first_time", "double", primitive_double);
     field(d, record, "IdasInterface::init_xdot", "std::vector<double>", read_std_vector_double);
-    field(d, record, "IdasInterface::max_step_size", "double", primitive_double);
-    field(d, record, "IdasInterface::y_c", "std::vector<casadi_int>", read_std_vector_casadi_int);
+    if (truth(boolean(d, numeric(scope_value(d, scope, "IdasInterface::serialization::version")) >= numeric(integer(d, 2))))) {
+        field(d, record, "IdasInterface::max_step_size", "double", primitive_double);
+        field(d, record, "IdasInterface::y_c", "std::vector<casadi_int>", read_std_vector_casadi_int);
+    }
     --d->depth;
 }
 
@@ -1788,7 +1873,7 @@ static void layout_ImplicitFixedStepIntegrator_serialize_body(cr_document* d, J*
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "FixedStepIntegrator::serialize_body"));
     layout_FixedStepIntegrator_serialize_body(d, record, scope);
-    version(d, record, "ImplicitFixedStepIntegrator", 2);
+    version(d, record, "ImplicitFixedStepIntegrator", 2, 2);
     --d->depth;
 }
 
@@ -1814,7 +1899,7 @@ static void layout_ImporterInternal_serialize(cr_document* d, J* record, J* scop
 
 static void layout_ImporterInternal_serialize_body(cr_document* d, J* record, J* scope) {
     enter_layout(d);
-    version(d, record, "ImporterInternal", 1);
+    version(d, record, "ImporterInternal", 1, 1);
     field(d, record, "ImporterInternal::name", "std::string", primitive_std__string);
     field(d, record, "ImporterInternal::meta", "std::map<std::string,std::pair<casadi_int,std::string>>", read_std_map_std_string_std_pair_casadi_int_std_string);
     field(d, record, "ImporterInternal::external", "std::map<std::string,std::pair<bool,std::string>>", read_std_map_std_string_std_pair_bool_std_string);
@@ -1851,7 +1936,7 @@ static void layout_Integrator_serialize_body(cr_document* d, J* record, J* scope
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "OracleFunction::serialize_body"));
     layout_OracleFunction_serialize_body(d, record, scope);
-    version(d, record, "Integrator", 3);
+    version(d, record, "Integrator", 3, 3);
     field(d, record, "Integrator::sp_jac_dae", "Sparsity", read_Sparsity);
     field(d, record, "Integrator::sp_jac_rdae", "Sparsity", read_Sparsity);
     field(d, record, "Integrator::t0", "double", primitive_double);
@@ -1907,14 +1992,17 @@ static void layout_Interpolant_serialize_body(cr_document* d, J* record, J* scop
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "FunctionInternal::serialize_body"));
     layout_FunctionInternal_serialize_body(d, record, scope);
-    version(d, record, "Interpolant", 2);
+    set(d, scope, text(concat(d, "Interpolant", "::serialization::version")), version(d, record, "Interpolant", 1, 2));
     field(d, record, "Interpolant::ndim", "casadi_int", primitive_casadi_int);
     field(d, record, "Interpolant::m", "casadi_int", primitive_casadi_int);
     field(d, record, "Interpolant::grid", "std::vector<double>", read_std_vector_double);
     field(d, record, "Interpolant::offset", "std::vector<casadi_int>", read_std_vector_casadi_int);
     field(d, record, "Interpolant::values", "std::vector<double>", read_std_vector_double);
     field(d, record, "Interpolant::lookup_modes", "std::vector<std::string>", read_std_vector_std_string);
-    field(d, record, "Interpolant::batch_x", "casadi_int", primitive_casadi_int);
+    if (equal(scope_value(d, scope, "Interpolant::serialization::version"), integer(d, 1))) {
+    } else {
+        field(d, record, "Interpolant::batch_x", "casadi_int", primitive_casadi_int);
+    }
     --d->depth;
 }
 
@@ -1938,7 +2026,7 @@ static void layout_IpoptInterface_serialize_body(cr_document* d, J* record, J* s
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Nlpsol::serialize_body"));
     layout_Nlpsol_serialize_body(d, record, scope);
-    version(d, record, "IpoptInterface", 3);
+    set(d, scope, text(concat(d, "IpoptInterface", "::serialization::version")), version(d, record, "IpoptInterface", 1, 3));
     field(d, record, "IpoptInterface::jacg_sp", "Sparsity", read_Sparsity);
     field(d, record, "IpoptInterface::hesslag_sp", "Sparsity", read_Sparsity);
     field(d, record, "IpoptInterface::exact_hessian", "bool", primitive_bool);
@@ -1951,15 +2039,19 @@ static void layout_IpoptInterface_serialize_body(cr_document* d, J* record, J* s
     field(d, record, "IpoptInterface::con_string_md", "Dict", read_Dict);
     field(d, record, "IpoptInterface::con_integer_md", "Dict", read_Dict);
     field(d, record, "IpoptInterface::con_numeric_md", "Dict", read_Dict);
-    set(d, scope, "IpoptInterface::convexify", field(d, record, "IpoptInterface::convexify", "bool", primitive_bool));
-    if (truth(scope_value(d, scope, "IpoptInterface::convexify"))) {
-        push(d, get(record, "layouts"), str(d, "Convexify::serialize"));
-        set(d, scope, "prefix", str(d, "IpoptInterface::"));
-        layout_Convexify_serialize(d, record, scope);
+    if (truth(boolean(d, numeric(scope_value(d, scope, "IpoptInterface::serialization::version")) >= numeric(integer(d, 2))))) {
+        set(d, scope, "IpoptInterface::convexify", field(d, record, "IpoptInterface::convexify", "bool", primitive_bool));
+        if (truth(scope_value(d, scope, "IpoptInterface::convexify"))) {
+            push(d, get(record, "layouts"), str(d, "Convexify::serialize"));
+            set(d, scope, "prefix", str(d, "IpoptInterface::"));
+            layout_Convexify_serialize(d, record, scope);
+        }
     }
-    field(d, record, "IpoptInterface::clip_inactive_lam", "bool", primitive_bool);
-    field(d, record, "IpoptInterface::inactive_lam_strategy", "std::string", primitive_std__string);
-    field(d, record, "IpoptInterface::inactive_lam_value", "double", primitive_double);
+    if (truth(boolean(d, numeric(scope_value(d, scope, "IpoptInterface::serialization::version")) >= numeric(integer(d, 3))))) {
+        field(d, record, "IpoptInterface::clip_inactive_lam", "bool", primitive_bool);
+        field(d, record, "IpoptInterface::inactive_lam_strategy", "std::string", primitive_std__string);
+        field(d, record, "IpoptInterface::inactive_lam_value", "double", primitive_double);
+    }
     --d->depth;
 }
 
@@ -1967,7 +2059,7 @@ static void layout_Ipqp_serialize_body(cr_document* d, J* record, J* scope) {
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Conic::serialize_body"));
     layout_Conic_serialize_body(d, record, scope);
-    version(d, record, "Ipqp", 1);
+    version(d, record, "Ipqp", 1, 1);
     field(d, record, "Ipqp::kkt", "Sparsity", read_Sparsity);
     field(d, record, "Ipqp::print_iter", "bool", primitive_bool);
     field(d, record, "Ipqp::print_header", "bool", primitive_bool);
@@ -1993,7 +2085,7 @@ static void layout_KnitroInterface_serialize_body(cr_document* d, J* record, J* 
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Nlpsol::serialize_body"));
     layout_Nlpsol_serialize_body(d, record, scope);
-    version(d, record, "KnitroInterface", 2);
+    set(d, scope, text(concat(d, "KnitroInterface", "::serialization::version")), version(d, record, "KnitroInterface", 1, 2));
     field(d, record, "KnitroInterface::contype", "std::vector<int>", read_std_vector_int);
     field(d, record, "KnitroInterface::comp_type", "std::vector<int>", read_std_vector_int);
     field(d, record, "KnitroInterface::comp_i1", "std::vector<int>", read_std_vector_int);
@@ -2001,7 +2093,9 @@ static void layout_KnitroInterface_serialize_body(cr_document* d, J* record, J* 
     field(d, record, "KnitroInterface::opts", "Dict", read_Dict);
     field(d, record, "KnitroInterface::jacg_sp", "Sparsity", read_Sparsity);
     field(d, record, "KnitroInterface::hesslag_sp", "Sparsity", read_Sparsity);
-    field(d, record, "KnitroInterface::options_file", "std::string", primitive_std__string);
+    if (truth(boolean(d, numeric(scope_value(d, scope, "KnitroInterface::serialization::version")) >= numeric(integer(d, 2))))) {
+        field(d, record, "KnitroInterface::options_file", "std::string", primitive_std__string);
+    }
     --d->depth;
 }
 
@@ -2040,7 +2134,7 @@ static void layout_LapackLu_serialize_body(cr_document* d, J* record, J* scope) 
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "LinsolInternal::serialize_body"));
     layout_LinsolInternal_serialize_body(d, record, scope);
-    version(d, record, "LapackLu", 1);
+    version(d, record, "LapackLu", 1, 1);
     field(d, record, "LapackLu::equilibriate", "bool", primitive_bool);
     field(d, record, "LapackLu::allow_equilibration_failure", "bool", primitive_bool);
     --d->depth;
@@ -2066,7 +2160,7 @@ static void layout_LinearInterpolant_serialize_type(cr_document* d, J* record, J
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Interpolant::serialize_type"));
     layout_Interpolant_serialize_type(d, record, scope);
-    version(d, record, "LinearInterpolant", 1);
+    version(d, record, "LinearInterpolant", 1, 1);
     set(d, scope, "LinearInterpolant::type", field(d, record, "LinearInterpolant::type", "char", primitive_char));
     --d->depth;
 }
@@ -2084,7 +2178,7 @@ static void layout_LinearInterpolantJac_serialize_type(cr_document* d, J* record
     layout_FunctionInternal_serialize_type(d, record, scope);
     push(d, get(record, "layouts"), str(d, ">PluginInterface<Interpolant>::serialize_type"));
     layout_PluginInterface_Interpolant_serialize_type(d, record, scope);
-    version(d, record, "LinearInterpolant", 1);
+    version(d, record, "LinearInterpolant", 1, 1);
     set(d, scope, "LinearInterpolant::type", field(d, record, "LinearInterpolant::type", "char", primitive_char));
     --d->depth;
 }
@@ -2131,7 +2225,7 @@ static void layout_LinsolLdl_serialize_body(cr_document* d, J* record, J* scope)
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "LinsolInternal::serialize_body"));
     layout_LinsolInternal_serialize_body(d, record, scope);
-    version(d, record, "LinsolLdl", 1);
+    version(d, record, "LinsolLdl", 1, 1);
     field(d, record, "LinsolLdl::p", "std::vector<casadi_int>", read_std_vector_casadi_int);
     field(d, record, "LinsolLdl::sp_Lt", "Sparsity", read_Sparsity);
     --d->depth;
@@ -2141,13 +2235,15 @@ static void layout_LinsolQr_serialize_body(cr_document* d, J* record, J* scope) 
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "LinsolInternal::serialize_body"));
     layout_LinsolInternal_serialize_body(d, record, scope);
-    version(d, record, "LinsolQr", 2);
+    set(d, scope, text(concat(d, "LinsolQr", "::serialization::version")), version(d, record, "LinsolQr", 1, 2));
     field(d, record, "LinsolQr::prinv", "std::vector<casadi_int>", read_std_vector_casadi_int);
     field(d, record, "LinsolQr::pc", "std::vector<casadi_int>", read_std_vector_casadi_int);
     field(d, record, "LinsolQr::sp_v", "Sparsity", read_Sparsity);
     field(d, record, "LinsolQr::sp_r", "Sparsity", read_Sparsity);
     field(d, record, "LinsolQr::eps", "double", primitive_double);
-    field(d, record, "LinsolQr::n_cache", "casadi_int", primitive_casadi_int);
+    if (truth(boolean(d, numeric(scope_value(d, scope, "LinsolQr::serialization::version")) > numeric(integer(d, 1))))) {
+        field(d, record, "LinsolQr::n_cache", "casadi_int", primitive_casadi_int);
+    }
     --d->depth;
 }
 
@@ -2204,7 +2300,7 @@ static void layout_MXFunction_serialize_body(cr_document* d, J* record, J* scope
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "XFunction<MXFunction,MX,MXNode>::serialize_body"));
     layout_XFunction_MXFunction_MX_MXNode_serialize_body(d, record, scope);
-    version(d, record, "MXFunction", 3);
+    set(d, scope, text(concat(d, "MXFunction", "::serialization::version")), version(d, record, "MXFunction", 1, 3));
     set(d, scope, "MXFunction::n_instr", field(d, record, "MXFunction::n_instr", "size_t", primitive_size_t));
     const uint64_t count_5 = sizevalue(d, scope_value(d, scope, "MXFunction::n_instr"), 1000000);
     for (uint64_t i_6 = 0; i_6 < count_5; ++i_6) {
@@ -2216,8 +2312,12 @@ static void layout_MXFunction_serialize_body(cr_document* d, J* record, J* scope
     field(d, record, "MXFunction::free_vars", "std::vector<MX>", read_std_vector_MX);
     field(d, record, "MXFunction::default_in", "std::vector<double>", read_std_vector_double);
     field(d, record, "MXFunction::live_variables", "bool", primitive_bool);
-    field(d, record, "MXFunction::print_instructions", "bool", primitive_bool);
-    field(d, record, "MXFunction::dump_trace", "bool", primitive_bool);
+    if (truth(boolean(d, numeric(scope_value(d, scope, "MXFunction::serialization::version")) >= numeric(integer(d, 2))))) {
+        field(d, record, "MXFunction::print_instructions", "bool", primitive_bool);
+    }
+    if (truth(boolean(d, numeric(scope_value(d, scope, "MXFunction::serialization::version")) >= numeric(integer(d, 3))))) {
+        field(d, record, "MXFunction::dump_trace", "bool", primitive_bool);
+    }
     push(d, get(record, "layouts"), str(d, "XFunction<MXFunction,MX,MXNode>::delayed_serialize_members"));
     layout_XFunction_MXFunction_MX_MXNode_delayed_serialize_members(d, record, scope);
     --d->depth;
@@ -2254,7 +2354,7 @@ static void layout_MadmpecInterface_serialize_body(cr_document* d, J* record, J*
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Nlpsol::serialize_body"));
     layout_Nlpsol_serialize_body(d, record, scope);
-    version(d, record, "MadmpecInterface", 1);
+    version(d, record, "MadmpecInterface", 1, 1);
     field(d, record, "MadmpecInterface::jacg_sp", "Sparsity", read_Sparsity);
     field(d, record, "MadmpecInterface::hesslag_sp", "Sparsity", read_Sparsity);
     field(d, record, "MadmpecInterface::exact_hessian", "bool", primitive_bool);
@@ -2270,12 +2370,18 @@ static void layout_MadnlpInterface_serialize_body(cr_document* d, J* record, J* 
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Nlpsol::serialize_body"));
     layout_Nlpsol_serialize_body(d, record, scope);
-    version(d, record, "MadnlpInterface", 2);
+    set(d, scope, text(concat(d, "MadnlpInterface", "::serialization::version")), version(d, record, "MadnlpInterface", 1, 2));
     field(d, record, "MadnlpInterface::jacg_sp", "Sparsity", read_Sparsity);
     field(d, record, "MadnlpInterface::hesslag_sp", "Sparsity", read_Sparsity);
     field(d, record, "MadnlpInterface::exact_hessian", "bool", primitive_bool);
     field(d, record, "MadnlpInterface::opts", "Dict", read_Dict);
     field(d, record, "MadnlpInterface::convexify", "bool", primitive_bool);
+    if (equal(scope_value(d, scope, "MadnlpInterface::serialization::version"), integer(d, 1))) {
+        field(d, record, "MadnlpInterface::nzj_i", "std::vector<casadi_int>", read_std_vector_casadi_int);
+        field(d, record, "MadnlpInterface::nzj_j", "std::vector<casadi_int>", read_std_vector_casadi_int);
+        field(d, record, "MadnlpInterface::nzh_i", "std::vector<casadi_int>", read_std_vector_casadi_int);
+        field(d, record, "MadnlpInterface::nzh_j", "std::vector<casadi_int>", read_std_vector_casadi_int);
+    }
     --d->depth;
 }
 
@@ -2360,7 +2466,7 @@ static void layout_MosekInterface_serialize_body(cr_document* d, J* record, J* s
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Conic::serialize_body"));
     layout_Conic_serialize_body(d, record, scope);
-    version(d, record, "MosekInterface", 1);
+    version(d, record, "MosekInterface", 1, 1);
     field(d, record, "MosekInterface::opts", "Dict", read_Dict);
     --d->depth;
 }
@@ -2392,7 +2498,7 @@ static void layout_MumpsInterface_serialize_body(cr_document* d, J* record, J* s
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "LinsolInternal::serialize_body"));
     layout_LinsolInternal_serialize_body(d, record, scope);
-    version(d, record, "Mumps", 1);
+    version(d, record, "Mumps", 1, 1);
     field(d, record, "MumpsInterface::symmetric", "bool", primitive_bool);
     field(d, record, "MumpsInterface::posdef", "bool", primitive_bool);
     --d->depth;
@@ -2408,7 +2514,7 @@ static void layout_Newton_serialize_body(cr_document* d, J* record, J* scope) {
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Rootfinder::serialize_body"));
     layout_Rootfinder_serialize_body(d, record, scope);
-    version(d, record, "Newton", 1);
+    version(d, record, "Newton", 1, 1);
     field(d, record, "Newton::max_iter", "casadi_int", primitive_casadi_int);
     field(d, record, "Newton::abstol", "double", primitive_double);
     field(d, record, "Newton::abstolStep", "double", primitive_double);
@@ -2421,12 +2527,15 @@ static void layout_Nlpsol_serialize_body(cr_document* d, J* record, J* scope) {
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "OracleFunction::serialize_body"));
     layout_OracleFunction_serialize_body(d, record, scope);
-    version(d, record, "Nlpsol", 5);
+    set(d, scope, text(concat(d, "Nlpsol", "::serialization::version")), version(d, record, "Nlpsol", 1, 5));
     field(d, record, "Nlpsol::nx", "casadi_int", primitive_casadi_int);
     field(d, record, "Nlpsol::ng", "casadi_int", primitive_casadi_int);
     field(d, record, "Nlpsol::np", "casadi_int", primitive_casadi_int);
     field(d, record, "Nlpsol::fcallback", "Function", read_Function);
     field(d, record, "Nlpsol::callback_step", "casadi_int", primitive_casadi_int);
+    if (truth(boolean(d, numeric(scope_value(d, scope, "Nlpsol::serialization::version")) <= numeric(integer(d, 2))))) {
+        field(d, record, "Nlpsol::error_on_fail", "bool", primitive_bool);
+    }
     field(d, record, "Nlpsol::eval_errors_fatal", "bool", primitive_bool);
     field(d, record, "Nlpsol::warn_initial_bounds", "bool", primitive_bool);
     field(d, record, "Nlpsol::iteration_callback_ignore_errors", "bool", primitive_bool);
@@ -2439,13 +2548,22 @@ static void layout_Nlpsol_serialize_body(cr_document* d, J* record, J* scope) {
     field(d, record, "Nlpsol::bound_consistency", "bool", primitive_bool);
     field(d, record, "Nlpsol::no_nlp_grad", "bool", primitive_bool);
     field(d, record, "Nlpsol::discrete", "std::vector<bool>", read_std_vector_bool);
-    field(d, record, "Nlpsol::equality", "std::vector<bool>", read_std_vector_bool);
+    if (truth(boolean(d, numeric(scope_value(d, scope, "Nlpsol::serialization::version")) >= numeric(integer(d, 4))))) {
+        field(d, record, "Nlpsol::equality", "std::vector<bool>", read_std_vector_bool);
+    }
     field(d, record, "Nlpsol::mi", "bool", primitive_bool);
-    field(d, record, "Nlpsol::sens_linsol", "std::string", primitive_std__string);
-    field(d, record, "Nlpsol::sens_linsol_options", "Dict", read_Dict);
-    field(d, record, "Nlpsol::detect_simple_bounds_is_simple", "std::vector<char>", read_std_vector_char);
-    field(d, record, "Nlpsol::detect_simple_bounds_parts", "Function", read_Function);
-    field(d, record, "Nlpsol::detect_simple_bounds_target_x", "std::vector<casadi_int>", read_std_vector_casadi_int);
+    if (truth(boolean(d, numeric(scope_value(d, scope, "Nlpsol::serialization::version")) >= numeric(integer(d, 2))))) {
+        field(d, record, "Nlpsol::sens_linsol", "std::string", primitive_std__string);
+        field(d, record, "Nlpsol::sens_linsol_options", "Dict", read_Dict);
+    }
+    if (truth(boolean(d, numeric(scope_value(d, scope, "Nlpsol::serialization::version")) >= numeric(integer(d, 3))))) {
+        field(d, record, "Nlpsol::detect_simple_bounds_is_simple", "std::vector<char>", read_std_vector_char);
+        field(d, record, "Nlpsol::detect_simple_bounds_parts", "Function", read_Function);
+        if (equal(scope_value(d, scope, "Nlpsol::serialization::version"), integer(d, 4))) {
+            fail(d, "%s", "Saved detect_simple_bounds_parts changed signature");
+        }
+        field(d, record, "Nlpsol::detect_simple_bounds_target_x", "std::vector<casadi_int>", read_std_vector_casadi_int);
+    }
     --d->depth;
 }
 
@@ -2510,7 +2628,7 @@ static void layout_OnnxFunction_serialize_body(cr_document* d, J* record, J* sco
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "FunctionInternal::serialize_body"));
     layout_FunctionInternal_serialize_body(d, record, scope);
-    version(d, record, "OnnxFunction", 2);
+    set(d, scope, text(concat(d, "OnnxFunction", "::serialization::version")), version(d, record, "OnnxFunction", 1, 2));
     field(d, record, "OnnxFunction::model_data", "std::string", primitive_std__string);
     push(d, get(record, "layouts"), str(d, "pack_tensors"));
     set(d, scope, "d", str(d, "OnnxFunction::in"));
@@ -2528,11 +2646,13 @@ static void layout_OnnxFunction_serialize_body(cr_document* d, J* record, J* sco
     field(d, record, "OnnxFunction::fwd_dim", "std::string", primitive_std__string);
     field(d, record, "OnnxFunction::adj_dim", "std::string", primitive_std__string);
     field(d, record, "OnnxFunction::input_values", "std::map<std::string,std::vector<double>>", read_std_map_std_string_std_vector_double);
-    field(d, record, "OnnxFunction::model_path", "std::string", primitive_std__string);
-    field(d, record, "OnnxFunction::dim_bindings", "std::map<std::string,casadi_int>", read_std_map_std_string_casadi_int);
-    field(d, record, "OnnxFunction::input_shapes", "std::map<std::string,std::vector<casadi_int>>", read_std_map_std_string_std_vector_casadi_int);
-    field(d, record, "OnnxFunction::derivative_opts", "Dict", read_Dict);
-    field(d, record, "OnnxFunction::builder_opts", "Dict", read_Dict);
+    if (truth(boolean(d, numeric(scope_value(d, scope, "OnnxFunction::serialization::version")) >= numeric(integer(d, 2))))) {
+        field(d, record, "OnnxFunction::model_path", "std::string", primitive_std__string);
+        field(d, record, "OnnxFunction::dim_bindings", "std::map<std::string,casadi_int>", read_std_map_std_string_casadi_int);
+        field(d, record, "OnnxFunction::input_shapes", "std::map<std::string,std::vector<casadi_int>>", read_std_map_std_string_std_vector_casadi_int);
+        field(d, record, "OnnxFunction::derivative_opts", "Dict", read_Dict);
+        field(d, record, "OnnxFunction::builder_opts", "Dict", read_Dict);
+    }
     --d->depth;
 }
 
@@ -2549,7 +2669,7 @@ static void layout_OnnxRuntimeInterface_serialize_body(cr_document* d, J* record
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "OnnxFunction::serialize_body"));
     layout_OnnxFunction_serialize_body(d, record, scope);
-    version(d, record, "OnnxRuntimeInterface", 1);
+    version(d, record, "OnnxRuntimeInterface", 1, 1);
     field(d, record, "OnnxRuntimeInterface::provider", "std::string", primitive_std__string);
     --d->depth;
 }
@@ -2558,7 +2678,7 @@ static void layout_OoqpInterface_serialize_body(cr_document* d, J* record, J* sc
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Conic::serialize_body"));
     layout_Conic_serialize_body(d, record, scope);
-    version(d, record, "OoqpInterface", 1);
+    version(d, record, "OoqpInterface", 1, 1);
     field(d, record, "OoqpInterface::spAT", "Sparsity", read_Sparsity);
     field(d, record, "OoqpInterface::nQ", "casadi_int", primitive_casadi_int);
     field(d, record, "OoqpInterface::nH", "casadi_int", primitive_casadi_int);
@@ -2573,33 +2693,42 @@ static void layout_OracleFunction_serialize_body(cr_document* d, J* record, J* s
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "FunctionInternal::serialize_body"));
     layout_FunctionInternal_serialize_body(d, record, scope);
-    version(d, record, "OracleFunction", 3);
+    set(d, scope, text(concat(d, "OracleFunction", "::serialization::version")), version(d, record, "OracleFunction", 1, 3));
     field(d, record, "OracleFunction::oracle", "Function", read_Function);
     field(d, record, "OracleFunction::common_options", "Dict", read_Dict);
     field(d, record, "OracleFunction::specific_options", "Dict", read_Dict);
     field(d, record, "OracleFunction::show_eval_warnings", "bool", primitive_bool);
-    field(d, record, "OracleFunction::max_num_threads", "int", primitive_int);
+    if (truth(boolean(d, numeric(scope_value(d, scope, "OracleFunction::serialization::version")) >= numeric(integer(d, 3))))) {
+        field(d, record, "OracleFunction::max_num_threads", "int", primitive_int);
+    }
     set(d, scope, "OracleFunction::all_functions::size", field(d, record, "OracleFunction::all_functions::size", "size_t", primitive_size_t));
     const uint64_t count_7 = sizevalue(d, scope_value(d, scope, "OracleFunction::all_functions::size"), 1000000);
     for (uint64_t i_8 = 0; i_8 < count_7; ++i_8) {
         field(d, record, "OracleFunction::all_functions::key", "std::string", primitive_std__string);
-        set(d, scope, "OracleFunction::all_functions::value::jit", field(d, record, "OracleFunction::all_functions::value::jit", "bool", primitive_bool));
-        if ((truth(scope_value(d, scope, "FunctionInternal::jit")) && truth(scope_value(d, scope, "OracleFunction::all_functions::value::jit")))) {
-            if (equal(scope_value(d, scope, "FunctionInternal::jit_serialize"), str(d, "source"))) {
-                field(d, record, "OracleFunction::all_functions::value::f", "Function", read_Function);
-            } else {
-                field(d, record, "OracleFunction::all_functions::value::f_name", "std::string", primitive_std__string);
-            }
-        } else {
+        if (equal(scope_value(d, scope, "OracleFunction::serialization::version"), integer(d, 1))) {
             field(d, record, "OracleFunction::all_functions::value::f", "Function", read_Function);
+            set(d, scope, "OracleFunction::all_functions::value::jit", field(d, record, "OracleFunction::all_functions::value::jit", "bool", primitive_bool));
+        } else {
+            set(d, scope, "OracleFunction::all_functions::value::jit", field(d, record, "OracleFunction::all_functions::value::jit", "bool", primitive_bool));
+            if ((truth(scope_value(d, scope, "FunctionInternal::jit")) && truth(scope_value(d, scope, "OracleFunction::all_functions::value::jit")))) {
+                if (equal(scope_value(d, scope, "FunctionInternal::jit_serialize"), str(d, "source"))) {
+                    field(d, record, "OracleFunction::all_functions::value::f", "Function", read_Function);
+                } else {
+                    field(d, record, "OracleFunction::all_functions::value::f_name", "std::string", primitive_std__string);
+                }
+            } else {
+                field(d, record, "OracleFunction::all_functions::value::f", "Function", read_Function);
+            }
         }
         field(d, record, "OracleFunction::all_functions::value::monitored", "bool", primitive_bool);
     }
     field(d, record, "OracleFunction::monitor", "std::vector<std::string>", read_std_vector_std_string);
-    field(d, record, "OracleFunction::stride_arg", "size_t", primitive_size_t);
-    field(d, record, "OracleFunction::stride_res", "size_t", primitive_size_t);
-    field(d, record, "OracleFunction::stride_iw", "size_t", primitive_size_t);
-    field(d, record, "OracleFunction::stride_w", "size_t", primitive_size_t);
+    if (truth(boolean(d, numeric(scope_value(d, scope, "OracleFunction::serialization::version")) >= numeric(integer(d, 3))))) {
+        field(d, record, "OracleFunction::stride_arg", "size_t", primitive_size_t);
+        field(d, record, "OracleFunction::stride_res", "size_t", primitive_size_t);
+        field(d, record, "OracleFunction::stride_iw", "size_t", primitive_size_t);
+        field(d, record, "OracleFunction::stride_w", "size_t", primitive_size_t);
+    }
     --d->depth;
 }
 
@@ -2614,7 +2743,7 @@ static void layout_OsqpInterface_serialize_body(cr_document* d, J* record, J* sc
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Conic::serialize_body"));
     layout_Conic_serialize_body(d, record, scope);
-    version(d, record, "OsqpInterface", 2);
+    set(d, scope, text(concat(d, "OsqpInterface", "::serialization::version")), version(d, record, "OsqpInterface", 1, 2));
     field(d, record, "OsqpInterface::nnzHupp", "casadi_int", primitive_casadi_int);
     field(d, record, "OsqpInterface::nnzA", "casadi_int", primitive_casadi_int);
     field(d, record, "OsqpInterface::warm_start_primal", "bool", primitive_bool);
@@ -2638,7 +2767,9 @@ static void layout_OsqpInterface_serialize_body(cr_document* d, J* record, J* sc
     field(d, record, "OsqpInterface::settings::scaled_termination", "casadi_int", primitive_casadi_int);
     field(d, record, "OsqpInterface::settings::check_termination", "casadi_int", primitive_casadi_int);
     field(d, record, "OsqpInterface::settings::warm_start", "casadi_int", primitive_casadi_int);
-    field(d, record, "OsqpInterface::rho_initial", "double", primitive_double);
+    if (truth(boolean(d, numeric(scope_value(d, scope, "OsqpInterface::serialization::version")) >= numeric(integer(d, 2))))) {
+        field(d, record, "OsqpInterface::rho_initial", "double", primitive_double);
+    }
     --d->depth;
 }
 
@@ -2668,7 +2799,7 @@ static void layout_PiqpInterface_serialize_body(cr_document* d, J* record, J* sc
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Conic::serialize_body"));
     layout_Conic_serialize_body(d, record, scope);
-    version(d, record, "PiqpInterface", 1);
+    version(d, record, "PiqpInterface", 1, 1);
     field(d, record, "PiqpInterface::nnzH", "casadi_int", primitive_casadi_int);
     field(d, record, "PiqpInterface::nnzA", "casadi_int", primitive_casadi_int);
     field(d, record, "PiqpInterface::settings::rho_init", "double", primitive_double);
@@ -2730,13 +2861,17 @@ static void layout_ProtoFunction_serialize(cr_document* d, J* record, J* scope) 
 
 static void layout_ProtoFunction_serialize_body(cr_document* d, J* record, J* scope) {
     enter_layout(d);
-    version(d, record, "ProtoFunction", 2);
+    set(d, scope, text(concat(d, "ProtoFunction", "::serialization::version")), version(d, record, "ProtoFunction", 1, 2));
     field(d, record, "ProtoFunction::name", "std::string", primitive_std__string);
     field(d, record, "ProtoFunction::verbose", "bool", primitive_bool);
     field(d, record, "ProtoFunction::print_time", "bool", primitive_bool);
     field(d, record, "ProtoFunction::record_time", "bool", primitive_bool);
-    field(d, record, "ProtoFunction::regularity_check", "bool", primitive_bool);
-    field(d, record, "ProtoFunction::error_on_fail", "bool", primitive_bool);
+    if (truth(boolean(d, numeric(scope_value(d, scope, "ProtoFunction::serialization::version")) >= numeric(integer(d, 2))))) {
+        field(d, record, "ProtoFunction::regularity_check", "bool", primitive_bool);
+    }
+    if (truth(boolean(d, numeric(scope_value(d, scope, "ProtoFunction::serialization::version")) >= numeric(integer(d, 2))))) {
+        field(d, record, "ProtoFunction::error_on_fail", "bool", primitive_bool);
+    }
     --d->depth;
 }
 
@@ -2749,7 +2884,7 @@ static void layout_ProxqpInterface_serialize_body(cr_document* d, J* record, J* 
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Conic::serialize_body"));
     layout_Conic_serialize_body(d, record, scope);
-    version(d, record, "ProxqpInterface", 1);
+    version(d, record, "ProxqpInterface", 1, 1);
     field(d, record, "ProxqpInterface::warm_start_primal", "bool", primitive_bool);
     field(d, record, "ProxqpInterface::warm_start_dual", "bool", primitive_bool);
     field(d, record, "ProxqpInterface::settings::default_rho", "double", primitive_double);
@@ -2785,7 +2920,7 @@ static void layout_QpToNlp_serialize_body(cr_document* d, J* record, J* scope) {
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Conic::serialize_body"));
     layout_Conic_serialize_body(d, record, scope);
-    version(d, record, "QpToNlp", 1);
+    version(d, record, "QpToNlp", 1, 1);
     field(d, record, "QpToNlp::solver", "Function", read_Function);
     --d->depth;
 }
@@ -2794,7 +2929,7 @@ static void layout_QpoasesInterface_serialize_body(cr_document* d, J* record, J*
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Conic::serialize_body"));
     layout_Conic_serialize_body(d, record, scope);
-    version(d, record, "QpoasesInterface", 1);
+    version(d, record, "QpoasesInterface", 1, 1);
     field(d, record, "QpoasesInterface::max_nWSR", "casadi_int", primitive_casadi_int);
     field(d, record, "QpoasesInterface::max_cputime", "double", primitive_double);
     field(d, record, "QpoasesInterface::hess", "casadi_int", primitive_casadi_int);
@@ -2839,7 +2974,7 @@ static void layout_Qrqp_serialize_body(cr_document* d, J* record, J* scope) {
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Conic::serialize_body"));
     layout_Conic_serialize_body(d, record, scope);
-    version(d, record, "Qrqp", 1);
+    version(d, record, "Qrqp", 1, 1);
     field(d, record, "Qrqp::AT", "Sparsity", read_Sparsity);
     field(d, record, "Qrqp::kkt", "Sparsity", read_Sparsity);
     field(d, record, "Qrqp::sp_v", "Sparsity", read_Sparsity);
@@ -2893,7 +3028,7 @@ static void layout_Resource_serialize(cr_document* d, J* record, J* scope) {
 
 static void layout_ResourceInternal_serialize(cr_document* d, J* record, J* scope) {
     enter_layout(d);
-    version(d, record, "ResourceInternal", 1);
+    version(d, record, "ResourceInternal", 1, 1);
     fail(d, "%s", "unlowered serialization call");
     fail(d, "%s", "unlowered serialization call");
     --d->depth;
@@ -2915,7 +3050,7 @@ static void layout_Rootfinder_serialize_body(cr_document* d, J* record, J* scope
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "OracleFunction::serialize_body"));
     layout_OracleFunction_serialize_body(d, record, scope);
-    version(d, record, "Rootfinder", 3);
+    version(d, record, "Rootfinder", 3, 3);
     field(d, record, "Rootfinder::n", "casadi_int", primitive_casadi_int);
     field(d, record, "Rootfinder::linsol", "Linsol", read_Linsol);
     field(d, record, "Rootfinder::sp_jac", "Sparsity", read_Sparsity);
@@ -2938,7 +3073,7 @@ static void layout_RungeKutta_serialize_body(cr_document* d, J* record, J* scope
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "FixedStepIntegrator::serialize_body"));
     layout_FixedStepIntegrator_serialize_body(d, record, scope);
-    version(d, record, "RungeKutta", 2);
+    version(d, record, "RungeKutta", 2, 2);
     --d->depth;
 }
 
@@ -2946,7 +3081,7 @@ static void layout_SLEQPInterface_serialize_body(cr_document* d, J* record, J* s
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Nlpsol::serialize_body"));
     layout_Nlpsol_serialize_body(d, record, scope);
-    version(d, record, "SLEQPInterface", 1);
+    version(d, record, "SLEQPInterface", 1, 1);
     field(d, record, "SLEQPInterface::jacg_sp", "Sparsity", read_Sparsity);
     field(d, record, "SLEQPInterface::max_iter", "int", primitive_int);
     field(d, record, "SLEQPInterface::max_wall_time", "double", primitive_double);
@@ -2965,29 +3100,31 @@ static void layout_SXFunction_serialize_body(cr_document* d, J* record, J* scope
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "XFunction<SXFunction,SX,SXNode>::serialize_body"));
     layout_XFunction_SXFunction_SX_SXNode_serialize_body(d, record, scope);
-    version(d, record, "SXFunction", 4);
+    set(d, scope, text(concat(d, "SXFunction", "::serialization::version")), version(d, record, "SXFunction", 1, 4));
     set(d, scope, "SXFunction::n_instr", field(d, record, "SXFunction::n_instr", "size_t", primitive_size_t));
     field(d, record, "SXFunction::worksize", "size_t", primitive_size_t);
     field(d, record, "SXFunction::free_vars", "std::vector<SXElem>", read_std_vector_SXElem);
     field(d, record, "SXFunction::operations", "std::vector<SXElem>", read_std_vector_SXElem);
     field(d, record, "SXFunction::constants", "std::vector<SXElem>", read_std_vector_SXElem);
     field(d, record, "SXFunction::default_in", "std::vector<double>", read_std_vector_double);
-    field(d, record, "SXFunction::call_sz_arg", "size_t", primitive_size_t);
-    field(d, record, "SXFunction::call_sz_res", "size_t", primitive_size_t);
-    field(d, record, "SXFunction::call_sz_iw", "size_t", primitive_size_t);
-    field(d, record, "SXFunction::call_sz_w", "size_t", primitive_size_t);
-    field(d, record, "SXFunction::call_sz_arg", "size_t", primitive_size_t);
-    field(d, record, "SXFunction::call_sz_res", "size_t", primitive_size_t);
-    set(d, scope, "SXFunction::call_el_size", field(d, record, "SXFunction::call_el_size", "size_t", primitive_size_t));
-    const uint64_t count_9 = sizevalue(d, scope_value(d, scope, "SXFunction::call_el_size"), 1000000);
-    for (uint64_t i_10 = 0; i_10 < count_9; ++i_10) {
-        field(d, record, "SXFunction::call_el_f", "Function", read_Function);
-        field(d, record, "SXFunction::call_el_dep", "std::vector<int>", read_std_vector_int);
-        field(d, record, "SXFunction::call_el_res", "std::vector<int>", read_std_vector_int);
-        field(d, record, "SXFunction::call_el_copy_elision_arg", "std::vector<int>", read_std_vector_int);
-        field(d, record, "SXFunction::call_el_copy_elision_offset", "std::vector<int>", read_std_vector_int);
+    if (truth(boolean(d, numeric(scope_value(d, scope, "SXFunction::serialization::version")) >= numeric(integer(d, 2))))) {
+        field(d, record, "SXFunction::call_sz_arg", "size_t", primitive_size_t);
+        field(d, record, "SXFunction::call_sz_res", "size_t", primitive_size_t);
+        field(d, record, "SXFunction::call_sz_iw", "size_t", primitive_size_t);
+        field(d, record, "SXFunction::call_sz_w", "size_t", primitive_size_t);
+        field(d, record, "SXFunction::call_sz_arg", "size_t", primitive_size_t);
+        field(d, record, "SXFunction::call_sz_res", "size_t", primitive_size_t);
+        set(d, scope, "SXFunction::call_el_size", field(d, record, "SXFunction::call_el_size", "size_t", primitive_size_t));
+        const uint64_t count_9 = sizevalue(d, scope_value(d, scope, "SXFunction::call_el_size"), 1000000);
+        for (uint64_t i_10 = 0; i_10 < count_9; ++i_10) {
+            field(d, record, "SXFunction::call_el_f", "Function", read_Function);
+            field(d, record, "SXFunction::call_el_dep", "std::vector<int>", read_std_vector_int);
+            field(d, record, "SXFunction::call_el_res", "std::vector<int>", read_std_vector_int);
+            field(d, record, "SXFunction::call_el_copy_elision_arg", "std::vector<int>", read_std_vector_int);
+            field(d, record, "SXFunction::call_el_copy_elision_offset", "std::vector<int>", read_std_vector_int);
+        }
+        field(d, record, "SXFunction::copy_elision", "std::vector<bool>", read_std_vector_bool);
     }
-    field(d, record, "SXFunction::copy_elision", "std::vector<bool>", read_std_vector_bool);
     const uint64_t count_11 = sizevalue(d, scope_value(d, scope, "SXFunction::n_instr"), 1000000);
     for (uint64_t i_12 = 0; i_12 < count_11; ++i_12) {
         field(d, record, "SXFunction::ScalarAtomic::op", "int", primitive_int);
@@ -2996,8 +3133,12 @@ static void layout_SXFunction_serialize_body(cr_document* d, J* record, J* scope
         field(d, record, "SXFunction::ScalarAtomic::i2", "int", primitive_int);
     }
     field(d, record, "SXFunction::live_variables", "bool", primitive_bool);
-    field(d, record, "SXFunction::print_instructions", "bool", primitive_bool);
-    field(d, record, "SXFunction::dump_trace", "bool", primitive_bool);
+    if (truth(boolean(d, numeric(scope_value(d, scope, "SXFunction::serialization::version")) >= numeric(integer(d, 3))))) {
+        field(d, record, "SXFunction::print_instructions", "bool", primitive_bool);
+    }
+    if (truth(boolean(d, numeric(scope_value(d, scope, "SXFunction::serialization::version")) >= numeric(integer(d, 4))))) {
+        field(d, record, "SXFunction::dump_trace", "bool", primitive_bool);
+    }
     push(d, get(record, "layouts"), str(d, "XFunction<SXFunction,SX,SXNode>::delayed_serialize_members"));
     layout_XFunction_SXFunction_SX_SXNode_delayed_serialize_members(d, record, scope);
     --d->depth;
@@ -3154,7 +3295,7 @@ static void layout_SnoptInterface_serialize_body(cr_document* d, J* record, J* s
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Nlpsol::serialize_body"));
     layout_Nlpsol_serialize_body(d, record, scope);
-    version(d, record, "SnoptInterface", 1);
+    version(d, record, "SnoptInterface", 1, 1);
     field(d, record, "SnoptInterface::jacf_sp", "Sparsity", read_Sparsity);
     field(d, record, "SnoptInterface::jacg_sp", "Sparsity", read_Sparsity);
     field(d, record, "SnoptInterface::nnJac", "casadi_int", primitive_casadi_int);
@@ -3233,7 +3374,7 @@ static void layout_Sparsify_serialize_type(cr_document* d, J* record, J* scope) 
 
 static void layout_Sparsity_serialize(cr_document* d, J* record, J* scope) {
     enter_layout(d);
-    fail(d, "%s", "Predicate has no serialized field");
+    field(d, record, "SparsityInternal::compressed", "std::vector<casadi_int>", read_std_vector_casadi_int);
     --d->depth;
 }
 
@@ -3264,9 +3405,11 @@ static void layout_Sqpmethod_serialize_body(cr_document* d, J* record, J* scope)
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Nlpsol::serialize_body"));
     layout_Nlpsol_serialize_body(d, record, scope);
-    version(d, record, "Sqpmethod", 3);
+    set(d, scope, text(concat(d, "Sqpmethod", "::serialization::version")), version(d, record, "Sqpmethod", 1, 3));
     field(d, record, "Sqpmethod::qpsol", "Function", read_Function);
-    field(d, record, "Sqpmethod::qpsol_ela", "Function", read_Function);
+    if (truth(boolean(d, numeric(scope_value(d, scope, "Sqpmethod::serialization::version")) >= numeric(integer(d, 3))))) {
+        field(d, record, "Sqpmethod::qpsol_ela", "Function", read_Function);
+    }
     field(d, record, "Sqpmethod::exact_hessian", "bool", primitive_bool);
     field(d, record, "Sqpmethod::max_iter", "casadi_int", primitive_casadi_int);
     field(d, record, "Sqpmethod::min_iter", "casadi_int", primitive_casadi_int);
@@ -3282,19 +3425,37 @@ static void layout_Sqpmethod_serialize_body(cr_document* d, J* record, J* scope)
     field(d, record, "Sqpmethod::print_header", "bool", primitive_bool);
     field(d, record, "Sqpmethod::print_iteration", "bool", primitive_bool);
     field(d, record, "Sqpmethod::print_status", "bool", primitive_bool);
-    field(d, record, "Sqpmethod::elastic_mode", "bool", primitive_bool);
-    field(d, record, "Sqpmethod::gamma_0", "double", primitive_double);
-    field(d, record, "Sqpmethod::gamma_max", "double", primitive_double);
-    field(d, record, "Sqpmethod::gamma_1_min", "double", primitive_double);
-    field(d, record, "Sqpmethod::init_feasible", "bool", primitive_bool);
-    field(d, record, "Sqpmethod::so_corr", "bool", primitive_bool);
+    if (truth(boolean(d, numeric(scope_value(d, scope, "Sqpmethod::serialization::version")) >= numeric(integer(d, 3))))) {
+        field(d, record, "Sqpmethod::elastic_mode", "bool", primitive_bool);
+        field(d, record, "Sqpmethod::gamma_0", "double", primitive_double);
+        field(d, record, "Sqpmethod::gamma_max", "double", primitive_double);
+        field(d, record, "Sqpmethod::gamma_1_min", "double", primitive_double);
+        field(d, record, "Sqpmethod::init_feasible", "bool", primitive_bool);
+        field(d, record, "Sqpmethod::so_corr", "bool", primitive_bool);
+    }
     field(d, record, "Sqpmethod::Hsp", "Sparsity", read_Sparsity);
+    if (equal(scope_value(d, scope, "Sqpmethod::serialization::version"), integer(d, 1))) {
+        field(d, record, "Sqpmethod::Hrsp", "Sparsity", read_Sparsity);
+    }
     field(d, record, "Sqpmethod::Asp", "Sparsity", read_Sparsity);
-    set(d, scope, "Sqpmethod::convexify", field(d, record, "Sqpmethod::convexify", "bool", primitive_bool));
-    if (truth(scope_value(d, scope, "Sqpmethod::convexify"))) {
-        push(d, get(record, "layouts"), str(d, "Convexify::serialize"));
-        set(d, scope, "prefix", str(d, "Sqpmethod::"));
-        layout_Convexify_serialize(d, record, scope);
+    if (equal(scope_value(d, scope, "Sqpmethod::serialization::version"), integer(d, 1))) {
+        field(d, record, "Sqpmethod::convexify_margin", "double", primitive_double);
+        field(d, record, "Sqpmethod::convexify_strategy", "char", primitive_char);
+        field(d, record, "Sqpmethod::Hsp_project", "bool", primitive_bool);
+        field(d, record, "Sqpmethod::scc_transform", "bool", primitive_bool);
+        field(d, record, "Sqpmethod::scc_offset", "std::vector<casadi_int>", read_std_vector_casadi_int);
+        field(d, record, "Sqpmethod::scc_mapping", "std::vector<casadi_int>", read_std_vector_casadi_int);
+        field(d, record, "Sqpmethod::max_iter_eig", "casadi_int", primitive_casadi_int);
+        field(d, record, "Sqpmethod::block_size", "casadi_int", primitive_casadi_int);
+        field(d, record, "Sqpmethod::scc_sp", "Sparsity", read_Sparsity);
+    }
+    if (truth(boolean(d, numeric(scope_value(d, scope, "Sqpmethod::serialization::version")) >= numeric(integer(d, 2))))) {
+        set(d, scope, "Sqpmethod::convexify", field(d, record, "Sqpmethod::convexify", "bool", primitive_bool));
+        if (truth(scope_value(d, scope, "Sqpmethod::convexify"))) {
+            push(d, get(record, "layouts"), str(d, "Convexify::serialize"));
+            set(d, scope, "prefix", str(d, "Sqpmethod::"));
+            layout_Convexify_serialize(d, record, scope);
+        }
     }
     --d->depth;
 }
@@ -3303,7 +3464,7 @@ static void layout_SundialsInterface_serialize_body(cr_document* d, J* record, J
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Integrator::serialize_body"));
     layout_Integrator_serialize_body(d, record, scope);
-    version(d, record, "SundialsInterface", 2);
+    set(d, scope, text(concat(d, "SundialsInterface", "::serialization::version")), version(d, record, "SundialsInterface", 1, 2));
     field(d, record, "SundialsInterface::abstol", "double", primitive_double);
     field(d, record, "SundialsInterface::reltol", "double", primitive_double);
     field(d, record, "SundialsInterface::max_num_steps", "casadi_int", primitive_casadi_int);
@@ -3318,7 +3479,9 @@ static void layout_SundialsInterface_serialize_body(cr_document* d, J* record, J
     field(d, record, "SundialsInterface::use_precon", "bool", primitive_bool);
     field(d, record, "SundialsInterface::second_order_correction", "bool", primitive_bool);
     field(d, record, "SundialsInterface::step0", "double", primitive_double);
-    field(d, record, "SundialsInterface::max_step_size", "double", primitive_double);
+    if (truth(boolean(d, numeric(scope_value(d, scope, "SundialsInterface::serialization::version")) >= numeric(integer(d, 2))))) {
+        field(d, record, "SundialsInterface::max_step_size", "double", primitive_double);
+    }
     field(d, record, "SundialsInterface::nonlin_conv_coeff", "double", primitive_double);
     field(d, record, "SundialsInterface::max_order", "casadi_int", primitive_casadi_int);
     field(d, record, "SundialsInterface::scale_abstol", "bool", primitive_bool);
@@ -3332,7 +3495,7 @@ static void layout_SuperscsInterface_serialize_body(cr_document* d, J* record, J
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Conic::serialize_body"));
     layout_Conic_serialize_body(d, record, scope);
-    version(d, record, "SuperscsInterface", 1);
+    version(d, record, "SuperscsInterface", 1, 1);
     field(d, record, "SuperscsInterface::settings::normalize", "casadi_int", primitive_casadi_int);
     field(d, record, "SuperscsInterface::settings::scale", "double", primitive_double);
     field(d, record, "SuperscsInterface::settings::rho_x", "double", primitive_double);
@@ -3377,7 +3540,7 @@ static void layout_Switch_serialize_body(cr_document* d, J* record, J* scope) {
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "FunctionInternal::serialize_body"));
     layout_FunctionInternal_serialize_body(d, record, scope);
-    version(d, record, "Switch", 1);
+    version(d, record, "Switch", 1, 1);
     field(d, record, "Switch::f", "std::vector<Function>", read_std_vector_Function);
     field(d, record, "Switch::f_def", "Function", read_Function);
     field(d, record, "Switch::project_in", "bool", primitive_bool);
@@ -3397,7 +3560,7 @@ static void layout_SymbolicQr_serialize_body(cr_document* d, J* record, J* scope
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "LinsolInternal::serialize_body"));
     layout_LinsolInternal_serialize_body(d, record, scope);
-    version(d, record, "SymbolicQr", 1);
+    version(d, record, "SymbolicQr", 1, 1);
     field(d, record, "SymbolicQr::factorize", "Function", read_Function);
     field(d, record, "SymbolicQr::solve", "Function", read_Function);
     field(d, record, "SymbolicQr::solveT", "Function", read_Function);
@@ -3451,7 +3614,7 @@ static void layout_UnoInterface_serialize_body(cr_document* d, J* record, J* sco
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Nlpsol::serialize_body"));
     layout_Nlpsol_serialize_body(d, record, scope);
-    version(d, record, "UnoInterface", 1);
+    version(d, record, "UnoInterface", 1, 1);
     field(d, record, "UnoInterface::jacg_sp", "Sparsity", read_Sparsity);
     field(d, record, "UnoInterface::hesslag_sp", "Sparsity", read_Sparsity);
     field(d, record, "UnoInterface::opts", "Dict", read_Dict);
@@ -3476,7 +3639,7 @@ static void layout_WorhpInterface_serialize_body(cr_document* d, J* record, J* s
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Nlpsol::serialize_body"));
     layout_Nlpsol_serialize_body(d, record, scope);
-    version(d, record, "WorhpInterface", 1);
+    version(d, record, "WorhpInterface", 1, 1);
     field(d, record, "WorhpInterface::jacg_sp", "Sparsity", read_Sparsity);
     field(d, record, "WorhpInterface::hesslag_sp", "Sparsity", read_Sparsity);
     field(d, record, "WorhpInterface::bool_opts", "std::map<std::string,bool>", read_std_map_std_string_bool);
@@ -3496,7 +3659,7 @@ static void layout_XFunction_MXFunction_MX_MXNode_serialize_body(cr_document* d,
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "FunctionInternal::serialize_body"));
     layout_FunctionInternal_serialize_body(d, record, scope);
-    version(d, record, "XFunction", 1);
+    version(d, record, "XFunction", 1, 1);
     field(d, record, "XFunction::in", "std::vector<MX>", read_std_vector_MX);
     --d->depth;
 }
@@ -3511,7 +3674,7 @@ static void layout_XFunction_SXFunction_SX_SXNode_serialize_body(cr_document* d,
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "FunctionInternal::serialize_body"));
     layout_FunctionInternal_serialize_body(d, record, scope);
-    version(d, record, "XFunction", 1);
+    version(d, record, "XFunction", 1, 1);
     field(d, record, "XFunction::in", "std::vector<SX>", read_std_vector_SX);
     --d->depth;
 }
@@ -3520,11 +3683,13 @@ static void layout_XpressInterface_serialize_body(cr_document* d, J* record, J* 
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "Conic::serialize_body"));
     layout_Conic_serialize_body(d, record, scope);
-    version(d, record, "XpressInterface", 2);
+    set(d, scope, text(concat(d, "XpressInterface", "::serialization::version")), version(d, record, "XpressInterface", 1, 2));
     field(d, record, "XpressInterface::opts", "Dict", read_Dict);
-    field(d, record, "XpressInterface::mip_start", "bool", primitive_bool);
-    field(d, record, "XpressInterface::log_file", "std::string", primitive_std__string);
-    field(d, record, "XpressInterface::compute_iis", "bool", primitive_bool);
+    if (truth(boolean(d, numeric(scope_value(d, scope, "XpressInterface::serialization::version")) >= numeric(integer(d, 2))))) {
+        field(d, record, "XpressInterface::mip_start", "bool", primitive_bool);
+        field(d, record, "XpressInterface::log_file", "std::string", primitive_std__string);
+        field(d, record, "XpressInterface::compute_iis", "bool", primitive_bool);
+    }
     field(d, record, "XpressInterface::sos_settype", "std::vector<char>", read_std_vector_char);
     field(d, record, "XpressInterface::sos_setstart", "std::vector<int>", read_std_vector_int);
     field(d, record, "XpressInterface::sos_setind", "std::vector<int>", read_std_vector_int);
@@ -3555,7 +3720,7 @@ static void layout_ZipMemResource_serialize_body(cr_document* d, J* record, J* s
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "ResourceInternal::serialize_body"));
     layout_ResourceInternal_serialize_body(d, record, scope);
-    version(d, record, "ZipMemResource", 1);
+    version(d, record, "ZipMemResource", 1, 1);
     field(d, record, "ZipMemResource::blob", "std::stringstream", primitive_std__stringstream);
     --d->depth;
 }
@@ -3564,7 +3729,7 @@ static void layout_ZipResource_serialize_body(cr_document* d, J* record, J* scop
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "ResourceInternal::serialize_body"));
     layout_ResourceInternal_serialize_body(d, record, scope);
-    version(d, record, "ZipResource", 1);
+    version(d, record, "ZipResource", 1, 1);
     if (equal(scope_value(d, scope, "ResourceInternal::serialize_mode"), str(d, "embed"))) {
         field(d, record, "ZipMemResource::blob", "std::stringstream", primitive_std__stringstream);
     } else {
@@ -3755,7 +3920,7 @@ static void read_Function_body(cr_document* d, J* record, J* scope) {
                 fail(d, "%s", "Unknown serialization discriminator");
             }
         } else if (!strcmp(tag_14, "External")) {
-            version(d, record, "GenericExternal", 1);
+            version(d, record, "GenericExternal", 1, 1);
             set(d, scope, "GenericExternal::type", field(d, record, "GenericExternal::type", "char", primitive_char));
             const char* tag_16 = text(scope_value(d, scope, "GenericExternal::type"));
             if (!strcmp(tag_16, "103")) {
@@ -3795,7 +3960,7 @@ static void read_Function_body(cr_document* d, J* record, J* scope) {
                 push(d, get(record, "layouts"), str(d, "BSplineInterpolant::serialize_body"));
                 layout_BSplineInterpolant_serialize_body(d, record, scope);
             } else if (!strcmp(tag_18, "linear")) {
-                version(d, record, "LinearInterpolant", 1);
+                version(d, record, "LinearInterpolant", 1, 1);
                 set(d, scope, "LinearInterpolant::type", field(d, record, "LinearInterpolant::type", "char", primitive_char));
                 const char* tag_19 = text(scope_value(d, scope, "LinearInterpolant::type"));
                 if (!strcmp(tag_19, "102")) {
@@ -4285,22 +4450,28 @@ static void read_MX_body(cr_document* d, J* record, J* scope) {
         push(d, get(record, "layouts"), str(d, "Low::serialize_body"));
         layout_Low_serialize_body(d, record, scope);
     } else if (!strcmp(tag_28, "52")) {
-        set(d, scope, "Multiplication::kind", field(d, record, "Multiplication::kind", "std::string", primitive_std__string));
-        const char* tag_31 = text(scope_value(d, scope, "Multiplication::kind"));
-        if (!strcmp(tag_31, "base")) {
-            push(d, get(record, "layouts"), str(d, "Multiplication::serialize_body"));
-            layout_Multiplication_serialize_body(d, record, scope);
-        } else if (!strcmp(tag_31, "dense")) {
-            push(d, get(record, "layouts"), str(d, "DenseMultiplication::serialize_body"));
-            layout_DenseMultiplication_serialize_body(d, record, scope);
-        } else if (!strcmp(tag_31, "dense_sparse")) {
-            push(d, get(record, "layouts"), str(d, "DenseSparseMultiplication::serialize_body"));
-            layout_DenseSparseMultiplication_serialize_body(d, record, scope);
-        } else if (!strcmp(tag_31, "pseudo_dense")) {
-            push(d, get(record, "layouts"), str(d, "PseudoDenseMultiplication::serialize_body"));
-            layout_PseudoDenseMultiplication_serialize_body(d, record, scope);
+        if (truth(next_field(d, str(d, "Multiplication::dense"), str(d, "bool")))) {
+            field(d, record, "Multiplication::dense", "bool", primitive_bool);
+            push(d, get(record, "layouts"), str(d, "MXNode::serialize_body"));
+            layout_MXNode_serialize_body(d, record, scope);
         } else {
-            fail(d, "%s", "Unknown serialization discriminator");
+            set(d, scope, "Multiplication::kind", field(d, record, "Multiplication::kind", "std::string", primitive_std__string));
+            const char* tag_31 = text(scope_value(d, scope, "Multiplication::kind"));
+            if (!strcmp(tag_31, "base")) {
+                push(d, get(record, "layouts"), str(d, "Multiplication::serialize_body"));
+                layout_Multiplication_serialize_body(d, record, scope);
+            } else if (!strcmp(tag_31, "dense")) {
+                push(d, get(record, "layouts"), str(d, "DenseMultiplication::serialize_body"));
+                layout_DenseMultiplication_serialize_body(d, record, scope);
+            } else if (!strcmp(tag_31, "dense_sparse")) {
+                push(d, get(record, "layouts"), str(d, "DenseSparseMultiplication::serialize_body"));
+                layout_DenseSparseMultiplication_serialize_body(d, record, scope);
+            } else if (!strcmp(tag_31, "pseudo_dense")) {
+                push(d, get(record, "layouts"), str(d, "PseudoDenseMultiplication::serialize_body"));
+                layout_PseudoDenseMultiplication_serialize_body(d, record, scope);
+            } else {
+                fail(d, "%s", "Unknown serialization discriminator");
+            }
         }
     } else if (!strcmp(tag_28, "53")) {
         field(d, record, "Solve::Tr", "bool", primitive_bool);
@@ -4594,7 +4765,7 @@ static J* read_MX(cr_document* d) {
 
 static void read_Resource_body(cr_document* d, J* record, J* scope) {
     enter_layout(d);
-    version(d, record, "ResourceInternal", 1);
+    version(d, record, "ResourceInternal", 1, 1);
     set(d, scope, "ResourceInternal::type", field(d, record, "ResourceInternal::type", "std::string", primitive_std__string));
     const char* tag_42 = text(scope_value(d, scope, "ResourceInternal::type"));
     if (!strcmp(tag_42, "DirResource")) {

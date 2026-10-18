@@ -201,11 +201,27 @@ struct Reader {
     count(JsonValue(int64_t(record["fields"].a.size())));
     return v;
   }
-  void version(JsonValue& record, const std::string& base, int expected) {
+  JsonValue version(JsonValue& record, const std::string& base, int minimum, int maximum) {
     auto v =
         field(record, base + "::serialization::version", "int", [&]() { return number("int"); });
-    if (v.n() != expected)
+    if (v.n() < minimum || v.n() > maximum)
       fail("Unsupported " + base + " version " + v.dump());
+    return v;
+  }
+  // Is the upcoming field `name`? Debug streams name it; plain ones only show a bool's byte.
+  JsonValue next_field(const JsonValue& name, const JsonValue& type) {
+    auto start = pos;
+    bool result;
+    if (debug) {
+      JsonValue j = string();
+      result = j.kind == JsonValue::String && j.scalar == name.scalar;
+    } else {
+      if (type.scalar != "bool")
+        fail("Cannot recognize an upcoming " + type.scalar);
+      result = byte() <= 1;
+    }
+    pos = start;
+    return JsonValue::boolean(result);
   }
 #include "generated.hpp"
   JsonValue primitive(const std::string& type) {

@@ -267,11 +267,24 @@ classdef Document < handle
             self.count(numel(fields));
         end
 
-        function version(self, record, base, expected)
+        function v = version(self, record, base, minimum, maximum)
             v = self.field(record, [base '::serialization::version'], 'int', @() self.number('int'));
-            if ~isequal(v, expected)
+            if v < minimum || v > maximum
                 self.fail(['Unsupported version: ' base]);
             end
+        end
+
+        % Is the upcoming field NAME? Debug streams name it; plain ones only show a bool's byte.
+        function v = nextField(self, name, kind)
+            start = self.pos;
+            if self.debug
+                v = isequal(self.stringValue(), name);
+            elseif strcmp(kind, 'bool')
+                v = self.byte() <= 1;
+            else
+                self.fail(['Cannot recognize an upcoming ' kind]);
+            end
+            self.pos = start;
         end
 
         function recordLayout(self, record, name)
@@ -292,7 +305,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Nlpsol::serialize_body');
             self.layout_Nlpsol_serialize_body(record, scope);
-            self.version(record, 'AlpaqaInterface', 1);
+            self.version(record, 'AlpaqaInterface', 1, 1);
             self.field(record, 'AlpaqaInterface::jacg_sp', 'Sparsity', @() self.read_Sparsity());
             self.field(record, 'AlpaqaInterface::opts', 'Dict', @() self.read_Dict());
             self.depth = self.depth - 1;
@@ -349,7 +362,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Interpolant::serialize_body');
             self.layout_Interpolant_serialize_body(record, scope);
-            self.version(record, 'BSplineInterpolant', 1);
+            self.version(record, 'BSplineInterpolant', 1, 1);
             self.field(record, 'BSplineInterpolant::s', 'Function', @() self.read_Function());
             self.depth = self.depth - 1;
         end
@@ -410,7 +423,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Rootfinder::serialize_body');
             self.layout_Rootfinder_serialize_body(record, scope);
-            self.version(record, 'Bisection', 1);
+            self.version(record, 'Bisection', 1, 1);
             self.field(record, 'Bisection::max_iter', 'casadi_int', @() self.number('casadi_int'));
             self.field(record, 'Bisection::max_search', 'casadi_int', @() self.number('casadi_int'));
             self.field(record, 'Bisection::search_step', 'double', @() self.number('double'));
@@ -425,19 +438,23 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'FunctionInternal::serialize_body');
             self.layout_FunctionInternal_serialize_body(record, scope);
-            self.version(record, 'BlazingSplineFunction', 2);
+            scope(['BlazingSplineFunction' '::serialization::version']) = self.version(record, 'BlazingSplineFunction', 1, 2);
             self.field(record, 'BlazingSplineFunction::diff_order', 'casadi_int', @() self.number('casadi_int'));
-            self.field(record, 'BlazingSplineFunction::precompute_coeff', 'bool', @() self.boolValue());
-            self.field(record, 'BlazingSplineFunction::precompute_grid', 'bool', @() self.boolValue());
-            self.field(record, 'BlazingSplineFunction::knots', 'std::vector<std::vector<double>>', @() self.read_std_vector_std_vector_double());
-            self.field(record, 'BlazingSplineFunction::lookup_modes', 'std::vector<std::string>', @() self.read_std_vector_std_string());
-            scope('BlazingSplineFunction::parametric_knots') = self.field(record, 'BlazingSplineFunction::parametric_knots', 'bool', @() self.boolValue());
-            if self.truth(scope('BlazingSplineFunction::parametric_knots'))
-                self.field(record, 'BlazingSplineFunction::knots_offset', 'std::vector<casadi_int>', @() self.read_std_vector_casadi_int());
-                self.field(record, 'BlazingSplineFunction::inv_input', 'bool', @() self.boolValue());
+            if self.truth((scope('BlazingSplineFunction::serialization::version') >= 2))
+                self.field(record, 'BlazingSplineFunction::precompute_coeff', 'bool', @() self.boolValue());
+                self.field(record, 'BlazingSplineFunction::precompute_grid', 'bool', @() self.boolValue());
             end
-            self.field(record, 'BlazingSplineFunction::pedantic_mode_order', 'std::string', @() self.stringValue());
-            self.field(record, 'BlazingSplineFunction::pedantic_mode_size', 'std::string', @() self.stringValue());
+            self.field(record, 'BlazingSplineFunction::knots', 'std::vector<std::vector<double>>', @() self.read_std_vector_std_vector_double());
+            if self.truth((scope('BlazingSplineFunction::serialization::version') >= 2))
+                self.field(record, 'BlazingSplineFunction::lookup_modes', 'std::vector<std::string>', @() self.read_std_vector_std_string());
+                scope('BlazingSplineFunction::parametric_knots') = self.field(record, 'BlazingSplineFunction::parametric_knots', 'bool', @() self.boolValue());
+                if self.truth(scope('BlazingSplineFunction::parametric_knots'))
+                    self.field(record, 'BlazingSplineFunction::knots_offset', 'std::vector<casadi_int>', @() self.read_std_vector_casadi_int());
+                    self.field(record, 'BlazingSplineFunction::inv_input', 'bool', @() self.boolValue());
+                end
+                self.field(record, 'BlazingSplineFunction::pedantic_mode_order', 'std::string', @() self.stringValue());
+                self.field(record, 'BlazingSplineFunction::pedantic_mode_size', 'std::string', @() self.stringValue());
+            end
             self.depth = self.depth - 1;
         end
 
@@ -445,7 +462,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Nlpsol::serialize_body');
             self.layout_Nlpsol_serialize_body(record, scope);
-            self.version(record, 'Blocksqp', 1);
+            self.version(record, 'Blocksqp', 1, 1);
             self.field(record, 'Blocksqp::nblocks', 'casadi_int', @() self.number('casadi_int'));
             self.field(record, 'Blocksqp::blocks', 'std::vector<casadi_int>', @() self.read_std_vector_casadi_int());
             self.field(record, 'Blocksqp::dim', 'std::vector<casadi_int>', @() self.read_std_vector_casadi_int());
@@ -515,7 +532,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Nlpsol::serialize_body');
             self.layout_Nlpsol_serialize_body(record, scope);
-            self.version(record, 'BonminInterface', 1);
+            self.version(record, 'BonminInterface', 1, 1);
             self.field(record, 'BonminInterface::jacg_sp', 'Sparsity', @() self.read_Sparsity());
             self.field(record, 'BonminInterface::hesslag_sp', 'Sparsity', @() self.read_Sparsity());
             self.field(record, 'BonminInterface::exact_hessian', 'bool', @() self.boolValue());
@@ -567,7 +584,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Conic::serialize_body');
             self.layout_Conic_serialize_body(record, scope);
-            self.version(record, 'CbcInterface', 1);
+            self.version(record, 'CbcInterface', 1, 1);
             self.field(record, 'CbcInterface::opts', 'Dict', @() self.read_Dict());
             self.field(record, 'CbcInterface::sos_groups', 'std::vector<std::vector<int>>', @() self.read_std_vector_std_vector_int());
             self.field(record, 'CbcInterface::sos_weights', 'std::vector<std::vector<double>>', @() self.read_std_vector_std_vector_double());
@@ -587,7 +604,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Conic::serialize_body');
             self.layout_Conic_serialize_body(record, scope);
-            self.version(record, 'ClarabelInterface', 1);
+            self.version(record, 'ClarabelInterface', 1, 1);
             self.field(record, 'ClarabelInterface::opts', 'Dict', @() self.read_Dict());
             self.depth = self.depth - 1;
         end
@@ -596,7 +613,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Conic::serialize_body');
             self.layout_Conic_serialize_body(record, scope);
-            self.version(record, 'ClpInterface', 1);
+            self.version(record, 'ClpInterface', 1, 1);
             self.field(record, 'ClpInterface::opts', 'Dict', @() self.read_Dict());
             self.depth = self.depth - 1;
         end
@@ -605,7 +622,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'ImplicitFixedStepIntegrator::serialize_body');
             self.layout_ImplicitFixedStepIntegrator_serialize_body(record, scope);
-            self.version(record, 'Collocation', 2);
+            self.version(record, 'Collocation', 2, 2);
             self.field(record, 'Collocation::deg', 'casadi_int', @() self.number('casadi_int'));
             self.field(record, 'Collocation::collocation_scheme', 'std::string', @() self.stringValue());
             self.depth = self.depth - 1;
@@ -633,11 +650,18 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'FunctionInternal::serialize_body');
             self.layout_FunctionInternal_serialize_body(record, scope);
-            self.version(record, 'Conic', 4);
+            scope(['Conic' '::serialization::version']) = self.version(record, 'Conic', 1, 4);
             self.field(record, 'Conic::discrete', 'std::vector<bool>', @() self.read_std_vector_bool());
-            self.field(record, 'Conic::equality', 'std::vector<bool>', @() self.read_std_vector_bool());
+            if self.truth((scope('Conic::serialization::version') >= 3))
+                self.field(record, 'Conic::equality', 'std::vector<bool>', @() self.read_std_vector_bool());
+            end
             self.field(record, 'Conic::print_problem', 'bool', @() self.boolValue());
-            self.field(record, 'Conic::solver_version_check', 'bool', @() self.boolValue());
+            if self.truth((scope('Conic::serialization::version') >= 4))
+                self.field(record, 'Conic::solver_version_check', 'bool', @() self.boolValue());
+            end
+            if self.truth(isequal(scope('Conic::serialization::version'), 1))
+                self.field(record, 'Conic::error_on_fail', 'bool', @() self.boolValue());
+            end
             self.field(record, 'Conic::H', 'Sparsity', @() self.read_Sparsity());
             self.field(record, 'Conic::A', 'Sparsity', @() self.read_Sparsity());
             self.field(record, 'Conic::Q', 'Sparsity', @() self.read_Sparsity());
@@ -661,7 +685,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Nlpsol::serialize_body');
             self.layout_Nlpsol_serialize_body(record, scope);
-            self.version(record, 'ConoptInterface', 1);
+            self.version(record, 'ConoptInterface', 1, 1);
             self.field(record, 'ConoptInterface::exact_hessian', 'bool', @() self.boolValue());
             self.field(record, 'ConoptInterface::opts', 'Dict', @() self.read_Dict());
             self.field(record, 'ConoptInterface::gradf_sp', 'Sparsity', @() self.read_Sparsity());
@@ -741,7 +765,7 @@ classdef Document < handle
 
         function layout_Convexify_serialize(self, record, scope)
             self.enterLayout();
-            self.version(record, [scope('prefix') 'Convexify'], 1);
+            self.version(record, [scope('prefix') 'Convexify'], 1, 1);
             self.field(record, [scope('prefix') 'Convexify::type_in'], 'int', @() self.number('int'));
             self.field(record, [scope('prefix') 'Convexify::strategy'], 'int', @() self.number('int'));
             self.field(record, [scope('prefix') 'Convexify::margin'], 'double', @() self.number('double'));
@@ -770,7 +794,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Conic::serialize_body');
             self.layout_Conic_serialize_body(record, scope);
-            self.version(record, 'CplexInterface', 1);
+            self.version(record, 'CplexInterface', 1, 1);
             self.field(record, 'CplexInterface::opts', 'Dict', @() self.read_Dict());
             self.field(record, 'CplexInterface::qp_method', 'casadi_int', @() self.number('casadi_int'));
             self.field(record, 'CplexInterface::dump_to_file', 'bool', @() self.boolValue());
@@ -800,11 +824,15 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'SundialsInterface::serialize_body');
             self.layout_SundialsInterface_serialize_body(record, scope);
-            self.version(record, 'CvodesInterface', 3);
+            scope(['CvodesInterface' '::serialization::version']) = self.version(record, 'CvodesInterface', 1, 3);
             self.field(record, 'CvodesInterface::lmm', 'casadi_int', @() self.number('casadi_int'));
             self.field(record, 'CvodesInterface::iter', 'casadi_int', @() self.number('casadi_int'));
-            self.field(record, 'CvodesInterface::min_step_size', 'double', @() self.number('double'));
-            self.field(record, 'CvodesInterface::always_recalculate_jacobian', 'bool', @() self.boolValue());
+            if self.truth((scope('CvodesInterface::serialization::version') >= 2))
+                self.field(record, 'CvodesInterface::min_step_size', 'double', @() self.number('double'));
+            end
+            if self.truth((scope('CvodesInterface::serialization::version') >= 3))
+                self.field(record, 'CvodesInterface::always_recalculate_jacobian', 'bool', @() self.boolValue());
+            end
             self.depth = self.depth - 1;
         end
 
@@ -812,7 +840,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Conic::serialize_body');
             self.layout_Conic_serialize_body(record, scope);
-            self.version(record, 'DaqpInterface', 1);
+            self.version(record, 'DaqpInterface', 1, 1);
             self.field(record, 'DaqpInterface::opts', 'Dict', @() self.read_Dict());
             self.depth = self.depth - 1;
         end
@@ -963,7 +991,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'ResourceInternal::serialize_body');
             self.layout_ResourceInternal_serialize_body(record, scope);
-            self.version(record, 'DirResource', 1);
+            self.version(record, 'DirResource', 1, 1);
             if self.truth(isequal(scope('ResourceInternal::serialize_mode'), 'embed'))
                 self.field(record, 'ZipMemResource::blob', 'std::stringstream', @() self.streamValue());
             else
@@ -989,7 +1017,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'MXNode::serialize_body');
             self.layout_MXNode_serialize_body(record, scope);
-            self.version(record, 'Dump', 1);
+            self.version(record, 'Dump', 1, 1);
             self.field(record, 'Dump::base_filename', 'std::string', @() self.stringValue());
             self.field(record, 'Dump::dir', 'std::string', @() self.stringValue());
             self.field(record, 'Dump::format', 'std::string', @() self.stringValue());
@@ -1019,12 +1047,14 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'FunctionInternal::serialize_body');
             self.layout_FunctionInternal_serialize_body(record, scope);
-            self.version(record, 'External', 2);
+            scope(['External' '::serialization::version']) = self.version(record, 'External', 1, 2);
             self.field(record, 'External::int_data', 'std::vector<casadi_int>', @() self.read_std_vector_casadi_int());
             self.field(record, 'External::real_data', 'std::vector<double>', @() self.read_std_vector_double());
             self.field(record, 'External::string_data', 'std::string', @() self.stringValue());
             self.field(record, 'External::li', 'Importer', @() self.read_Importer());
-            self.field(record, 'External::config_args', 'std::vector<std::string>', @() self.read_std_vector_std_string());
+            if self.truth((scope('External::serialization::version') >= 2))
+                self.field(record, 'External::config_args', 'std::vector<std::string>', @() self.read_std_vector_std_string());
+            end
             self.depth = self.depth - 1;
         end
 
@@ -1032,7 +1062,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Rootfinder::serialize_body');
             self.layout_Rootfinder_serialize_body(record, scope);
-            self.version(record, 'Newton', 1);
+            self.version(record, 'Newton', 1, 1);
             self.field(record, 'Newton::max_iter', 'casadi_int', @() self.number('casadi_int'));
             self.field(record, 'Newton::abstol', 'double', @() self.number('double'));
             self.field(record, 'Newton::abstolStep', 'double', @() self.number('double'));
@@ -1048,7 +1078,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Conic::serialize_body');
             self.layout_Conic_serialize_body(record, scope);
-            self.version(record, 'FatropConicInterface', 1);
+            self.version(record, 'FatropConicInterface', 1, 1);
             self.depth = self.depth - 1;
         end
 
@@ -1056,7 +1086,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Nlpsol::serialize_body');
             self.layout_Nlpsol_serialize_body(record, scope);
-            self.version(record, 'FatropInterface', 1);
+            self.version(record, 'FatropInterface', 1, 1);
             self.field(record, 'FatropInterface::jacg_sp', 'Sparsity', @() self.read_Sparsity());
             self.field(record, 'FatropInterface::hesslag_sp', 'Sparsity', @() self.read_Sparsity());
             self.field(record, 'FatropInterface::exact_hessian', 'bool', @() self.boolValue());
@@ -1087,7 +1117,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Nlpsol::serialize_body');
             self.layout_Nlpsol_serialize_body(record, scope);
-            self.version(record, 'Feasiblesqpmethod', 3);
+            scope(['Feasiblesqpmethod' '::serialization::version']) = self.version(record, 'Feasiblesqpmethod', 1, 4);
             self.field(record, 'Feasiblesqpmethod::qpsol', 'Function', @() self.read_Function());
             self.field(record, 'Feasiblesqpmethod::exact_hessian', 'bool', @() self.boolValue());
             self.field(record, 'Feasiblesqpmethod::max_iter', 'casadi_int', @() self.number('casadi_int'));
@@ -1098,14 +1128,52 @@ classdef Document < handle
             self.field(record, 'Feasiblesqpmethod::print_header', 'bool', @() self.boolValue());
             self.field(record, 'Feasiblesqpmethod::print_iteration', 'bool', @() self.boolValue());
             self.field(record, 'Feasiblesqpmethod::print_status', 'bool', @() self.boolValue());
-            self.field(record, 'Feasiblesqpmethod::init_feasible', 'bool', @() self.boolValue());
+            if self.truth((scope('Feasiblesqpmethod::serialization::version') >= 3))
+                self.field(record, 'Feasiblesqpmethod::init_feasible', 'bool', @() self.boolValue());
+            end
             self.field(record, 'Feasiblesqpmethod::Hsp', 'Sparsity', @() self.read_Sparsity());
+            if self.truth(isequal(scope('Feasiblesqpmethod::serialization::version'), 1))
+                self.field(record, 'Feasiblesqpmethod::Hrsp', 'Sparsity', @() self.read_Sparsity());
+            end
             self.field(record, 'Feasiblesqpmethod::Asp', 'Sparsity', @() self.read_Sparsity());
-            scope('Feasiblesqpmethod::convexify') = self.field(record, 'Feasiblesqpmethod::convexify', 'bool', @() self.boolValue());
-            if self.truth(scope('Feasiblesqpmethod::convexify'))
-                self.recordLayout(record, 'Convexify::serialize');
-                scope('prefix') = 'Feasiblesqpmethod::';
-                self.layout_Convexify_serialize(record, scope);
+            if self.truth(isequal(scope('Feasiblesqpmethod::serialization::version'), 1))
+                self.field(record, 'Feasiblesqpmethod::convexify_margin', 'double', @() self.number('double'));
+                self.field(record, 'Feasiblesqpmethod::convexify_strategy', 'char', @() self.byte());
+                self.field(record, 'Feasiblesqpmethod::Hsp_project', 'bool', @() self.boolValue());
+                self.field(record, 'Feasiblesqpmethod::scc_transform', 'bool', @() self.boolValue());
+                self.field(record, 'Feasiblesqpmethod::scc_offset', 'std::vector<casadi_int>', @() self.read_std_vector_casadi_int());
+                self.field(record, 'Feasiblesqpmethod::scc_mapping', 'std::vector<casadi_int>', @() self.read_std_vector_casadi_int());
+                self.field(record, 'Feasiblesqpmethod::max_iter_eig', 'casadi_int', @() self.number('casadi_int'));
+                self.field(record, 'Feasiblesqpmethod::block_size', 'casadi_int', @() self.number('casadi_int'));
+                self.field(record, 'Feasiblesqpmethod::scc_sp', 'Sparsity', @() self.read_Sparsity());
+            end
+            if self.truth((scope('Feasiblesqpmethod::serialization::version') >= 2))
+                scope('Feasiblesqpmethod::convexify') = self.field(record, 'Feasiblesqpmethod::convexify', 'bool', @() self.boolValue());
+                if self.truth(scope('Feasiblesqpmethod::convexify'))
+                    self.recordLayout(record, 'Convexify::serialize');
+                    scope('prefix') = 'Feasiblesqpmethod::';
+                    self.layout_Convexify_serialize(record, scope);
+                end
+            end
+            if self.truth((scope('Feasiblesqpmethod::serialization::version') >= 4))
+                self.field(record, 'Feasiblesqpmethod::use_sqp', 'bool', @() self.boolValue());
+                self.field(record, 'Feasiblesqpmethod::use_anderson', 'bool', @() self.boolValue());
+                self.field(record, 'Feasiblesqpmethod::anderson_memory', 'casadi_int', @() self.number('casadi_int'));
+                self.field(record, 'Feasiblesqpmethod::optim_tol', 'double', @() self.number('double'));
+                self.field(record, 'Feasiblesqpmethod::feas_tol', 'double', @() self.number('double'));
+                self.field(record, 'Feasiblesqpmethod::tr_eta1', 'double', @() self.number('double'));
+                self.field(record, 'Feasiblesqpmethod::tr_eta2', 'double', @() self.number('double'));
+                self.field(record, 'Feasiblesqpmethod::tr_alpha1', 'double', @() self.number('double'));
+                self.field(record, 'Feasiblesqpmethod::tr_alpha2', 'double', @() self.number('double'));
+                self.field(record, 'Feasiblesqpmethod::tr_tol', 'double', @() self.number('double'));
+                self.field(record, 'Feasiblesqpmethod::tr_acceptance', 'double', @() self.number('double'));
+                self.field(record, 'Feasiblesqpmethod::tr_rad_min', 'double', @() self.number('double'));
+                self.field(record, 'Feasiblesqpmethod::tr_rad_max', 'double', @() self.number('double'));
+                self.field(record, 'Feasiblesqpmethod::tr_rad0', 'double', @() self.number('double'));
+                self.field(record, 'Feasiblesqpmethod::tr_scale_vector', 'std::vector<double>', @() self.read_std_vector_double());
+                self.field(record, 'Feasiblesqpmethod::contraction_acceptance_value', 'double', @() self.number('double'));
+                self.field(record, 'Feasiblesqpmethod::watchdog', 'casadi_int', @() self.number('casadi_int'));
+                self.field(record, 'Feasiblesqpmethod::max_inner_iter', 'casadi_int', @() self.number('casadi_int'));
             end
             self.depth = self.depth - 1;
         end
@@ -1121,7 +1189,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'FunctionInternal::serialize_body');
             self.layout_FunctionInternal_serialize_body(record, scope);
-            self.version(record, 'FiniteDiff', 1);
+            self.version(record, 'FiniteDiff', 1, 1);
             self.field(record, 'FiniteDiff::n', 'casadi_int', @() self.number('casadi_int'));
             self.field(record, 'FiniteDiff::h_iter', 'casadi_int', @() self.number('casadi_int'));
             self.field(record, 'FiniteDiff::h', 'double', @() self.number('double'));
@@ -1140,7 +1208,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Integrator::serialize_body');
             self.layout_Integrator_serialize_body(record, scope);
-            self.version(record, 'FixedStepIntegrator', 3);
+            self.version(record, 'FixedStepIntegrator', 3, 3);
             self.field(record, 'FixedStepIntegrator::nk_target', 'casadi_int', @() self.number('casadi_int'));
             self.field(record, 'FixedStepIntegrator::disc', 'std::vector<casadi_int>', @() self.read_std_vector_casadi_int());
             self.field(record, 'FixedStepIntegrator::nv', 'casadi_int', @() self.number('casadi_int'));
@@ -1154,7 +1222,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'FmuInternal::serialize_body');
             self.layout_FmuInternal_serialize_body(record, scope);
-            self.version(record, 'Fmu2', 2);
+            self.version(record, 'Fmu2', 2, 2);
             self.field(record, 'Fmu2::vr_real', 'std::vector<unsignedint>', @() self.read_std_vector_unsignedint());
             self.field(record, 'Fmu2::vr_integer', 'std::vector<unsignedint>', @() self.read_std_vector_unsignedint());
             self.field(record, 'Fmu2::vr_boolean', 'std::vector<unsignedint>', @() self.read_std_vector_unsignedint());
@@ -1178,7 +1246,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'FmuInternal::serialize_body');
             self.layout_FmuInternal_serialize_body(record, scope);
-            self.version(record, 'Fmu3', 1);
+            scope(['Fmu3' '::serialization::version']) = self.version(record, 'Fmu3', 1, 2);
             self.field(record, 'Fmu3::vr_real', 'std::vector<unsignedint>', @() self.read_std_vector_unsignedint());
             self.field(record, 'Fmu3::vr_integer', 'std::vector<unsignedint>', @() self.read_std_vector_unsignedint());
             self.field(record, 'Fmu3::vr_boolean', 'std::vector<unsignedint>', @() self.read_std_vector_unsignedint());
@@ -1195,6 +1263,12 @@ classdef Document < handle
             self.field(record, 'Fmu3::vr_aux_integer', 'std::vector<unsignedint>', @() self.read_std_vector_unsignedint());
             self.field(record, 'Fmu3::vr_aux_boolean', 'std::vector<unsignedint>', @() self.read_std_vector_unsignedint());
             self.field(record, 'Fmu3::vr_aux_string', 'std::vector<unsignedint>', @() self.read_std_vector_unsignedint());
+            if self.truth((scope('Fmu3::serialization::version') >= 2))
+                self.field(record, 'Fmu3::off_aux_real', 'std::vector<casadi_int>', @() self.read_std_vector_casadi_int());
+                self.field(record, 'Fmu3::off_aux_integer', 'std::vector<casadi_int>', @() self.read_std_vector_casadi_int());
+                self.field(record, 'Fmu3::off_aux_boolean', 'std::vector<casadi_int>', @() self.read_std_vector_casadi_int());
+                self.field(record, 'Fmu3::off_aux_string', 'std::vector<casadi_int>', @() self.read_std_vector_casadi_int());
+            end
             self.depth = self.depth - 1;
         end
 
@@ -1208,7 +1282,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'FunctionInternal::serialize_body');
             self.layout_FunctionInternal_serialize_body(record, scope);
-            self.version(record, 'FmuFunction', 6);
+            self.version(record, 'FmuFunction', 6, 6);
             self.field(record, 'FmuFunction::Fmu', 'Fmu', @() self.read_Fmu());
             for i_1 = 1:self.count(numel(scope('FunctionInternal::sp_in')))
                 self.field(record, 'FmuFunction::in::type', 'int', @() self.number('int'));
@@ -1280,7 +1354,7 @@ classdef Document < handle
 
         function layout_FmuInternal_serialize_body(self, record, scope)
             self.enterLayout();
-            self.version(record, 'FmuInternal', 4);
+            self.version(record, 'FmuInternal', 4, 4);
             self.field(record, 'FmuInternal::name', 'std::string', @() self.stringValue());
             self.field(record, 'FmuInternal::scheme_in', 'std::vector<std::string>', @() self.read_std_vector_std_string());
             self.field(record, 'FmuInternal::scheme_out', 'std::vector<std::string>', @() self.read_std_vector_std_string());
@@ -1344,7 +1418,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'ProtoFunction::serialize_body');
             self.layout_ProtoFunction_serialize_body(record, scope);
-            self.version(record, 'FunctionInternal', 8);
+            scope(['FunctionInternal' '::serialization::version']) = self.version(record, 'FunctionInternal', 1, 9);
             self.field(record, 'FunctionInternal::is_diff_in', 'std::vector<bool>', @() self.read_std_vector_bool());
             self.field(record, 'FunctionInternal::is_diff_out', 'std::vector<bool>', @() self.read_std_vector_bool());
             scope('FunctionInternal::sp_in') = self.field(record, 'FunctionInternal::sp_in', 'std::vector<Sparsity>', @() self.read_std_vector_Sparsity());
@@ -1353,7 +1427,11 @@ classdef Document < handle
             self.field(record, 'FunctionInternal::name_out', 'std::vector<std::string>', @() self.read_std_vector_std_string());
             scope('FunctionInternal::jit') = self.field(record, 'FunctionInternal::jit', 'bool', @() self.boolValue());
             self.field(record, 'FunctionInternal::jit_cleanup', 'bool', @() self.boolValue());
-            scope('FunctionInternal::jit_serialize') = self.field(record, 'FunctionInternal::jit_serialize', 'std::string', @() self.stringValue());
+            if self.truth((scope('FunctionInternal::serialization::version') < 2))
+                scope('FunctionInternal::jit_serialize') = 'source';
+            else
+                scope('FunctionInternal::jit_serialize') = self.field(record, 'FunctionInternal::jit_serialize', 'std::string', @() self.stringValue());
+            end
             if self.truth((self.truth(isequal(scope('FunctionInternal::jit_serialize'), 'link')) || self.truth(isequal(scope('FunctionInternal::jit_serialize'), 'embed'))))
                 self.field(record, 'FunctionInternal::jit_library', 'std::string', @() self.stringValue());
                 if self.truth(isequal(scope('FunctionInternal::jit_serialize'), 'embed'))
@@ -1363,9 +1441,14 @@ classdef Document < handle
             self.field(record, 'FunctionInternal::jit_temp_suffix', 'bool', @() self.boolValue());
             self.field(record, 'FunctionInternal::jit_base_name', 'std::string', @() self.stringValue());
             self.field(record, 'FunctionInternal::jit_options', 'Dict', @() self.read_Dict());
+            if self.truth((scope('FunctionInternal::serialization::version') >= 9))
+                self.field(record, 'FunctionInternal::codegen_options', 'Dict', @() self.read_Dict());
+            end
             self.field(record, 'FunctionInternal::compiler_plugin', 'std::string', @() self.stringValue());
             self.field(record, 'FunctionInternal::has_refcount', 'bool', @() self.boolValue());
-            self.field(record, 'FunctionInternal::cache_init', 'Dict', @() self.read_Dict());
+            if self.truth((scope('FunctionInternal::serialization::version') >= 6))
+                self.field(record, 'FunctionInternal::cache_init', 'Dict', @() self.read_Dict());
+            end
             self.field(record, 'FunctionInternal::derivative_of', 'Function', @() self.read_Function());
             self.field(record, 'FunctionInternal::jac_penalty', 'double', @() self.number('double'));
             self.field(record, 'FunctionInternal::enable_forward', 'bool', @() self.boolValue());
@@ -1381,23 +1464,34 @@ classdef Document < handle
             self.field(record, 'FunctionInternal::always_inline', 'bool', @() self.boolValue());
             self.field(record, 'FunctionInternal::never_inline', 'bool', @() self.boolValue());
             self.field(record, 'FunctionInternal::max_num_dir', 'casadi_int', @() self.number('casadi_int'));
+            if self.truth((scope('FunctionInternal::serialization::version') < 3))
+                self.field(record, 'FunctionInternal::regularity_check', 'bool', @() self.boolValue());
+            end
             self.field(record, 'FunctionInternal::inputs_check', 'bool', @() self.boolValue());
             self.field(record, 'FunctionInternal::fd_step', 'double', @() self.number('double'));
             self.field(record, 'FunctionInternal::fd_method', 'std::string', @() self.stringValue());
             self.field(record, 'FunctionInternal::print_in', 'bool', @() self.boolValue());
             self.field(record, 'FunctionInternal::print_out', 'bool', @() self.boolValue());
-            self.field(record, 'FunctionInternal::print_canonical', 'bool', @() self.boolValue());
-            self.field(record, 'FunctionInternal::max_io', 'casadi_int', @() self.number('casadi_int'));
+            if self.truth((scope('FunctionInternal::serialization::version') >= 7))
+                self.field(record, 'FunctionInternal::print_canonical', 'bool', @() self.boolValue());
+            end
+            if self.truth((scope('FunctionInternal::serialization::version') >= 4))
+                self.field(record, 'FunctionInternal::max_io', 'casadi_int', @() self.number('casadi_int'));
+            end
             self.field(record, 'FunctionInternal::dump_in', 'bool', @() self.boolValue());
             self.field(record, 'FunctionInternal::dump_out', 'bool', @() self.boolValue());
             self.field(record, 'FunctionInternal::dump_dir', 'std::string', @() self.stringValue());
             self.field(record, 'FunctionInternal::dump_format', 'std::string', @() self.stringValue());
             self.field(record, 'FunctionInternal::forward_options', 'Dict', @() self.read_Dict());
             self.field(record, 'FunctionInternal::reverse_options', 'Dict', @() self.read_Dict());
-            self.field(record, 'FunctionInternal::jacobian_options', 'Dict', @() self.read_Dict());
-            self.field(record, 'FunctionInternal::der_options', 'Dict', @() self.read_Dict());
+            if self.truth((scope('FunctionInternal::serialization::version') >= 5))
+                self.field(record, 'FunctionInternal::jacobian_options', 'Dict', @() self.read_Dict());
+                self.field(record, 'FunctionInternal::der_options', 'Dict', @() self.read_Dict());
+            end
             self.field(record, 'FunctionInternal::custom_jacobian', 'Function', @() self.read_Function());
-            self.field(record, 'FunctionInternal::registered_functions', 'std::vector<Function>', @() self.read_std_vector_Function());
+            if self.truth((scope('FunctionInternal::serialization::version') >= 8))
+                self.field(record, 'FunctionInternal::registered_functions', 'std::vector<Function>', @() self.read_std_vector_Function());
+            end
             self.field(record, 'FunctionInternal::sz_arg_per', 'size_t', @() self.number('size_t'));
             self.field(record, 'FunctionInternal::sz_res_per', 'size_t', @() self.number('size_t'));
             self.field(record, 'FunctionInternal::sz_iw_per', 'size_t', @() self.number('size_t'));
@@ -1419,7 +1513,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'FunctionInternal::serialize_type');
             self.layout_FunctionInternal_serialize_type(record, scope);
-            self.version(record, 'GenericExternal', 1);
+            self.version(record, 'GenericExternal', 1, 1);
             scope('GenericExternal::type') = self.field(record, 'GenericExternal::type', 'char', @() self.byte());
             self.depth = self.depth - 1;
         end
@@ -1574,8 +1668,10 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Conic::serialize_body');
             self.layout_Conic_serialize_body(record, scope);
-            self.version(record, 'GurobiInterface', 2);
-            self.field(record, 'GurobiInterface::lazy_constraints_callback', 'Function', @() self.read_Function());
+            scope(['GurobiInterface' '::serialization::version']) = self.version(record, 'GurobiInterface', 1, 2);
+            if self.truth((scope('GurobiInterface::serialization::version') >= 2))
+                self.field(record, 'GurobiInterface::lazy_constraints_callback', 'Function', @() self.read_Function());
+            end
             self.field(record, 'GurobiInterface::vtype', 'std::vector<char>', @() self.read_std_vector_char());
             self.field(record, 'GurobiInterface::opts', 'Dict', @() self.read_Dict());
             self.field(record, 'GurobiInterface::sos_weights', 'std::vector<double>', @() self.read_std_vector_double());
@@ -1591,7 +1687,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Conic::serialize_body');
             self.layout_Conic_serialize_body(record, scope);
-            self.version(record, 'HighsInterface', 1);
+            self.version(record, 'HighsInterface', 1, 1);
             self.field(record, 'HighsInterface::opts', 'Dict', @() self.read_Dict());
             self.depth = self.depth - 1;
         end
@@ -1630,7 +1726,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Conic::serialize_body');
             self.layout_Conic_serialize_body(record, scope);
-            self.version(record, 'HpipmInterface', 1);
+            self.version(record, 'HpipmInterface', 1, 1);
             self.depth = self.depth - 1;
         end
 
@@ -1655,7 +1751,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'SundialsInterface::serialize_body');
             self.layout_SundialsInterface_serialize_body(record, scope);
-            self.version(record, 'IdasInterface', 2);
+            scope(['IdasInterface' '::serialization::version']) = self.version(record, 'IdasInterface', 1, 2);
             self.field(record, 'IdasInterface::cj_scaling', 'bool', @() self.boolValue());
             self.field(record, 'IdasInterface::calc_ic', 'bool', @() self.boolValue());
             self.field(record, 'IdasInterface::calc_icB', 'bool', @() self.boolValue());
@@ -1663,8 +1759,10 @@ classdef Document < handle
             self.field(record, 'IdasInterface::abstolv', 'std::vector<double>', @() self.read_std_vector_double());
             self.field(record, 'IdasInterface::first_time', 'double', @() self.number('double'));
             self.field(record, 'IdasInterface::init_xdot', 'std::vector<double>', @() self.read_std_vector_double());
-            self.field(record, 'IdasInterface::max_step_size', 'double', @() self.number('double'));
-            self.field(record, 'IdasInterface::y_c', 'std::vector<casadi_int>', @() self.read_std_vector_casadi_int());
+            if self.truth((scope('IdasInterface::serialization::version') >= 2))
+                self.field(record, 'IdasInterface::max_step_size', 'double', @() self.number('double'));
+                self.field(record, 'IdasInterface::y_c', 'std::vector<casadi_int>', @() self.read_std_vector_casadi_int());
+            end
             self.depth = self.depth - 1;
         end
 
@@ -1672,7 +1770,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'FixedStepIntegrator::serialize_body');
             self.layout_FixedStepIntegrator_serialize_body(record, scope);
-            self.version(record, 'ImplicitFixedStepIntegrator', 2);
+            self.version(record, 'ImplicitFixedStepIntegrator', 2, 2);
             self.depth = self.depth - 1;
         end
 
@@ -1698,7 +1796,7 @@ classdef Document < handle
 
         function layout_ImporterInternal_serialize_body(self, record, scope)
             self.enterLayout();
-            self.version(record, 'ImporterInternal', 1);
+            self.version(record, 'ImporterInternal', 1, 1);
             self.field(record, 'ImporterInternal::name', 'std::string', @() self.stringValue());
             self.field(record, 'ImporterInternal::meta', 'std::map<std::string,std::pair<casadi_int,std::string>>', @() self.read_std_map_std_string_std_pair_casadi_int__327());
             self.field(record, 'ImporterInternal::external', 'std::map<std::string,std::pair<bool,std::string>>', @() self.read_std_map_std_string_std_pair_bool_std_string());
@@ -1735,7 +1833,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'OracleFunction::serialize_body');
             self.layout_OracleFunction_serialize_body(record, scope);
-            self.version(record, 'Integrator', 3);
+            self.version(record, 'Integrator', 3, 3);
             self.field(record, 'Integrator::sp_jac_dae', 'Sparsity', @() self.read_Sparsity());
             self.field(record, 'Integrator::sp_jac_rdae', 'Sparsity', @() self.read_Sparsity());
             self.field(record, 'Integrator::t0', 'double', @() self.number('double'));
@@ -1791,14 +1889,17 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'FunctionInternal::serialize_body');
             self.layout_FunctionInternal_serialize_body(record, scope);
-            self.version(record, 'Interpolant', 2);
+            scope(['Interpolant' '::serialization::version']) = self.version(record, 'Interpolant', 1, 2);
             self.field(record, 'Interpolant::ndim', 'casadi_int', @() self.number('casadi_int'));
             self.field(record, 'Interpolant::m', 'casadi_int', @() self.number('casadi_int'));
             self.field(record, 'Interpolant::grid', 'std::vector<double>', @() self.read_std_vector_double());
             self.field(record, 'Interpolant::offset', 'std::vector<casadi_int>', @() self.read_std_vector_casadi_int());
             self.field(record, 'Interpolant::values', 'std::vector<double>', @() self.read_std_vector_double());
             self.field(record, 'Interpolant::lookup_modes', 'std::vector<std::string>', @() self.read_std_vector_std_string());
-            self.field(record, 'Interpolant::batch_x', 'casadi_int', @() self.number('casadi_int'));
+            if self.truth(isequal(scope('Interpolant::serialization::version'), 1))
+            else
+                self.field(record, 'Interpolant::batch_x', 'casadi_int', @() self.number('casadi_int'));
+            end
             self.depth = self.depth - 1;
         end
 
@@ -1822,7 +1923,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Nlpsol::serialize_body');
             self.layout_Nlpsol_serialize_body(record, scope);
-            self.version(record, 'IpoptInterface', 3);
+            scope(['IpoptInterface' '::serialization::version']) = self.version(record, 'IpoptInterface', 1, 3);
             self.field(record, 'IpoptInterface::jacg_sp', 'Sparsity', @() self.read_Sparsity());
             self.field(record, 'IpoptInterface::hesslag_sp', 'Sparsity', @() self.read_Sparsity());
             self.field(record, 'IpoptInterface::exact_hessian', 'bool', @() self.boolValue());
@@ -1835,15 +1936,19 @@ classdef Document < handle
             self.field(record, 'IpoptInterface::con_string_md', 'Dict', @() self.read_Dict());
             self.field(record, 'IpoptInterface::con_integer_md', 'Dict', @() self.read_Dict());
             self.field(record, 'IpoptInterface::con_numeric_md', 'Dict', @() self.read_Dict());
-            scope('IpoptInterface::convexify') = self.field(record, 'IpoptInterface::convexify', 'bool', @() self.boolValue());
-            if self.truth(scope('IpoptInterface::convexify'))
-                self.recordLayout(record, 'Convexify::serialize');
-                scope('prefix') = 'IpoptInterface::';
-                self.layout_Convexify_serialize(record, scope);
+            if self.truth((scope('IpoptInterface::serialization::version') >= 2))
+                scope('IpoptInterface::convexify') = self.field(record, 'IpoptInterface::convexify', 'bool', @() self.boolValue());
+                if self.truth(scope('IpoptInterface::convexify'))
+                    self.recordLayout(record, 'Convexify::serialize');
+                    scope('prefix') = 'IpoptInterface::';
+                    self.layout_Convexify_serialize(record, scope);
+                end
             end
-            self.field(record, 'IpoptInterface::clip_inactive_lam', 'bool', @() self.boolValue());
-            self.field(record, 'IpoptInterface::inactive_lam_strategy', 'std::string', @() self.stringValue());
-            self.field(record, 'IpoptInterface::inactive_lam_value', 'double', @() self.number('double'));
+            if self.truth((scope('IpoptInterface::serialization::version') >= 3))
+                self.field(record, 'IpoptInterface::clip_inactive_lam', 'bool', @() self.boolValue());
+                self.field(record, 'IpoptInterface::inactive_lam_strategy', 'std::string', @() self.stringValue());
+                self.field(record, 'IpoptInterface::inactive_lam_value', 'double', @() self.number('double'));
+            end
             self.depth = self.depth - 1;
         end
 
@@ -1851,7 +1956,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Conic::serialize_body');
             self.layout_Conic_serialize_body(record, scope);
-            self.version(record, 'Ipqp', 1);
+            self.version(record, 'Ipqp', 1, 1);
             self.field(record, 'Ipqp::kkt', 'Sparsity', @() self.read_Sparsity());
             self.field(record, 'Ipqp::print_iter', 'bool', @() self.boolValue());
             self.field(record, 'Ipqp::print_header', 'bool', @() self.boolValue());
@@ -1877,7 +1982,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Nlpsol::serialize_body');
             self.layout_Nlpsol_serialize_body(record, scope);
-            self.version(record, 'KnitroInterface', 2);
+            scope(['KnitroInterface' '::serialization::version']) = self.version(record, 'KnitroInterface', 1, 2);
             self.field(record, 'KnitroInterface::contype', 'std::vector<int>', @() self.read_std_vector_int());
             self.field(record, 'KnitroInterface::comp_type', 'std::vector<int>', @() self.read_std_vector_int());
             self.field(record, 'KnitroInterface::comp_i1', 'std::vector<int>', @() self.read_std_vector_int());
@@ -1885,7 +1990,9 @@ classdef Document < handle
             self.field(record, 'KnitroInterface::opts', 'Dict', @() self.read_Dict());
             self.field(record, 'KnitroInterface::jacg_sp', 'Sparsity', @() self.read_Sparsity());
             self.field(record, 'KnitroInterface::hesslag_sp', 'Sparsity', @() self.read_Sparsity());
-            self.field(record, 'KnitroInterface::options_file', 'std::string', @() self.stringValue());
+            if self.truth((scope('KnitroInterface::serialization::version') >= 2))
+                self.field(record, 'KnitroInterface::options_file', 'std::string', @() self.stringValue());
+            end
             self.depth = self.depth - 1;
         end
 
@@ -1924,7 +2031,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'LinsolInternal::serialize_body');
             self.layout_LinsolInternal_serialize_body(record, scope);
-            self.version(record, 'LapackLu', 1);
+            self.version(record, 'LapackLu', 1, 1);
             self.field(record, 'LapackLu::equilibriate', 'bool', @() self.boolValue());
             self.field(record, 'LapackLu::allow_equilibration_failure', 'bool', @() self.boolValue());
             self.depth = self.depth - 1;
@@ -1950,7 +2057,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Interpolant::serialize_type');
             self.layout_Interpolant_serialize_type(record, scope);
-            self.version(record, 'LinearInterpolant', 1);
+            self.version(record, 'LinearInterpolant', 1, 1);
             scope('LinearInterpolant::type') = self.field(record, 'LinearInterpolant::type', 'char', @() self.byte());
             self.depth = self.depth - 1;
         end
@@ -1968,7 +2075,7 @@ classdef Document < handle
             self.layout_FunctionInternal_serialize_type(record, scope);
             self.recordLayout(record, '>PluginInterface<Interpolant>::serialize_type');
             self.layout_PluginInterface_Interpolant_serialize_type(record, scope);
-            self.version(record, 'LinearInterpolant', 1);
+            self.version(record, 'LinearInterpolant', 1, 1);
             scope('LinearInterpolant::type') = self.field(record, 'LinearInterpolant::type', 'char', @() self.byte());
             self.depth = self.depth - 1;
         end
@@ -2015,7 +2122,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'LinsolInternal::serialize_body');
             self.layout_LinsolInternal_serialize_body(record, scope);
-            self.version(record, 'LinsolLdl', 1);
+            self.version(record, 'LinsolLdl', 1, 1);
             self.field(record, 'LinsolLdl::p', 'std::vector<casadi_int>', @() self.read_std_vector_casadi_int());
             self.field(record, 'LinsolLdl::sp_Lt', 'Sparsity', @() self.read_Sparsity());
             self.depth = self.depth - 1;
@@ -2025,13 +2132,15 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'LinsolInternal::serialize_body');
             self.layout_LinsolInternal_serialize_body(record, scope);
-            self.version(record, 'LinsolQr', 2);
+            scope(['LinsolQr' '::serialization::version']) = self.version(record, 'LinsolQr', 1, 2);
             self.field(record, 'LinsolQr::prinv', 'std::vector<casadi_int>', @() self.read_std_vector_casadi_int());
             self.field(record, 'LinsolQr::pc', 'std::vector<casadi_int>', @() self.read_std_vector_casadi_int());
             self.field(record, 'LinsolQr::sp_v', 'Sparsity', @() self.read_Sparsity());
             self.field(record, 'LinsolQr::sp_r', 'Sparsity', @() self.read_Sparsity());
             self.field(record, 'LinsolQr::eps', 'double', @() self.number('double'));
-            self.field(record, 'LinsolQr::n_cache', 'casadi_int', @() self.number('casadi_int'));
+            if self.truth((scope('LinsolQr::serialization::version') > 1))
+                self.field(record, 'LinsolQr::n_cache', 'casadi_int', @() self.number('casadi_int'));
+            end
             self.depth = self.depth - 1;
         end
 
@@ -2088,7 +2197,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'XFunction<MXFunction,MX,MXNode>::serialize_body');
             self.layout_XFunction_MXFunction_MX_MXNode_serialize_body(record, scope);
-            self.version(record, 'MXFunction', 3);
+            scope(['MXFunction' '::serialization::version']) = self.version(record, 'MXFunction', 1, 3);
             scope('MXFunction::n_instr') = self.field(record, 'MXFunction::n_instr', 'size_t', @() self.number('size_t'));
             for i_3 = 1:self.count(scope('MXFunction::n_instr'))
                 self.field(record, 'MXFunction::alg::data', 'MX', @() self.read_MX());
@@ -2099,8 +2208,12 @@ classdef Document < handle
             self.field(record, 'MXFunction::free_vars', 'std::vector<MX>', @() self.read_std_vector_MX());
             self.field(record, 'MXFunction::default_in', 'std::vector<double>', @() self.read_std_vector_double());
             self.field(record, 'MXFunction::live_variables', 'bool', @() self.boolValue());
-            self.field(record, 'MXFunction::print_instructions', 'bool', @() self.boolValue());
-            self.field(record, 'MXFunction::dump_trace', 'bool', @() self.boolValue());
+            if self.truth((scope('MXFunction::serialization::version') >= 2))
+                self.field(record, 'MXFunction::print_instructions', 'bool', @() self.boolValue());
+            end
+            if self.truth((scope('MXFunction::serialization::version') >= 3))
+                self.field(record, 'MXFunction::dump_trace', 'bool', @() self.boolValue());
+            end
             self.recordLayout(record, 'XFunction<MXFunction,MX,MXNode>::delayed_serialize_members');
             self.layout_XFunction_MXFunction_MX_MXNode_delaye_278(record, scope);
             self.depth = self.depth - 1;
@@ -2137,7 +2250,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Nlpsol::serialize_body');
             self.layout_Nlpsol_serialize_body(record, scope);
-            self.version(record, 'MadmpecInterface', 1);
+            self.version(record, 'MadmpecInterface', 1, 1);
             self.field(record, 'MadmpecInterface::jacg_sp', 'Sparsity', @() self.read_Sparsity());
             self.field(record, 'MadmpecInterface::hesslag_sp', 'Sparsity', @() self.read_Sparsity());
             self.field(record, 'MadmpecInterface::exact_hessian', 'bool', @() self.boolValue());
@@ -2153,12 +2266,18 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Nlpsol::serialize_body');
             self.layout_Nlpsol_serialize_body(record, scope);
-            self.version(record, 'MadnlpInterface', 2);
+            scope(['MadnlpInterface' '::serialization::version']) = self.version(record, 'MadnlpInterface', 1, 2);
             self.field(record, 'MadnlpInterface::jacg_sp', 'Sparsity', @() self.read_Sparsity());
             self.field(record, 'MadnlpInterface::hesslag_sp', 'Sparsity', @() self.read_Sparsity());
             self.field(record, 'MadnlpInterface::exact_hessian', 'bool', @() self.boolValue());
             self.field(record, 'MadnlpInterface::opts', 'Dict', @() self.read_Dict());
             self.field(record, 'MadnlpInterface::convexify', 'bool', @() self.boolValue());
+            if self.truth(isequal(scope('MadnlpInterface::serialization::version'), 1))
+                self.field(record, 'MadnlpInterface::nzj_i', 'std::vector<casadi_int>', @() self.read_std_vector_casadi_int());
+                self.field(record, 'MadnlpInterface::nzj_j', 'std::vector<casadi_int>', @() self.read_std_vector_casadi_int());
+                self.field(record, 'MadnlpInterface::nzh_i', 'std::vector<casadi_int>', @() self.read_std_vector_casadi_int());
+                self.field(record, 'MadnlpInterface::nzh_j', 'std::vector<casadi_int>', @() self.read_std_vector_casadi_int());
+            end
             self.depth = self.depth - 1;
         end
 
@@ -2243,7 +2362,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Conic::serialize_body');
             self.layout_Conic_serialize_body(record, scope);
-            self.version(record, 'MosekInterface', 1);
+            self.version(record, 'MosekInterface', 1, 1);
             self.field(record, 'MosekInterface::opts', 'Dict', @() self.read_Dict());
             self.depth = self.depth - 1;
         end
@@ -2275,7 +2394,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'LinsolInternal::serialize_body');
             self.layout_LinsolInternal_serialize_body(record, scope);
-            self.version(record, 'Mumps', 1);
+            self.version(record, 'Mumps', 1, 1);
             self.field(record, 'MumpsInterface::symmetric', 'bool', @() self.boolValue());
             self.field(record, 'MumpsInterface::posdef', 'bool', @() self.boolValue());
             self.depth = self.depth - 1;
@@ -2291,7 +2410,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Rootfinder::serialize_body');
             self.layout_Rootfinder_serialize_body(record, scope);
-            self.version(record, 'Newton', 1);
+            self.version(record, 'Newton', 1, 1);
             self.field(record, 'Newton::max_iter', 'casadi_int', @() self.number('casadi_int'));
             self.field(record, 'Newton::abstol', 'double', @() self.number('double'));
             self.field(record, 'Newton::abstolStep', 'double', @() self.number('double'));
@@ -2304,12 +2423,15 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'OracleFunction::serialize_body');
             self.layout_OracleFunction_serialize_body(record, scope);
-            self.version(record, 'Nlpsol', 5);
+            scope(['Nlpsol' '::serialization::version']) = self.version(record, 'Nlpsol', 1, 5);
             self.field(record, 'Nlpsol::nx', 'casadi_int', @() self.number('casadi_int'));
             self.field(record, 'Nlpsol::ng', 'casadi_int', @() self.number('casadi_int'));
             self.field(record, 'Nlpsol::np', 'casadi_int', @() self.number('casadi_int'));
             self.field(record, 'Nlpsol::fcallback', 'Function', @() self.read_Function());
             self.field(record, 'Nlpsol::callback_step', 'casadi_int', @() self.number('casadi_int'));
+            if self.truth((scope('Nlpsol::serialization::version') <= 2))
+                self.field(record, 'Nlpsol::error_on_fail', 'bool', @() self.boolValue());
+            end
             self.field(record, 'Nlpsol::eval_errors_fatal', 'bool', @() self.boolValue());
             self.field(record, 'Nlpsol::warn_initial_bounds', 'bool', @() self.boolValue());
             self.field(record, 'Nlpsol::iteration_callback_ignore_errors', 'bool', @() self.boolValue());
@@ -2322,13 +2444,22 @@ classdef Document < handle
             self.field(record, 'Nlpsol::bound_consistency', 'bool', @() self.boolValue());
             self.field(record, 'Nlpsol::no_nlp_grad', 'bool', @() self.boolValue());
             self.field(record, 'Nlpsol::discrete', 'std::vector<bool>', @() self.read_std_vector_bool());
-            self.field(record, 'Nlpsol::equality', 'std::vector<bool>', @() self.read_std_vector_bool());
+            if self.truth((scope('Nlpsol::serialization::version') >= 4))
+                self.field(record, 'Nlpsol::equality', 'std::vector<bool>', @() self.read_std_vector_bool());
+            end
             self.field(record, 'Nlpsol::mi', 'bool', @() self.boolValue());
-            self.field(record, 'Nlpsol::sens_linsol', 'std::string', @() self.stringValue());
-            self.field(record, 'Nlpsol::sens_linsol_options', 'Dict', @() self.read_Dict());
-            self.field(record, 'Nlpsol::detect_simple_bounds_is_simple', 'std::vector<char>', @() self.read_std_vector_char());
-            self.field(record, 'Nlpsol::detect_simple_bounds_parts', 'Function', @() self.read_Function());
-            self.field(record, 'Nlpsol::detect_simple_bounds_target_x', 'std::vector<casadi_int>', @() self.read_std_vector_casadi_int());
+            if self.truth((scope('Nlpsol::serialization::version') >= 2))
+                self.field(record, 'Nlpsol::sens_linsol', 'std::string', @() self.stringValue());
+                self.field(record, 'Nlpsol::sens_linsol_options', 'Dict', @() self.read_Dict());
+            end
+            if self.truth((scope('Nlpsol::serialization::version') >= 3))
+                self.field(record, 'Nlpsol::detect_simple_bounds_is_simple', 'std::vector<char>', @() self.read_std_vector_char());
+                self.field(record, 'Nlpsol::detect_simple_bounds_parts', 'Function', @() self.read_Function());
+                if self.truth(isequal(scope('Nlpsol::serialization::version'), 4))
+                    self.fail('Saved detect_simple_bounds_parts changed signature');
+                end
+                self.field(record, 'Nlpsol::detect_simple_bounds_target_x', 'std::vector<casadi_int>', @() self.read_std_vector_casadi_int());
+            end
             self.depth = self.depth - 1;
         end
 
@@ -2393,7 +2524,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'FunctionInternal::serialize_body');
             self.layout_FunctionInternal_serialize_body(record, scope);
-            self.version(record, 'OnnxFunction', 2);
+            scope(['OnnxFunction' '::serialization::version']) = self.version(record, 'OnnxFunction', 1, 2);
             self.field(record, 'OnnxFunction::model_data', 'std::string', @() self.stringValue());
             self.recordLayout(record, 'pack_tensors');
             scope('d') = 'OnnxFunction::in';
@@ -2411,11 +2542,13 @@ classdef Document < handle
             self.field(record, 'OnnxFunction::fwd_dim', 'std::string', @() self.stringValue());
             self.field(record, 'OnnxFunction::adj_dim', 'std::string', @() self.stringValue());
             self.field(record, 'OnnxFunction::input_values', 'std::map<std::string,std::vector<double>>', @() self.read_std_map_std_string_std_vector_double());
-            self.field(record, 'OnnxFunction::model_path', 'std::string', @() self.stringValue());
-            self.field(record, 'OnnxFunction::dim_bindings', 'std::map<std::string,casadi_int>', @() self.read_std_map_std_string_casadi_int());
-            self.field(record, 'OnnxFunction::input_shapes', 'std::map<std::string,std::vector<casadi_int>>', @() self.read_std_map_std_string_std_vector_casadi_int());
-            self.field(record, 'OnnxFunction::derivative_opts', 'Dict', @() self.read_Dict());
-            self.field(record, 'OnnxFunction::builder_opts', 'Dict', @() self.read_Dict());
+            if self.truth((scope('OnnxFunction::serialization::version') >= 2))
+                self.field(record, 'OnnxFunction::model_path', 'std::string', @() self.stringValue());
+                self.field(record, 'OnnxFunction::dim_bindings', 'std::map<std::string,casadi_int>', @() self.read_std_map_std_string_casadi_int());
+                self.field(record, 'OnnxFunction::input_shapes', 'std::map<std::string,std::vector<casadi_int>>', @() self.read_std_map_std_string_std_vector_casadi_int());
+                self.field(record, 'OnnxFunction::derivative_opts', 'Dict', @() self.read_Dict());
+                self.field(record, 'OnnxFunction::builder_opts', 'Dict', @() self.read_Dict());
+            end
             self.depth = self.depth - 1;
         end
 
@@ -2432,7 +2565,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'OnnxFunction::serialize_body');
             self.layout_OnnxFunction_serialize_body(record, scope);
-            self.version(record, 'OnnxRuntimeInterface', 1);
+            self.version(record, 'OnnxRuntimeInterface', 1, 1);
             self.field(record, 'OnnxRuntimeInterface::provider', 'std::string', @() self.stringValue());
             self.depth = self.depth - 1;
         end
@@ -2441,7 +2574,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Conic::serialize_body');
             self.layout_Conic_serialize_body(record, scope);
-            self.version(record, 'OoqpInterface', 1);
+            self.version(record, 'OoqpInterface', 1, 1);
             self.field(record, 'OoqpInterface::spAT', 'Sparsity', @() self.read_Sparsity());
             self.field(record, 'OoqpInterface::nQ', 'casadi_int', @() self.number('casadi_int'));
             self.field(record, 'OoqpInterface::nH', 'casadi_int', @() self.number('casadi_int'));
@@ -2456,32 +2589,41 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'FunctionInternal::serialize_body');
             self.layout_FunctionInternal_serialize_body(record, scope);
-            self.version(record, 'OracleFunction', 3);
+            scope(['OracleFunction' '::serialization::version']) = self.version(record, 'OracleFunction', 1, 3);
             self.field(record, 'OracleFunction::oracle', 'Function', @() self.read_Function());
             self.field(record, 'OracleFunction::common_options', 'Dict', @() self.read_Dict());
             self.field(record, 'OracleFunction::specific_options', 'Dict', @() self.read_Dict());
             self.field(record, 'OracleFunction::show_eval_warnings', 'bool', @() self.boolValue());
-            self.field(record, 'OracleFunction::max_num_threads', 'int', @() self.number('int'));
+            if self.truth((scope('OracleFunction::serialization::version') >= 3))
+                self.field(record, 'OracleFunction::max_num_threads', 'int', @() self.number('int'));
+            end
             scope('OracleFunction::all_functions::size') = self.field(record, 'OracleFunction::all_functions::size', 'size_t', @() self.number('size_t'));
             for i_4 = 1:self.count(scope('OracleFunction::all_functions::size'))
                 self.field(record, 'OracleFunction::all_functions::key', 'std::string', @() self.stringValue());
-                scope('OracleFunction::all_functions::value::jit') = self.field(record, 'OracleFunction::all_functions::value::jit', 'bool', @() self.boolValue());
-                if self.truth((self.truth(scope('FunctionInternal::jit')) && self.truth(scope('OracleFunction::all_functions::value::jit'))))
-                    if self.truth(isequal(scope('FunctionInternal::jit_serialize'), 'source'))
-                        self.field(record, 'OracleFunction::all_functions::value::f', 'Function', @() self.read_Function());
-                    else
-                        self.field(record, 'OracleFunction::all_functions::value::f_name', 'std::string', @() self.stringValue());
-                    end
-                else
+                if self.truth(isequal(scope('OracleFunction::serialization::version'), 1))
                     self.field(record, 'OracleFunction::all_functions::value::f', 'Function', @() self.read_Function());
+                    scope('OracleFunction::all_functions::value::jit') = self.field(record, 'OracleFunction::all_functions::value::jit', 'bool', @() self.boolValue());
+                else
+                    scope('OracleFunction::all_functions::value::jit') = self.field(record, 'OracleFunction::all_functions::value::jit', 'bool', @() self.boolValue());
+                    if self.truth((self.truth(scope('FunctionInternal::jit')) && self.truth(scope('OracleFunction::all_functions::value::jit'))))
+                        if self.truth(isequal(scope('FunctionInternal::jit_serialize'), 'source'))
+                            self.field(record, 'OracleFunction::all_functions::value::f', 'Function', @() self.read_Function());
+                        else
+                            self.field(record, 'OracleFunction::all_functions::value::f_name', 'std::string', @() self.stringValue());
+                        end
+                    else
+                        self.field(record, 'OracleFunction::all_functions::value::f', 'Function', @() self.read_Function());
+                    end
                 end
                 self.field(record, 'OracleFunction::all_functions::value::monitored', 'bool', @() self.boolValue());
             end
             self.field(record, 'OracleFunction::monitor', 'std::vector<std::string>', @() self.read_std_vector_std_string());
-            self.field(record, 'OracleFunction::stride_arg', 'size_t', @() self.number('size_t'));
-            self.field(record, 'OracleFunction::stride_res', 'size_t', @() self.number('size_t'));
-            self.field(record, 'OracleFunction::stride_iw', 'size_t', @() self.number('size_t'));
-            self.field(record, 'OracleFunction::stride_w', 'size_t', @() self.number('size_t'));
+            if self.truth((scope('OracleFunction::serialization::version') >= 3))
+                self.field(record, 'OracleFunction::stride_arg', 'size_t', @() self.number('size_t'));
+                self.field(record, 'OracleFunction::stride_res', 'size_t', @() self.number('size_t'));
+                self.field(record, 'OracleFunction::stride_iw', 'size_t', @() self.number('size_t'));
+                self.field(record, 'OracleFunction::stride_w', 'size_t', @() self.number('size_t'));
+            end
             self.depth = self.depth - 1;
         end
 
@@ -2496,7 +2638,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Conic::serialize_body');
             self.layout_Conic_serialize_body(record, scope);
-            self.version(record, 'OsqpInterface', 2);
+            scope(['OsqpInterface' '::serialization::version']) = self.version(record, 'OsqpInterface', 1, 2);
             self.field(record, 'OsqpInterface::nnzHupp', 'casadi_int', @() self.number('casadi_int'));
             self.field(record, 'OsqpInterface::nnzA', 'casadi_int', @() self.number('casadi_int'));
             self.field(record, 'OsqpInterface::warm_start_primal', 'bool', @() self.boolValue());
@@ -2520,7 +2662,9 @@ classdef Document < handle
             self.field(record, 'OsqpInterface::settings::scaled_termination', 'casadi_int', @() self.number('casadi_int'));
             self.field(record, 'OsqpInterface::settings::check_termination', 'casadi_int', @() self.number('casadi_int'));
             self.field(record, 'OsqpInterface::settings::warm_start', 'casadi_int', @() self.number('casadi_int'));
-            self.field(record, 'OsqpInterface::rho_initial', 'double', @() self.number('double'));
+            if self.truth((scope('OsqpInterface::serialization::version') >= 2))
+                self.field(record, 'OsqpInterface::rho_initial', 'double', @() self.number('double'));
+            end
             self.depth = self.depth - 1;
         end
 
@@ -2550,7 +2694,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Conic::serialize_body');
             self.layout_Conic_serialize_body(record, scope);
-            self.version(record, 'PiqpInterface', 1);
+            self.version(record, 'PiqpInterface', 1, 1);
             self.field(record, 'PiqpInterface::nnzH', 'casadi_int', @() self.number('casadi_int'));
             self.field(record, 'PiqpInterface::nnzA', 'casadi_int', @() self.number('casadi_int'));
             self.field(record, 'PiqpInterface::settings::rho_init', 'double', @() self.number('double'));
@@ -2612,13 +2756,17 @@ classdef Document < handle
 
         function layout_ProtoFunction_serialize_body(self, record, scope)
             self.enterLayout();
-            self.version(record, 'ProtoFunction', 2);
+            scope(['ProtoFunction' '::serialization::version']) = self.version(record, 'ProtoFunction', 1, 2);
             self.field(record, 'ProtoFunction::name', 'std::string', @() self.stringValue());
             self.field(record, 'ProtoFunction::verbose', 'bool', @() self.boolValue());
             self.field(record, 'ProtoFunction::print_time', 'bool', @() self.boolValue());
             self.field(record, 'ProtoFunction::record_time', 'bool', @() self.boolValue());
-            self.field(record, 'ProtoFunction::regularity_check', 'bool', @() self.boolValue());
-            self.field(record, 'ProtoFunction::error_on_fail', 'bool', @() self.boolValue());
+            if self.truth((scope('ProtoFunction::serialization::version') >= 2))
+                self.field(record, 'ProtoFunction::regularity_check', 'bool', @() self.boolValue());
+            end
+            if self.truth((scope('ProtoFunction::serialization::version') >= 2))
+                self.field(record, 'ProtoFunction::error_on_fail', 'bool', @() self.boolValue());
+            end
             self.depth = self.depth - 1;
         end
 
@@ -2631,7 +2779,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Conic::serialize_body');
             self.layout_Conic_serialize_body(record, scope);
-            self.version(record, 'ProxqpInterface', 1);
+            self.version(record, 'ProxqpInterface', 1, 1);
             self.field(record, 'ProxqpInterface::warm_start_primal', 'bool', @() self.boolValue());
             self.field(record, 'ProxqpInterface::warm_start_dual', 'bool', @() self.boolValue());
             self.field(record, 'ProxqpInterface::settings::default_rho', 'double', @() self.number('double'));
@@ -2667,7 +2815,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Conic::serialize_body');
             self.layout_Conic_serialize_body(record, scope);
-            self.version(record, 'QpToNlp', 1);
+            self.version(record, 'QpToNlp', 1, 1);
             self.field(record, 'QpToNlp::solver', 'Function', @() self.read_Function());
             self.depth = self.depth - 1;
         end
@@ -2676,7 +2824,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Conic::serialize_body');
             self.layout_Conic_serialize_body(record, scope);
-            self.version(record, 'QpoasesInterface', 1);
+            self.version(record, 'QpoasesInterface', 1, 1);
             self.field(record, 'QpoasesInterface::max_nWSR', 'casadi_int', @() self.number('casadi_int'));
             self.field(record, 'QpoasesInterface::max_cputime', 'double', @() self.number('double'));
             self.field(record, 'QpoasesInterface::hess', 'casadi_int', @() self.number('casadi_int'));
@@ -2721,7 +2869,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Conic::serialize_body');
             self.layout_Conic_serialize_body(record, scope);
-            self.version(record, 'Qrqp', 1);
+            self.version(record, 'Qrqp', 1, 1);
             self.field(record, 'Qrqp::AT', 'Sparsity', @() self.read_Sparsity());
             self.field(record, 'Qrqp::kkt', 'Sparsity', @() self.read_Sparsity());
             self.field(record, 'Qrqp::sp_v', 'Sparsity', @() self.read_Sparsity());
@@ -2775,7 +2923,7 @@ classdef Document < handle
 
         function layout_ResourceInternal_serialize(self, record, scope)
             self.enterLayout();
-            self.version(record, 'ResourceInternal', 1);
+            self.version(record, 'ResourceInternal', 1, 1);
             self.fail('unlowered serialization call');
             self.fail('unlowered serialization call');
             self.depth = self.depth - 1;
@@ -2797,7 +2945,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'OracleFunction::serialize_body');
             self.layout_OracleFunction_serialize_body(record, scope);
-            self.version(record, 'Rootfinder', 3);
+            self.version(record, 'Rootfinder', 3, 3);
             self.field(record, 'Rootfinder::n', 'casadi_int', @() self.number('casadi_int'));
             self.field(record, 'Rootfinder::linsol', 'Linsol', @() self.read_Linsol());
             self.field(record, 'Rootfinder::sp_jac', 'Sparsity', @() self.read_Sparsity());
@@ -2820,7 +2968,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'FixedStepIntegrator::serialize_body');
             self.layout_FixedStepIntegrator_serialize_body(record, scope);
-            self.version(record, 'RungeKutta', 2);
+            self.version(record, 'RungeKutta', 2, 2);
             self.depth = self.depth - 1;
         end
 
@@ -2828,7 +2976,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Nlpsol::serialize_body');
             self.layout_Nlpsol_serialize_body(record, scope);
-            self.version(record, 'SLEQPInterface', 1);
+            self.version(record, 'SLEQPInterface', 1, 1);
             self.field(record, 'SLEQPInterface::jacg_sp', 'Sparsity', @() self.read_Sparsity());
             self.field(record, 'SLEQPInterface::max_iter', 'int', @() self.number('int'));
             self.field(record, 'SLEQPInterface::max_wall_time', 'double', @() self.number('double'));
@@ -2847,28 +2995,30 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'XFunction<SXFunction,SX,SXNode>::serialize_body');
             self.layout_XFunction_SXFunction_SX_SXNode_serialize_body(record, scope);
-            self.version(record, 'SXFunction', 4);
+            scope(['SXFunction' '::serialization::version']) = self.version(record, 'SXFunction', 1, 4);
             scope('SXFunction::n_instr') = self.field(record, 'SXFunction::n_instr', 'size_t', @() self.number('size_t'));
             self.field(record, 'SXFunction::worksize', 'size_t', @() self.number('size_t'));
             self.field(record, 'SXFunction::free_vars', 'std::vector<SXElem>', @() self.read_std_vector_SXElem());
             self.field(record, 'SXFunction::operations', 'std::vector<SXElem>', @() self.read_std_vector_SXElem());
             self.field(record, 'SXFunction::constants', 'std::vector<SXElem>', @() self.read_std_vector_SXElem());
             self.field(record, 'SXFunction::default_in', 'std::vector<double>', @() self.read_std_vector_double());
-            self.field(record, 'SXFunction::call_sz_arg', 'size_t', @() self.number('size_t'));
-            self.field(record, 'SXFunction::call_sz_res', 'size_t', @() self.number('size_t'));
-            self.field(record, 'SXFunction::call_sz_iw', 'size_t', @() self.number('size_t'));
-            self.field(record, 'SXFunction::call_sz_w', 'size_t', @() self.number('size_t'));
-            self.field(record, 'SXFunction::call_sz_arg', 'size_t', @() self.number('size_t'));
-            self.field(record, 'SXFunction::call_sz_res', 'size_t', @() self.number('size_t'));
-            scope('SXFunction::call_el_size') = self.field(record, 'SXFunction::call_el_size', 'size_t', @() self.number('size_t'));
-            for i_5 = 1:self.count(scope('SXFunction::call_el_size'))
-                self.field(record, 'SXFunction::call_el_f', 'Function', @() self.read_Function());
-                self.field(record, 'SXFunction::call_el_dep', 'std::vector<int>', @() self.read_std_vector_int());
-                self.field(record, 'SXFunction::call_el_res', 'std::vector<int>', @() self.read_std_vector_int());
-                self.field(record, 'SXFunction::call_el_copy_elision_arg', 'std::vector<int>', @() self.read_std_vector_int());
-                self.field(record, 'SXFunction::call_el_copy_elision_offset', 'std::vector<int>', @() self.read_std_vector_int());
+            if self.truth((scope('SXFunction::serialization::version') >= 2))
+                self.field(record, 'SXFunction::call_sz_arg', 'size_t', @() self.number('size_t'));
+                self.field(record, 'SXFunction::call_sz_res', 'size_t', @() self.number('size_t'));
+                self.field(record, 'SXFunction::call_sz_iw', 'size_t', @() self.number('size_t'));
+                self.field(record, 'SXFunction::call_sz_w', 'size_t', @() self.number('size_t'));
+                self.field(record, 'SXFunction::call_sz_arg', 'size_t', @() self.number('size_t'));
+                self.field(record, 'SXFunction::call_sz_res', 'size_t', @() self.number('size_t'));
+                scope('SXFunction::call_el_size') = self.field(record, 'SXFunction::call_el_size', 'size_t', @() self.number('size_t'));
+                for i_5 = 1:self.count(scope('SXFunction::call_el_size'))
+                    self.field(record, 'SXFunction::call_el_f', 'Function', @() self.read_Function());
+                    self.field(record, 'SXFunction::call_el_dep', 'std::vector<int>', @() self.read_std_vector_int());
+                    self.field(record, 'SXFunction::call_el_res', 'std::vector<int>', @() self.read_std_vector_int());
+                    self.field(record, 'SXFunction::call_el_copy_elision_arg', 'std::vector<int>', @() self.read_std_vector_int());
+                    self.field(record, 'SXFunction::call_el_copy_elision_offset', 'std::vector<int>', @() self.read_std_vector_int());
+                end
+                self.field(record, 'SXFunction::copy_elision', 'std::vector<bool>', @() self.read_std_vector_bool());
             end
-            self.field(record, 'SXFunction::copy_elision', 'std::vector<bool>', @() self.read_std_vector_bool());
             for i_6 = 1:self.count(scope('SXFunction::n_instr'))
                 self.field(record, 'SXFunction::ScalarAtomic::op', 'int', @() self.number('int'));
                 self.field(record, 'SXFunction::ScalarAtomic::i0', 'int', @() self.number('int'));
@@ -2876,8 +3026,12 @@ classdef Document < handle
                 self.field(record, 'SXFunction::ScalarAtomic::i2', 'int', @() self.number('int'));
             end
             self.field(record, 'SXFunction::live_variables', 'bool', @() self.boolValue());
-            self.field(record, 'SXFunction::print_instructions', 'bool', @() self.boolValue());
-            self.field(record, 'SXFunction::dump_trace', 'bool', @() self.boolValue());
+            if self.truth((scope('SXFunction::serialization::version') >= 3))
+                self.field(record, 'SXFunction::print_instructions', 'bool', @() self.boolValue());
+            end
+            if self.truth((scope('SXFunction::serialization::version') >= 4))
+                self.field(record, 'SXFunction::dump_trace', 'bool', @() self.boolValue());
+            end
             self.recordLayout(record, 'XFunction<SXFunction,SX,SXNode>::delayed_serialize_members');
             self.layout_XFunction_SXFunction_SX_SXNode_delaye_280(record, scope);
             self.depth = self.depth - 1;
@@ -3034,7 +3188,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Nlpsol::serialize_body');
             self.layout_Nlpsol_serialize_body(record, scope);
-            self.version(record, 'SnoptInterface', 1);
+            self.version(record, 'SnoptInterface', 1, 1);
             self.field(record, 'SnoptInterface::jacf_sp', 'Sparsity', @() self.read_Sparsity());
             self.field(record, 'SnoptInterface::jacg_sp', 'Sparsity', @() self.read_Sparsity());
             self.field(record, 'SnoptInterface::nnJac', 'casadi_int', @() self.number('casadi_int'));
@@ -3113,7 +3267,7 @@ classdef Document < handle
 
         function layout_Sparsity_serialize(self, record, scope)
             self.enterLayout();
-            self.fail('Predicate has no serialized field');
+            self.field(record, 'SparsityInternal::compressed', 'std::vector<casadi_int>', @() self.read_std_vector_casadi_int());
             self.depth = self.depth - 1;
         end
 
@@ -3144,9 +3298,11 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Nlpsol::serialize_body');
             self.layout_Nlpsol_serialize_body(record, scope);
-            self.version(record, 'Sqpmethod', 3);
+            scope(['Sqpmethod' '::serialization::version']) = self.version(record, 'Sqpmethod', 1, 3);
             self.field(record, 'Sqpmethod::qpsol', 'Function', @() self.read_Function());
-            self.field(record, 'Sqpmethod::qpsol_ela', 'Function', @() self.read_Function());
+            if self.truth((scope('Sqpmethod::serialization::version') >= 3))
+                self.field(record, 'Sqpmethod::qpsol_ela', 'Function', @() self.read_Function());
+            end
             self.field(record, 'Sqpmethod::exact_hessian', 'bool', @() self.boolValue());
             self.field(record, 'Sqpmethod::max_iter', 'casadi_int', @() self.number('casadi_int'));
             self.field(record, 'Sqpmethod::min_iter', 'casadi_int', @() self.number('casadi_int'));
@@ -3162,19 +3318,37 @@ classdef Document < handle
             self.field(record, 'Sqpmethod::print_header', 'bool', @() self.boolValue());
             self.field(record, 'Sqpmethod::print_iteration', 'bool', @() self.boolValue());
             self.field(record, 'Sqpmethod::print_status', 'bool', @() self.boolValue());
-            self.field(record, 'Sqpmethod::elastic_mode', 'bool', @() self.boolValue());
-            self.field(record, 'Sqpmethod::gamma_0', 'double', @() self.number('double'));
-            self.field(record, 'Sqpmethod::gamma_max', 'double', @() self.number('double'));
-            self.field(record, 'Sqpmethod::gamma_1_min', 'double', @() self.number('double'));
-            self.field(record, 'Sqpmethod::init_feasible', 'bool', @() self.boolValue());
-            self.field(record, 'Sqpmethod::so_corr', 'bool', @() self.boolValue());
+            if self.truth((scope('Sqpmethod::serialization::version') >= 3))
+                self.field(record, 'Sqpmethod::elastic_mode', 'bool', @() self.boolValue());
+                self.field(record, 'Sqpmethod::gamma_0', 'double', @() self.number('double'));
+                self.field(record, 'Sqpmethod::gamma_max', 'double', @() self.number('double'));
+                self.field(record, 'Sqpmethod::gamma_1_min', 'double', @() self.number('double'));
+                self.field(record, 'Sqpmethod::init_feasible', 'bool', @() self.boolValue());
+                self.field(record, 'Sqpmethod::so_corr', 'bool', @() self.boolValue());
+            end
             self.field(record, 'Sqpmethod::Hsp', 'Sparsity', @() self.read_Sparsity());
+            if self.truth(isequal(scope('Sqpmethod::serialization::version'), 1))
+                self.field(record, 'Sqpmethod::Hrsp', 'Sparsity', @() self.read_Sparsity());
+            end
             self.field(record, 'Sqpmethod::Asp', 'Sparsity', @() self.read_Sparsity());
-            scope('Sqpmethod::convexify') = self.field(record, 'Sqpmethod::convexify', 'bool', @() self.boolValue());
-            if self.truth(scope('Sqpmethod::convexify'))
-                self.recordLayout(record, 'Convexify::serialize');
-                scope('prefix') = 'Sqpmethod::';
-                self.layout_Convexify_serialize(record, scope);
+            if self.truth(isequal(scope('Sqpmethod::serialization::version'), 1))
+                self.field(record, 'Sqpmethod::convexify_margin', 'double', @() self.number('double'));
+                self.field(record, 'Sqpmethod::convexify_strategy', 'char', @() self.byte());
+                self.field(record, 'Sqpmethod::Hsp_project', 'bool', @() self.boolValue());
+                self.field(record, 'Sqpmethod::scc_transform', 'bool', @() self.boolValue());
+                self.field(record, 'Sqpmethod::scc_offset', 'std::vector<casadi_int>', @() self.read_std_vector_casadi_int());
+                self.field(record, 'Sqpmethod::scc_mapping', 'std::vector<casadi_int>', @() self.read_std_vector_casadi_int());
+                self.field(record, 'Sqpmethod::max_iter_eig', 'casadi_int', @() self.number('casadi_int'));
+                self.field(record, 'Sqpmethod::block_size', 'casadi_int', @() self.number('casadi_int'));
+                self.field(record, 'Sqpmethod::scc_sp', 'Sparsity', @() self.read_Sparsity());
+            end
+            if self.truth((scope('Sqpmethod::serialization::version') >= 2))
+                scope('Sqpmethod::convexify') = self.field(record, 'Sqpmethod::convexify', 'bool', @() self.boolValue());
+                if self.truth(scope('Sqpmethod::convexify'))
+                    self.recordLayout(record, 'Convexify::serialize');
+                    scope('prefix') = 'Sqpmethod::';
+                    self.layout_Convexify_serialize(record, scope);
+                end
             end
             self.depth = self.depth - 1;
         end
@@ -3183,7 +3357,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Integrator::serialize_body');
             self.layout_Integrator_serialize_body(record, scope);
-            self.version(record, 'SundialsInterface', 2);
+            scope(['SundialsInterface' '::serialization::version']) = self.version(record, 'SundialsInterface', 1, 2);
             self.field(record, 'SundialsInterface::abstol', 'double', @() self.number('double'));
             self.field(record, 'SundialsInterface::reltol', 'double', @() self.number('double'));
             self.field(record, 'SundialsInterface::max_num_steps', 'casadi_int', @() self.number('casadi_int'));
@@ -3198,7 +3372,9 @@ classdef Document < handle
             self.field(record, 'SundialsInterface::use_precon', 'bool', @() self.boolValue());
             self.field(record, 'SundialsInterface::second_order_correction', 'bool', @() self.boolValue());
             self.field(record, 'SundialsInterface::step0', 'double', @() self.number('double'));
-            self.field(record, 'SundialsInterface::max_step_size', 'double', @() self.number('double'));
+            if self.truth((scope('SundialsInterface::serialization::version') >= 2))
+                self.field(record, 'SundialsInterface::max_step_size', 'double', @() self.number('double'));
+            end
             self.field(record, 'SundialsInterface::nonlin_conv_coeff', 'double', @() self.number('double'));
             self.field(record, 'SundialsInterface::max_order', 'casadi_int', @() self.number('casadi_int'));
             self.field(record, 'SundialsInterface::scale_abstol', 'bool', @() self.boolValue());
@@ -3212,7 +3388,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Conic::serialize_body');
             self.layout_Conic_serialize_body(record, scope);
-            self.version(record, 'SuperscsInterface', 1);
+            self.version(record, 'SuperscsInterface', 1, 1);
             self.field(record, 'SuperscsInterface::settings::normalize', 'casadi_int', @() self.number('casadi_int'));
             self.field(record, 'SuperscsInterface::settings::scale', 'double', @() self.number('double'));
             self.field(record, 'SuperscsInterface::settings::rho_x', 'double', @() self.number('double'));
@@ -3257,7 +3433,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'FunctionInternal::serialize_body');
             self.layout_FunctionInternal_serialize_body(record, scope);
-            self.version(record, 'Switch', 1);
+            self.version(record, 'Switch', 1, 1);
             self.field(record, 'Switch::f', 'std::vector<Function>', @() self.read_std_vector_Function());
             self.field(record, 'Switch::f_def', 'Function', @() self.read_Function());
             self.field(record, 'Switch::project_in', 'bool', @() self.boolValue());
@@ -3277,7 +3453,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'LinsolInternal::serialize_body');
             self.layout_LinsolInternal_serialize_body(record, scope);
-            self.version(record, 'SymbolicQr', 1);
+            self.version(record, 'SymbolicQr', 1, 1);
             self.field(record, 'SymbolicQr::factorize', 'Function', @() self.read_Function());
             self.field(record, 'SymbolicQr::solve', 'Function', @() self.read_Function());
             self.field(record, 'SymbolicQr::solveT', 'Function', @() self.read_Function());
@@ -3331,7 +3507,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Nlpsol::serialize_body');
             self.layout_Nlpsol_serialize_body(record, scope);
-            self.version(record, 'UnoInterface', 1);
+            self.version(record, 'UnoInterface', 1, 1);
             self.field(record, 'UnoInterface::jacg_sp', 'Sparsity', @() self.read_Sparsity());
             self.field(record, 'UnoInterface::hesslag_sp', 'Sparsity', @() self.read_Sparsity());
             self.field(record, 'UnoInterface::opts', 'Dict', @() self.read_Dict());
@@ -3356,7 +3532,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Nlpsol::serialize_body');
             self.layout_Nlpsol_serialize_body(record, scope);
-            self.version(record, 'WorhpInterface', 1);
+            self.version(record, 'WorhpInterface', 1, 1);
             self.field(record, 'WorhpInterface::jacg_sp', 'Sparsity', @() self.read_Sparsity());
             self.field(record, 'WorhpInterface::hesslag_sp', 'Sparsity', @() self.read_Sparsity());
             self.field(record, 'WorhpInterface::bool_opts', 'std::map<std::string,bool>', @() self.read_std_map_std_string_bool());
@@ -3376,7 +3552,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'FunctionInternal::serialize_body');
             self.layout_FunctionInternal_serialize_body(record, scope);
-            self.version(record, 'XFunction', 1);
+            self.version(record, 'XFunction', 1, 1);
             self.field(record, 'XFunction::in', 'std::vector<MX>', @() self.read_std_vector_MX());
             self.depth = self.depth - 1;
         end
@@ -3391,7 +3567,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'FunctionInternal::serialize_body');
             self.layout_FunctionInternal_serialize_body(record, scope);
-            self.version(record, 'XFunction', 1);
+            self.version(record, 'XFunction', 1, 1);
             self.field(record, 'XFunction::in', 'std::vector<SX>', @() self.read_std_vector_SX());
             self.depth = self.depth - 1;
         end
@@ -3400,11 +3576,13 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'Conic::serialize_body');
             self.layout_Conic_serialize_body(record, scope);
-            self.version(record, 'XpressInterface', 2);
+            scope(['XpressInterface' '::serialization::version']) = self.version(record, 'XpressInterface', 1, 2);
             self.field(record, 'XpressInterface::opts', 'Dict', @() self.read_Dict());
-            self.field(record, 'XpressInterface::mip_start', 'bool', @() self.boolValue());
-            self.field(record, 'XpressInterface::log_file', 'std::string', @() self.stringValue());
-            self.field(record, 'XpressInterface::compute_iis', 'bool', @() self.boolValue());
+            if self.truth((scope('XpressInterface::serialization::version') >= 2))
+                self.field(record, 'XpressInterface::mip_start', 'bool', @() self.boolValue());
+                self.field(record, 'XpressInterface::log_file', 'std::string', @() self.stringValue());
+                self.field(record, 'XpressInterface::compute_iis', 'bool', @() self.boolValue());
+            end
             self.field(record, 'XpressInterface::sos_settype', 'std::vector<char>', @() self.read_std_vector_char());
             self.field(record, 'XpressInterface::sos_setstart', 'std::vector<int>', @() self.read_std_vector_int());
             self.field(record, 'XpressInterface::sos_setind', 'std::vector<int>', @() self.read_std_vector_int());
@@ -3435,7 +3613,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'ResourceInternal::serialize_body');
             self.layout_ResourceInternal_serialize_body(record, scope);
-            self.version(record, 'ZipMemResource', 1);
+            self.version(record, 'ZipMemResource', 1, 1);
             self.field(record, 'ZipMemResource::blob', 'std::stringstream', @() self.streamValue());
             self.depth = self.depth - 1;
         end
@@ -3444,7 +3622,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'ResourceInternal::serialize_body');
             self.layout_ResourceInternal_serialize_body(record, scope);
-            self.version(record, 'ZipResource', 1);
+            self.version(record, 'ZipResource', 1, 1);
             if self.truth(isequal(scope('ResourceInternal::serialize_mode'), 'embed'))
                 self.field(record, 'ZipMemResource::blob', 'std::stringstream', @() self.streamValue());
             else
@@ -3638,7 +3816,7 @@ classdef Document < handle
                                 self.fail('Unknown serialization discriminator');
                         end
                     case 'External'
-                        self.version(record, 'GenericExternal', 1);
+                        self.version(record, 'GenericExternal', 1, 1);
                         scope('GenericExternal::type') = self.field(record, 'GenericExternal::type', 'char', @() self.byte());
                         tag_10 = self.tag(scope('GenericExternal::type'));
                         switch tag_10
@@ -3681,7 +3859,7 @@ classdef Document < handle
                                 self.recordLayout(record, 'BSplineInterpolant::serialize_body');
                                 self.layout_BSplineInterpolant_serialize_body(record, scope);
                             case 'linear'
-                                self.version(record, 'LinearInterpolant', 1);
+                                self.version(record, 'LinearInterpolant', 1, 1);
                                 scope('LinearInterpolant::type') = self.field(record, 'LinearInterpolant::type', 'char', @() self.byte());
                                 tag_13 = self.tag(scope('LinearInterpolant::type'));
                                 switch tag_13
@@ -4183,23 +4361,29 @@ classdef Document < handle
                     self.recordLayout(record, 'Low::serialize_body');
                     self.layout_Low_serialize_body(record, scope);
                 case '52'
-                    scope('Multiplication::kind') = self.field(record, 'Multiplication::kind', 'std::string', @() self.stringValue());
-                    tag_25 = self.tag(scope('Multiplication::kind'));
-                    switch tag_25
-                        case 'base'
-                            self.recordLayout(record, 'Multiplication::serialize_body');
-                            self.layout_Multiplication_serialize_body(record, scope);
-                        case 'dense'
-                            self.recordLayout(record, 'DenseMultiplication::serialize_body');
-                            self.layout_DenseMultiplication_serialize_body(record, scope);
-                        case 'dense_sparse'
-                            self.recordLayout(record, 'DenseSparseMultiplication::serialize_body');
-                            self.layout_DenseSparseMultiplication_serialize_body(record, scope);
-                        case 'pseudo_dense'
-                            self.recordLayout(record, 'PseudoDenseMultiplication::serialize_body');
-                            self.layout_PseudoDenseMultiplication_serialize_body(record, scope);
-                        otherwise
-                            self.fail('Unknown serialization discriminator');
+                    if self.truth(self.nextField('Multiplication::dense', 'bool'))
+                        self.field(record, 'Multiplication::dense', 'bool', @() self.boolValue());
+                        self.recordLayout(record, 'MXNode::serialize_body');
+                        self.layout_MXNode_serialize_body(record, scope);
+                    else
+                        scope('Multiplication::kind') = self.field(record, 'Multiplication::kind', 'std::string', @() self.stringValue());
+                        tag_25 = self.tag(scope('Multiplication::kind'));
+                        switch tag_25
+                            case 'base'
+                                self.recordLayout(record, 'Multiplication::serialize_body');
+                                self.layout_Multiplication_serialize_body(record, scope);
+                            case 'dense'
+                                self.recordLayout(record, 'DenseMultiplication::serialize_body');
+                                self.layout_DenseMultiplication_serialize_body(record, scope);
+                            case 'dense_sparse'
+                                self.recordLayout(record, 'DenseSparseMultiplication::serialize_body');
+                                self.layout_DenseSparseMultiplication_serialize_body(record, scope);
+                            case 'pseudo_dense'
+                                self.recordLayout(record, 'PseudoDenseMultiplication::serialize_body');
+                                self.layout_PseudoDenseMultiplication_serialize_body(record, scope);
+                            otherwise
+                                self.fail('Unknown serialization discriminator');
+                        end
                     end
                 case '53'
                     self.field(record, 'Solve::Tr', 'bool', @() self.boolValue());
@@ -4503,7 +4687,7 @@ classdef Document < handle
 
         function read_Resource_body(self, record, scope)
             self.enterLayout();
-            self.version(record, 'ResourceInternal', 1);
+            self.version(record, 'ResourceInternal', 1, 1);
             scope('ResourceInternal::type') = self.field(record, 'ResourceInternal::type', 'std::string', @() self.stringValue());
             tag_36 = self.tag(scope('ResourceInternal::type'));
             switch tag_36

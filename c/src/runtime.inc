@@ -34,11 +34,30 @@ static J* field(cr_document* d, J* record, const char* name, const char* type,
 static J* read_version_int(cr_document* d) {
   return number(d, "int");
 }
-static void version(cr_document* d, J* record, const char* base, int expected) {
+static double numeric(J* v) {
+  return strtod(text(v), NULL);
+}
+static J* version(cr_document* d, J* record, const char* base, int minimum, int maximum) {
   J* name = concat(d, base, "::serialization::version");
   J* v = field(d, record, text(name), "int", read_version_int);
-  if (!equal(v, integer(d, expected)))
+  if (numeric(v) < minimum || numeric(v) > maximum)
     fail(d, "Unsupported serialization version: %s", base);
+  return v;
+}
+/* Is the upcoming field `name`? Debug streams name it; plain ones only show a bool's byte. */
+static J* next_field(cr_document* d, J* name, J* type) {
+  uint64_t start = d->pos;
+  int result;
+  if (d->debug) {
+    J* v = stringvalue(d);
+    result = v->kind == STRING && !strcmp(v->s, text(name));
+  } else {
+    if (strcmp(text(type), "bool"))
+      fail(d, "Cannot recognize an upcoming %s", text(type));
+    result = byte(d) <= 1;
+  }
+  d->pos = start;
+  return boolean(d, result);
 }
 static J* boolvalue(cr_document* d) {
   decoration(d, 'b');

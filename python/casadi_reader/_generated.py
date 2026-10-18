@@ -4,7 +4,7 @@ def layout_AlpaqaInterface_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Nlpsol::serialize_body')
     layout_Nlpsol_serialize_body(r, record, scope)
-    r.version(record, 'AlpaqaInterface', 1)
+    r.version(record, 'AlpaqaInterface', 1, 1)
     r.field(record, 'AlpaqaInterface::jacg_sp', 'Sparsity', lambda: read_Sparsity(r))
     r.field(record, 'AlpaqaInterface::opts', 'Dict', lambda: read_Dict(r))
     r.depth -= 1
@@ -55,7 +55,7 @@ def layout_BSplineInterpolant_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Interpolant::serialize_body')
     layout_Interpolant_serialize_body(r, record, scope)
-    r.version(record, 'BSplineInterpolant', 1)
+    r.version(record, 'BSplineInterpolant', 1, 1)
     r.field(record, 'BSplineInterpolant::s', 'Function', lambda: read_Function(r))
     r.depth -= 1
 
@@ -108,7 +108,7 @@ def layout_Bisection_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Rootfinder::serialize_body')
     layout_Rootfinder_serialize_body(r, record, scope)
-    r.version(record, 'Bisection', 1)
+    r.version(record, 'Bisection', 1, 1)
     r.field(record, 'Bisection::max_iter', 'casadi_int', lambda: r.number('casadi_int'))
     r.field(record, 'Bisection::max_search', 'casadi_int', lambda: r.number('casadi_int'))
     r.field(record, 'Bisection::search_step', 'double', lambda: r.number('double'))
@@ -122,25 +122,27 @@ def layout_BlazingSplineFunction_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('FunctionInternal::serialize_body')
     layout_FunctionInternal_serialize_body(r, record, scope)
-    r.version(record, 'BlazingSplineFunction', 2)
+    scope['BlazingSplineFunction' + "::serialization::version"] = r.version(record, 'BlazingSplineFunction', 1, 2)
     r.field(record, 'BlazingSplineFunction::diff_order', 'casadi_int', lambda: r.number('casadi_int'))
-    r.field(record, 'BlazingSplineFunction::precompute_coeff', 'bool', lambda: r.boolean())
-    r.field(record, 'BlazingSplineFunction::precompute_grid', 'bool', lambda: r.boolean())
+    if (scope['BlazingSplineFunction::serialization::version'] >= 2):
+        r.field(record, 'BlazingSplineFunction::precompute_coeff', 'bool', lambda: r.boolean())
+        r.field(record, 'BlazingSplineFunction::precompute_grid', 'bool', lambda: r.boolean())
     r.field(record, 'BlazingSplineFunction::knots', 'std::vector<std::vector<double>>', lambda: read_std_vector_std_vector_double(r))
-    r.field(record, 'BlazingSplineFunction::lookup_modes', 'std::vector<std::string>', lambda: read_std_vector_std_string(r))
-    scope['BlazingSplineFunction::parametric_knots'] = r.field(record, 'BlazingSplineFunction::parametric_knots', 'bool', lambda: r.boolean())
-    if scope['BlazingSplineFunction::parametric_knots']:
-        r.field(record, 'BlazingSplineFunction::knots_offset', 'std::vector<casadi_int>', lambda: read_std_vector_casadi_int(r))
-        r.field(record, 'BlazingSplineFunction::inv_input', 'bool', lambda: r.boolean())
-    r.field(record, 'BlazingSplineFunction::pedantic_mode_order', 'std::string', lambda: r.string())
-    r.field(record, 'BlazingSplineFunction::pedantic_mode_size', 'std::string', lambda: r.string())
+    if (scope['BlazingSplineFunction::serialization::version'] >= 2):
+        r.field(record, 'BlazingSplineFunction::lookup_modes', 'std::vector<std::string>', lambda: read_std_vector_std_string(r))
+        scope['BlazingSplineFunction::parametric_knots'] = r.field(record, 'BlazingSplineFunction::parametric_knots', 'bool', lambda: r.boolean())
+        if scope['BlazingSplineFunction::parametric_knots']:
+            r.field(record, 'BlazingSplineFunction::knots_offset', 'std::vector<casadi_int>', lambda: read_std_vector_casadi_int(r))
+            r.field(record, 'BlazingSplineFunction::inv_input', 'bool', lambda: r.boolean())
+        r.field(record, 'BlazingSplineFunction::pedantic_mode_order', 'std::string', lambda: r.string())
+        r.field(record, 'BlazingSplineFunction::pedantic_mode_size', 'std::string', lambda: r.string())
     r.depth -= 1
 
 def layout_Blocksqp_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Nlpsol::serialize_body')
     layout_Nlpsol_serialize_body(r, record, scope)
-    r.version(record, 'Blocksqp', 1)
+    r.version(record, 'Blocksqp', 1, 1)
     r.field(record, 'Blocksqp::nblocks', 'casadi_int', lambda: r.number('casadi_int'))
     r.field(record, 'Blocksqp::blocks', 'std::vector<casadi_int>', lambda: read_std_vector_casadi_int(r))
     r.field(record, 'Blocksqp::dim', 'std::vector<casadi_int>', lambda: read_std_vector_casadi_int(r))
@@ -209,7 +211,7 @@ def layout_BonminInterface_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Nlpsol::serialize_body')
     layout_Nlpsol_serialize_body(r, record, scope)
-    r.version(record, 'BonminInterface', 1)
+    r.version(record, 'BonminInterface', 1, 1)
     r.field(record, 'BonminInterface::jacg_sp', 'Sparsity', lambda: read_Sparsity(r))
     r.field(record, 'BonminInterface::hesslag_sp', 'Sparsity', lambda: read_Sparsity(r))
     r.field(record, 'BonminInterface::exact_hessian', 'bool', lambda: r.boolean())
@@ -257,7 +259,7 @@ def layout_CbcInterface_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Conic::serialize_body')
     layout_Conic_serialize_body(r, record, scope)
-    r.version(record, 'CbcInterface', 1)
+    r.version(record, 'CbcInterface', 1, 1)
     r.field(record, 'CbcInterface::opts', 'Dict', lambda: read_Dict(r))
     r.field(record, 'CbcInterface::sos_groups', 'std::vector<std::vector<int>>', lambda: read_std_vector_std_vector_int(r))
     r.field(record, 'CbcInterface::sos_weights', 'std::vector<std::vector<double>>', lambda: read_std_vector_std_vector_double(r))
@@ -275,7 +277,7 @@ def layout_ClarabelInterface_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Conic::serialize_body')
     layout_Conic_serialize_body(r, record, scope)
-    r.version(record, 'ClarabelInterface', 1)
+    r.version(record, 'ClarabelInterface', 1, 1)
     r.field(record, 'ClarabelInterface::opts', 'Dict', lambda: read_Dict(r))
     r.depth -= 1
 
@@ -283,7 +285,7 @@ def layout_ClpInterface_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Conic::serialize_body')
     layout_Conic_serialize_body(r, record, scope)
-    r.version(record, 'ClpInterface', 1)
+    r.version(record, 'ClpInterface', 1, 1)
     r.field(record, 'ClpInterface::opts', 'Dict', lambda: read_Dict(r))
     r.depth -= 1
 
@@ -291,7 +293,7 @@ def layout_Collocation_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('ImplicitFixedStepIntegrator::serialize_body')
     layout_ImplicitFixedStepIntegrator_serialize_body(r, record, scope)
-    r.version(record, 'Collocation', 2)
+    r.version(record, 'Collocation', 2, 2)
     r.field(record, 'Collocation::deg', 'casadi_int', lambda: r.number('casadi_int'))
     r.field(record, 'Collocation::collocation_scheme', 'std::string', lambda: r.string())
     r.depth -= 1
@@ -316,11 +318,15 @@ def layout_Conic_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('FunctionInternal::serialize_body')
     layout_FunctionInternal_serialize_body(r, record, scope)
-    r.version(record, 'Conic', 4)
+    scope['Conic' + "::serialization::version"] = r.version(record, 'Conic', 1, 4)
     r.field(record, 'Conic::discrete', 'std::vector<bool>', lambda: read_std_vector_bool(r))
-    r.field(record, 'Conic::equality', 'std::vector<bool>', lambda: read_std_vector_bool(r))
+    if (scope['Conic::serialization::version'] >= 3):
+        r.field(record, 'Conic::equality', 'std::vector<bool>', lambda: read_std_vector_bool(r))
     r.field(record, 'Conic::print_problem', 'bool', lambda: r.boolean())
-    r.field(record, 'Conic::solver_version_check', 'bool', lambda: r.boolean())
+    if (scope['Conic::serialization::version'] >= 4):
+        r.field(record, 'Conic::solver_version_check', 'bool', lambda: r.boolean())
+    if (scope['Conic::serialization::version'] == 1):
+        r.field(record, 'Conic::error_on_fail', 'bool', lambda: r.boolean())
     r.field(record, 'Conic::H', 'Sparsity', lambda: read_Sparsity(r))
     r.field(record, 'Conic::A', 'Sparsity', lambda: read_Sparsity(r))
     r.field(record, 'Conic::Q', 'Sparsity', lambda: read_Sparsity(r))
@@ -342,7 +348,7 @@ def layout_ConoptInterface_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Nlpsol::serialize_body')
     layout_Nlpsol_serialize_body(r, record, scope)
-    r.version(record, 'ConoptInterface', 1)
+    r.version(record, 'ConoptInterface', 1, 1)
     r.field(record, 'ConoptInterface::exact_hessian', 'bool', lambda: r.boolean())
     r.field(record, 'ConoptInterface::opts', 'Dict', lambda: read_Dict(r))
     r.field(record, 'ConoptInterface::gradf_sp', 'Sparsity', lambda: read_Sparsity(r))
@@ -413,7 +419,7 @@ def layout_ConstantPool_serialize_type(r, record, scope):
 
 def layout_Convexify_serialize(r, record, scope):
     r.enter_layout()
-    r.version(record, (str(scope['prefix']) + str('Convexify')), 1)
+    r.version(record, (str(scope['prefix']) + str('Convexify')), 1, 1)
     r.field(record, (str(scope['prefix']) + str('Convexify::type_in')), 'int', lambda: r.number('int'))
     r.field(record, (str(scope['prefix']) + str('Convexify::strategy')), 'int', lambda: r.number('int'))
     r.field(record, (str(scope['prefix']) + str('Convexify::margin')), 'double', lambda: r.number('double'))
@@ -440,7 +446,7 @@ def layout_CplexInterface_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Conic::serialize_body')
     layout_Conic_serialize_body(r, record, scope)
-    r.version(record, 'CplexInterface', 1)
+    r.version(record, 'CplexInterface', 1, 1)
     r.field(record, 'CplexInterface::opts', 'Dict', lambda: read_Dict(r))
     r.field(record, 'CplexInterface::qp_method', 'casadi_int', lambda: r.number('casadi_int'))
     r.field(record, 'CplexInterface::dump_to_file', 'bool', lambda: r.boolean())
@@ -468,18 +474,20 @@ def layout_CvodesInterface_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('SundialsInterface::serialize_body')
     layout_SundialsInterface_serialize_body(r, record, scope)
-    r.version(record, 'CvodesInterface', 3)
+    scope['CvodesInterface' + "::serialization::version"] = r.version(record, 'CvodesInterface', 1, 3)
     r.field(record, 'CvodesInterface::lmm', 'casadi_int', lambda: r.number('casadi_int'))
     r.field(record, 'CvodesInterface::iter', 'casadi_int', lambda: r.number('casadi_int'))
-    r.field(record, 'CvodesInterface::min_step_size', 'double', lambda: r.number('double'))
-    r.field(record, 'CvodesInterface::always_recalculate_jacobian', 'bool', lambda: r.boolean())
+    if (scope['CvodesInterface::serialization::version'] >= 2):
+        r.field(record, 'CvodesInterface::min_step_size', 'double', lambda: r.number('double'))
+    if (scope['CvodesInterface::serialization::version'] >= 3):
+        r.field(record, 'CvodesInterface::always_recalculate_jacobian', 'bool', lambda: r.boolean())
     r.depth -= 1
 
 def layout_DaqpInterface_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Conic::serialize_body')
     layout_Conic_serialize_body(r, record, scope)
-    r.version(record, 'DaqpInterface', 1)
+    r.version(record, 'DaqpInterface', 1, 1)
     r.field(record, 'DaqpInterface::opts', 'Dict', lambda: read_Dict(r))
     r.depth -= 1
 
@@ -610,7 +618,7 @@ def layout_DirResource_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('ResourceInternal::serialize_body')
     layout_ResourceInternal_serialize_body(r, record, scope)
-    r.version(record, 'DirResource', 1)
+    r.version(record, 'DirResource', 1, 1)
     if (scope['ResourceInternal::serialize_mode'] == 'embed'):
         r.field(record, 'ZipMemResource::blob', 'std::stringstream', lambda: r.stream())
     else:
@@ -632,7 +640,7 @@ def layout_Dump_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('MXNode::serialize_body')
     layout_MXNode_serialize_body(r, record, scope)
-    r.version(record, 'Dump', 1)
+    r.version(record, 'Dump', 1, 1)
     r.field(record, 'Dump::base_filename', 'std::string', lambda: r.string())
     r.field(record, 'Dump::dir', 'std::string', lambda: r.string())
     r.field(record, 'Dump::format', 'std::string', lambda: r.string())
@@ -660,19 +668,20 @@ def layout_External_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('FunctionInternal::serialize_body')
     layout_FunctionInternal_serialize_body(r, record, scope)
-    r.version(record, 'External', 2)
+    scope['External' + "::serialization::version"] = r.version(record, 'External', 1, 2)
     r.field(record, 'External::int_data', 'std::vector<casadi_int>', lambda: read_std_vector_casadi_int(r))
     r.field(record, 'External::real_data', 'std::vector<double>', lambda: read_std_vector_double(r))
     r.field(record, 'External::string_data', 'std::string', lambda: r.string())
     r.field(record, 'External::li', 'Importer', lambda: read_Importer(r))
-    r.field(record, 'External::config_args', 'std::vector<std::string>', lambda: read_std_vector_std_string(r))
+    if (scope['External::serialization::version'] >= 2):
+        r.field(record, 'External::config_args', 'std::vector<std::string>', lambda: read_std_vector_std_string(r))
     r.depth -= 1
 
 def layout_FastNewton_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Rootfinder::serialize_body')
     layout_Rootfinder_serialize_body(r, record, scope)
-    r.version(record, 'Newton', 1)
+    r.version(record, 'Newton', 1, 1)
     r.field(record, 'Newton::max_iter', 'casadi_int', lambda: r.number('casadi_int'))
     r.field(record, 'Newton::abstol', 'double', lambda: r.number('double'))
     r.field(record, 'Newton::abstolStep', 'double', lambda: r.number('double'))
@@ -687,14 +696,14 @@ def layout_FatropConicInterface_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Conic::serialize_body')
     layout_Conic_serialize_body(r, record, scope)
-    r.version(record, 'FatropConicInterface', 1)
+    r.version(record, 'FatropConicInterface', 1, 1)
     r.depth -= 1
 
 def layout_FatropInterface_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Nlpsol::serialize_body')
     layout_Nlpsol_serialize_body(r, record, scope)
-    r.version(record, 'FatropInterface', 1)
+    r.version(record, 'FatropInterface', 1, 1)
     r.field(record, 'FatropInterface::jacg_sp', 'Sparsity', lambda: read_Sparsity(r))
     r.field(record, 'FatropInterface::hesslag_sp', 'Sparsity', lambda: read_Sparsity(r))
     r.field(record, 'FatropInterface::exact_hessian', 'bool', lambda: r.boolean())
@@ -724,7 +733,7 @@ def layout_Feasiblesqpmethod_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Nlpsol::serialize_body')
     layout_Nlpsol_serialize_body(r, record, scope)
-    r.version(record, 'Feasiblesqpmethod', 3)
+    scope['Feasiblesqpmethod' + "::serialization::version"] = r.version(record, 'Feasiblesqpmethod', 1, 4)
     r.field(record, 'Feasiblesqpmethod::qpsol', 'Function', lambda: read_Function(r))
     r.field(record, 'Feasiblesqpmethod::exact_hessian', 'bool', lambda: r.boolean())
     r.field(record, 'Feasiblesqpmethod::max_iter', 'casadi_int', lambda: r.number('casadi_int'))
@@ -735,14 +744,47 @@ def layout_Feasiblesqpmethod_serialize_body(r, record, scope):
     r.field(record, 'Feasiblesqpmethod::print_header', 'bool', lambda: r.boolean())
     r.field(record, 'Feasiblesqpmethod::print_iteration', 'bool', lambda: r.boolean())
     r.field(record, 'Feasiblesqpmethod::print_status', 'bool', lambda: r.boolean())
-    r.field(record, 'Feasiblesqpmethod::init_feasible', 'bool', lambda: r.boolean())
+    if (scope['Feasiblesqpmethod::serialization::version'] >= 3):
+        r.field(record, 'Feasiblesqpmethod::init_feasible', 'bool', lambda: r.boolean())
     r.field(record, 'Feasiblesqpmethod::Hsp', 'Sparsity', lambda: read_Sparsity(r))
+    if (scope['Feasiblesqpmethod::serialization::version'] == 1):
+        r.field(record, 'Feasiblesqpmethod::Hrsp', 'Sparsity', lambda: read_Sparsity(r))
     r.field(record, 'Feasiblesqpmethod::Asp', 'Sparsity', lambda: read_Sparsity(r))
-    scope['Feasiblesqpmethod::convexify'] = r.field(record, 'Feasiblesqpmethod::convexify', 'bool', lambda: r.boolean())
-    if scope['Feasiblesqpmethod::convexify']:
-        record["layouts"].append('Convexify::serialize')
-        scope['prefix'] = 'Feasiblesqpmethod::'
-        layout_Convexify_serialize(r, record, scope)
+    if (scope['Feasiblesqpmethod::serialization::version'] == 1):
+        r.field(record, 'Feasiblesqpmethod::convexify_margin', 'double', lambda: r.number('double'))
+        r.field(record, 'Feasiblesqpmethod::convexify_strategy', 'char', lambda: r.byte())
+        r.field(record, 'Feasiblesqpmethod::Hsp_project', 'bool', lambda: r.boolean())
+        r.field(record, 'Feasiblesqpmethod::scc_transform', 'bool', lambda: r.boolean())
+        r.field(record, 'Feasiblesqpmethod::scc_offset', 'std::vector<casadi_int>', lambda: read_std_vector_casadi_int(r))
+        r.field(record, 'Feasiblesqpmethod::scc_mapping', 'std::vector<casadi_int>', lambda: read_std_vector_casadi_int(r))
+        r.field(record, 'Feasiblesqpmethod::max_iter_eig', 'casadi_int', lambda: r.number('casadi_int'))
+        r.field(record, 'Feasiblesqpmethod::block_size', 'casadi_int', lambda: r.number('casadi_int'))
+        r.field(record, 'Feasiblesqpmethod::scc_sp', 'Sparsity', lambda: read_Sparsity(r))
+    if (scope['Feasiblesqpmethod::serialization::version'] >= 2):
+        scope['Feasiblesqpmethod::convexify'] = r.field(record, 'Feasiblesqpmethod::convexify', 'bool', lambda: r.boolean())
+        if scope['Feasiblesqpmethod::convexify']:
+            record["layouts"].append('Convexify::serialize')
+            scope['prefix'] = 'Feasiblesqpmethod::'
+            layout_Convexify_serialize(r, record, scope)
+    if (scope['Feasiblesqpmethod::serialization::version'] >= 4):
+        r.field(record, 'Feasiblesqpmethod::use_sqp', 'bool', lambda: r.boolean())
+        r.field(record, 'Feasiblesqpmethod::use_anderson', 'bool', lambda: r.boolean())
+        r.field(record, 'Feasiblesqpmethod::anderson_memory', 'casadi_int', lambda: r.number('casadi_int'))
+        r.field(record, 'Feasiblesqpmethod::optim_tol', 'double', lambda: r.number('double'))
+        r.field(record, 'Feasiblesqpmethod::feas_tol', 'double', lambda: r.number('double'))
+        r.field(record, 'Feasiblesqpmethod::tr_eta1', 'double', lambda: r.number('double'))
+        r.field(record, 'Feasiblesqpmethod::tr_eta2', 'double', lambda: r.number('double'))
+        r.field(record, 'Feasiblesqpmethod::tr_alpha1', 'double', lambda: r.number('double'))
+        r.field(record, 'Feasiblesqpmethod::tr_alpha2', 'double', lambda: r.number('double'))
+        r.field(record, 'Feasiblesqpmethod::tr_tol', 'double', lambda: r.number('double'))
+        r.field(record, 'Feasiblesqpmethod::tr_acceptance', 'double', lambda: r.number('double'))
+        r.field(record, 'Feasiblesqpmethod::tr_rad_min', 'double', lambda: r.number('double'))
+        r.field(record, 'Feasiblesqpmethod::tr_rad_max', 'double', lambda: r.number('double'))
+        r.field(record, 'Feasiblesqpmethod::tr_rad0', 'double', lambda: r.number('double'))
+        r.field(record, 'Feasiblesqpmethod::tr_scale_vector', 'std::vector<double>', lambda: read_std_vector_double(r))
+        r.field(record, 'Feasiblesqpmethod::contraction_acceptance_value', 'double', lambda: r.number('double'))
+        r.field(record, 'Feasiblesqpmethod::watchdog', 'casadi_int', lambda: r.number('casadi_int'))
+        r.field(record, 'Feasiblesqpmethod::max_inner_iter', 'casadi_int', lambda: r.number('casadi_int'))
     r.depth -= 1
 
 def layout_Find_serialize_body(r, record, scope):
@@ -755,7 +797,7 @@ def layout_FiniteDiff_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('FunctionInternal::serialize_body')
     layout_FunctionInternal_serialize_body(r, record, scope)
-    r.version(record, 'FiniteDiff', 1)
+    r.version(record, 'FiniteDiff', 1, 1)
     r.field(record, 'FiniteDiff::n', 'casadi_int', lambda: r.number('casadi_int'))
     r.field(record, 'FiniteDiff::h_iter', 'casadi_int', lambda: r.number('casadi_int'))
     r.field(record, 'FiniteDiff::h', 'double', lambda: r.number('double'))
@@ -773,7 +815,7 @@ def layout_FixedStepIntegrator_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Integrator::serialize_body')
     layout_Integrator_serialize_body(r, record, scope)
-    r.version(record, 'FixedStepIntegrator', 3)
+    r.version(record, 'FixedStepIntegrator', 3, 3)
     r.field(record, 'FixedStepIntegrator::nk_target', 'casadi_int', lambda: r.number('casadi_int'))
     r.field(record, 'FixedStepIntegrator::disc', 'std::vector<casadi_int>', lambda: read_std_vector_casadi_int(r))
     r.field(record, 'FixedStepIntegrator::nv', 'casadi_int', lambda: r.number('casadi_int'))
@@ -786,7 +828,7 @@ def layout_Fmu2_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('FmuInternal::serialize_body')
     layout_FmuInternal_serialize_body(r, record, scope)
-    r.version(record, 'Fmu2', 2)
+    r.version(record, 'Fmu2', 2, 2)
     r.field(record, 'Fmu2::vr_real', 'std::vector<unsignedint>', lambda: read_std_vector_unsignedint(r))
     r.field(record, 'Fmu2::vr_integer', 'std::vector<unsignedint>', lambda: read_std_vector_unsignedint(r))
     r.field(record, 'Fmu2::vr_boolean', 'std::vector<unsignedint>', lambda: read_std_vector_unsignedint(r))
@@ -809,7 +851,7 @@ def layout_Fmu3_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('FmuInternal::serialize_body')
     layout_FmuInternal_serialize_body(r, record, scope)
-    r.version(record, 'Fmu3', 1)
+    scope['Fmu3' + "::serialization::version"] = r.version(record, 'Fmu3', 1, 2)
     r.field(record, 'Fmu3::vr_real', 'std::vector<unsignedint>', lambda: read_std_vector_unsignedint(r))
     r.field(record, 'Fmu3::vr_integer', 'std::vector<unsignedint>', lambda: read_std_vector_unsignedint(r))
     r.field(record, 'Fmu3::vr_boolean', 'std::vector<unsignedint>', lambda: read_std_vector_unsignedint(r))
@@ -826,6 +868,11 @@ def layout_Fmu3_serialize_body(r, record, scope):
     r.field(record, 'Fmu3::vr_aux_integer', 'std::vector<unsignedint>', lambda: read_std_vector_unsignedint(r))
     r.field(record, 'Fmu3::vr_aux_boolean', 'std::vector<unsignedint>', lambda: read_std_vector_unsignedint(r))
     r.field(record, 'Fmu3::vr_aux_string', 'std::vector<unsignedint>', lambda: read_std_vector_unsignedint(r))
+    if (scope['Fmu3::serialization::version'] >= 2):
+        r.field(record, 'Fmu3::off_aux_real', 'std::vector<casadi_int>', lambda: read_std_vector_casadi_int(r))
+        r.field(record, 'Fmu3::off_aux_integer', 'std::vector<casadi_int>', lambda: read_std_vector_casadi_int(r))
+        r.field(record, 'Fmu3::off_aux_boolean', 'std::vector<casadi_int>', lambda: read_std_vector_casadi_int(r))
+        r.field(record, 'Fmu3::off_aux_string', 'std::vector<casadi_int>', lambda: read_std_vector_casadi_int(r))
     r.depth -= 1
 
 def layout_Fmu_serialize(r, record, scope):
@@ -837,7 +884,7 @@ def layout_FmuFunction_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('FunctionInternal::serialize_body')
     layout_FunctionInternal_serialize_body(r, record, scope)
-    r.version(record, 'FmuFunction', 6)
+    r.version(record, 'FmuFunction', 6, 6)
     r.field(record, 'FmuFunction::Fmu', 'Fmu', lambda: read_Fmu(r))
     for _ in range(r.count(len(scope['FunctionInternal::sp_in']))):
         r.field(record, 'FmuFunction::in::type', 'int', lambda: r.number('int'))
@@ -905,7 +952,7 @@ def layout_FmuInternal_serialize(r, record, scope):
 
 def layout_FmuInternal_serialize_body(r, record, scope):
     r.enter_layout()
-    r.version(record, 'FmuInternal', 4)
+    r.version(record, 'FmuInternal', 4, 4)
     r.field(record, 'FmuInternal::name', 'std::string', lambda: r.string())
     r.field(record, 'FmuInternal::scheme_in', 'std::vector<std::string>', lambda: read_std_vector_std_string(r))
     r.field(record, 'FmuInternal::scheme_out', 'std::vector<std::string>', lambda: read_std_vector_std_string(r))
@@ -965,7 +1012,7 @@ def layout_FunctionInternal_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('ProtoFunction::serialize_body')
     layout_ProtoFunction_serialize_body(r, record, scope)
-    r.version(record, 'FunctionInternal', 8)
+    scope['FunctionInternal' + "::serialization::version"] = r.version(record, 'FunctionInternal', 1, 9)
     r.field(record, 'FunctionInternal::is_diff_in', 'std::vector<bool>', lambda: read_std_vector_bool(r))
     r.field(record, 'FunctionInternal::is_diff_out', 'std::vector<bool>', lambda: read_std_vector_bool(r))
     scope['FunctionInternal::sp_in'] = r.field(record, 'FunctionInternal::sp_in', 'std::vector<Sparsity>', lambda: read_std_vector_Sparsity(r))
@@ -974,7 +1021,10 @@ def layout_FunctionInternal_serialize_body(r, record, scope):
     r.field(record, 'FunctionInternal::name_out', 'std::vector<std::string>', lambda: read_std_vector_std_string(r))
     scope['FunctionInternal::jit'] = r.field(record, 'FunctionInternal::jit', 'bool', lambda: r.boolean())
     r.field(record, 'FunctionInternal::jit_cleanup', 'bool', lambda: r.boolean())
-    scope['FunctionInternal::jit_serialize'] = r.field(record, 'FunctionInternal::jit_serialize', 'std::string', lambda: r.string())
+    if (scope['FunctionInternal::serialization::version'] < 2):
+        scope['FunctionInternal::jit_serialize'] = 'source'
+    else:
+        scope['FunctionInternal::jit_serialize'] = r.field(record, 'FunctionInternal::jit_serialize', 'std::string', lambda: r.string())
     if ((scope['FunctionInternal::jit_serialize'] == 'link') or (scope['FunctionInternal::jit_serialize'] == 'embed')):
         r.field(record, 'FunctionInternal::jit_library', 'std::string', lambda: r.string())
         if (scope['FunctionInternal::jit_serialize'] == 'embed'):
@@ -982,9 +1032,12 @@ def layout_FunctionInternal_serialize_body(r, record, scope):
     r.field(record, 'FunctionInternal::jit_temp_suffix', 'bool', lambda: r.boolean())
     r.field(record, 'FunctionInternal::jit_base_name', 'std::string', lambda: r.string())
     r.field(record, 'FunctionInternal::jit_options', 'Dict', lambda: read_Dict(r))
+    if (scope['FunctionInternal::serialization::version'] >= 9):
+        r.field(record, 'FunctionInternal::codegen_options', 'Dict', lambda: read_Dict(r))
     r.field(record, 'FunctionInternal::compiler_plugin', 'std::string', lambda: r.string())
     r.field(record, 'FunctionInternal::has_refcount', 'bool', lambda: r.boolean())
-    r.field(record, 'FunctionInternal::cache_init', 'Dict', lambda: read_Dict(r))
+    if (scope['FunctionInternal::serialization::version'] >= 6):
+        r.field(record, 'FunctionInternal::cache_init', 'Dict', lambda: read_Dict(r))
     r.field(record, 'FunctionInternal::derivative_of', 'Function', lambda: read_Function(r))
     r.field(record, 'FunctionInternal::jac_penalty', 'double', lambda: r.number('double'))
     r.field(record, 'FunctionInternal::enable_forward', 'bool', lambda: r.boolean())
@@ -1000,23 +1053,29 @@ def layout_FunctionInternal_serialize_body(r, record, scope):
     r.field(record, 'FunctionInternal::always_inline', 'bool', lambda: r.boolean())
     r.field(record, 'FunctionInternal::never_inline', 'bool', lambda: r.boolean())
     r.field(record, 'FunctionInternal::max_num_dir', 'casadi_int', lambda: r.number('casadi_int'))
+    if (scope['FunctionInternal::serialization::version'] < 3):
+        r.field(record, 'FunctionInternal::regularity_check', 'bool', lambda: r.boolean())
     r.field(record, 'FunctionInternal::inputs_check', 'bool', lambda: r.boolean())
     r.field(record, 'FunctionInternal::fd_step', 'double', lambda: r.number('double'))
     r.field(record, 'FunctionInternal::fd_method', 'std::string', lambda: r.string())
     r.field(record, 'FunctionInternal::print_in', 'bool', lambda: r.boolean())
     r.field(record, 'FunctionInternal::print_out', 'bool', lambda: r.boolean())
-    r.field(record, 'FunctionInternal::print_canonical', 'bool', lambda: r.boolean())
-    r.field(record, 'FunctionInternal::max_io', 'casadi_int', lambda: r.number('casadi_int'))
+    if (scope['FunctionInternal::serialization::version'] >= 7):
+        r.field(record, 'FunctionInternal::print_canonical', 'bool', lambda: r.boolean())
+    if (scope['FunctionInternal::serialization::version'] >= 4):
+        r.field(record, 'FunctionInternal::max_io', 'casadi_int', lambda: r.number('casadi_int'))
     r.field(record, 'FunctionInternal::dump_in', 'bool', lambda: r.boolean())
     r.field(record, 'FunctionInternal::dump_out', 'bool', lambda: r.boolean())
     r.field(record, 'FunctionInternal::dump_dir', 'std::string', lambda: r.string())
     r.field(record, 'FunctionInternal::dump_format', 'std::string', lambda: r.string())
     r.field(record, 'FunctionInternal::forward_options', 'Dict', lambda: read_Dict(r))
     r.field(record, 'FunctionInternal::reverse_options', 'Dict', lambda: read_Dict(r))
-    r.field(record, 'FunctionInternal::jacobian_options', 'Dict', lambda: read_Dict(r))
-    r.field(record, 'FunctionInternal::der_options', 'Dict', lambda: read_Dict(r))
+    if (scope['FunctionInternal::serialization::version'] >= 5):
+        r.field(record, 'FunctionInternal::jacobian_options', 'Dict', lambda: read_Dict(r))
+        r.field(record, 'FunctionInternal::der_options', 'Dict', lambda: read_Dict(r))
     r.field(record, 'FunctionInternal::custom_jacobian', 'Function', lambda: read_Function(r))
-    r.field(record, 'FunctionInternal::registered_functions', 'std::vector<Function>', lambda: read_std_vector_Function(r))
+    if (scope['FunctionInternal::serialization::version'] >= 8):
+        r.field(record, 'FunctionInternal::registered_functions', 'std::vector<Function>', lambda: read_std_vector_Function(r))
     r.field(record, 'FunctionInternal::sz_arg_per', 'size_t', lambda: r.number('size_t'))
     r.field(record, 'FunctionInternal::sz_res_per', 'size_t', lambda: r.number('size_t'))
     r.field(record, 'FunctionInternal::sz_iw_per', 'size_t', lambda: r.number('size_t'))
@@ -1036,7 +1095,7 @@ def layout_GenericExternal_serialize_type(r, record, scope):
     r.enter_layout()
     record["layouts"].append('FunctionInternal::serialize_type')
     layout_FunctionInternal_serialize_type(r, record, scope)
-    r.version(record, 'GenericExternal', 1)
+    r.version(record, 'GenericExternal', 1, 1)
     scope['GenericExternal::type'] = r.field(record, 'GenericExternal::type', 'char', lambda: r.byte())
     r.depth -= 1
 
@@ -1171,8 +1230,9 @@ def layout_GurobiInterface_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Conic::serialize_body')
     layout_Conic_serialize_body(r, record, scope)
-    r.version(record, 'GurobiInterface', 2)
-    r.field(record, 'GurobiInterface::lazy_constraints_callback', 'Function', lambda: read_Function(r))
+    scope['GurobiInterface' + "::serialization::version"] = r.version(record, 'GurobiInterface', 1, 2)
+    if (scope['GurobiInterface::serialization::version'] >= 2):
+        r.field(record, 'GurobiInterface::lazy_constraints_callback', 'Function', lambda: read_Function(r))
     r.field(record, 'GurobiInterface::vtype', 'std::vector<char>', lambda: read_std_vector_char(r))
     r.field(record, 'GurobiInterface::opts', 'Dict', lambda: read_Dict(r))
     r.field(record, 'GurobiInterface::sos_weights', 'std::vector<double>', lambda: read_std_vector_double(r))
@@ -1187,7 +1247,7 @@ def layout_HighsInterface_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Conic::serialize_body')
     layout_Conic_serialize_body(r, record, scope)
-    r.version(record, 'HighsInterface', 1)
+    r.version(record, 'HighsInterface', 1, 1)
     r.field(record, 'HighsInterface::opts', 'Dict', lambda: read_Dict(r))
     r.depth -= 1
 
@@ -1221,7 +1281,7 @@ def layout_HpipmInterface_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Conic::serialize_body')
     layout_Conic_serialize_body(r, record, scope)
-    r.version(record, 'HpipmInterface', 1)
+    r.version(record, 'HpipmInterface', 1, 1)
     r.depth -= 1
 
 def layout_HpmpcInterface_serialize_body(r, record, scope):
@@ -1243,7 +1303,7 @@ def layout_IdasInterface_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('SundialsInterface::serialize_body')
     layout_SundialsInterface_serialize_body(r, record, scope)
-    r.version(record, 'IdasInterface', 2)
+    scope['IdasInterface' + "::serialization::version"] = r.version(record, 'IdasInterface', 1, 2)
     r.field(record, 'IdasInterface::cj_scaling', 'bool', lambda: r.boolean())
     r.field(record, 'IdasInterface::calc_ic', 'bool', lambda: r.boolean())
     r.field(record, 'IdasInterface::calc_icB', 'bool', lambda: r.boolean())
@@ -1251,15 +1311,16 @@ def layout_IdasInterface_serialize_body(r, record, scope):
     r.field(record, 'IdasInterface::abstolv', 'std::vector<double>', lambda: read_std_vector_double(r))
     r.field(record, 'IdasInterface::first_time', 'double', lambda: r.number('double'))
     r.field(record, 'IdasInterface::init_xdot', 'std::vector<double>', lambda: read_std_vector_double(r))
-    r.field(record, 'IdasInterface::max_step_size', 'double', lambda: r.number('double'))
-    r.field(record, 'IdasInterface::y_c', 'std::vector<casadi_int>', lambda: read_std_vector_casadi_int(r))
+    if (scope['IdasInterface::serialization::version'] >= 2):
+        r.field(record, 'IdasInterface::max_step_size', 'double', lambda: r.number('double'))
+        r.field(record, 'IdasInterface::y_c', 'std::vector<casadi_int>', lambda: read_std_vector_casadi_int(r))
     r.depth -= 1
 
 def layout_ImplicitFixedStepIntegrator_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('FixedStepIntegrator::serialize_body')
     layout_FixedStepIntegrator_serialize_body(r, record, scope)
-    r.version(record, 'ImplicitFixedStepIntegrator', 2)
+    r.version(record, 'ImplicitFixedStepIntegrator', 2, 2)
     r.depth -= 1
 
 def layout_ImplicitToNlp_serialize_body(r, record, scope):
@@ -1281,7 +1342,7 @@ def layout_ImporterInternal_serialize(r, record, scope):
 
 def layout_ImporterInternal_serialize_body(r, record, scope):
     r.enter_layout()
-    r.version(record, 'ImporterInternal', 1)
+    r.version(record, 'ImporterInternal', 1, 1)
     r.field(record, 'ImporterInternal::name', 'std::string', lambda: r.string())
     r.field(record, 'ImporterInternal::meta', 'std::map<std::string,std::pair<casadi_int,std::string>>', lambda: read_std_map_std_string_std_pair_casadi_int_std_string(r))
     r.field(record, 'ImporterInternal::external', 'std::map<std::string,std::pair<bool,std::string>>', lambda: read_std_map_std_string_std_pair_bool_std_string(r))
@@ -1313,7 +1374,7 @@ def layout_Integrator_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('OracleFunction::serialize_body')
     layout_OracleFunction_serialize_body(r, record, scope)
-    r.version(record, 'Integrator', 3)
+    r.version(record, 'Integrator', 3, 3)
     r.field(record, 'Integrator::sp_jac_dae', 'Sparsity', lambda: read_Sparsity(r))
     r.field(record, 'Integrator::sp_jac_rdae', 'Sparsity', lambda: read_Sparsity(r))
     r.field(record, 'Integrator::t0', 'double', lambda: r.number('double'))
@@ -1367,14 +1428,17 @@ def layout_Interpolant_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('FunctionInternal::serialize_body')
     layout_FunctionInternal_serialize_body(r, record, scope)
-    r.version(record, 'Interpolant', 2)
+    scope['Interpolant' + "::serialization::version"] = r.version(record, 'Interpolant', 1, 2)
     r.field(record, 'Interpolant::ndim', 'casadi_int', lambda: r.number('casadi_int'))
     r.field(record, 'Interpolant::m', 'casadi_int', lambda: r.number('casadi_int'))
     r.field(record, 'Interpolant::grid', 'std::vector<double>', lambda: read_std_vector_double(r))
     r.field(record, 'Interpolant::offset', 'std::vector<casadi_int>', lambda: read_std_vector_casadi_int(r))
     r.field(record, 'Interpolant::values', 'std::vector<double>', lambda: read_std_vector_double(r))
     r.field(record, 'Interpolant::lookup_modes', 'std::vector<std::string>', lambda: read_std_vector_std_string(r))
-    r.field(record, 'Interpolant::batch_x', 'casadi_int', lambda: r.number('casadi_int'))
+    if (scope['Interpolant::serialization::version'] == 1):
+        pass
+    else:
+        r.field(record, 'Interpolant::batch_x', 'casadi_int', lambda: r.number('casadi_int'))
     r.depth -= 1
 
 def layout_Interpolant_serialize_type(r, record, scope):
@@ -1395,7 +1459,7 @@ def layout_IpoptInterface_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Nlpsol::serialize_body')
     layout_Nlpsol_serialize_body(r, record, scope)
-    r.version(record, 'IpoptInterface', 3)
+    scope['IpoptInterface' + "::serialization::version"] = r.version(record, 'IpoptInterface', 1, 3)
     r.field(record, 'IpoptInterface::jacg_sp', 'Sparsity', lambda: read_Sparsity(r))
     r.field(record, 'IpoptInterface::hesslag_sp', 'Sparsity', lambda: read_Sparsity(r))
     r.field(record, 'IpoptInterface::exact_hessian', 'bool', lambda: r.boolean())
@@ -1408,21 +1472,23 @@ def layout_IpoptInterface_serialize_body(r, record, scope):
     r.field(record, 'IpoptInterface::con_string_md', 'Dict', lambda: read_Dict(r))
     r.field(record, 'IpoptInterface::con_integer_md', 'Dict', lambda: read_Dict(r))
     r.field(record, 'IpoptInterface::con_numeric_md', 'Dict', lambda: read_Dict(r))
-    scope['IpoptInterface::convexify'] = r.field(record, 'IpoptInterface::convexify', 'bool', lambda: r.boolean())
-    if scope['IpoptInterface::convexify']:
-        record["layouts"].append('Convexify::serialize')
-        scope['prefix'] = 'IpoptInterface::'
-        layout_Convexify_serialize(r, record, scope)
-    r.field(record, 'IpoptInterface::clip_inactive_lam', 'bool', lambda: r.boolean())
-    r.field(record, 'IpoptInterface::inactive_lam_strategy', 'std::string', lambda: r.string())
-    r.field(record, 'IpoptInterface::inactive_lam_value', 'double', lambda: r.number('double'))
+    if (scope['IpoptInterface::serialization::version'] >= 2):
+        scope['IpoptInterface::convexify'] = r.field(record, 'IpoptInterface::convexify', 'bool', lambda: r.boolean())
+        if scope['IpoptInterface::convexify']:
+            record["layouts"].append('Convexify::serialize')
+            scope['prefix'] = 'IpoptInterface::'
+            layout_Convexify_serialize(r, record, scope)
+    if (scope['IpoptInterface::serialization::version'] >= 3):
+        r.field(record, 'IpoptInterface::clip_inactive_lam', 'bool', lambda: r.boolean())
+        r.field(record, 'IpoptInterface::inactive_lam_strategy', 'std::string', lambda: r.string())
+        r.field(record, 'IpoptInterface::inactive_lam_value', 'double', lambda: r.number('double'))
     r.depth -= 1
 
 def layout_Ipqp_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Conic::serialize_body')
     layout_Conic_serialize_body(r, record, scope)
-    r.version(record, 'Ipqp', 1)
+    r.version(record, 'Ipqp', 1, 1)
     r.field(record, 'Ipqp::kkt', 'Sparsity', lambda: read_Sparsity(r))
     r.field(record, 'Ipqp::print_iter', 'bool', lambda: r.boolean())
     r.field(record, 'Ipqp::print_header', 'bool', lambda: r.boolean())
@@ -1446,7 +1512,7 @@ def layout_KnitroInterface_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Nlpsol::serialize_body')
     layout_Nlpsol_serialize_body(r, record, scope)
-    r.version(record, 'KnitroInterface', 2)
+    scope['KnitroInterface' + "::serialization::version"] = r.version(record, 'KnitroInterface', 1, 2)
     r.field(record, 'KnitroInterface::contype', 'std::vector<int>', lambda: read_std_vector_int(r))
     r.field(record, 'KnitroInterface::comp_type', 'std::vector<int>', lambda: read_std_vector_int(r))
     r.field(record, 'KnitroInterface::comp_i1', 'std::vector<int>', lambda: read_std_vector_int(r))
@@ -1454,7 +1520,8 @@ def layout_KnitroInterface_serialize_body(r, record, scope):
     r.field(record, 'KnitroInterface::opts', 'Dict', lambda: read_Dict(r))
     r.field(record, 'KnitroInterface::jacg_sp', 'Sparsity', lambda: read_Sparsity(r))
     r.field(record, 'KnitroInterface::hesslag_sp', 'Sparsity', lambda: read_Sparsity(r))
-    r.field(record, 'KnitroInterface::options_file', 'std::string', lambda: r.string())
+    if (scope['KnitroInterface::serialization::version'] >= 2):
+        r.field(record, 'KnitroInterface::options_file', 'std::string', lambda: r.string())
     r.depth -= 1
 
 def layout_Kron_serialize_body(r, record, scope):
@@ -1488,7 +1555,7 @@ def layout_LapackLu_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('LinsolInternal::serialize_body')
     layout_LinsolInternal_serialize_body(r, record, scope)
-    r.version(record, 'LapackLu', 1)
+    r.version(record, 'LapackLu', 1, 1)
     r.field(record, 'LapackLu::equilibriate', 'bool', lambda: r.boolean())
     r.field(record, 'LapackLu::allow_equilibration_failure', 'bool', lambda: r.boolean())
     r.depth -= 1
@@ -1511,7 +1578,7 @@ def layout_LinearInterpolant_serialize_type(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Interpolant::serialize_type')
     layout_Interpolant_serialize_type(r, record, scope)
-    r.version(record, 'LinearInterpolant', 1)
+    r.version(record, 'LinearInterpolant', 1, 1)
     scope['LinearInterpolant::type'] = r.field(record, 'LinearInterpolant::type', 'char', lambda: r.byte())
     r.depth -= 1
 
@@ -1527,7 +1594,7 @@ def layout_LinearInterpolantJac_serialize_type(r, record, scope):
     layout_FunctionInternal_serialize_type(r, record, scope)
     record["layouts"].append('>PluginInterface<Interpolant>::serialize_type')
     layout_PluginInterface_Interpolant_serialize_type(r, record, scope)
-    r.version(record, 'LinearInterpolant', 1)
+    r.version(record, 'LinearInterpolant', 1, 1)
     scope['LinearInterpolant::type'] = r.field(record, 'LinearInterpolant::type', 'char', lambda: r.byte())
     r.depth -= 1
 
@@ -1568,7 +1635,7 @@ def layout_LinsolLdl_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('LinsolInternal::serialize_body')
     layout_LinsolInternal_serialize_body(r, record, scope)
-    r.version(record, 'LinsolLdl', 1)
+    r.version(record, 'LinsolLdl', 1, 1)
     r.field(record, 'LinsolLdl::p', 'std::vector<casadi_int>', lambda: read_std_vector_casadi_int(r))
     r.field(record, 'LinsolLdl::sp_Lt', 'Sparsity', lambda: read_Sparsity(r))
     r.depth -= 1
@@ -1577,13 +1644,14 @@ def layout_LinsolQr_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('LinsolInternal::serialize_body')
     layout_LinsolInternal_serialize_body(r, record, scope)
-    r.version(record, 'LinsolQr', 2)
+    scope['LinsolQr' + "::serialization::version"] = r.version(record, 'LinsolQr', 1, 2)
     r.field(record, 'LinsolQr::prinv', 'std::vector<casadi_int>', lambda: read_std_vector_casadi_int(r))
     r.field(record, 'LinsolQr::pc', 'std::vector<casadi_int>', lambda: read_std_vector_casadi_int(r))
     r.field(record, 'LinsolQr::sp_v', 'Sparsity', lambda: read_Sparsity(r))
     r.field(record, 'LinsolQr::sp_r', 'Sparsity', lambda: read_Sparsity(r))
     r.field(record, 'LinsolQr::eps', 'double', lambda: r.number('double'))
-    r.field(record, 'LinsolQr::n_cache', 'casadi_int', lambda: r.number('casadi_int'))
+    if (scope['LinsolQr::serialization::version'] > 1):
+        r.field(record, 'LinsolQr::n_cache', 'casadi_int', lambda: r.number('casadi_int'))
     r.depth -= 1
 
 def layout_LinsolTridiag_serialize_body(r, record, scope):
@@ -1632,7 +1700,7 @@ def layout_MXFunction_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('XFunction<MXFunction,MX,MXNode>::serialize_body')
     layout_XFunction_MXFunction_MX_MXNode_serialize_body(r, record, scope)
-    r.version(record, 'MXFunction', 3)
+    scope['MXFunction' + "::serialization::version"] = r.version(record, 'MXFunction', 1, 3)
     scope['MXFunction::n_instr'] = r.field(record, 'MXFunction::n_instr', 'size_t', lambda: r.number('size_t'))
     for _ in range(r.count(scope['MXFunction::n_instr'])):
         r.field(record, 'MXFunction::alg::data', 'MX', lambda: read_MX(r))
@@ -1642,8 +1710,10 @@ def layout_MXFunction_serialize_body(r, record, scope):
     r.field(record, 'MXFunction::free_vars', 'std::vector<MX>', lambda: read_std_vector_MX(r))
     r.field(record, 'MXFunction::default_in', 'std::vector<double>', lambda: read_std_vector_double(r))
     r.field(record, 'MXFunction::live_variables', 'bool', lambda: r.boolean())
-    r.field(record, 'MXFunction::print_instructions', 'bool', lambda: r.boolean())
-    r.field(record, 'MXFunction::dump_trace', 'bool', lambda: r.boolean())
+    if (scope['MXFunction::serialization::version'] >= 2):
+        r.field(record, 'MXFunction::print_instructions', 'bool', lambda: r.boolean())
+    if (scope['MXFunction::serialization::version'] >= 3):
+        r.field(record, 'MXFunction::dump_trace', 'bool', lambda: r.boolean())
     record["layouts"].append('XFunction<MXFunction,MX,MXNode>::delayed_serialize_members')
     layout_XFunction_MXFunction_MX_MXNode_delayed_serialize_members(r, record, scope)
     r.depth -= 1
@@ -1675,7 +1745,7 @@ def layout_MadmpecInterface_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Nlpsol::serialize_body')
     layout_Nlpsol_serialize_body(r, record, scope)
-    r.version(record, 'MadmpecInterface', 1)
+    r.version(record, 'MadmpecInterface', 1, 1)
     r.field(record, 'MadmpecInterface::jacg_sp', 'Sparsity', lambda: read_Sparsity(r))
     r.field(record, 'MadmpecInterface::hesslag_sp', 'Sparsity', lambda: read_Sparsity(r))
     r.field(record, 'MadmpecInterface::exact_hessian', 'bool', lambda: r.boolean())
@@ -1690,12 +1760,17 @@ def layout_MadnlpInterface_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Nlpsol::serialize_body')
     layout_Nlpsol_serialize_body(r, record, scope)
-    r.version(record, 'MadnlpInterface', 2)
+    scope['MadnlpInterface' + "::serialization::version"] = r.version(record, 'MadnlpInterface', 1, 2)
     r.field(record, 'MadnlpInterface::jacg_sp', 'Sparsity', lambda: read_Sparsity(r))
     r.field(record, 'MadnlpInterface::hesslag_sp', 'Sparsity', lambda: read_Sparsity(r))
     r.field(record, 'MadnlpInterface::exact_hessian', 'bool', lambda: r.boolean())
     r.field(record, 'MadnlpInterface::opts', 'Dict', lambda: read_Dict(r))
     r.field(record, 'MadnlpInterface::convexify', 'bool', lambda: r.boolean())
+    if (scope['MadnlpInterface::serialization::version'] == 1):
+        r.field(record, 'MadnlpInterface::nzj_i', 'std::vector<casadi_int>', lambda: read_std_vector_casadi_int(r))
+        r.field(record, 'MadnlpInterface::nzj_j', 'std::vector<casadi_int>', lambda: read_std_vector_casadi_int(r))
+        r.field(record, 'MadnlpInterface::nzh_i', 'std::vector<casadi_int>', lambda: read_std_vector_casadi_int(r))
+        r.field(record, 'MadnlpInterface::nzh_j', 'std::vector<casadi_int>', lambda: read_std_vector_casadi_int(r))
     r.depth -= 1
 
 def layout_Map_serialize_body(r, record, scope):
@@ -1769,7 +1844,7 @@ def layout_MosekInterface_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Conic::serialize_body')
     layout_Conic_serialize_body(r, record, scope)
-    r.version(record, 'MosekInterface', 1)
+    r.version(record, 'MosekInterface', 1, 1)
     r.field(record, 'MosekInterface::opts', 'Dict', lambda: read_Dict(r))
     r.depth -= 1
 
@@ -1797,7 +1872,7 @@ def layout_MumpsInterface_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('LinsolInternal::serialize_body')
     layout_LinsolInternal_serialize_body(r, record, scope)
-    r.version(record, 'Mumps', 1)
+    r.version(record, 'Mumps', 1, 1)
     r.field(record, 'MumpsInterface::symmetric', 'bool', lambda: r.boolean())
     r.field(record, 'MumpsInterface::posdef', 'bool', lambda: r.boolean())
     r.depth -= 1
@@ -1811,7 +1886,7 @@ def layout_Newton_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Rootfinder::serialize_body')
     layout_Rootfinder_serialize_body(r, record, scope)
-    r.version(record, 'Newton', 1)
+    r.version(record, 'Newton', 1, 1)
     r.field(record, 'Newton::max_iter', 'casadi_int', lambda: r.number('casadi_int'))
     r.field(record, 'Newton::abstol', 'double', lambda: r.number('double'))
     r.field(record, 'Newton::abstolStep', 'double', lambda: r.number('double'))
@@ -1823,12 +1898,14 @@ def layout_Nlpsol_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('OracleFunction::serialize_body')
     layout_OracleFunction_serialize_body(r, record, scope)
-    r.version(record, 'Nlpsol', 5)
+    scope['Nlpsol' + "::serialization::version"] = r.version(record, 'Nlpsol', 1, 5)
     r.field(record, 'Nlpsol::nx', 'casadi_int', lambda: r.number('casadi_int'))
     r.field(record, 'Nlpsol::ng', 'casadi_int', lambda: r.number('casadi_int'))
     r.field(record, 'Nlpsol::np', 'casadi_int', lambda: r.number('casadi_int'))
     r.field(record, 'Nlpsol::fcallback', 'Function', lambda: read_Function(r))
     r.field(record, 'Nlpsol::callback_step', 'casadi_int', lambda: r.number('casadi_int'))
+    if (scope['Nlpsol::serialization::version'] <= 2):
+        r.field(record, 'Nlpsol::error_on_fail', 'bool', lambda: r.boolean())
     r.field(record, 'Nlpsol::eval_errors_fatal', 'bool', lambda: r.boolean())
     r.field(record, 'Nlpsol::warn_initial_bounds', 'bool', lambda: r.boolean())
     r.field(record, 'Nlpsol::iteration_callback_ignore_errors', 'bool', lambda: r.boolean())
@@ -1841,13 +1918,18 @@ def layout_Nlpsol_serialize_body(r, record, scope):
     r.field(record, 'Nlpsol::bound_consistency', 'bool', lambda: r.boolean())
     r.field(record, 'Nlpsol::no_nlp_grad', 'bool', lambda: r.boolean())
     r.field(record, 'Nlpsol::discrete', 'std::vector<bool>', lambda: read_std_vector_bool(r))
-    r.field(record, 'Nlpsol::equality', 'std::vector<bool>', lambda: read_std_vector_bool(r))
+    if (scope['Nlpsol::serialization::version'] >= 4):
+        r.field(record, 'Nlpsol::equality', 'std::vector<bool>', lambda: read_std_vector_bool(r))
     r.field(record, 'Nlpsol::mi', 'bool', lambda: r.boolean())
-    r.field(record, 'Nlpsol::sens_linsol', 'std::string', lambda: r.string())
-    r.field(record, 'Nlpsol::sens_linsol_options', 'Dict', lambda: read_Dict(r))
-    r.field(record, 'Nlpsol::detect_simple_bounds_is_simple', 'std::vector<char>', lambda: read_std_vector_char(r))
-    r.field(record, 'Nlpsol::detect_simple_bounds_parts', 'Function', lambda: read_Function(r))
-    r.field(record, 'Nlpsol::detect_simple_bounds_target_x', 'std::vector<casadi_int>', lambda: read_std_vector_casadi_int(r))
+    if (scope['Nlpsol::serialization::version'] >= 2):
+        r.field(record, 'Nlpsol::sens_linsol', 'std::string', lambda: r.string())
+        r.field(record, 'Nlpsol::sens_linsol_options', 'Dict', lambda: read_Dict(r))
+    if (scope['Nlpsol::serialization::version'] >= 3):
+        r.field(record, 'Nlpsol::detect_simple_bounds_is_simple', 'std::vector<char>', lambda: read_std_vector_char(r))
+        r.field(record, 'Nlpsol::detect_simple_bounds_parts', 'Function', lambda: read_Function(r))
+        if (scope['Nlpsol::serialization::version'] == 4):
+            r.fail('Saved detect_simple_bounds_parts changed signature')
+        r.field(record, 'Nlpsol::detect_simple_bounds_target_x', 'std::vector<casadi_int>', lambda: read_std_vector_casadi_int(r))
     r.depth -= 1
 
 def layout_Nlpsol_serialize_type(r, record, scope):
@@ -1903,7 +1985,7 @@ def layout_OnnxFunction_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('FunctionInternal::serialize_body')
     layout_FunctionInternal_serialize_body(r, record, scope)
-    r.version(record, 'OnnxFunction', 2)
+    scope['OnnxFunction' + "::serialization::version"] = r.version(record, 'OnnxFunction', 1, 2)
     r.field(record, 'OnnxFunction::model_data', 'std::string', lambda: r.string())
     record["layouts"].append('pack_tensors')
     scope['d'] = 'OnnxFunction::in'
@@ -1921,11 +2003,12 @@ def layout_OnnxFunction_serialize_body(r, record, scope):
     r.field(record, 'OnnxFunction::fwd_dim', 'std::string', lambda: r.string())
     r.field(record, 'OnnxFunction::adj_dim', 'std::string', lambda: r.string())
     r.field(record, 'OnnxFunction::input_values', 'std::map<std::string,std::vector<double>>', lambda: read_std_map_std_string_std_vector_double(r))
-    r.field(record, 'OnnxFunction::model_path', 'std::string', lambda: r.string())
-    r.field(record, 'OnnxFunction::dim_bindings', 'std::map<std::string,casadi_int>', lambda: read_std_map_std_string_casadi_int(r))
-    r.field(record, 'OnnxFunction::input_shapes', 'std::map<std::string,std::vector<casadi_int>>', lambda: read_std_map_std_string_std_vector_casadi_int(r))
-    r.field(record, 'OnnxFunction::derivative_opts', 'Dict', lambda: read_Dict(r))
-    r.field(record, 'OnnxFunction::builder_opts', 'Dict', lambda: read_Dict(r))
+    if (scope['OnnxFunction::serialization::version'] >= 2):
+        r.field(record, 'OnnxFunction::model_path', 'std::string', lambda: r.string())
+        r.field(record, 'OnnxFunction::dim_bindings', 'std::map<std::string,casadi_int>', lambda: read_std_map_std_string_casadi_int(r))
+        r.field(record, 'OnnxFunction::input_shapes', 'std::map<std::string,std::vector<casadi_int>>', lambda: read_std_map_std_string_std_vector_casadi_int(r))
+        r.field(record, 'OnnxFunction::derivative_opts', 'Dict', lambda: read_Dict(r))
+        r.field(record, 'OnnxFunction::builder_opts', 'Dict', lambda: read_Dict(r))
     r.depth -= 1
 
 def layout_OnnxFunction_serialize_type(r, record, scope):
@@ -1940,7 +2023,7 @@ def layout_OnnxRuntimeInterface_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('OnnxFunction::serialize_body')
     layout_OnnxFunction_serialize_body(r, record, scope)
-    r.version(record, 'OnnxRuntimeInterface', 1)
+    r.version(record, 'OnnxRuntimeInterface', 1, 1)
     r.field(record, 'OnnxRuntimeInterface::provider', 'std::string', lambda: r.string())
     r.depth -= 1
 
@@ -1948,7 +2031,7 @@ def layout_OoqpInterface_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Conic::serialize_body')
     layout_Conic_serialize_body(r, record, scope)
-    r.version(record, 'OoqpInterface', 1)
+    r.version(record, 'OoqpInterface', 1, 1)
     r.field(record, 'OoqpInterface::spAT', 'Sparsity', lambda: read_Sparsity(r))
     r.field(record, 'OoqpInterface::nQ', 'casadi_int', lambda: r.number('casadi_int'))
     r.field(record, 'OoqpInterface::nH', 'casadi_int', lambda: r.number('casadi_int'))
@@ -1962,29 +2045,35 @@ def layout_OracleFunction_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('FunctionInternal::serialize_body')
     layout_FunctionInternal_serialize_body(r, record, scope)
-    r.version(record, 'OracleFunction', 3)
+    scope['OracleFunction' + "::serialization::version"] = r.version(record, 'OracleFunction', 1, 3)
     r.field(record, 'OracleFunction::oracle', 'Function', lambda: read_Function(r))
     r.field(record, 'OracleFunction::common_options', 'Dict', lambda: read_Dict(r))
     r.field(record, 'OracleFunction::specific_options', 'Dict', lambda: read_Dict(r))
     r.field(record, 'OracleFunction::show_eval_warnings', 'bool', lambda: r.boolean())
-    r.field(record, 'OracleFunction::max_num_threads', 'int', lambda: r.number('int'))
+    if (scope['OracleFunction::serialization::version'] >= 3):
+        r.field(record, 'OracleFunction::max_num_threads', 'int', lambda: r.number('int'))
     scope['OracleFunction::all_functions::size'] = r.field(record, 'OracleFunction::all_functions::size', 'size_t', lambda: r.number('size_t'))
     for _ in range(r.count(scope['OracleFunction::all_functions::size'])):
         r.field(record, 'OracleFunction::all_functions::key', 'std::string', lambda: r.string())
-        scope['OracleFunction::all_functions::value::jit'] = r.field(record, 'OracleFunction::all_functions::value::jit', 'bool', lambda: r.boolean())
-        if (scope['FunctionInternal::jit'] and scope['OracleFunction::all_functions::value::jit']):
-            if (scope['FunctionInternal::jit_serialize'] == 'source'):
-                r.field(record, 'OracleFunction::all_functions::value::f', 'Function', lambda: read_Function(r))
-            else:
-                r.field(record, 'OracleFunction::all_functions::value::f_name', 'std::string', lambda: r.string())
-        else:
+        if (scope['OracleFunction::serialization::version'] == 1):
             r.field(record, 'OracleFunction::all_functions::value::f', 'Function', lambda: read_Function(r))
+            scope['OracleFunction::all_functions::value::jit'] = r.field(record, 'OracleFunction::all_functions::value::jit', 'bool', lambda: r.boolean())
+        else:
+            scope['OracleFunction::all_functions::value::jit'] = r.field(record, 'OracleFunction::all_functions::value::jit', 'bool', lambda: r.boolean())
+            if (scope['FunctionInternal::jit'] and scope['OracleFunction::all_functions::value::jit']):
+                if (scope['FunctionInternal::jit_serialize'] == 'source'):
+                    r.field(record, 'OracleFunction::all_functions::value::f', 'Function', lambda: read_Function(r))
+                else:
+                    r.field(record, 'OracleFunction::all_functions::value::f_name', 'std::string', lambda: r.string())
+            else:
+                r.field(record, 'OracleFunction::all_functions::value::f', 'Function', lambda: read_Function(r))
         r.field(record, 'OracleFunction::all_functions::value::monitored', 'bool', lambda: r.boolean())
     r.field(record, 'OracleFunction::monitor', 'std::vector<std::string>', lambda: read_std_vector_std_string(r))
-    r.field(record, 'OracleFunction::stride_arg', 'size_t', lambda: r.number('size_t'))
-    r.field(record, 'OracleFunction::stride_res', 'size_t', lambda: r.number('size_t'))
-    r.field(record, 'OracleFunction::stride_iw', 'size_t', lambda: r.number('size_t'))
-    r.field(record, 'OracleFunction::stride_w', 'size_t', lambda: r.number('size_t'))
+    if (scope['OracleFunction::serialization::version'] >= 3):
+        r.field(record, 'OracleFunction::stride_arg', 'size_t', lambda: r.number('size_t'))
+        r.field(record, 'OracleFunction::stride_res', 'size_t', lambda: r.number('size_t'))
+        r.field(record, 'OracleFunction::stride_iw', 'size_t', lambda: r.number('size_t'))
+        r.field(record, 'OracleFunction::stride_w', 'size_t', lambda: r.number('size_t'))
     r.depth -= 1
 
 def layout_OracleFunction_serialize_type(r, record, scope):
@@ -1997,7 +2086,7 @@ def layout_OsqpInterface_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Conic::serialize_body')
     layout_Conic_serialize_body(r, record, scope)
-    r.version(record, 'OsqpInterface', 2)
+    scope['OsqpInterface' + "::serialization::version"] = r.version(record, 'OsqpInterface', 1, 2)
     r.field(record, 'OsqpInterface::nnzHupp', 'casadi_int', lambda: r.number('casadi_int'))
     r.field(record, 'OsqpInterface::nnzA', 'casadi_int', lambda: r.number('casadi_int'))
     r.field(record, 'OsqpInterface::warm_start_primal', 'bool', lambda: r.boolean())
@@ -2021,7 +2110,8 @@ def layout_OsqpInterface_serialize_body(r, record, scope):
     r.field(record, 'OsqpInterface::settings::scaled_termination', 'casadi_int', lambda: r.number('casadi_int'))
     r.field(record, 'OsqpInterface::settings::check_termination', 'casadi_int', lambda: r.number('casadi_int'))
     r.field(record, 'OsqpInterface::settings::warm_start', 'casadi_int', lambda: r.number('casadi_int'))
-    r.field(record, 'OsqpInterface::rho_initial', 'double', lambda: r.number('double'))
+    if (scope['OsqpInterface::serialization::version'] >= 2):
+        r.field(record, 'OsqpInterface::rho_initial', 'double', lambda: r.number('double'))
     r.depth -= 1
 
 def layout_Output_serialize_body(r, record, scope):
@@ -2047,7 +2137,7 @@ def layout_PiqpInterface_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Conic::serialize_body')
     layout_Conic_serialize_body(r, record, scope)
-    r.version(record, 'PiqpInterface', 1)
+    r.version(record, 'PiqpInterface', 1, 1)
     r.field(record, 'PiqpInterface::nnzH', 'casadi_int', lambda: r.number('casadi_int'))
     r.field(record, 'PiqpInterface::nnzA', 'casadi_int', lambda: r.number('casadi_int'))
     r.field(record, 'PiqpInterface::settings::rho_init', 'double', lambda: r.number('double'))
@@ -2104,13 +2194,15 @@ def layout_ProtoFunction_serialize(r, record, scope):
 
 def layout_ProtoFunction_serialize_body(r, record, scope):
     r.enter_layout()
-    r.version(record, 'ProtoFunction', 2)
+    scope['ProtoFunction' + "::serialization::version"] = r.version(record, 'ProtoFunction', 1, 2)
     r.field(record, 'ProtoFunction::name', 'std::string', lambda: r.string())
     r.field(record, 'ProtoFunction::verbose', 'bool', lambda: r.boolean())
     r.field(record, 'ProtoFunction::print_time', 'bool', lambda: r.boolean())
     r.field(record, 'ProtoFunction::record_time', 'bool', lambda: r.boolean())
-    r.field(record, 'ProtoFunction::regularity_check', 'bool', lambda: r.boolean())
-    r.field(record, 'ProtoFunction::error_on_fail', 'bool', lambda: r.boolean())
+    if (scope['ProtoFunction::serialization::version'] >= 2):
+        r.field(record, 'ProtoFunction::regularity_check', 'bool', lambda: r.boolean())
+    if (scope['ProtoFunction::serialization::version'] >= 2):
+        r.field(record, 'ProtoFunction::error_on_fail', 'bool', lambda: r.boolean())
     r.depth -= 1
 
 def layout_ProtoFunction_serialize_type(r, record, scope):
@@ -2121,7 +2213,7 @@ def layout_ProxqpInterface_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Conic::serialize_body')
     layout_Conic_serialize_body(r, record, scope)
-    r.version(record, 'ProxqpInterface', 1)
+    r.version(record, 'ProxqpInterface', 1, 1)
     r.field(record, 'ProxqpInterface::warm_start_primal', 'bool', lambda: r.boolean())
     r.field(record, 'ProxqpInterface::warm_start_dual', 'bool', lambda: r.boolean())
     r.field(record, 'ProxqpInterface::settings::default_rho', 'double', lambda: r.number('double'))
@@ -2154,7 +2246,7 @@ def layout_QpToNlp_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Conic::serialize_body')
     layout_Conic_serialize_body(r, record, scope)
-    r.version(record, 'QpToNlp', 1)
+    r.version(record, 'QpToNlp', 1, 1)
     r.field(record, 'QpToNlp::solver', 'Function', lambda: read_Function(r))
     r.depth -= 1
 
@@ -2162,7 +2254,7 @@ def layout_QpoasesInterface_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Conic::serialize_body')
     layout_Conic_serialize_body(r, record, scope)
-    r.version(record, 'QpoasesInterface', 1)
+    r.version(record, 'QpoasesInterface', 1, 1)
     r.field(record, 'QpoasesInterface::max_nWSR', 'casadi_int', lambda: r.number('casadi_int'))
     r.field(record, 'QpoasesInterface::max_cputime', 'double', lambda: r.number('double'))
     r.field(record, 'QpoasesInterface::hess', 'casadi_int', lambda: r.number('casadi_int'))
@@ -2206,7 +2298,7 @@ def layout_Qrqp_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Conic::serialize_body')
     layout_Conic_serialize_body(r, record, scope)
-    r.version(record, 'Qrqp', 1)
+    r.version(record, 'Qrqp', 1, 1)
     r.field(record, 'Qrqp::AT', 'Sparsity', lambda: read_Sparsity(r))
     r.field(record, 'Qrqp::kkt', 'Sparsity', lambda: read_Sparsity(r))
     r.field(record, 'Qrqp::sp_v', 'Sparsity', lambda: read_Sparsity(r))
@@ -2254,7 +2346,7 @@ def layout_Resource_serialize(r, record, scope):
 
 def layout_ResourceInternal_serialize(r, record, scope):
     r.enter_layout()
-    r.version(record, 'ResourceInternal', 1)
+    r.version(record, 'ResourceInternal', 1, 1)
     r.fail('unlowered serialization call')
     r.fail('unlowered serialization call')
     r.depth -= 1
@@ -2273,7 +2365,7 @@ def layout_Rootfinder_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('OracleFunction::serialize_body')
     layout_OracleFunction_serialize_body(r, record, scope)
-    r.version(record, 'Rootfinder', 3)
+    r.version(record, 'Rootfinder', 3, 3)
     r.field(record, 'Rootfinder::n', 'casadi_int', lambda: r.number('casadi_int'))
     r.field(record, 'Rootfinder::linsol', 'Linsol', lambda: read_Linsol(r))
     r.field(record, 'Rootfinder::sp_jac', 'Sparsity', lambda: read_Sparsity(r))
@@ -2294,14 +2386,14 @@ def layout_RungeKutta_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('FixedStepIntegrator::serialize_body')
     layout_FixedStepIntegrator_serialize_body(r, record, scope)
-    r.version(record, 'RungeKutta', 2)
+    r.version(record, 'RungeKutta', 2, 2)
     r.depth -= 1
 
 def layout_SLEQPInterface_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Nlpsol::serialize_body')
     layout_Nlpsol_serialize_body(r, record, scope)
-    r.version(record, 'SLEQPInterface', 1)
+    r.version(record, 'SLEQPInterface', 1, 1)
     r.field(record, 'SLEQPInterface::jacg_sp', 'Sparsity', lambda: read_Sparsity(r))
     r.field(record, 'SLEQPInterface::max_iter', 'int', lambda: r.number('int'))
     r.field(record, 'SLEQPInterface::max_wall_time', 'double', lambda: r.number('double'))
@@ -2318,35 +2410,38 @@ def layout_SXFunction_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('XFunction<SXFunction,SX,SXNode>::serialize_body')
     layout_XFunction_SXFunction_SX_SXNode_serialize_body(r, record, scope)
-    r.version(record, 'SXFunction', 4)
+    scope['SXFunction' + "::serialization::version"] = r.version(record, 'SXFunction', 1, 4)
     scope['SXFunction::n_instr'] = r.field(record, 'SXFunction::n_instr', 'size_t', lambda: r.number('size_t'))
     r.field(record, 'SXFunction::worksize', 'size_t', lambda: r.number('size_t'))
     r.field(record, 'SXFunction::free_vars', 'std::vector<SXElem>', lambda: read_std_vector_SXElem(r))
     r.field(record, 'SXFunction::operations', 'std::vector<SXElem>', lambda: read_std_vector_SXElem(r))
     r.field(record, 'SXFunction::constants', 'std::vector<SXElem>', lambda: read_std_vector_SXElem(r))
     r.field(record, 'SXFunction::default_in', 'std::vector<double>', lambda: read_std_vector_double(r))
-    r.field(record, 'SXFunction::call_sz_arg', 'size_t', lambda: r.number('size_t'))
-    r.field(record, 'SXFunction::call_sz_res', 'size_t', lambda: r.number('size_t'))
-    r.field(record, 'SXFunction::call_sz_iw', 'size_t', lambda: r.number('size_t'))
-    r.field(record, 'SXFunction::call_sz_w', 'size_t', lambda: r.number('size_t'))
-    r.field(record, 'SXFunction::call_sz_arg', 'size_t', lambda: r.number('size_t'))
-    r.field(record, 'SXFunction::call_sz_res', 'size_t', lambda: r.number('size_t'))
-    scope['SXFunction::call_el_size'] = r.field(record, 'SXFunction::call_el_size', 'size_t', lambda: r.number('size_t'))
-    for _ in range(r.count(scope['SXFunction::call_el_size'])):
-        r.field(record, 'SXFunction::call_el_f', 'Function', lambda: read_Function(r))
-        r.field(record, 'SXFunction::call_el_dep', 'std::vector<int>', lambda: read_std_vector_int(r))
-        r.field(record, 'SXFunction::call_el_res', 'std::vector<int>', lambda: read_std_vector_int(r))
-        r.field(record, 'SXFunction::call_el_copy_elision_arg', 'std::vector<int>', lambda: read_std_vector_int(r))
-        r.field(record, 'SXFunction::call_el_copy_elision_offset', 'std::vector<int>', lambda: read_std_vector_int(r))
-    r.field(record, 'SXFunction::copy_elision', 'std::vector<bool>', lambda: read_std_vector_bool(r))
+    if (scope['SXFunction::serialization::version'] >= 2):
+        r.field(record, 'SXFunction::call_sz_arg', 'size_t', lambda: r.number('size_t'))
+        r.field(record, 'SXFunction::call_sz_res', 'size_t', lambda: r.number('size_t'))
+        r.field(record, 'SXFunction::call_sz_iw', 'size_t', lambda: r.number('size_t'))
+        r.field(record, 'SXFunction::call_sz_w', 'size_t', lambda: r.number('size_t'))
+        r.field(record, 'SXFunction::call_sz_arg', 'size_t', lambda: r.number('size_t'))
+        r.field(record, 'SXFunction::call_sz_res', 'size_t', lambda: r.number('size_t'))
+        scope['SXFunction::call_el_size'] = r.field(record, 'SXFunction::call_el_size', 'size_t', lambda: r.number('size_t'))
+        for _ in range(r.count(scope['SXFunction::call_el_size'])):
+            r.field(record, 'SXFunction::call_el_f', 'Function', lambda: read_Function(r))
+            r.field(record, 'SXFunction::call_el_dep', 'std::vector<int>', lambda: read_std_vector_int(r))
+            r.field(record, 'SXFunction::call_el_res', 'std::vector<int>', lambda: read_std_vector_int(r))
+            r.field(record, 'SXFunction::call_el_copy_elision_arg', 'std::vector<int>', lambda: read_std_vector_int(r))
+            r.field(record, 'SXFunction::call_el_copy_elision_offset', 'std::vector<int>', lambda: read_std_vector_int(r))
+        r.field(record, 'SXFunction::copy_elision', 'std::vector<bool>', lambda: read_std_vector_bool(r))
     for _ in range(r.count(scope['SXFunction::n_instr'])):
         r.field(record, 'SXFunction::ScalarAtomic::op', 'int', lambda: r.number('int'))
         r.field(record, 'SXFunction::ScalarAtomic::i0', 'int', lambda: r.number('int'))
         r.field(record, 'SXFunction::ScalarAtomic::i1', 'int', lambda: r.number('int'))
         r.field(record, 'SXFunction::ScalarAtomic::i2', 'int', lambda: r.number('int'))
     r.field(record, 'SXFunction::live_variables', 'bool', lambda: r.boolean())
-    r.field(record, 'SXFunction::print_instructions', 'bool', lambda: r.boolean())
-    r.field(record, 'SXFunction::dump_trace', 'bool', lambda: r.boolean())
+    if (scope['SXFunction::serialization::version'] >= 3):
+        r.field(record, 'SXFunction::print_instructions', 'bool', lambda: r.boolean())
+    if (scope['SXFunction::serialization::version'] >= 4):
+        r.field(record, 'SXFunction::dump_trace', 'bool', lambda: r.boolean())
     record["layouts"].append('XFunction<SXFunction,SX,SXNode>::delayed_serialize_members')
     layout_XFunction_SXFunction_SX_SXNode_delayed_serialize_members(r, record, scope)
     r.depth -= 1
@@ -2483,7 +2578,7 @@ def layout_SnoptInterface_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Nlpsol::serialize_body')
     layout_Nlpsol_serialize_body(r, record, scope)
-    r.version(record, 'SnoptInterface', 1)
+    r.version(record, 'SnoptInterface', 1, 1)
     r.field(record, 'SnoptInterface::jacf_sp', 'Sparsity', lambda: read_Sparsity(r))
     r.field(record, 'SnoptInterface::jacg_sp', 'Sparsity', lambda: read_Sparsity(r))
     r.field(record, 'SnoptInterface::nnJac', 'casadi_int', lambda: r.number('casadi_int'))
@@ -2553,7 +2648,7 @@ def layout_Sparsify_serialize_type(r, record, scope):
 
 def layout_Sparsity_serialize(r, record, scope):
     r.enter_layout()
-    r.fail('Predicate has no serialized field')
+    r.field(record, 'SparsityInternal::compressed', 'std::vector<casadi_int>', lambda: read_std_vector_casadi_int(r))
     r.depth -= 1
 
 def layout_SparsityCast_serialize_body(r, record, scope):
@@ -2580,9 +2675,10 @@ def layout_Sqpmethod_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Nlpsol::serialize_body')
     layout_Nlpsol_serialize_body(r, record, scope)
-    r.version(record, 'Sqpmethod', 3)
+    scope['Sqpmethod' + "::serialization::version"] = r.version(record, 'Sqpmethod', 1, 3)
     r.field(record, 'Sqpmethod::qpsol', 'Function', lambda: read_Function(r))
-    r.field(record, 'Sqpmethod::qpsol_ela', 'Function', lambda: read_Function(r))
+    if (scope['Sqpmethod::serialization::version'] >= 3):
+        r.field(record, 'Sqpmethod::qpsol_ela', 'Function', lambda: read_Function(r))
     r.field(record, 'Sqpmethod::exact_hessian', 'bool', lambda: r.boolean())
     r.field(record, 'Sqpmethod::max_iter', 'casadi_int', lambda: r.number('casadi_int'))
     r.field(record, 'Sqpmethod::min_iter', 'casadi_int', lambda: r.number('casadi_int'))
@@ -2598,26 +2694,40 @@ def layout_Sqpmethod_serialize_body(r, record, scope):
     r.field(record, 'Sqpmethod::print_header', 'bool', lambda: r.boolean())
     r.field(record, 'Sqpmethod::print_iteration', 'bool', lambda: r.boolean())
     r.field(record, 'Sqpmethod::print_status', 'bool', lambda: r.boolean())
-    r.field(record, 'Sqpmethod::elastic_mode', 'bool', lambda: r.boolean())
-    r.field(record, 'Sqpmethod::gamma_0', 'double', lambda: r.number('double'))
-    r.field(record, 'Sqpmethod::gamma_max', 'double', lambda: r.number('double'))
-    r.field(record, 'Sqpmethod::gamma_1_min', 'double', lambda: r.number('double'))
-    r.field(record, 'Sqpmethod::init_feasible', 'bool', lambda: r.boolean())
-    r.field(record, 'Sqpmethod::so_corr', 'bool', lambda: r.boolean())
+    if (scope['Sqpmethod::serialization::version'] >= 3):
+        r.field(record, 'Sqpmethod::elastic_mode', 'bool', lambda: r.boolean())
+        r.field(record, 'Sqpmethod::gamma_0', 'double', lambda: r.number('double'))
+        r.field(record, 'Sqpmethod::gamma_max', 'double', lambda: r.number('double'))
+        r.field(record, 'Sqpmethod::gamma_1_min', 'double', lambda: r.number('double'))
+        r.field(record, 'Sqpmethod::init_feasible', 'bool', lambda: r.boolean())
+        r.field(record, 'Sqpmethod::so_corr', 'bool', lambda: r.boolean())
     r.field(record, 'Sqpmethod::Hsp', 'Sparsity', lambda: read_Sparsity(r))
+    if (scope['Sqpmethod::serialization::version'] == 1):
+        r.field(record, 'Sqpmethod::Hrsp', 'Sparsity', lambda: read_Sparsity(r))
     r.field(record, 'Sqpmethod::Asp', 'Sparsity', lambda: read_Sparsity(r))
-    scope['Sqpmethod::convexify'] = r.field(record, 'Sqpmethod::convexify', 'bool', lambda: r.boolean())
-    if scope['Sqpmethod::convexify']:
-        record["layouts"].append('Convexify::serialize')
-        scope['prefix'] = 'Sqpmethod::'
-        layout_Convexify_serialize(r, record, scope)
+    if (scope['Sqpmethod::serialization::version'] == 1):
+        r.field(record, 'Sqpmethod::convexify_margin', 'double', lambda: r.number('double'))
+        r.field(record, 'Sqpmethod::convexify_strategy', 'char', lambda: r.byte())
+        r.field(record, 'Sqpmethod::Hsp_project', 'bool', lambda: r.boolean())
+        r.field(record, 'Sqpmethod::scc_transform', 'bool', lambda: r.boolean())
+        r.field(record, 'Sqpmethod::scc_offset', 'std::vector<casadi_int>', lambda: read_std_vector_casadi_int(r))
+        r.field(record, 'Sqpmethod::scc_mapping', 'std::vector<casadi_int>', lambda: read_std_vector_casadi_int(r))
+        r.field(record, 'Sqpmethod::max_iter_eig', 'casadi_int', lambda: r.number('casadi_int'))
+        r.field(record, 'Sqpmethod::block_size', 'casadi_int', lambda: r.number('casadi_int'))
+        r.field(record, 'Sqpmethod::scc_sp', 'Sparsity', lambda: read_Sparsity(r))
+    if (scope['Sqpmethod::serialization::version'] >= 2):
+        scope['Sqpmethod::convexify'] = r.field(record, 'Sqpmethod::convexify', 'bool', lambda: r.boolean())
+        if scope['Sqpmethod::convexify']:
+            record["layouts"].append('Convexify::serialize')
+            scope['prefix'] = 'Sqpmethod::'
+            layout_Convexify_serialize(r, record, scope)
     r.depth -= 1
 
 def layout_SundialsInterface_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Integrator::serialize_body')
     layout_Integrator_serialize_body(r, record, scope)
-    r.version(record, 'SundialsInterface', 2)
+    scope['SundialsInterface' + "::serialization::version"] = r.version(record, 'SundialsInterface', 1, 2)
     r.field(record, 'SundialsInterface::abstol', 'double', lambda: r.number('double'))
     r.field(record, 'SundialsInterface::reltol', 'double', lambda: r.number('double'))
     r.field(record, 'SundialsInterface::max_num_steps', 'casadi_int', lambda: r.number('casadi_int'))
@@ -2632,7 +2742,8 @@ def layout_SundialsInterface_serialize_body(r, record, scope):
     r.field(record, 'SundialsInterface::use_precon', 'bool', lambda: r.boolean())
     r.field(record, 'SundialsInterface::second_order_correction', 'bool', lambda: r.boolean())
     r.field(record, 'SundialsInterface::step0', 'double', lambda: r.number('double'))
-    r.field(record, 'SundialsInterface::max_step_size', 'double', lambda: r.number('double'))
+    if (scope['SundialsInterface::serialization::version'] >= 2):
+        r.field(record, 'SundialsInterface::max_step_size', 'double', lambda: r.number('double'))
     r.field(record, 'SundialsInterface::nonlin_conv_coeff', 'double', lambda: r.number('double'))
     r.field(record, 'SundialsInterface::max_order', 'casadi_int', lambda: r.number('casadi_int'))
     r.field(record, 'SundialsInterface::scale_abstol', 'bool', lambda: r.boolean())
@@ -2645,7 +2756,7 @@ def layout_SuperscsInterface_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Conic::serialize_body')
     layout_Conic_serialize_body(r, record, scope)
-    r.version(record, 'SuperscsInterface', 1)
+    r.version(record, 'SuperscsInterface', 1, 1)
     r.field(record, 'SuperscsInterface::settings::normalize', 'casadi_int', lambda: r.number('casadi_int'))
     r.field(record, 'SuperscsInterface::settings::scale', 'double', lambda: r.number('double'))
     r.field(record, 'SuperscsInterface::settings::rho_x', 'double', lambda: r.number('double'))
@@ -2689,7 +2800,7 @@ def layout_Switch_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('FunctionInternal::serialize_body')
     layout_FunctionInternal_serialize_body(r, record, scope)
-    r.version(record, 'Switch', 1)
+    r.version(record, 'Switch', 1, 1)
     r.field(record, 'Switch::f', 'std::vector<Function>', lambda: read_std_vector_Function(r))
     r.field(record, 'Switch::f_def', 'Function', lambda: read_Function(r))
     r.field(record, 'Switch::project_in', 'bool', lambda: r.boolean())
@@ -2707,7 +2818,7 @@ def layout_SymbolicQr_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('LinsolInternal::serialize_body')
     layout_LinsolInternal_serialize_body(r, record, scope)
-    r.version(record, 'SymbolicQr', 1)
+    r.version(record, 'SymbolicQr', 1, 1)
     r.field(record, 'SymbolicQr::factorize', 'Function', lambda: read_Function(r))
     r.field(record, 'SymbolicQr::solve', 'Function', lambda: read_Function(r))
     r.field(record, 'SymbolicQr::solveT', 'Function', lambda: read_Function(r))
@@ -2754,7 +2865,7 @@ def layout_UnoInterface_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Nlpsol::serialize_body')
     layout_Nlpsol_serialize_body(r, record, scope)
-    r.version(record, 'UnoInterface', 1)
+    r.version(record, 'UnoInterface', 1, 1)
     r.field(record, 'UnoInterface::jacg_sp', 'Sparsity', lambda: read_Sparsity(r))
     r.field(record, 'UnoInterface::hesslag_sp', 'Sparsity', lambda: read_Sparsity(r))
     r.field(record, 'UnoInterface::opts', 'Dict', lambda: read_Dict(r))
@@ -2776,7 +2887,7 @@ def layout_WorhpInterface_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Nlpsol::serialize_body')
     layout_Nlpsol_serialize_body(r, record, scope)
-    r.version(record, 'WorhpInterface', 1)
+    r.version(record, 'WorhpInterface', 1, 1)
     r.field(record, 'WorhpInterface::jacg_sp', 'Sparsity', lambda: read_Sparsity(r))
     r.field(record, 'WorhpInterface::hesslag_sp', 'Sparsity', lambda: read_Sparsity(r))
     r.field(record, 'WorhpInterface::bool_opts', 'std::map<std::string,bool>', lambda: read_std_map_std_string_bool(r))
@@ -2794,7 +2905,7 @@ def layout_XFunction_MXFunction_MX_MXNode_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('FunctionInternal::serialize_body')
     layout_FunctionInternal_serialize_body(r, record, scope)
-    r.version(record, 'XFunction', 1)
+    r.version(record, 'XFunction', 1, 1)
     r.field(record, 'XFunction::in', 'std::vector<MX>', lambda: read_std_vector_MX(r))
     r.depth -= 1
 
@@ -2807,7 +2918,7 @@ def layout_XFunction_SXFunction_SX_SXNode_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('FunctionInternal::serialize_body')
     layout_FunctionInternal_serialize_body(r, record, scope)
-    r.version(record, 'XFunction', 1)
+    r.version(record, 'XFunction', 1, 1)
     r.field(record, 'XFunction::in', 'std::vector<SX>', lambda: read_std_vector_SX(r))
     r.depth -= 1
 
@@ -2815,11 +2926,12 @@ def layout_XpressInterface_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('Conic::serialize_body')
     layout_Conic_serialize_body(r, record, scope)
-    r.version(record, 'XpressInterface', 2)
+    scope['XpressInterface' + "::serialization::version"] = r.version(record, 'XpressInterface', 1, 2)
     r.field(record, 'XpressInterface::opts', 'Dict', lambda: read_Dict(r))
-    r.field(record, 'XpressInterface::mip_start', 'bool', lambda: r.boolean())
-    r.field(record, 'XpressInterface::log_file', 'std::string', lambda: r.string())
-    r.field(record, 'XpressInterface::compute_iis', 'bool', lambda: r.boolean())
+    if (scope['XpressInterface::serialization::version'] >= 2):
+        r.field(record, 'XpressInterface::mip_start', 'bool', lambda: r.boolean())
+        r.field(record, 'XpressInterface::log_file', 'std::string', lambda: r.string())
+        r.field(record, 'XpressInterface::compute_iis', 'bool', lambda: r.boolean())
     r.field(record, 'XpressInterface::sos_settype', 'std::vector<char>', lambda: read_std_vector_char(r))
     r.field(record, 'XpressInterface::sos_setstart', 'std::vector<int>', lambda: read_std_vector_int(r))
     r.field(record, 'XpressInterface::sos_setind', 'std::vector<int>', lambda: read_std_vector_int(r))
@@ -2846,7 +2958,7 @@ def layout_ZipMemResource_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('ResourceInternal::serialize_body')
     layout_ResourceInternal_serialize_body(r, record, scope)
-    r.version(record, 'ZipMemResource', 1)
+    r.version(record, 'ZipMemResource', 1, 1)
     r.field(record, 'ZipMemResource::blob', 'std::stringstream', lambda: r.stream())
     r.depth -= 1
 
@@ -2854,7 +2966,7 @@ def layout_ZipResource_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('ResourceInternal::serialize_body')
     layout_ResourceInternal_serialize_body(r, record, scope)
-    r.version(record, 'ZipResource', 1)
+    r.version(record, 'ZipResource', 1, 1)
     if (scope['ResourceInternal::serialize_mode'] == 'embed'):
         r.field(record, 'ZipMemResource::blob', 'std::stringstream', lambda: r.stream())
     else:
@@ -3027,7 +3139,7 @@ def read_Function_body(r, record, scope):
             else:
                 r.fail('Unknown serialization discriminator')
         elif tag_2 == 'External':
-            r.version(record, 'GenericExternal', 1)
+            r.version(record, 'GenericExternal', 1, 1)
             scope['GenericExternal::type'] = r.field(record, 'GenericExternal::type', 'char', lambda: r.byte())
             tag_4 = r.tag(scope['GenericExternal::type'])
             if tag_4 == '103':
@@ -3065,7 +3177,7 @@ def read_Function_body(r, record, scope):
                 record["layouts"].append('BSplineInterpolant::serialize_body')
                 layout_BSplineInterpolant_serialize_body(r, record, scope)
             elif tag_6 == 'linear':
-                r.version(record, 'LinearInterpolant', 1)
+                r.version(record, 'LinearInterpolant', 1, 1)
                 scope['LinearInterpolant::type'] = r.field(record, 'LinearInterpolant::type', 'char', lambda: r.byte())
                 tag_7 = r.tag(scope['LinearInterpolant::type'])
                 if tag_7 == '102':
@@ -3532,22 +3644,27 @@ def read_MX_body(r, record, scope):
         record["layouts"].append('Low::serialize_body')
         layout_Low_serialize_body(r, record, scope)
     elif tag_16 == '52':
-        scope['Multiplication::kind'] = r.field(record, 'Multiplication::kind', 'std::string', lambda: r.string())
-        tag_19 = r.tag(scope['Multiplication::kind'])
-        if tag_19 == 'base':
-            record["layouts"].append('Multiplication::serialize_body')
-            layout_Multiplication_serialize_body(r, record, scope)
-        elif tag_19 == 'dense':
-            record["layouts"].append('DenseMultiplication::serialize_body')
-            layout_DenseMultiplication_serialize_body(r, record, scope)
-        elif tag_19 == 'dense_sparse':
-            record["layouts"].append('DenseSparseMultiplication::serialize_body')
-            layout_DenseSparseMultiplication_serialize_body(r, record, scope)
-        elif tag_19 == 'pseudo_dense':
-            record["layouts"].append('PseudoDenseMultiplication::serialize_body')
-            layout_PseudoDenseMultiplication_serialize_body(r, record, scope)
+        if r.next('Multiplication::dense', 'bool'):
+            r.field(record, 'Multiplication::dense', 'bool', lambda: r.boolean())
+            record["layouts"].append('MXNode::serialize_body')
+            layout_MXNode_serialize_body(r, record, scope)
         else:
-            r.fail('Unknown serialization discriminator')
+            scope['Multiplication::kind'] = r.field(record, 'Multiplication::kind', 'std::string', lambda: r.string())
+            tag_19 = r.tag(scope['Multiplication::kind'])
+            if tag_19 == 'base':
+                record["layouts"].append('Multiplication::serialize_body')
+                layout_Multiplication_serialize_body(r, record, scope)
+            elif tag_19 == 'dense':
+                record["layouts"].append('DenseMultiplication::serialize_body')
+                layout_DenseMultiplication_serialize_body(r, record, scope)
+            elif tag_19 == 'dense_sparse':
+                record["layouts"].append('DenseSparseMultiplication::serialize_body')
+                layout_DenseSparseMultiplication_serialize_body(r, record, scope)
+            elif tag_19 == 'pseudo_dense':
+                record["layouts"].append('PseudoDenseMultiplication::serialize_body')
+                layout_PseudoDenseMultiplication_serialize_body(r, record, scope)
+            else:
+                r.fail('Unknown serialization discriminator')
     elif tag_16 == '53':
         r.field(record, 'Solve::Tr', 'bool', lambda: r.boolean())
         record["layouts"].append('LinsolCall<Tr>::serialize_body')
@@ -3827,7 +3944,7 @@ def read_MX(r):
 
 def read_Resource_body(r, record, scope):
     r.enter_layout()
-    r.version(record, 'ResourceInternal', 1)
+    r.version(record, 'ResourceInternal', 1, 1)
     scope['ResourceInternal::type'] = r.field(record, 'ResourceInternal::type', 'std::string', lambda: r.string())
     tag_30 = r.tag(scope['ResourceInternal::type'])
     if tag_30 == 'DirResource':

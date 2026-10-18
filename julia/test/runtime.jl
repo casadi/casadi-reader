@@ -91,7 +91,7 @@ end
     @test_throws ArgumentError parse_casadi(replace(debug, field => wire(Vector{UInt8}(codeunits("ProtoFunction::xxxx")))))
     r = wire_reader(le(Int32(-1)))
     record = Dict{String,Any}("fields" => Any[])
-    @test_throws ArgumentError CR.version(r, record, "test", 1)
+    @test_throws ArgumentError CR.version(r, record, "test", 1, 1)
     # Every truncated prefix of a serialized integer must be rejected.
     good = packet(le(Int64(42)))
     for n in 0:2:length(good)-2

@@ -169,12 +169,25 @@ class Reader:
         self.count(len(record["fields"]))
         return value
 
-    def version(self, record, base, expected):
+    def version(self, record, base, minimum, maximum):
         value = self.field(
             record, base + "::serialization::version", "int", lambda: self.number("int")
         )
-        if value != expected:
+        if not minimum <= value <= maximum:
             self.fail("Unsupported " + base + " version " + str(value))
+        return value
+
+    def next(self, name, kind):
+        # Is the upcoming field `name`? Debug streams name it; plain ones only show a bool's byte.
+        start = self.pos
+        try:
+            if self.debug:
+                return self.string() == name
+            if kind != "bool":
+                self.fail("Cannot recognize an upcoming " + kind)
+            return self.byte() <= 1
+        finally:
+            self.pos = start
 
     def value(self, kind):
         read = READERS.get(kind)

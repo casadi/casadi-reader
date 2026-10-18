@@ -109,14 +109,27 @@ class Reader {
     this.count(record.fields.length);
     return value;
   }
-  version(record, base, expected) {
+  version(record, base, minimum, maximum) {
     const value = this.field(
       record,
       base + "::serialization::version",
       "int",
       () => this.number("int"),
     );
-    if (value !== expected) this.fail(`Unsupported ${base} version ${value}`);
+    if (!(value >= minimum && value <= maximum))
+      this.fail(`Unsupported ${base} version ${value}`);
+    return value;
+  }
+  // Is the upcoming field `name`? Debug streams name it; plain ones only show a bool's byte.
+  next(name, type) {
+    const start = this.pos;
+    try {
+      if (this.debug) return this.string() === name;
+      if (type !== "bool") this.fail("Cannot recognize an upcoming " + type);
+      return this.byte() <= 1;
+    } finally {
+      this.pos = start;
+    }
   }
   value(type) {
     return Object.hasOwn(readers, type)

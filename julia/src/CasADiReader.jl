@@ -142,9 +142,21 @@ function field(r, record, name, kind, read)
     count(r, length(record["fields"]))
     v
 end
-function version(r, record, base, expected)
+function version(r, record, base, minimum, maximum)
     v = field(r, record, base * "::serialization::version", "int", () -> number(r, "int"))
-    v == expected || fail(r, "Unsupported $base version $v")
+    minimum <= v <= maximum || fail(r, "Unsupported $base version $v")
+    v
+end
+# Is the upcoming field `name`? Debug streams name it; plain ones only show a bool's byte.
+function next_field(r, name, kind)
+    start = r.pos
+    try
+        r.debug && return stringvalue(r) == name
+        kind == "bool" || fail(r, "Cannot recognize an upcoming $kind")
+        byte(r) <= 1
+    finally
+        r.pos = start
+    end
 end
 function value(r, kind)
     haskey(READERS, kind) ? READERS[kind](r) : primitive(r, kind)

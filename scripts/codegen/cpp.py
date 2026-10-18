@@ -1,4 +1,4 @@
-from .base import Emitter, indent
+from .base import Emitter, indent, COMPARISONS, VERSION
 import json
 
 
@@ -33,6 +33,8 @@ class Cpp(Emitter):
     def expr(self, operand):
         if operand[0] in ("field", "parameter"):
             return f"scope.at({self.string_operand(operand[1])})"
+        if operand[0] == "version":
+            return f"scope.at({self.quote(operand[1] + VERSION)})"
         return super().expr(operand)
 
     def condition(self, operand):
@@ -62,6 +64,10 @@ class Cpp(Emitter):
         if op == "not":
             return f"JsonValue::boolean(!truth({a}))"
         b = args[1]
+        if op == "next":
+            return f"next_field({a}, {b})"
+        if op in COMPARISONS:
+            return f"JsonValue::boolean(({a}).n() {COMPARISONS[op]} ({b}).n())"
         if op == "concat":
             return f"JsonValue(({a}).scalar + ({b}).scalar)"
         if op in ("equal", "not_equal"):
@@ -100,8 +106,13 @@ class Cpp(Emitter):
         call = f"field(record, {name}, {self.quote(kind)}, [&]() {{ return {self.read(kind)}; }})"
         return [(f"scope[{name}] = " if retain else "") + call + ";"]
 
-    def version(self, name, version):
-        return [f"version(record, {name}, {version});"]
+    def version(self, name, minimum, maximum, retain):
+        call = f"version(record, {name}, {minimum}, {maximum})"
+        key = f'std::string({name}) + "::serialization::version"'
+        return [(f"scope[{key}] = " if retain else "") + call + ";"]
+
+    def assign_scope(self, name, value):
+        return [f"scope[{name}] = {value};"]
 
     def call_layout(self, name, params):
         return [

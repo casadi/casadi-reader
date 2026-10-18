@@ -1,4 +1,4 @@
-from .base import Emitter, indent
+from .base import Emitter, indent, COMPARISONS
 
 
 class Matlab(Emitter):
@@ -29,6 +29,10 @@ class Matlab(Emitter):
         if op == "not":
             return f"(~self.truth({a}))"
         b = args[1]
+        if op == "next":
+            return f"self.nextField({a}, {b})"
+        if op in COMPARISONS:
+            return f"({a} {COMPARISONS[op]} {b})"
         if op == "concat":
             return f"[{a} {b}]"
         if op in ("equal", "not_equal"):
@@ -63,8 +67,12 @@ class Matlab(Emitter):
         call = f"self.field(record, {name}, {self.literal(kind)}, @() {self.read(kind)})"
         return [(f"scope({name}) = " if retain else "") + call + ";"]
 
-    def version(self, name, version):
-        return [f"self.version(record, {name}, {version});"]
+    def version(self, name, minimum, maximum, retain):
+        call = f"self.version(record, {name}, {minimum}, {maximum})"
+        return [(f"scope([{name} '::serialization::version']) = " if retain else "") + call + ";"]
+
+    def assign_scope(self, name, value):
+        return [f"scope({name}) = {value};"]
 
     def call_layout(self, name, params):
         return [

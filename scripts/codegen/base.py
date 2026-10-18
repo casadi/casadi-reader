@@ -60,6 +60,8 @@ class Emitter:
         if op in ("field", "parameter"):
             name = self.literal(args[0]) if isinstance(args[0], str) else self.expr(args[0])
             return self.lookup(name)
+        if op == "version":
+            return self.lookup(self.literal(args[0] + VERSION))
         return self.operator(op, [self.expr(a) for a in args])
 
     def steps(self, steps):
@@ -72,7 +74,14 @@ class Emitter:
                 else:
                     lines += self.field(self.name(step), step["type"], step.get("retain", False))
             elif op == "version":
-                lines += self.version(self.name(step), step["value"])
+                lines += self.version(
+                    self.name(step),
+                    step.get("minimum", step["value"]),
+                    step["value"],
+                    step.get("retain", False),
+                )
+            elif op == "assign":
+                lines += self.assign_scope(self.name(step), self.literal(step["value"]))
             elif op == "call":
                 lines += self.call_layout(step["layout"], step.get("params", {}))
             elif op == "if":
@@ -122,6 +131,11 @@ class Emitter:
             "wire": self.data["wire"],
             "reader": {key: self.reader[key] for key in ("file_types", "file_prefixes")},
         }
+
+
+# Scope key of a class version, as recorded by version steps.
+VERSION = "::serialization::version"
+COMPARISONS = {"less": "<", "less_equal": "<=", "greater": ">", "greater_equal": ">="}
 
 
 def indent(lines, n=1, width=4):
