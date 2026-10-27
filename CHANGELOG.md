@@ -1,3 +1,7 @@
+# 0.3.1
+
+- Generate all six readers from the CasADi 3.8.2 release serialization scheme (a5852c23b2100296cee23b81227fcaa3bef43f04), adding the erk, rosenbrock and RuntimeIntegrator classes and Conic and Nlpsol version 6, and extend the release corpus to CasADi 3.8.2.
+
 # 0.3.0
 
 - Read files written by earlier CasADi releases, as CasADi itself does: version steps accept the readable range, conditions compare versions, defaults the deserializer assigns are honoured, and pre-3.8 matrix products are recognized by their upcoming field.
