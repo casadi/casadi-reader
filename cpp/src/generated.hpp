@@ -348,7 +348,7 @@ void layout_Conic_serialize_body(JsonValue& record, Scope& scope) {
     enter_layout();
     record["layouts"].a.push_back(JsonValue("FunctionInternal::serialize_body"));
     layout_FunctionInternal_serialize_body(record, scope);
-    scope[std::string("Conic") + "::serialization::version"] = version(record, "Conic", 1, 4);
+    scope[std::string("Conic") + "::serialization::version"] = version(record, "Conic", 1, 6);
     field(record, "Conic::discrete", "std::vector<bool>", [&]() { return read_std_vector_bool(); });
     if (truth(JsonValue::boolean((scope.at("Conic::serialization::version")).n() >= (JsonValue(int64_t(3))).n()))) {
         field(record, "Conic::equality", "std::vector<bool>", [&]() { return read_std_vector_bool(); });
@@ -356,6 +356,14 @@ void layout_Conic_serialize_body(JsonValue& record, Scope& scope) {
     field(record, "Conic::print_problem", "bool", [&]() { return boolvalue(); });
     if (truth(JsonValue::boolean((scope.at("Conic::serialization::version")).n() >= (JsonValue(int64_t(4))).n()))) {
         field(record, "Conic::solver_version_check", "bool", [&]() { return boolvalue(); });
+    }
+    if (truth(JsonValue::boolean((scope.at("Conic::serialization::version")).n() >= (JsonValue(int64_t(5))).n()))) {
+        field(record, "Conic::sens_min_lam", "double", [&]() { return number("double"); });
+        field(record, "Conic::sens_linsol", "std::string", [&]() { return string(); });
+        field(record, "Conic::sens_linsol_options", "Dict", [&]() { return read_Dict(); });
+    }
+    if (truth(JsonValue::boolean((scope.at("Conic::serialization::version")).n() >= (JsonValue(int64_t(6))).n()))) {
+        field(record, "Conic::sens_force_equality", "bool", [&]() { return boolvalue(); });
     }
     if ((scope.at("Conic::serialization::version")).dump() == (JsonValue(int64_t(1))).dump()) {
         field(record, "Conic::error_on_fail", "bool", [&]() { return boolvalue(); });
@@ -738,6 +746,15 @@ void layout_Einstein_serialize_body(JsonValue& record, Scope& scope) {
     field(record, "Einstein::strides_b", "std::vector<casadi_int>", [&]() { return read_std_vector_casadi_int(); });
     field(record, "Einstein::strides_c", "std::vector<casadi_int>", [&]() { return read_std_vector_casadi_int(); });
     field(record, "Einstein::n_iter", "casadi_int", [&]() { return number("casadi_int"); });
+    --depth;
+}
+
+void layout_Erk_serialize_body(JsonValue& record, Scope& scope) {
+    enter_layout();
+    record["layouts"].a.push_back(JsonValue("RuntimeIntegrator::serialize_body"));
+    layout_RuntimeIntegrator_serialize_body(record, scope);
+    version(record, "Erk", 1, 1);
+    field(record, "Erk::method", "std::string", [&]() { return string(); });
     --depth;
 }
 
@@ -2124,7 +2141,7 @@ void layout_Nlpsol_serialize_body(JsonValue& record, Scope& scope) {
     enter_layout();
     record["layouts"].a.push_back(JsonValue("OracleFunction::serialize_body"));
     layout_OracleFunction_serialize_body(record, scope);
-    scope[std::string("Nlpsol") + "::serialization::version"] = version(record, "Nlpsol", 1, 5);
+    scope[std::string("Nlpsol") + "::serialization::version"] = version(record, "Nlpsol", 1, 6);
     field(record, "Nlpsol::nx", "casadi_int", [&]() { return number("casadi_int"); });
     field(record, "Nlpsol::ng", "casadi_int", [&]() { return number("casadi_int"); });
     field(record, "Nlpsol::np", "casadi_int", [&]() { return number("casadi_int"); });
@@ -2152,6 +2169,9 @@ void layout_Nlpsol_serialize_body(JsonValue& record, Scope& scope) {
     if (truth(JsonValue::boolean((scope.at("Nlpsol::serialization::version")).n() >= (JsonValue(int64_t(2))).n()))) {
         field(record, "Nlpsol::sens_linsol", "std::string", [&]() { return string(); });
         field(record, "Nlpsol::sens_linsol_options", "Dict", [&]() { return read_Dict(); });
+    }
+    if (truth(JsonValue::boolean((scope.at("Nlpsol::serialization::version")).n() >= (JsonValue(int64_t(6))).n()))) {
+        field(record, "Nlpsol::sens_force_equality", "bool", [&]() { return boolvalue(); });
     }
     if (truth(JsonValue::boolean((scope.at("Nlpsol::serialization::version")).n() >= (JsonValue(int64_t(3))).n()))) {
         field(record, "Nlpsol::detect_simple_bounds_is_simple", "std::vector<char>", [&]() { return read_std_vector_char(); });
@@ -2666,11 +2686,43 @@ void layout_Rootfinder_serialize_type(JsonValue& record, Scope& scope) {
     --depth;
 }
 
+void layout_Rosenbrock_serialize_body(JsonValue& record, Scope& scope) {
+    enter_layout();
+    record["layouts"].a.push_back(JsonValue("RuntimeIntegrator::serialize_body"));
+    layout_RuntimeIntegrator_serialize_body(record, scope);
+    version(record, "Rosenbrock", 1, 1);
+    field(record, "Rosenbrock::init_tol", "double", [&]() { return number("double"); });
+    field(record, "Rosenbrock::init_max_iter", "casadi_int", [&]() { return number("casadi_int"); });
+    --depth;
+}
+
 void layout_RungeKutta_serialize_body(JsonValue& record, Scope& scope) {
     enter_layout();
     record["layouts"].a.push_back(JsonValue("FixedStepIntegrator::serialize_body"));
     layout_FixedStepIntegrator_serialize_body(record, scope);
     version(record, "RungeKutta", 2, 2);
+    --depth;
+}
+
+void layout_RuntimeIntegrator_serialize_body(JsonValue& record, Scope& scope) {
+    enter_layout();
+    record["layouts"].a.push_back(JsonValue("Integrator::serialize_body"));
+    layout_Integrator_serialize_body(record, scope);
+    version(record, "RuntimeIntegrator", 1, 1);
+    field(record, "RuntimeIntegrator::group_start", "std::vector<casadi_int>", [&]() { return read_std_vector_casadi_int(); });
+    field(record, "RuntimeIntegrator::nx_err", "casadi_int", [&]() { return number("casadi_int"); });
+    field(record, "RuntimeIntegrator::nz_err", "casadi_int", [&]() { return number("casadi_int"); });
+    field(record, "RuntimeIntegrator::nq_err", "casadi_int", [&]() { return number("casadi_int"); });
+    field(record, "RuntimeIntegrator::sp_jac", "std::vector<Sparsity>", [&]() { return read_std_vector_Sparsity(); });
+    field(record, "RuntimeIntegrator::step_size", "double", [&]() { return number("double"); });
+    field(record, "RuntimeIntegrator::abstol", "double", [&]() { return number("double"); });
+    field(record, "RuntimeIntegrator::reltol", "double", [&]() { return number("double"); });
+    field(record, "RuntimeIntegrator::step0", "double", [&]() { return number("double"); });
+    field(record, "RuntimeIntegrator::max_step_size", "double", [&]() { return number("double"); });
+    field(record, "RuntimeIntegrator::min_step_size", "double", [&]() { return number("double"); });
+    field(record, "RuntimeIntegrator::max_num_steps", "casadi_int", [&]() { return number("casadi_int"); });
+    field(record, "RuntimeIntegrator::max_tape_steps", "casadi_int", [&]() { return number("casadi_int"); });
+    field(record, "RuntimeIntegrator::quad_err_con", "bool", [&]() { return boolvalue(); });
     --depth;
 }
 
@@ -3541,12 +3593,18 @@ void read_Function_body(JsonValue& record, Scope& scope) {
             } else if (tag_17 == "cvodes") {
                 record["layouts"].a.push_back(JsonValue("CvodesInterface::serialize_body"));
                 layout_CvodesInterface_serialize_body(record, scope);
+            } else if (tag_17 == "erk") {
+                record["layouts"].a.push_back(JsonValue("Erk::serialize_body"));
+                layout_Erk_serialize_body(record, scope);
             } else if (tag_17 == "idas") {
                 record["layouts"].a.push_back(JsonValue("IdasInterface::serialize_body"));
                 layout_IdasInterface_serialize_body(record, scope);
             } else if (tag_17 == "rk") {
                 record["layouts"].a.push_back(JsonValue("RungeKutta::serialize_body"));
                 layout_RungeKutta_serialize_body(record, scope);
+            } else if (tag_17 == "rosenbrock") {
+                record["layouts"].a.push_back(JsonValue("Rosenbrock::serialize_body"));
+                layout_Rosenbrock_serialize_body(record, scope);
             } else {
                 fail("Unknown serialization discriminator");
             }

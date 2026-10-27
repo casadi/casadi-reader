@@ -650,7 +650,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'FunctionInternal::serialize_body');
             self.layout_FunctionInternal_serialize_body(record, scope);
-            scope(['Conic' '::serialization::version']) = self.version(record, 'Conic', 1, 4);
+            scope(['Conic' '::serialization::version']) = self.version(record, 'Conic', 1, 6);
             self.field(record, 'Conic::discrete', 'std::vector<bool>', @() self.read_std_vector_bool());
             if self.truth((scope('Conic::serialization::version') >= 3))
                 self.field(record, 'Conic::equality', 'std::vector<bool>', @() self.read_std_vector_bool());
@@ -658,6 +658,14 @@ classdef Document < handle
             self.field(record, 'Conic::print_problem', 'bool', @() self.boolValue());
             if self.truth((scope('Conic::serialization::version') >= 4))
                 self.field(record, 'Conic::solver_version_check', 'bool', @() self.boolValue());
+            end
+            if self.truth((scope('Conic::serialization::version') >= 5))
+                self.field(record, 'Conic::sens_min_lam', 'double', @() self.number('double'));
+                self.field(record, 'Conic::sens_linsol', 'std::string', @() self.stringValue());
+                self.field(record, 'Conic::sens_linsol_options', 'Dict', @() self.read_Dict());
+            end
+            if self.truth((scope('Conic::serialization::version') >= 6))
+                self.field(record, 'Conic::sens_force_equality', 'bool', @() self.boolValue());
             end
             if self.truth(isequal(scope('Conic::serialization::version'), 1))
                 self.field(record, 'Conic::error_on_fail', 'bool', @() self.boolValue());
@@ -1040,6 +1048,15 @@ classdef Document < handle
             self.field(record, 'Einstein::strides_b', 'std::vector<casadi_int>', @() self.read_std_vector_casadi_int());
             self.field(record, 'Einstein::strides_c', 'std::vector<casadi_int>', @() self.read_std_vector_casadi_int());
             self.field(record, 'Einstein::n_iter', 'casadi_int', @() self.number('casadi_int'));
+            self.depth = self.depth - 1;
+        end
+
+        function layout_Erk_serialize_body(self, record, scope)
+            self.enterLayout();
+            self.recordLayout(record, 'RuntimeIntegrator::serialize_body');
+            self.layout_RuntimeIntegrator_serialize_body(record, scope);
+            self.version(record, 'Erk', 1, 1);
+            self.field(record, 'Erk::method', 'std::string', @() self.stringValue());
             self.depth = self.depth - 1;
         end
 
@@ -1798,7 +1815,7 @@ classdef Document < handle
             self.enterLayout();
             self.version(record, 'ImporterInternal', 1, 1);
             self.field(record, 'ImporterInternal::name', 'std::string', @() self.stringValue());
-            self.field(record, 'ImporterInternal::meta', 'std::map<std::string,std::pair<casadi_int,std::string>>', @() self.read_std_map_std_string_std_pair_casadi_int__327());
+            self.field(record, 'ImporterInternal::meta', 'std::map<std::string,std::pair<casadi_int,std::string>>', @() self.read_std_map_std_string_std_pair_casadi_int__330());
             self.field(record, 'ImporterInternal::external', 'std::map<std::string,std::pair<bool,std::string>>', @() self.read_std_map_std_string_std_pair_bool_std_string());
             self.depth = self.depth - 1;
         end
@@ -2215,7 +2232,7 @@ classdef Document < handle
                 self.field(record, 'MXFunction::dump_trace', 'bool', @() self.boolValue());
             end
             self.recordLayout(record, 'XFunction<MXFunction,MX,MXNode>::delayed_serialize_members');
-            self.layout_XFunction_MXFunction_MX_MXNode_delaye_278(record, scope);
+            self.layout_XFunction_MXFunction_MX_MXNode_delaye_281(record, scope);
             self.depth = self.depth - 1;
         end
 
@@ -2423,7 +2440,7 @@ classdef Document < handle
             self.enterLayout();
             self.recordLayout(record, 'OracleFunction::serialize_body');
             self.layout_OracleFunction_serialize_body(record, scope);
-            scope(['Nlpsol' '::serialization::version']) = self.version(record, 'Nlpsol', 1, 5);
+            scope(['Nlpsol' '::serialization::version']) = self.version(record, 'Nlpsol', 1, 6);
             self.field(record, 'Nlpsol::nx', 'casadi_int', @() self.number('casadi_int'));
             self.field(record, 'Nlpsol::ng', 'casadi_int', @() self.number('casadi_int'));
             self.field(record, 'Nlpsol::np', 'casadi_int', @() self.number('casadi_int'));
@@ -2451,6 +2468,9 @@ classdef Document < handle
             if self.truth((scope('Nlpsol::serialization::version') >= 2))
                 self.field(record, 'Nlpsol::sens_linsol', 'std::string', @() self.stringValue());
                 self.field(record, 'Nlpsol::sens_linsol_options', 'Dict', @() self.read_Dict());
+            end
+            if self.truth((scope('Nlpsol::serialization::version') >= 6))
+                self.field(record, 'Nlpsol::sens_force_equality', 'bool', @() self.boolValue());
             end
             if self.truth((scope('Nlpsol::serialization::version') >= 3))
                 self.field(record, 'Nlpsol::detect_simple_bounds_is_simple', 'std::vector<char>', @() self.read_std_vector_char());
@@ -2964,11 +2984,43 @@ classdef Document < handle
             self.depth = self.depth - 1;
         end
 
+        function layout_Rosenbrock_serialize_body(self, record, scope)
+            self.enterLayout();
+            self.recordLayout(record, 'RuntimeIntegrator::serialize_body');
+            self.layout_RuntimeIntegrator_serialize_body(record, scope);
+            self.version(record, 'Rosenbrock', 1, 1);
+            self.field(record, 'Rosenbrock::init_tol', 'double', @() self.number('double'));
+            self.field(record, 'Rosenbrock::init_max_iter', 'casadi_int', @() self.number('casadi_int'));
+            self.depth = self.depth - 1;
+        end
+
         function layout_RungeKutta_serialize_body(self, record, scope)
             self.enterLayout();
             self.recordLayout(record, 'FixedStepIntegrator::serialize_body');
             self.layout_FixedStepIntegrator_serialize_body(record, scope);
             self.version(record, 'RungeKutta', 2, 2);
+            self.depth = self.depth - 1;
+        end
+
+        function layout_RuntimeIntegrator_serialize_body(self, record, scope)
+            self.enterLayout();
+            self.recordLayout(record, 'Integrator::serialize_body');
+            self.layout_Integrator_serialize_body(record, scope);
+            self.version(record, 'RuntimeIntegrator', 1, 1);
+            self.field(record, 'RuntimeIntegrator::group_start', 'std::vector<casadi_int>', @() self.read_std_vector_casadi_int());
+            self.field(record, 'RuntimeIntegrator::nx_err', 'casadi_int', @() self.number('casadi_int'));
+            self.field(record, 'RuntimeIntegrator::nz_err', 'casadi_int', @() self.number('casadi_int'));
+            self.field(record, 'RuntimeIntegrator::nq_err', 'casadi_int', @() self.number('casadi_int'));
+            self.field(record, 'RuntimeIntegrator::sp_jac', 'std::vector<Sparsity>', @() self.read_std_vector_Sparsity());
+            self.field(record, 'RuntimeIntegrator::step_size', 'double', @() self.number('double'));
+            self.field(record, 'RuntimeIntegrator::abstol', 'double', @() self.number('double'));
+            self.field(record, 'RuntimeIntegrator::reltol', 'double', @() self.number('double'));
+            self.field(record, 'RuntimeIntegrator::step0', 'double', @() self.number('double'));
+            self.field(record, 'RuntimeIntegrator::max_step_size', 'double', @() self.number('double'));
+            self.field(record, 'RuntimeIntegrator::min_step_size', 'double', @() self.number('double'));
+            self.field(record, 'RuntimeIntegrator::max_num_steps', 'casadi_int', @() self.number('casadi_int'));
+            self.field(record, 'RuntimeIntegrator::max_tape_steps', 'casadi_int', @() self.number('casadi_int'));
+            self.field(record, 'RuntimeIntegrator::quad_err_con', 'bool', @() self.boolValue());
             self.depth = self.depth - 1;
         end
 
@@ -3033,7 +3085,7 @@ classdef Document < handle
                 self.field(record, 'SXFunction::dump_trace', 'bool', @() self.boolValue());
             end
             self.recordLayout(record, 'XFunction<SXFunction,SX,SXNode>::delayed_serialize_members');
-            self.layout_XFunction_SXFunction_SX_SXNode_delaye_280(record, scope);
+            self.layout_XFunction_SXFunction_SX_SXNode_delaye_283(record, scope);
             self.depth = self.depth - 1;
         end
 
@@ -3542,7 +3594,7 @@ classdef Document < handle
             self.depth = self.depth - 1;
         end
 
-        function layout_XFunction_MXFunction_MX_MXNode_delaye_278(self, record, scope)
+        function layout_XFunction_MXFunction_MX_MXNode_delaye_281(self, record, scope)
             self.enterLayout();
             self.field(record, 'XFunction::out', 'std::vector<MX>', @() self.read_std_vector_MX());
             self.depth = self.depth - 1;
@@ -3557,7 +3609,7 @@ classdef Document < handle
             self.depth = self.depth - 1;
         end
 
-        function layout_XFunction_SXFunction_SX_SXNode_delaye_280(self, record, scope)
+        function layout_XFunction_SXFunction_SX_SXNode_delaye_283(self, record, scope)
             self.enterLayout();
             self.field(record, 'XFunction::out', 'std::vector<SX>', @() self.read_std_vector_SX());
             self.depth = self.depth - 1;
@@ -3842,12 +3894,18 @@ classdef Document < handle
                             case 'cvodes'
                                 self.recordLayout(record, 'CvodesInterface::serialize_body');
                                 self.layout_CvodesInterface_serialize_body(record, scope);
+                            case 'erk'
+                                self.recordLayout(record, 'Erk::serialize_body');
+                                self.layout_Erk_serialize_body(record, scope);
                             case 'idas'
                                 self.recordLayout(record, 'IdasInterface::serialize_body');
                                 self.layout_IdasInterface_serialize_body(record, scope);
                             case 'rk'
                                 self.recordLayout(record, 'RungeKutta::serialize_body');
                                 self.layout_RungeKutta_serialize_body(record, scope);
+                            case 'rosenbrock'
+                                self.recordLayout(record, 'Rosenbrock::serialize_body');
+                                self.layout_Rosenbrock_serialize_body(record, scope);
                             otherwise
                                 self.fail('Unknown serialization discriminator');
                         end
@@ -5077,7 +5135,7 @@ classdef Document < handle
             v = {self.number('casadi_int'), self.stringValue()};
         end
 
-        function v = read_std_map_std_string_std_pair_casadi_int__327(self)
+        function v = read_std_map_std_string_std_pair_casadi_int__330(self)
             self.decoration('D');
             n = self.count(self.number('casadi_int'));
             v = cell(1, n);
@@ -5295,7 +5353,7 @@ classdef Document < handle
                 case 'std::pair<casadi_int,std::string>'
                     v = self.read_std_pair_casadi_int_std_string();
                 case 'std::map<std::string,std::pair<casadi_int,std::string>>'
-                    v = self.read_std_map_std_string_std_pair_casadi_int__327();
+                    v = self.read_std_map_std_string_std_pair_casadi_int__330();
                 case 'std::pair<bool,std::string>'
                     v = self.read_std_pair_bool_std_string();
                 case 'std::map<std::string,std::pair<bool,std::string>>'

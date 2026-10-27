@@ -68,6 +68,7 @@ static void layout_DirResource_serialize_type(cr_document* d, J* record, J* scop
 static void layout_Dot_serialize_body(cr_document* d, J* record, J* scope);
 static void layout_Dump_serialize_body(cr_document* d, J* record, J* scope);
 static void layout_Einstein_serialize_body(cr_document* d, J* record, J* scope);
+static void layout_Erk_serialize_body(cr_document* d, J* record, J* scope);
 static void layout_External_serialize_body(cr_document* d, J* record, J* scope);
 static void layout_FastNewton_serialize_body(cr_document* d, J* record, J* scope);
 static void layout_FatropConicInterface_serialize_body(cr_document* d, J* record, J* scope);
@@ -225,7 +226,9 @@ static void layout_ResourceInternal_serialize_body(cr_document* d, J* record, J*
 static void layout_ResourceInternal_serialize_type(cr_document* d, J* record, J* scope);
 static void layout_Rootfinder_serialize_body(cr_document* d, J* record, J* scope);
 static void layout_Rootfinder_serialize_type(cr_document* d, J* record, J* scope);
+static void layout_Rosenbrock_serialize_body(cr_document* d, J* record, J* scope);
 static void layout_RungeKutta_serialize_body(cr_document* d, J* record, J* scope);
+static void layout_RuntimeIntegrator_serialize_body(cr_document* d, J* record, J* scope);
 static void layout_SLEQPInterface_serialize_body(cr_document* d, J* record, J* scope);
 static void layout_SXElem_serialize(cr_document* d, J* record, J* scope);
 static void layout_SXFunction_serialize_body(cr_document* d, J* record, J* scope);
@@ -751,7 +754,7 @@ static void layout_Conic_serialize_body(cr_document* d, J* record, J* scope) {
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "FunctionInternal::serialize_body"));
     layout_FunctionInternal_serialize_body(d, record, scope);
-    set(d, scope, text(concat(d, "Conic", "::serialization::version")), version(d, record, "Conic", 1, 4));
+    set(d, scope, text(concat(d, "Conic", "::serialization::version")), version(d, record, "Conic", 1, 6));
     field(d, record, "Conic::discrete", "std::vector<bool>", read_std_vector_bool);
     if (truth(boolean(d, numeric(scope_value(d, scope, "Conic::serialization::version")) >= numeric(integer(d, 3))))) {
         field(d, record, "Conic::equality", "std::vector<bool>", read_std_vector_bool);
@@ -759,6 +762,14 @@ static void layout_Conic_serialize_body(cr_document* d, J* record, J* scope) {
     field(d, record, "Conic::print_problem", "bool", primitive_bool);
     if (truth(boolean(d, numeric(scope_value(d, scope, "Conic::serialization::version")) >= numeric(integer(d, 4))))) {
         field(d, record, "Conic::solver_version_check", "bool", primitive_bool);
+    }
+    if (truth(boolean(d, numeric(scope_value(d, scope, "Conic::serialization::version")) >= numeric(integer(d, 5))))) {
+        field(d, record, "Conic::sens_min_lam", "double", primitive_double);
+        field(d, record, "Conic::sens_linsol", "std::string", primitive_std__string);
+        field(d, record, "Conic::sens_linsol_options", "Dict", read_Dict);
+    }
+    if (truth(boolean(d, numeric(scope_value(d, scope, "Conic::serialization::version")) >= numeric(integer(d, 6))))) {
+        field(d, record, "Conic::sens_force_equality", "bool", primitive_bool);
     }
     if (equal(scope_value(d, scope, "Conic::serialization::version"), integer(d, 1))) {
         field(d, record, "Conic::error_on_fail", "bool", primitive_bool);
@@ -1141,6 +1152,15 @@ static void layout_Einstein_serialize_body(cr_document* d, J* record, J* scope) 
     field(d, record, "Einstein::strides_b", "std::vector<casadi_int>", read_std_vector_casadi_int);
     field(d, record, "Einstein::strides_c", "std::vector<casadi_int>", read_std_vector_casadi_int);
     field(d, record, "Einstein::n_iter", "casadi_int", primitive_casadi_int);
+    --d->depth;
+}
+
+static void layout_Erk_serialize_body(cr_document* d, J* record, J* scope) {
+    enter_layout(d);
+    push(d, get(record, "layouts"), str(d, "RuntimeIntegrator::serialize_body"));
+    layout_RuntimeIntegrator_serialize_body(d, record, scope);
+    version(d, record, "Erk", 1, 1);
+    field(d, record, "Erk::method", "std::string", primitive_std__string);
     --d->depth;
 }
 
@@ -2527,7 +2547,7 @@ static void layout_Nlpsol_serialize_body(cr_document* d, J* record, J* scope) {
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "OracleFunction::serialize_body"));
     layout_OracleFunction_serialize_body(d, record, scope);
-    set(d, scope, text(concat(d, "Nlpsol", "::serialization::version")), version(d, record, "Nlpsol", 1, 5));
+    set(d, scope, text(concat(d, "Nlpsol", "::serialization::version")), version(d, record, "Nlpsol", 1, 6));
     field(d, record, "Nlpsol::nx", "casadi_int", primitive_casadi_int);
     field(d, record, "Nlpsol::ng", "casadi_int", primitive_casadi_int);
     field(d, record, "Nlpsol::np", "casadi_int", primitive_casadi_int);
@@ -2555,6 +2575,9 @@ static void layout_Nlpsol_serialize_body(cr_document* d, J* record, J* scope) {
     if (truth(boolean(d, numeric(scope_value(d, scope, "Nlpsol::serialization::version")) >= numeric(integer(d, 2))))) {
         field(d, record, "Nlpsol::sens_linsol", "std::string", primitive_std__string);
         field(d, record, "Nlpsol::sens_linsol_options", "Dict", read_Dict);
+    }
+    if (truth(boolean(d, numeric(scope_value(d, scope, "Nlpsol::serialization::version")) >= numeric(integer(d, 6))))) {
+        field(d, record, "Nlpsol::sens_force_equality", "bool", primitive_bool);
     }
     if (truth(boolean(d, numeric(scope_value(d, scope, "Nlpsol::serialization::version")) >= numeric(integer(d, 3))))) {
         field(d, record, "Nlpsol::detect_simple_bounds_is_simple", "std::vector<char>", read_std_vector_char);
@@ -3069,11 +3092,43 @@ static void layout_Rootfinder_serialize_type(cr_document* d, J* record, J* scope
     --d->depth;
 }
 
+static void layout_Rosenbrock_serialize_body(cr_document* d, J* record, J* scope) {
+    enter_layout(d);
+    push(d, get(record, "layouts"), str(d, "RuntimeIntegrator::serialize_body"));
+    layout_RuntimeIntegrator_serialize_body(d, record, scope);
+    version(d, record, "Rosenbrock", 1, 1);
+    field(d, record, "Rosenbrock::init_tol", "double", primitive_double);
+    field(d, record, "Rosenbrock::init_max_iter", "casadi_int", primitive_casadi_int);
+    --d->depth;
+}
+
 static void layout_RungeKutta_serialize_body(cr_document* d, J* record, J* scope) {
     enter_layout(d);
     push(d, get(record, "layouts"), str(d, "FixedStepIntegrator::serialize_body"));
     layout_FixedStepIntegrator_serialize_body(d, record, scope);
     version(d, record, "RungeKutta", 2, 2);
+    --d->depth;
+}
+
+static void layout_RuntimeIntegrator_serialize_body(cr_document* d, J* record, J* scope) {
+    enter_layout(d);
+    push(d, get(record, "layouts"), str(d, "Integrator::serialize_body"));
+    layout_Integrator_serialize_body(d, record, scope);
+    version(d, record, "RuntimeIntegrator", 1, 1);
+    field(d, record, "RuntimeIntegrator::group_start", "std::vector<casadi_int>", read_std_vector_casadi_int);
+    field(d, record, "RuntimeIntegrator::nx_err", "casadi_int", primitive_casadi_int);
+    field(d, record, "RuntimeIntegrator::nz_err", "casadi_int", primitive_casadi_int);
+    field(d, record, "RuntimeIntegrator::nq_err", "casadi_int", primitive_casadi_int);
+    field(d, record, "RuntimeIntegrator::sp_jac", "std::vector<Sparsity>", read_std_vector_Sparsity);
+    field(d, record, "RuntimeIntegrator::step_size", "double", primitive_double);
+    field(d, record, "RuntimeIntegrator::abstol", "double", primitive_double);
+    field(d, record, "RuntimeIntegrator::reltol", "double", primitive_double);
+    field(d, record, "RuntimeIntegrator::step0", "double", primitive_double);
+    field(d, record, "RuntimeIntegrator::max_step_size", "double", primitive_double);
+    field(d, record, "RuntimeIntegrator::min_step_size", "double", primitive_double);
+    field(d, record, "RuntimeIntegrator::max_num_steps", "casadi_int", primitive_casadi_int);
+    field(d, record, "RuntimeIntegrator::max_tape_steps", "casadi_int", primitive_casadi_int);
+    field(d, record, "RuntimeIntegrator::quad_err_con", "bool", primitive_bool);
     --d->depth;
 }
 
@@ -3944,12 +3999,18 @@ static void read_Function_body(cr_document* d, J* record, J* scope) {
             } else if (!strcmp(tag_17, "cvodes")) {
                 push(d, get(record, "layouts"), str(d, "CvodesInterface::serialize_body"));
                 layout_CvodesInterface_serialize_body(d, record, scope);
+            } else if (!strcmp(tag_17, "erk")) {
+                push(d, get(record, "layouts"), str(d, "Erk::serialize_body"));
+                layout_Erk_serialize_body(d, record, scope);
             } else if (!strcmp(tag_17, "idas")) {
                 push(d, get(record, "layouts"), str(d, "IdasInterface::serialize_body"));
                 layout_IdasInterface_serialize_body(d, record, scope);
             } else if (!strcmp(tag_17, "rk")) {
                 push(d, get(record, "layouts"), str(d, "RungeKutta::serialize_body"));
                 layout_RungeKutta_serialize_body(d, record, scope);
+            } else if (!strcmp(tag_17, "rosenbrock")) {
+                push(d, get(record, "layouts"), str(d, "Rosenbrock::serialize_body"));
+                layout_Rosenbrock_serialize_body(d, record, scope);
             } else {
                 fail(d, "%s", "Unknown serialization discriminator");
             }

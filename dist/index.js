@@ -307,7 +307,7 @@ function layout_Conic_serialize_body(r, record, scope) {
   r.enterLayout();
   record.layouts.push("FunctionInternal::serialize_body");
   layout_FunctionInternal_serialize_body(r, record, scope);
-  scope["Conic::serialization::version"] = r.version(record, "Conic", 1, 4);
+  scope["Conic::serialization::version"] = r.version(record, "Conic", 1, 6);
   r.field(record, "Conic::discrete", "std::vector<bool>", () => read_std_vector_bool(r));
   if (scope["Conic::serialization::version"] >= 3) {
     r.field(record, "Conic::equality", "std::vector<bool>", () => read_std_vector_bool(r));
@@ -315,6 +315,14 @@ function layout_Conic_serialize_body(r, record, scope) {
   r.field(record, "Conic::print_problem", "bool", () => r.boolean());
   if (scope["Conic::serialization::version"] >= 4) {
     r.field(record, "Conic::solver_version_check", "bool", () => r.boolean());
+  }
+  if (scope["Conic::serialization::version"] >= 5) {
+    r.field(record, "Conic::sens_min_lam", "double", () => r.number("double"));
+    r.field(record, "Conic::sens_linsol", "std::string", () => r.string());
+    r.field(record, "Conic::sens_linsol_options", "Dict", () => read_Dict(r));
+  }
+  if (scope["Conic::serialization::version"] >= 6) {
+    r.field(record, "Conic::sens_force_equality", "bool", () => r.boolean());
   }
   if (scope["Conic::serialization::version"] === 1) {
     r.field(record, "Conic::error_on_fail", "bool", () => r.boolean());
@@ -553,6 +561,14 @@ function layout_Einstein_serialize_body(r, record, scope) {
   r.field(record, "Einstein::strides_b", "std::vector<casadi_int>", () => read_std_vector_casadi_int(r));
   r.field(record, "Einstein::strides_c", "std::vector<casadi_int>", () => read_std_vector_casadi_int(r));
   r.field(record, "Einstein::n_iter", "casadi_int", () => r.number("casadi_int"));
+  --r.depth;
+}
+function layout_Erk_serialize_body(r, record, scope) {
+  r.enterLayout();
+  record.layouts.push("RuntimeIntegrator::serialize_body");
+  layout_RuntimeIntegrator_serialize_body(r, record, scope);
+  r.version(record, "Erk", 1, 1);
+  r.field(record, "Erk::method", "std::string", () => r.string());
   --r.depth;
 }
 function layout_External_serialize_body(r, record, scope) {
@@ -1558,7 +1574,7 @@ function layout_Nlpsol_serialize_body(r, record, scope) {
   r.enterLayout();
   record.layouts.push("OracleFunction::serialize_body");
   layout_OracleFunction_serialize_body(r, record, scope);
-  scope["Nlpsol::serialization::version"] = r.version(record, "Nlpsol", 1, 5);
+  scope["Nlpsol::serialization::version"] = r.version(record, "Nlpsol", 1, 6);
   r.field(record, "Nlpsol::nx", "casadi_int", () => r.number("casadi_int"));
   r.field(record, "Nlpsol::ng", "casadi_int", () => r.number("casadi_int"));
   r.field(record, "Nlpsol::np", "casadi_int", () => r.number("casadi_int"));
@@ -1586,6 +1602,9 @@ function layout_Nlpsol_serialize_body(r, record, scope) {
   if (scope["Nlpsol::serialization::version"] >= 2) {
     r.field(record, "Nlpsol::sens_linsol", "std::string", () => r.string());
     r.field(record, "Nlpsol::sens_linsol_options", "Dict", () => read_Dict(r));
+  }
+  if (scope["Nlpsol::serialization::version"] >= 6) {
+    r.field(record, "Nlpsol::sens_force_equality", "bool", () => r.boolean());
   }
   if (scope["Nlpsol::serialization::version"] >= 3) {
     r.field(record, "Nlpsol::detect_simple_bounds_is_simple", "std::vector<char>", () => read_std_vector_char(r));
@@ -1971,11 +1990,41 @@ function layout_Rootfinder_serialize_body(r, record, scope) {
   r.field(record, "Rootfinder::iout", "casadi_int", () => r.number("casadi_int"));
   --r.depth;
 }
+function layout_Rosenbrock_serialize_body(r, record, scope) {
+  r.enterLayout();
+  record.layouts.push("RuntimeIntegrator::serialize_body");
+  layout_RuntimeIntegrator_serialize_body(r, record, scope);
+  r.version(record, "Rosenbrock", 1, 1);
+  r.field(record, "Rosenbrock::init_tol", "double", () => r.number("double"));
+  r.field(record, "Rosenbrock::init_max_iter", "casadi_int", () => r.number("casadi_int"));
+  --r.depth;
+}
 function layout_RungeKutta_serialize_body(r, record, scope) {
   r.enterLayout();
   record.layouts.push("FixedStepIntegrator::serialize_body");
   layout_FixedStepIntegrator_serialize_body(r, record, scope);
   r.version(record, "RungeKutta", 2, 2);
+  --r.depth;
+}
+function layout_RuntimeIntegrator_serialize_body(r, record, scope) {
+  r.enterLayout();
+  record.layouts.push("Integrator::serialize_body");
+  layout_Integrator_serialize_body(r, record, scope);
+  r.version(record, "RuntimeIntegrator", 1, 1);
+  r.field(record, "RuntimeIntegrator::group_start", "std::vector<casadi_int>", () => read_std_vector_casadi_int(r));
+  r.field(record, "RuntimeIntegrator::nx_err", "casadi_int", () => r.number("casadi_int"));
+  r.field(record, "RuntimeIntegrator::nz_err", "casadi_int", () => r.number("casadi_int"));
+  r.field(record, "RuntimeIntegrator::nq_err", "casadi_int", () => r.number("casadi_int"));
+  r.field(record, "RuntimeIntegrator::sp_jac", "std::vector<Sparsity>", () => read_std_vector_Sparsity(r));
+  r.field(record, "RuntimeIntegrator::step_size", "double", () => r.number("double"));
+  r.field(record, "RuntimeIntegrator::abstol", "double", () => r.number("double"));
+  r.field(record, "RuntimeIntegrator::reltol", "double", () => r.number("double"));
+  r.field(record, "RuntimeIntegrator::step0", "double", () => r.number("double"));
+  r.field(record, "RuntimeIntegrator::max_step_size", "double", () => r.number("double"));
+  r.field(record, "RuntimeIntegrator::min_step_size", "double", () => r.number("double"));
+  r.field(record, "RuntimeIntegrator::max_num_steps", "casadi_int", () => r.number("casadi_int"));
+  r.field(record, "RuntimeIntegrator::max_tape_steps", "casadi_int", () => r.number("casadi_int"));
+  r.field(record, "RuntimeIntegrator::quad_err_con", "bool", () => r.boolean());
   --r.depth;
 }
 function layout_SLEQPInterface_serialize_body(r, record, scope) {
@@ -2682,6 +2731,11 @@ function read_Function_body(r, record, scope) {
             layout_CvodesInterface_serialize_body(r, record, scope);
             break;
           }
+          case "erk": {
+            record.layouts.push("Erk::serialize_body");
+            layout_Erk_serialize_body(r, record, scope);
+            break;
+          }
           case "idas": {
             record.layouts.push("IdasInterface::serialize_body");
             layout_IdasInterface_serialize_body(r, record, scope);
@@ -2690,6 +2744,11 @@ function read_Function_body(r, record, scope) {
           case "rk": {
             record.layouts.push("RungeKutta::serialize_body");
             layout_RungeKutta_serialize_body(r, record, scope);
+            break;
+          }
+          case "rosenbrock": {
+            record.layouts.push("Rosenbrock::serialize_body");
+            layout_Rosenbrock_serialize_body(r, record, scope);
             break;
           }
           default:

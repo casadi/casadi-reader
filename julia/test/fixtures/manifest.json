@@ -1,5 +1,5 @@
 {
-  "casadi_version": "3.8.1",
+  "casadi_version": "3.8.2",
   "cases": [
     {
       "file": "arithmetic.casadi",
@@ -2126,8 +2126,6 @@
     "linsol_tridiag.debug": ".../casadi/core/plugin_interface.hpp:167: Assertion \"m\" failed:\nPlugin \"tridiag\" does not support deserialize",
     "nlpsol_qrsqp": ".../casadi/core/plugin_interface.hpp:167: Assertion \"m\" failed:\nPlugin \"qrsqp\" does not support deserialize",
     "nlpsol_qrsqp.debug": ".../casadi/core/plugin_interface.hpp:167: Assertion \"m\" failed:\nPlugin \"qrsqp\" does not support deserialize",
-    "nlpsol_feasiblesqpmethod": ".../casadi/core/serializing_stream.hpp:198: Assertion \"false\" failed:\nNotify the CasADi developers.",
-    "nlpsol_feasiblesqpmethod.debug": ".../casadi/core/serializing_stream.hpp:151: Assertion \"d==descr\" failed:\nMismatch: 'Feasiblesqpmethod::qpsol_ela' expected, got 'Feasiblesqpmethod::exact_hessian'.",
     "conic_fatrop": ".../casadi/core/plugin_interface.hpp:167: Assertion \"m\" failed:\nPlugin \"fatrop\" does not support deserialize",
     "conic_fatrop.debug": ".../casadi/core/plugin_interface.hpp:167: Assertion \"m\" failed:\nPlugin \"fatrop\" does not support deserialize",
     "conic_hpipm": ".../casadi/core/plugin_interface.hpp:167: Assertion \"m\" failed:\nPlugin \"hpipm\" does not support deserialize",
@@ -2135,10 +2133,6 @@
     "mx_constant_pool.debug": ".../casadi/core/serializing_stream.hpp:151: Assertion \"d==descr\" failed:\nMismatch: 'ConstantMX::type' expected, got 'ConstantPool::type'.",
     "nlpsol_scpgen": ".../casadi/core/plugin_interface.hpp:167: Assertion \"m\" failed:\nPlugin \"scpgen\" does not support deserialize",
     "nlpsol_scpgen.debug": ".../casadi/core/plugin_interface.hpp:167: Assertion \"m\" failed:\nPlugin \"scpgen\" does not support deserialize",
-    "convexify_feasiblesqpmethod": ".../casadi/core/serializing_stream.hpp:198: Assertion \"false\" failed:\nNotify the CasADi developers.",
-    "convexify_feasiblesqpmethod.debug": ".../casadi/core/serializing_stream.hpp:151: Assertion \"d==descr\" failed:\nMismatch: 'Feasiblesqpmethod::qpsol_ela' expected, got 'Feasiblesqpmethod::exact_hessian'.",
-    "generic_bools": ".../casadi/core/generic_type.cpp:816: Not implemented: OT_BOOLVECTOR",
-    "generic_bools.debug": ".../casadi/core/generic_type.cpp:816: Not implemented: OT_BOOLVECTOR",
     "mx_constant_file.debug": ".../casadi/core/serializing_stream.hpp:151: Assertion \"d==descr\" failed:\nMismatch: 'ConstantMX::type' expected, got 'ConstantFile::type'."
   }
 }

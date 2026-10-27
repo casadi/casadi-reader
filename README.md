@@ -151,7 +151,7 @@ scheme takes the layout of every class CasADi can read at several versions from
 its deserializer: version guards, fields only older versions carry, defaults
 later conditions depend on, and the versions CasADi refuses with its own
 message. `test/fixtures/releases` holds plain and debug files written by CasADi
-3.5.5 to 3.8.1 (`scripts/generate-release-fixtures.py`); all six languages read
+3.5.5 to 3.8.2 (`scripts/generate-release-fixtures.py`); all six languages read
 them identically, and `expected.json` records the few that CasADi itself refuses.
 
 This is **not a guarantee that every CasADi class can be read**. Unsupported

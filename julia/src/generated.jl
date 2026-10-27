@@ -349,7 +349,7 @@ function layout_Conic_serialize_body(r, record, scope)
     enter_layout(r)
     push!(record["layouts"], "FunctionInternal::serialize_body")
     layout_FunctionInternal_serialize_body(r, record, scope)
-    scope["Conic" * "::serialization::version"] = version(r, record, "Conic", 1, 4)
+    scope["Conic" * "::serialization::version"] = version(r, record, "Conic", 1, 6)
     field(r, record, "Conic::discrete", "std::vector<bool>", () -> read_std_vector_bool(r))
     if truth((scope["Conic::serialization::version"] >= 3))
         field(r, record, "Conic::equality", "std::vector<bool>", () -> read_std_vector_bool(r))
@@ -357,6 +357,14 @@ function layout_Conic_serialize_body(r, record, scope)
     field(r, record, "Conic::print_problem", "bool", () -> boolvalue(r))
     if truth((scope["Conic::serialization::version"] >= 4))
         field(r, record, "Conic::solver_version_check", "bool", () -> boolvalue(r))
+    end
+    if truth((scope["Conic::serialization::version"] >= 5))
+        field(r, record, "Conic::sens_min_lam", "double", () -> number(r, "double"))
+        field(r, record, "Conic::sens_linsol", "std::string", () -> stringvalue(r))
+        field(r, record, "Conic::sens_linsol_options", "Dict", () -> read_Dict(r))
+    end
+    if truth((scope["Conic::serialization::version"] >= 6))
+        field(r, record, "Conic::sens_force_equality", "bool", () -> boolvalue(r))
     end
     if truth((scope["Conic::serialization::version"] == 1))
         field(r, record, "Conic::error_on_fail", "bool", () -> boolvalue(r))
@@ -739,6 +747,15 @@ function layout_Einstein_serialize_body(r, record, scope)
     field(r, record, "Einstein::strides_b", "std::vector<casadi_int>", () -> read_std_vector_casadi_int(r))
     field(r, record, "Einstein::strides_c", "std::vector<casadi_int>", () -> read_std_vector_casadi_int(r))
     field(r, record, "Einstein::n_iter", "casadi_int", () -> number(r, "casadi_int"))
+    r.depth -= 1
+end
+
+function layout_Erk_serialize_body(r, record, scope)
+    enter_layout(r)
+    push!(record["layouts"], "RuntimeIntegrator::serialize_body")
+    layout_RuntimeIntegrator_serialize_body(r, record, scope)
+    version(r, record, "Erk", 1, 1)
+    field(r, record, "Erk::method", "std::string", () -> stringvalue(r))
     r.depth -= 1
 end
 
@@ -2122,7 +2139,7 @@ function layout_Nlpsol_serialize_body(r, record, scope)
     enter_layout(r)
     push!(record["layouts"], "OracleFunction::serialize_body")
     layout_OracleFunction_serialize_body(r, record, scope)
-    scope["Nlpsol" * "::serialization::version"] = version(r, record, "Nlpsol", 1, 5)
+    scope["Nlpsol" * "::serialization::version"] = version(r, record, "Nlpsol", 1, 6)
     field(r, record, "Nlpsol::nx", "casadi_int", () -> number(r, "casadi_int"))
     field(r, record, "Nlpsol::ng", "casadi_int", () -> number(r, "casadi_int"))
     field(r, record, "Nlpsol::np", "casadi_int", () -> number(r, "casadi_int"))
@@ -2150,6 +2167,9 @@ function layout_Nlpsol_serialize_body(r, record, scope)
     if truth((scope["Nlpsol::serialization::version"] >= 2))
         field(r, record, "Nlpsol::sens_linsol", "std::string", () -> stringvalue(r))
         field(r, record, "Nlpsol::sens_linsol_options", "Dict", () -> read_Dict(r))
+    end
+    if truth((scope["Nlpsol::serialization::version"] >= 6))
+        field(r, record, "Nlpsol::sens_force_equality", "bool", () -> boolvalue(r))
     end
     if truth((scope["Nlpsol::serialization::version"] >= 3))
         field(r, record, "Nlpsol::detect_simple_bounds_is_simple", "std::vector<char>", () -> read_std_vector_char(r))
@@ -2663,11 +2683,43 @@ function layout_Rootfinder_serialize_type(r, record, scope)
     r.depth -= 1
 end
 
+function layout_Rosenbrock_serialize_body(r, record, scope)
+    enter_layout(r)
+    push!(record["layouts"], "RuntimeIntegrator::serialize_body")
+    layout_RuntimeIntegrator_serialize_body(r, record, scope)
+    version(r, record, "Rosenbrock", 1, 1)
+    field(r, record, "Rosenbrock::init_tol", "double", () -> number(r, "double"))
+    field(r, record, "Rosenbrock::init_max_iter", "casadi_int", () -> number(r, "casadi_int"))
+    r.depth -= 1
+end
+
 function layout_RungeKutta_serialize_body(r, record, scope)
     enter_layout(r)
     push!(record["layouts"], "FixedStepIntegrator::serialize_body")
     layout_FixedStepIntegrator_serialize_body(r, record, scope)
     version(r, record, "RungeKutta", 2, 2)
+    r.depth -= 1
+end
+
+function layout_RuntimeIntegrator_serialize_body(r, record, scope)
+    enter_layout(r)
+    push!(record["layouts"], "Integrator::serialize_body")
+    layout_Integrator_serialize_body(r, record, scope)
+    version(r, record, "RuntimeIntegrator", 1, 1)
+    field(r, record, "RuntimeIntegrator::group_start", "std::vector<casadi_int>", () -> read_std_vector_casadi_int(r))
+    field(r, record, "RuntimeIntegrator::nx_err", "casadi_int", () -> number(r, "casadi_int"))
+    field(r, record, "RuntimeIntegrator::nz_err", "casadi_int", () -> number(r, "casadi_int"))
+    field(r, record, "RuntimeIntegrator::nq_err", "casadi_int", () -> number(r, "casadi_int"))
+    field(r, record, "RuntimeIntegrator::sp_jac", "std::vector<Sparsity>", () -> read_std_vector_Sparsity(r))
+    field(r, record, "RuntimeIntegrator::step_size", "double", () -> number(r, "double"))
+    field(r, record, "RuntimeIntegrator::abstol", "double", () -> number(r, "double"))
+    field(r, record, "RuntimeIntegrator::reltol", "double", () -> number(r, "double"))
+    field(r, record, "RuntimeIntegrator::step0", "double", () -> number(r, "double"))
+    field(r, record, "RuntimeIntegrator::max_step_size", "double", () -> number(r, "double"))
+    field(r, record, "RuntimeIntegrator::min_step_size", "double", () -> number(r, "double"))
+    field(r, record, "RuntimeIntegrator::max_num_steps", "casadi_int", () -> number(r, "casadi_int"))
+    field(r, record, "RuntimeIntegrator::max_tape_steps", "casadi_int", () -> number(r, "casadi_int"))
+    field(r, record, "RuntimeIntegrator::quad_err_con", "bool", () -> boolvalue(r))
     r.depth -= 1
 end
 
@@ -3536,12 +3588,18 @@ function read_Function_body(r, record, scope)
             elseif tag_5 == "cvodes"
                 push!(record["layouts"], "CvodesInterface::serialize_body")
                 layout_CvodesInterface_serialize_body(r, record, scope)
+            elseif tag_5 == "erk"
+                push!(record["layouts"], "Erk::serialize_body")
+                layout_Erk_serialize_body(r, record, scope)
             elseif tag_5 == "idas"
                 push!(record["layouts"], "IdasInterface::serialize_body")
                 layout_IdasInterface_serialize_body(r, record, scope)
             elseif tag_5 == "rk"
                 push!(record["layouts"], "RungeKutta::serialize_body")
                 layout_RungeKutta_serialize_body(r, record, scope)
+            elseif tag_5 == "rosenbrock"
+                push!(record["layouts"], "Rosenbrock::serialize_body")
+                layout_Rosenbrock_serialize_body(r, record, scope)
             else
                 fail(r, "Unknown serialization discriminator")
             end

@@ -318,13 +318,19 @@ def layout_Conic_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('FunctionInternal::serialize_body')
     layout_FunctionInternal_serialize_body(r, record, scope)
-    scope['Conic' + "::serialization::version"] = r.version(record, 'Conic', 1, 4)
+    scope['Conic' + "::serialization::version"] = r.version(record, 'Conic', 1, 6)
     r.field(record, 'Conic::discrete', 'std::vector<bool>', lambda: read_std_vector_bool(r))
     if (scope['Conic::serialization::version'] >= 3):
         r.field(record, 'Conic::equality', 'std::vector<bool>', lambda: read_std_vector_bool(r))
     r.field(record, 'Conic::print_problem', 'bool', lambda: r.boolean())
     if (scope['Conic::serialization::version'] >= 4):
         r.field(record, 'Conic::solver_version_check', 'bool', lambda: r.boolean())
+    if (scope['Conic::serialization::version'] >= 5):
+        r.field(record, 'Conic::sens_min_lam', 'double', lambda: r.number('double'))
+        r.field(record, 'Conic::sens_linsol', 'std::string', lambda: r.string())
+        r.field(record, 'Conic::sens_linsol_options', 'Dict', lambda: read_Dict(r))
+    if (scope['Conic::serialization::version'] >= 6):
+        r.field(record, 'Conic::sens_force_equality', 'bool', lambda: r.boolean())
     if (scope['Conic::serialization::version'] == 1):
         r.field(record, 'Conic::error_on_fail', 'bool', lambda: r.boolean())
     r.field(record, 'Conic::H', 'Sparsity', lambda: read_Sparsity(r))
@@ -662,6 +668,14 @@ def layout_Einstein_serialize_body(r, record, scope):
     r.field(record, 'Einstein::strides_b', 'std::vector<casadi_int>', lambda: read_std_vector_casadi_int(r))
     r.field(record, 'Einstein::strides_c', 'std::vector<casadi_int>', lambda: read_std_vector_casadi_int(r))
     r.field(record, 'Einstein::n_iter', 'casadi_int', lambda: r.number('casadi_int'))
+    r.depth -= 1
+
+def layout_Erk_serialize_body(r, record, scope):
+    r.enter_layout()
+    record["layouts"].append('RuntimeIntegrator::serialize_body')
+    layout_RuntimeIntegrator_serialize_body(r, record, scope)
+    r.version(record, 'Erk', 1, 1)
+    r.field(record, 'Erk::method', 'std::string', lambda: r.string())
     r.depth -= 1
 
 def layout_External_serialize_body(r, record, scope):
@@ -1898,7 +1912,7 @@ def layout_Nlpsol_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('OracleFunction::serialize_body')
     layout_OracleFunction_serialize_body(r, record, scope)
-    scope['Nlpsol' + "::serialization::version"] = r.version(record, 'Nlpsol', 1, 5)
+    scope['Nlpsol' + "::serialization::version"] = r.version(record, 'Nlpsol', 1, 6)
     r.field(record, 'Nlpsol::nx', 'casadi_int', lambda: r.number('casadi_int'))
     r.field(record, 'Nlpsol::ng', 'casadi_int', lambda: r.number('casadi_int'))
     r.field(record, 'Nlpsol::np', 'casadi_int', lambda: r.number('casadi_int'))
@@ -1924,6 +1938,8 @@ def layout_Nlpsol_serialize_body(r, record, scope):
     if (scope['Nlpsol::serialization::version'] >= 2):
         r.field(record, 'Nlpsol::sens_linsol', 'std::string', lambda: r.string())
         r.field(record, 'Nlpsol::sens_linsol_options', 'Dict', lambda: read_Dict(r))
+    if (scope['Nlpsol::serialization::version'] >= 6):
+        r.field(record, 'Nlpsol::sens_force_equality', 'bool', lambda: r.boolean())
     if (scope['Nlpsol::serialization::version'] >= 3):
         r.field(record, 'Nlpsol::detect_simple_bounds_is_simple', 'std::vector<char>', lambda: read_std_vector_char(r))
         r.field(record, 'Nlpsol::detect_simple_bounds_parts', 'Function', lambda: read_Function(r))
@@ -2382,11 +2398,41 @@ def layout_Rootfinder_serialize_type(r, record, scope):
     layout_PluginInterface_Rootfinder_serialize_type(r, record, scope)
     r.depth -= 1
 
+def layout_Rosenbrock_serialize_body(r, record, scope):
+    r.enter_layout()
+    record["layouts"].append('RuntimeIntegrator::serialize_body')
+    layout_RuntimeIntegrator_serialize_body(r, record, scope)
+    r.version(record, 'Rosenbrock', 1, 1)
+    r.field(record, 'Rosenbrock::init_tol', 'double', lambda: r.number('double'))
+    r.field(record, 'Rosenbrock::init_max_iter', 'casadi_int', lambda: r.number('casadi_int'))
+    r.depth -= 1
+
 def layout_RungeKutta_serialize_body(r, record, scope):
     r.enter_layout()
     record["layouts"].append('FixedStepIntegrator::serialize_body')
     layout_FixedStepIntegrator_serialize_body(r, record, scope)
     r.version(record, 'RungeKutta', 2, 2)
+    r.depth -= 1
+
+def layout_RuntimeIntegrator_serialize_body(r, record, scope):
+    r.enter_layout()
+    record["layouts"].append('Integrator::serialize_body')
+    layout_Integrator_serialize_body(r, record, scope)
+    r.version(record, 'RuntimeIntegrator', 1, 1)
+    r.field(record, 'RuntimeIntegrator::group_start', 'std::vector<casadi_int>', lambda: read_std_vector_casadi_int(r))
+    r.field(record, 'RuntimeIntegrator::nx_err', 'casadi_int', lambda: r.number('casadi_int'))
+    r.field(record, 'RuntimeIntegrator::nz_err', 'casadi_int', lambda: r.number('casadi_int'))
+    r.field(record, 'RuntimeIntegrator::nq_err', 'casadi_int', lambda: r.number('casadi_int'))
+    r.field(record, 'RuntimeIntegrator::sp_jac', 'std::vector<Sparsity>', lambda: read_std_vector_Sparsity(r))
+    r.field(record, 'RuntimeIntegrator::step_size', 'double', lambda: r.number('double'))
+    r.field(record, 'RuntimeIntegrator::abstol', 'double', lambda: r.number('double'))
+    r.field(record, 'RuntimeIntegrator::reltol', 'double', lambda: r.number('double'))
+    r.field(record, 'RuntimeIntegrator::step0', 'double', lambda: r.number('double'))
+    r.field(record, 'RuntimeIntegrator::max_step_size', 'double', lambda: r.number('double'))
+    r.field(record, 'RuntimeIntegrator::min_step_size', 'double', lambda: r.number('double'))
+    r.field(record, 'RuntimeIntegrator::max_num_steps', 'casadi_int', lambda: r.number('casadi_int'))
+    r.field(record, 'RuntimeIntegrator::max_tape_steps', 'casadi_int', lambda: r.number('casadi_int'))
+    r.field(record, 'RuntimeIntegrator::quad_err_con', 'bool', lambda: r.boolean())
     r.depth -= 1
 
 def layout_SLEQPInterface_serialize_body(r, record, scope):
@@ -3162,12 +3208,18 @@ def read_Function_body(r, record, scope):
             elif tag_5 == 'cvodes':
                 record["layouts"].append('CvodesInterface::serialize_body')
                 layout_CvodesInterface_serialize_body(r, record, scope)
+            elif tag_5 == 'erk':
+                record["layouts"].append('Erk::serialize_body')
+                layout_Erk_serialize_body(r, record, scope)
             elif tag_5 == 'idas':
                 record["layouts"].append('IdasInterface::serialize_body')
                 layout_IdasInterface_serialize_body(r, record, scope)
             elif tag_5 == 'rk':
                 record["layouts"].append('RungeKutta::serialize_body')
                 layout_RungeKutta_serialize_body(r, record, scope)
+            elif tag_5 == 'rosenbrock':
+                record["layouts"].append('Rosenbrock::serialize_body')
+                layout_Rosenbrock_serialize_body(r, record, scope)
             else:
                 r.fail('Unknown serialization discriminator')
         elif tag_2 == 'Interpolant':
